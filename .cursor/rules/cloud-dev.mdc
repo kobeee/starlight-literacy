@@ -1,0 +1,32 @@
+---
+description: 微信云开发后端规范
+globs: src/cloud/**
+alwaysApply: false
+---
+
+# 云开发后端规范
+
+## 技术栈
+微信云开发 Serverless：云函数 + 云数据库 + 云存储。
+
+## 云函数划分
+按业务域组织，每个函数单一职责：
+- `user/`：用户注册、登录、信息管理
+- `learning/`：学习进度同步、数据上报
+- `content/`：单元/字库数据查询
+- `payment/`：支付下单、回调、权益校验
+- `share/`：分享卡片数据生成
+
+## 开发原则
+- 无状态设计，函数间不共享内存状态
+- 统一返回格式：`{ code: number, data: any, message: string }`
+- 完善错误处理，所有异步操作 try-catch
+- 敏感操作做权限校验（openid 验证）
+- 注意冷启动优化，精简依赖
+
+## 数据库集合
+- `users`：用户信息
+- `learning_progress`：学习进度
+- `units`：单元配置数据
+- `characters`：字库数据
+- `orders`：订单记录

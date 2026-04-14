@@ -1,0 +1,55 @@
+---
+description: 星光识字项目介绍、目录结构、开发约定
+alwaysApply: true
+---
+
+# 星光识字 - 项目概览
+
+## 项目定位
+基于微信小程序的"纯净极简、高颜值"儿童识字工具（3~6 岁），洪恩识字平替。
+
+## 技术栈
+- **前端**：微信小程序原生 + Skyline 渲染引擎 + glass-easel
+- **后端**：微信云开发（云函数 + 云数据库 + 云存储）
+- **AI 工具链**：Claude Opus 4.6（配置生成）+ Nano banana pro（插画）
+
+## 项目目录结构
+
+```
+starlight-literacy/
+├── .cursor/rules/          # Cursor AI 规则
+├── docs/prd/               # 产品需求文档
+├── knowledge-base/         # Obsidian 知识库（项目知识沉淀）
+├── src/
+│   ├── miniprogram/        # 前端 - 微信小程序
+│   │   ├── pages/          # 12 个页面（P01~P12）
+│   │   ├── components/     # 公共组件
+│   │   ├── utils/          # 工具函数
+│   │   ├── styles/         # 全局样式
+│   │   └── assets/         # 静态资源
+│   └── cloud/              # 后端 - 云函数
+│       └── functions/
+├── assets/                 # 原始素材（插画/音频/字体）
+├── scripts/                # 构建与 AI 工作流脚本
+└── tools/                  # 开发辅助工具
+```
+
+## 页面对照表
+
+| 目录 | 编号 | 功能 |
+|------|------|------|
+| pages/index | P01 | 首页（学习地图） |
+| pages/unit-entry | P02 | 单元入口 |
+| pages/learn-recognize | P03 | 认字页 |
+| pages/learn-write | P04 | 书写页 |
+| pages/learn-practice | P05 | 练习页 |
+| pages/group-quiz | P06 | 小组练习 |
+| pages/unit-test | P07 | 单元测验 |
+| pages/test-result | P08 | 测验结果 |
+| pages/payment | P09 | 付费引导 |
+| pages/share-card | P10 | 分享卡片 |
+| pages/parent-center | P11 | 家长中心 |
+| pages/onboarding | P12 | 操作引导 |
+
+## PRD 参考
+完整 PRD 在 `docs/prd/v3.0.md`，这是当前最新版本。

@@ -1,0 +1,42 @@
+---
+description: 通用编码规范和提交约定
+alwaysApply: true
+---
+
+# 编码规范
+
+## 语言
+- 小程序前端：JavaScript (ES6+) + WXML + WXSS
+- 云函数：Node.js (ES6+)
+- 配置文件：JSON
+
+## 命名约定
+- 文件/目录：kebab-case（如 `learn-recognize`、`audio-service.js`）
+- JS 变量/函数：camelCase
+- JS 类/组件：PascalCase
+- CSS 类名：BEM 风格或 kebab-case
+- 常量：UPPER_SNAKE_CASE
+
+## 注释
+- 只写解释"为什么"的注释，不写解释"是什么"的注释
+- 复杂业务逻辑必须注释
+- 公共函数写 JSDoc
+
+## Git 提交规范
+```
+<type>(<scope>): <description>
+
+feat:     新功能
+fix:      修复 bug
+docs:     文档变更
+style:    代码格式（不影响功能）
+refactor: 重构
+perf:     性能优化
+test:     测试
+chore:    构建/工具变更
+```
+
+## 儿童安全
+- 不收集任何儿童个人信息
+- 不出现任何外部链接或广告
+- 所有内容经人工审核
