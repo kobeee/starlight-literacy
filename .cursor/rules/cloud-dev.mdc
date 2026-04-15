@@ -20,6 +20,7 @@ alwaysApply: false
 ## 开发原则
 - 无状态设计，函数间不共享内存状态
 - 统一返回格式：`{ code: number, data: any, message: string }`
+- 入参出参用标准 JSON，不依赖微信特有的上下文结构
 - 完善错误处理，所有异步操作 try-catch
 - 敏感操作做权限校验（openid 验证）
 - 注意冷启动优化，精简依赖

@@ -24,17 +24,11 @@ alwaysApply: true
 
 ## Git 提交规范
 ```
-<type>(<scope>): <description>
-
-feat:     新功能
-fix:      修复 bug
-docs:     文档变更
-style:    代码格式（不影响功能）
-refactor: 重构
-perf:     性能优化
-test:     测试
-chore:    构建/工具变更
+<type>：<tool-tag>-<description>
 ```
+- `type`：feat / fix / docs / style / refactor / perf / test / chore
+- `tool-tag`：标识产出该 commit 的工具环境，如 `Cursor-Opus4.6-high`、`ClaudeCode-Opus4.6`、`Codex-GPT5.4` 等
+- 示例：`feat：Cursor-Opus4.6-high-新增认字页基础框架`
 
 ## 儿童安全
 - 不收集任何儿童个人信息
