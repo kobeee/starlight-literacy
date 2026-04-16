@@ -118,3 +118,40 @@ btn=I(parent, {
 git branch design/agent-name
 git worktree add ../worktrees/agent-name design/agent-name
 ```
+
+## 2026-04-15 Claude Code 第二轮设计补充
+
+### 画布宽度渲染限制（重要！）
+- **Pencil 渲染器对画布 x 坐标有上限（约 x≈1960）**
+- 超出此范围的 frame 子元素不会渲染（背景渐变/填充正常，但子节点全部不可见）
+- **解决方案**：多页面设计时使用 2行×4列 网格排列，而非单行横排
+```
+Row 1: P01(0,0)  P02(490,0)  P03(980,0)  P04(1470,0)
+Row 2: P05(0,944) P08(490,944) P09(980,944) P11(1470,944)
+```
+- 行间距 = 844(页面高度) + 100(间距) = 944px
+
+### get_screenshot vs export_nodes
+- `get_screenshot` 返回低分辨率缩略图，暖白底页面几乎看不到内容
+- **始终使用 `export_nodes` (scale:2) 进行高清验证**
+- 子节点可以单独导出验证，不受父 frame 渲染限制
+
+### 设计变量最佳实践
+- 在 `set_variables` 中定义所有颜色变量，使用 `$变量名` 引用
+- 变量名用英文短横线命名：`star-gold`, `text-primary`, `btn-primary`
+- 变量在 `resolveVariables: true` 的 batch_get 中可验证解析结果
+
+### 文本渲染核心要点（上次失败的根因）
+- **每个 text 节点必须设置 fill 属性**，否则完全不可见
+- 深色背景用 `$text-white` (#FFFFFF)
+- 浅色背景用 `$text-primary` (#2D2D2D)
+- 半透明文本用 hex+alpha：`#FFFFFF99`, `#FFFFFFCC`
+
+### Claude Code / Codex CLI 设计质量提升（v2 最终结论）
+- **Claude Code v2 评分：9/10**（v1 仅 3/10，用户重跑后逆袭）
+- **Codex v2 评分：8/10**（v1 仅 4.5/10）
+- **Cursor/Opus 评分：8.5/10**
+- Claude Code v2 赢下 5.5/8 页：组词模块、田字格、划线原价等功能创新超越 PRD
+- 关键改进：fill 属性全覆盖 + 文本渲染正确 + 内容创造力释放
+- **新洞察**：CLI 盲写修复渲染问题后，Agent 不受工具交互限制，创意产出反而更强
+- **推荐工作流**：CLI 盲写（发挥创意）→ Pencil MCP 验证/微调（确保渲染正确）
