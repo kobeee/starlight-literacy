@@ -36,3 +36,6 @@ project.private.config.json
 # 临时文件
 *.tmp
 *.temp
+.codex-temp/
+export*/
+exports*/
