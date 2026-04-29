@@ -1,0 +1,10 @@
+name: starlight-literacy
+
+services:
+  mobile-h5:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.mobile-h5
+    ports:
+      - "127.0.0.1:4173:80"
+    restart: unless-stopped

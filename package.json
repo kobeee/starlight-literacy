@@ -1,0 +1,10 @@
+{
+  "name": "starlight-literacy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:h5": "node src/clients/mobile-h5/server.mjs",
+    "check:h5": "node --check src/clients/mobile-h5/app.js && node --check src/shared/unit-01.js && node --check src/clients/mobile-h5/server.mjs && node --check src/clients/mobile-h5/sw.js"
+  }
+}

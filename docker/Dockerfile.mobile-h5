@@ -1,0 +1,6 @@
+FROM nginx:1.27-alpine
+
+COPY docker/nginx-mobile-h5.conf /etc/nginx/conf.d/default.conf
+COPY src/clients/mobile-h5 /usr/share/nginx/html/src/clients/mobile-h5
+COPY src/shared /usr/share/nginx/html/src/shared
+COPY images /usr/share/nginx/html/images

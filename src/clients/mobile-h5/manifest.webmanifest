@@ -1,0 +1,10 @@
+{
+  "name": "星光识字",
+  "short_name": "星光识字",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#FAF6F0",
+  "orientation": "portrait",
+  "icons": []
+}
