@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "guide-hand-trace-line",
+  "characterId": "yi-hongen-agent-v2",
+  "actor": "guide-hand",
+  "action": "trace-line",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.78
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 10,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png",
+    "frame-008.png",
+    "frame-009.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "index finger",
+      "wrist",
+      "sleeve",
+      "tap motion"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "hand-near-line",
+        "contact": "手腕轻轻悬在画面边缘。"
+      },
+      {
+        "frame": 1,
+        "pose": "finger-extends",
+        "contact": "指尖尚未碰到线。"
+      },
+      {
+        "frame": 2,
+        "pose": "finger-reaches",
+        "contact": "指尖接近横线。"
+      },
+      {
+        "frame": 3,
+        "pose": "tap-line",
+        "contact": "指尖点到横线。"
+      },
+      {
+        "frame": 4,
+        "pose": "tap-rebound",
+        "contact": "指尖离开横线一点点。"
+      },
+      {
+        "frame": 5,
+        "pose": "trace-start",
+        "contact": "指尖沿线滑动。"
+      },
+      {
+        "frame": 6,
+        "pose": "trace-middle",
+        "contact": "指尖贴近横线中部。"
+      },
+      {
+        "frame": 7,
+        "pose": "trace-end",
+        "contact": "指尖靠近横线末端。"
+      },
+      {
+        "frame": 8,
+        "pose": "hold-point",
+        "contact": "指尖停在横线旁。"
+      },
+      {
+        "frame": 9,
+        "pose": "hand-withdraws",
+        "contact": "小手离开横线。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "guide-finger-trace",
+      "label": "guiding finger reaches, taps, and traces the line",
+      "region": {
+        "x": 88,
+        "y": 96,
+        "width": 146,
+        "height": 92
+      },
+      "minChangedFramePairs": 6,
+      "minChangedPixels": 160,
+      "minMeanDelta": 5,
+      "notes": "The guide action must be a hand tracing the horizontal cue, not an animal sprite sliding around."
+    },
+    {
+      "id": "guide-wrist-follow",
+      "label": "wrist and sleeve follow-through",
+      "region": {
+        "x": 30,
+        "y": 122,
+        "width": 100,
+        "height": 86
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 120,
+      "minMeanDelta": 4,
+      "notes": "Wrist motion catches static pasted-hand sprites."
+    }
+  ],
+  "notes": "New Hongen-style guide hand. The gesture discovers, taps, and traces the horizontal path."
+}

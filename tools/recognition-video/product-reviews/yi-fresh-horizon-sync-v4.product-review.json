@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-fresh-horizon-sync-v4",
+  "candidateStatus": "agent-pipeline-test",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "判断纸船和水线是否真正帮助 3-6 岁孩子记住一。",
+      "检查语义先行、字形绑定、final hold、语速和音画同步。",
+      "评估记忆瞬间是否比旧兔子/小手路径更独立。"
+    ],
+    "genericHyperframesOwns": [
+      "装配 HTML/CSS/GSAP composition 并运行 lint 和 inspect。",
+      "渲染 mp4、提取 poster/final frame 和 review sheet。",
+      "检查 ffprobe metadata、音轨、帧率和输出路径。"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-fresh-horizon-sync-v4.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-fresh-horizon-sync-v4.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-fresh-horizon-sync-v4.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-fresh-horizon-sync-v4/meta.json"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.55,
+        "purpose": "语义入场",
+        "visibleAnchor": "一只纸船沿一条水线慢慢进入。",
+        "readability": "pass",
+        "notes": "与旧动物/手势完全分离，记忆动作更安静。"
+      },
+      {
+        "at": 2.35,
+        "purpose": "字形绑定",
+        "visibleAnchor": "水波逐帧收向水平线。",
+        "readability": "pass",
+        "notes": "与“一条水线”旁白窗口重合，帧内 motionChecks 覆盖波纹和亮点。"
+      },
+      {
+        "at": 4.25,
+        "purpose": "平平一横",
+        "visibleAnchor": "水线被暖光托住，成为平平一横。",
+        "readability": "pass",
+        "notes": "处在“平平一横”旁白窗口内，动作连接到一横，不是独立剧情。"
+      },
+      {
+        "at": 6.35,
+        "purpose": "认字收束",
+        "visibleAnchor": "大字一、yi、就是一居中停住。",
+        "readability": "pass",
+        "notes": "最后一句结束前已收束到大字，并留 0.65 秒安静回看。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "小船滑过后，水波慢慢停成一条平平的线，再变成大字一。"
+    },
+    "actionReadability": [
+      {
+        "action": "paper-boat glide-line",
+        "verdict": "pass",
+        "reason": "船帆、折痕和小旗逐帧变化，配合慢速横向滑行，能读成一只小船沿线走。"
+      },
+      {
+        "action": "water settle-line",
+        "verdict": "pass",
+        "reason": "水波从弯到平的变化是核心字形绑定动作，motionChecks 覆盖中心线和波纹。"
+      },
+      {
+        "action": "glyph closure",
+        "verdict": "pass",
+        "reason": "大字一和就是一从 5.0 秒入场，覆盖最后一句“就是一”并保持到片尾。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": true,
+    "officialAssetReadiness": "needs-polish",
+    "notes": [
+      "本轮为程序绘制占位资产，适合验证最新流水线和新教学记忆动作。",
+      "若进入 official，需要替换为同构图的真实暖阳绘本 cutout/plate，并复核儿童可读性。",
+      "音频使用 edge-tts Xiaoxiao -8% 生成，并用 VTT 时间戳反推镜头起止；本版已 baked 进 HyperFrames 渲染。"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 8.3,
+    "glyphBinding": 8.2,
+    "glyphAnchor": 8.1,
+    "pacing": 8.4,
+    "animationPerformance": 7.2,
+    "visualQuality": 6.4,
+    "childAppeal": 7,
+    "audioFit": 7.5,
+    "technicalCompliance": 8.6,
+    "officialReadiness": 5.2
+  },
+  "overallScore": 7.5,
+  "decision": "rendered-needs-iteration",
+  "blockers": [
+    "程序绘制占位资产不能作为 official 美术。",
+    "需要真实暖阳绘本 plate/cutout 后才能进入 official-candidate。",
+    "正式发布前还需要人工听感复核，确认 -8% 语速对 3-6 岁儿童足够清晰。"
+  ],
+  "nextActions": [
+    "用同一 brief 生产真实纸船、水线和晨光水面 cutout。",
+    "让产品侧看 review sheet，确认小船水线记忆动作是否比旧路径更有记忆点。",
+    "美术替换后保留本 audio-plan 重新跑 --official 产品门禁和 H5 guardrails。"
+  ]
+}

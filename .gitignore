@@ -37,5 +37,6 @@ project.private.config.json
 *.tmp
 *.temp
 .codex-temp/
+tmp/imagegen/
 export*/
 exports*/

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-agent-pipeline-test",
+  "style": {
+    "source": "knowledge-base/06-素材资源/Unit-01素材与生图生产规范.md",
+    "summary": "暖阳绘本、低饱和、纸感草地；图片资产不包含汉字、拼音、UI 文案或水印。"
+  },
+  "plates": [
+    {
+      "id": "meadow-path-plate",
+      "kind": "plate",
+      "purpose": "提供一条横向小路和安静草地，让一的横向字形钩子先成立。",
+      "path": "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/plates/meadow-path-plate.png"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "rabbit-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "兔子逐帧轻跳，作为边缘陪伴动作。"
+    },
+    {
+      "id": "apple-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "苹果逐帧落下和回弹，强调一个。"
+    },
+    {
+      "id": "stick-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "木棒逐帧滚平成横向，服务字形归纳。"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "rabbit-hop-agent-test",
+      "actor": "rabbit",
+      "action": "hop",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/rabbit/hop/manifest.json",
+      "minFrames": 8,
+      "requiredMotionParts": [
+        "rear foot",
+        "front foot",
+        "ears",
+        "body squash"
+      ],
+      "motionCheckIntent": "脚部和耳朵区域必须在相邻帧里变化，挡住整只兔子平移冒充跳跃。",
+      "notes": "透明 PNG 序列，pose 变化已写入帧。"
+    },
+    {
+      "id": "apple-settle-agent-test",
+      "actor": "apple",
+      "action": "settle",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/apple/settle/manifest.json",
+      "minFrames": 6,
+      "requiredMotionParts": [
+        "apple body",
+        "stem",
+        "leaf"
+      ],
+      "motionCheckIntent": "苹果主体必须有落地压扁和回弹形变。",
+      "notes": "透明 PNG 序列，落下、压扁、回弹已写入帧。"
+    },
+    {
+      "id": "stick-roll-flat-agent-test",
+      "actor": "stick",
+      "action": "roll-flat",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/stick/roll-flat/manifest.json",
+      "minFrames": 8,
+      "requiredMotionParts": [
+        "stick angle",
+        "wood highlight"
+      ],
+      "motionCheckIntent": "木棒必须在帧内旋转到水平，不能只靠 HTML 旋转。",
+      "notes": "透明 PNG 序列，滚动角度变化已写入帧。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "path": "tools/recognition-video/builds/yi-agent-pipeline-test/assets/audio/yi-agent-narration.mp3"
+  },
+  "qualityBars": [
+    "节奏服务 P03 儿童认字页，每个核心 cue 至少停留约 1.4 秒。",
+    "总时长控制在 8 秒内，但不能把三例和大字收束挤成快速演示。",
+    "三个 required actions 都有真实多帧透明 sprite。",
+    "rabbit-hop 必须能看出后脚蓄力、前脚抬起、空中收腿、落地压缩。",
+    "每个 required sprite manifest 必须写 poseContract 和 motionChecks。",
+    "所有 raster 图片都不含汉字、拼音、UI 文案或水印。",
+    "final frame 可以作为 poster/fallback 安静阅读。",
+    "HyperFrames 只装配已验证 manifest 和 HTML 字形层。"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "yi-agent-pipeline-test",
+  "name": "yi-agent-pipeline-test",
+  "characterId": "yi",
+  "char": "一",
+  "status": "agent-pipeline-test",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 7.8,
+  "fps": 24,
+  "pacing": {
+    "audienceAgeRange": "3-6",
+    "productSurface": "P03 recognition teaching stage",
+    "minimumCueHoldSeconds": 1.4,
+    "minimumFinalHoldSeconds": 2.2,
+    "narration": "Source narration is time-stretched for the slower child-facing test render."
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-agent-pipeline-test.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-agent-pipeline-test.asset-plan.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/rabbit/hop/manifest.json",
+      "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/apple/settle/manifest.json",
+      "tools/recognition-video/assets/unit-01/yi-agent-pipeline-test/sprites/stick/roll-flat/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-agent-pipeline-test.mp4",
+    "poster": "renders/final-frames/yi-agent-pipeline-test-poster.png",
+    "finalFrame": "renders/final-frames/yi-agent-pipeline-test-final.png"
+  },
+  "note": "Generated as a non-official pipeline test. It must not overwrite or wire into existing H5 official resources."
+}

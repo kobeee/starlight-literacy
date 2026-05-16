@@ -1,0 +1,33 @@
+{
+  "id": "yi-sunrise-line-v1",
+  "name": "一 - Sunrise Line V1",
+  "characterId": "yi-sunrise-line-v1",
+  "char": "一",
+  "status": "agent-pipeline-test",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 7.4,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-sunrise-line-v1.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-sunrise-line-v1.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-sunrise-line-v1.audio-plan.json",
+    "productReview": "tools/recognition-video/product-reviews/yi-sunrise-line-v1.product-review.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-sunrise-line-v1/sprites/sun/rise-glow/manifest.json",
+      "tools/recognition-video/assets/unit-01/yi-sunrise-line-v1/sprites/light/line-unfold/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-sunrise-line-v1.mp4",
+    "webm": "renders/yi-sunrise-line-v1.webm",
+    "poster": "renders/final-frames/yi-sunrise-line-v1-poster.png",
+    "finalFrame": "renders/final-frames/yi-sunrise-line-v1-final.png",
+    "reviewSheet": "renders/final-frames/yi-sunrise-line-v1-review-sheet.png"
+  },
+  "prompt": "Use case: illustration-story\nAsset type: Starlight Literacy Chinese character recognition animation brief for ages 3-6\nPrimary request: Create a warm picture-book micro lesson for the Chinese character 一. A single sun slowly rises, one golden ray opens across the quiet horizon, the ray becomes a calm flat horizontal stroke, then the final frame shows 一, yi, and 就是一.\nScene/backdrop: morning pastoral field, soft paper texture, low-saturation honey light, pale green meadow, calm sky.\nSubject: one sun, one long horizontal light line, no mascot and no side story.\nStyle/medium: premium Chinese children's picture-book illustration, gouache and colored-pencil texture, simple readable shapes.\nComposition/framing: vertical 1080x1920, horizon line centered in the middle third, final glyph large and calm.\nTeaching purpose: bind the quantity meaning of one and the glyph shape of one flat stroke.\nText policy: raster art contains no Chinese, no pinyin, no UI text, no watermark; all text is rendered by HTML/CSS.\nAvoid: dark fantasy, neon, purple-blue gradients, decorative reward effects, busy animals, fake text, extra suns, multiple rays competing with the target line.",
+  "note": "Fresh agent candidate that ignores previous yi concepts and uses one sunrise line as the memory action."
+}

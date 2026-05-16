@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-sunrise-line-v1",
+  "style": {
+    "source": "knowledge-base/06-素材资源/Unit-01素材与生图生产规范.md",
+    "summary": "暖阳绘本、低饱和、纸感田野；生成图中不出现汉字、拼音、UI 文案或水印。"
+  },
+  "plates": [
+    {
+      "id": "morning-field-plate",
+      "kind": "plate",
+      "purpose": "提供清晨田野、地平线和柔和光感，承载太阳与光线动作。",
+      "path": "tools/recognition-video/assets/unit-01/yi-sunrise-line-v1/plates/morning-field-plate.png",
+      "prompt": "Warm pastoral children's picture-book plate for a Chinese literacy app, ages 3-6. Quiet morning field, one low horizon, honey sunlight, cream paper texture, low-saturation green meadow. Leave the middle third clean for one horizontal light line and the upper-middle area clean for a rising sun. No Chinese characters, no pinyin, no readable text, no UI, no watermark, no animals, no extra suns."
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "sun-rise-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "一个太阳慢慢升起，逐帧改变太阳边缘、下缘和光晕。",
+      "prompt": "Create one clean animation spritesheet with 2 rows and 5 columns. Each cell shows the same single warm sun rising slightly, with a soft halo and changing lower rim. Perfectly flat solid #00ff00 chroma-key background, generous padding, no text, no watermark, no extra objects."
+    },
+    {
+      "id": "light-line-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "一条金色光线从短到长、从发散到平直，承担字形绑定。",
+      "prompt": "Create one clean animation spritesheet with 1 row and 8 columns. Each cell shows one golden morning light beam opening horizontally into a calm flat line. Perfectly flat solid #00ff00 chroma-key background, no text, no watermark, no symbols."
+    },
+    {
+      "id": "product-video-prompt",
+      "kind": "reference",
+      "purpose": "记录本轮产品视频总提示词，后续真实生图可按此替换程序资产。",
+      "prompt": "Use case: illustration-story\nAsset type: Starlight Literacy Chinese character recognition animation brief for ages 3-6\nPrimary request: Create a warm picture-book micro lesson for the Chinese character 一. A single sun slowly rises, one golden ray opens across the quiet horizon, the ray becomes a calm flat horizontal stroke, then the final frame shows 一, yi, and 就是一.\nScene/backdrop: morning pastoral field, soft paper texture, low-saturation honey light, pale green meadow, calm sky.\nSubject: one sun, one long horizontal light line, no mascot and no side story.\nStyle/medium: premium Chinese children's picture-book illustration, gouache and colored-pencil texture, simple readable shapes.\nComposition/framing: vertical 1080x1920, horizon line centered in the middle third, final glyph large and calm.\nTeaching purpose: bind the quantity meaning of one and the glyph shape of one flat stroke.\nText policy: raster art contains no Chinese, no pinyin, no UI text, no watermark; all text is rendered by HTML/CSS.\nAvoid: dark fantasy, neon, purple-blue gradients, decorative reward effects, busy animals, fake text, extra suns, multiple rays competing with the target line."
+    }
+  ],
+  "sprites": [
+    {
+      "id": "sun-rise-glow",
+      "actor": "sun",
+      "action": "rise-glow",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-sunrise-line-v1/sprites/sun/rise-glow/manifest.json",
+      "minFrames": 10,
+      "requiredMotionParts": [
+        "sun disk",
+        "warm halo",
+        "lower rim",
+        "morning rays"
+      ],
+      "motionCheckIntent": "太阳必须在帧内升起并改变光晕，不接受单张太阳平移。",
+      "notes": "语义钩子：一个太阳。"
+    },
+    {
+      "id": "light-line-unfold",
+      "actor": "light",
+      "action": "line-unfold",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-sunrise-line-v1/sprites/light/line-unfold/manifest.json",
+      "minFrames": 8,
+      "requiredMotionParts": [
+        "left glow",
+        "center beam",
+        "right tip",
+        "dust sparkles"
+      ],
+      "motionCheckIntent": "光线必须在 PNG 帧内展开成平平一横，不能只靠 HTML 缩放。",
+      "notes": "字形绑定核心：一条光线变成平平一横。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "path": "tools/recognition-video/builds/yi-sunrise-line-v1/assets/audio/yi-sunrise-line-v1-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-sunrise-line-v1.audio-plan.json"
+  },
+  "qualityBars": [
+    "语义动作先于大字出现：一个太阳先出现。",
+    "字形绑定必须由光线展开到平平一横完成。",
+    "图片资产不含中文、拼音、UI 或水印；文字只由 HTML 渲染。",
+    "四句 cue 均由 audio-plan 覆盖，final quiet hold 不低于 0.6 秒。",
+    "太阳和光线是教具，不发展成独立剧情或奖励动画。",
+    "测试产物不覆盖 existing official，也不自动接入 H5。"
+  ]
+}

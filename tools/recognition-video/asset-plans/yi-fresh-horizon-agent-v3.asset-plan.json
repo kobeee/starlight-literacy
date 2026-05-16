@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-fresh-horizon-agent-v3",
+  "style": {
+    "source": "knowledge-base/06-素材资源/Unit-01素材与生图生产规范.md",
+    "summary": "暖阳绘本、低饱和、纸感水面；生成图中不出现汉字、拼音、UI 文案或水印。"
+  },
+  "plates": [
+    {
+      "id": "horizon-water-plate",
+      "kind": "plate",
+      "purpose": "提供晨光水面和一条水平视觉基线，承载小船和水线动作。",
+      "path": "tools/recognition-video/assets/unit-01/yi-fresh-horizon-agent-v3/plates/horizon-water-plate.png"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "paper-boat-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "纸船沿水平线滑行，逐帧改变帆、折痕和小旗。"
+    },
+    {
+      "id": "water-line-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "水波逐帧收成一条平平横线，承担字形绑定。"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "paper-boat-glide-line",
+      "actor": "paper-boat",
+      "action": "glide-line",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-fresh-horizon-agent-v3/sprites/paper-boat/glide-line/manifest.json",
+      "minFrames": 10,
+      "requiredMotionParts": [
+        "boat hull",
+        "paper sail",
+        "fold highlight",
+        "tiny flag"
+      ],
+      "motionCheckIntent": "船帆、折痕和小旗必须变化，避免静态纸船只靠时间轴平移。",
+      "notes": "新动作不复用旧兔子、小手、苹果或木棒路径。"
+    },
+    {
+      "id": "water-settle-line",
+      "actor": "water",
+      "action": "settle-line",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-fresh-horizon-agent-v3/sprites/water/settle-line/manifest.json",
+      "minFrames": 8,
+      "requiredMotionParts": [
+        "upper ripple",
+        "lower ripple",
+        "center line",
+        "sparkle"
+      ],
+      "motionCheckIntent": "水波必须在 PNG 帧内从弯曲到水平，不能只用 CSS 缩放横线。",
+      "notes": "这是本版的核心记忆动作。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一只小船。一条水线。平平一横。就是一。",
+    "path": "tools/recognition-video/builds/yi-fresh-horizon-agent-v3/assets/audio/yi-fresh-horizon-narration.mp3"
+  },
+  "qualityBars": [
+    "语义动作先于大字出现，不能一开场直接显示字卡。",
+    "纸船和水面是教具，不能抢过最终汉字一。",
+    "每个 required sprite 都有 poseContract 和 motionChecks。",
+    "核心 cue 间隔不低于 1.4 秒，final hold 不低于 2.3 秒。",
+    "图片资产不含中文、拼音或 UI 文案，文字只由 HTML 渲染。",
+    "测试产物不覆盖 existing official，也不自动接入 H5。"
+  ]
+}

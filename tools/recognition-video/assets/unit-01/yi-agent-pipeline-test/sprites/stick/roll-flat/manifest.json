@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "stick-roll-flat-agent-test",
+  "characterId": "yi-agent-pipeline-test",
+  "actor": "stick",
+  "action": "roll-flat",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.78
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 8,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "高光随木棒倾斜",
+      "高光继续随角度转动",
+      "木纹位置变化",
+      "高光接近水平",
+      "木纹稳定",
+      "高光轻微越过",
+      "木纹水平",
+      "木纹不再滚动"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "tilted-left",
+        "contact": "一端靠近地面。"
+      },
+      {
+        "frame": 1,
+        "pose": "rolling-a",
+        "contact": "接触点移动。"
+      },
+      {
+        "frame": 2,
+        "pose": "rolling-b",
+        "contact": "接触点继续移动。"
+      },
+      {
+        "frame": 3,
+        "pose": "near-flat-a",
+        "contact": "大部分靠近横线方向。"
+      },
+      {
+        "frame": 4,
+        "pose": "near-flat-b",
+        "contact": "接触面变长。"
+      },
+      {
+        "frame": 5,
+        "pose": "over-correct",
+        "contact": "接触面保持稳定。"
+      },
+      {
+        "frame": 6,
+        "pose": "flat",
+        "contact": "平稳贴地。"
+      },
+      {
+        "frame": 7,
+        "pose": "flat-hold",
+        "contact": "平稳贴地。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "stick-rotation",
+      "label": "stick roll-to-horizontal",
+      "region": {
+        "x": 38,
+        "y": 60,
+        "width": 180,
+        "height": 140
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 520,
+      "minMeanDelta": 10,
+      "notes": "The stick must rotate inside frames before HyperFrames places it."
+    }
+  ],
+  "notes": "Wood stick rotation into a horizontal line is baked into the transparent frames."
+}

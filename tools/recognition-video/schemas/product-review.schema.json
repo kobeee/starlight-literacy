@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/product-review.schema.json",
+  "title": "Starlight Product Video Review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "characterId",
+    "candidateStatus",
+    "layerBoundary",
+    "sourceArtifacts",
+    "evidence",
+    "assetAssessment",
+    "scores",
+    "overallScore",
+    "decision",
+    "blockers",
+    "nextActions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "starlight-product-video-review/v1"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "candidateStatus": {
+      "type": "string",
+      "enum": ["concept", "keyframe-review", "agent-pipeline-test", "official-candidate", "official"]
+    },
+    "layerBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productAgentOwns", "genericHyperframesOwns"],
+      "properties": {
+        "productAgentOwns": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 4
+          }
+        },
+        "genericHyperframesOwns": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 4
+          }
+        }
+      }
+    },
+    "sourceArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["brief", "assetPlan"],
+      "properties": {
+        "brief": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assetPlan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audioPlan": {
+          "type": "string"
+        },
+        "buildMeta": {
+          "type": "string"
+        },
+        "video": {
+          "type": "string"
+        },
+        "reviewSheet": {
+          "type": "string"
+        },
+        "poster": {
+          "type": "string"
+        },
+        "finalFrame": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["keyframes", "memoryMoment", "actionReadability"],
+      "properties": {
+        "keyframes": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at", "purpose", "visibleAnchor", "readability"],
+            "properties": {
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 4
+              },
+              "visibleAnchor": {
+                "type": "string",
+                "minLength": 4
+              },
+              "readability": {
+                "type": "string",
+                "enum": ["pass", "partial", "fail"]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "memoryMoment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exists", "description"],
+          "properties": {
+            "exists": {
+              "type": "boolean"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 4
+            }
+          }
+        },
+        "actionReadability": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["action", "verdict", "reason"],
+            "properties": {
+              "action": {
+                "type": "string",
+                "minLength": 2
+              },
+              "verdict": {
+                "type": "string",
+                "enum": ["pass", "partial", "fail"]
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 4
+              }
+            }
+          }
+        }
+      }
+    },
+    "assetAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["usesProgrammaticPlaceholderAssets", "officialAssetReadiness", "notes"],
+      "properties": {
+        "usesProgrammaticPlaceholderAssets": {
+          "type": "boolean"
+        },
+        "officialAssetReadiness": {
+          "type": "string",
+          "enum": ["ready", "needs-polish", "blocked"]
+        },
+        "notes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 4
+          }
+        }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "teachingStructure",
+        "glyphBinding",
+        "glyphAnchor",
+        "pacing",
+        "animationPerformance",
+        "visualQuality",
+        "childAppeal",
+        "audioFit",
+        "technicalCompliance",
+        "officialReadiness"
+      ],
+      "properties": {
+        "teachingStructure": { "$ref": "#/$defs/score" },
+        "glyphBinding": { "$ref": "#/$defs/score" },
+        "glyphAnchor": { "$ref": "#/$defs/score" },
+        "pacing": { "$ref": "#/$defs/score" },
+        "animationPerformance": { "$ref": "#/$defs/score" },
+        "visualQuality": { "$ref": "#/$defs/score" },
+        "childAppeal": { "$ref": "#/$defs/score" },
+        "audioFit": { "$ref": "#/$defs/score" },
+        "technicalCompliance": { "$ref": "#/$defs/score" },
+        "officialReadiness": { "$ref": "#/$defs/score" }
+      }
+    },
+    "overallScore": {
+      "$ref": "#/$defs/score"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["ready-for-hyperframes", "rendered-needs-iteration", "ready-for-official", "blocked"]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nextActions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 4
+      }
+    }
+  },
+  "$defs": {
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    }
+  }
+}

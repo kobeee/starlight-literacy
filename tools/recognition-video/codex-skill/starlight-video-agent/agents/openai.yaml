@@ -1,0 +1,7 @@
+interface:
+  display_name: "Starlight Video Agent"
+  short_description: "Agent workflow for recognition animation videos"
+  default_prompt: "Use $starlight-video-agent to build a Starlight recognition video through brief, assets, sprite validation, HyperFrames assembly, and H5 gates."
+
+policy:
+  allow_implicit_invocation: true

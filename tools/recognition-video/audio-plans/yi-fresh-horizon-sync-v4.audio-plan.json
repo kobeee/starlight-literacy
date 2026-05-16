@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-fresh-horizon-sync-v4",
+  "script": "一只小船。一条水线。平平一横。就是一。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-8%",
+    "pitch": "+0Hz",
+    "rationale": "比项目主带读 -10% 略快一点，避免 7.2 秒短片拖沓；仍保留女老师温暖清晰感。"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-character-card/v1",
+    "referenceProduct": "洪恩识字汉字卡",
+    "referenceDurationSeconds": {
+      "min": 18,
+      "max": 23,
+      "example": 19
+    },
+    "referenceEvidence": "公开分集索引里洪恩汉字卡 0001_一_一个人 标为 00:19；相邻基础字多在 00:18-00:23。",
+    "starlightTargetSeconds": 7.2,
+    "starlightDecision": "P03 页面内认字视频不做 20 秒长卡，控制在 7.2 秒；保留洪恩式慢 cue 和 final hold。"
+  },
+  "targetDurationSeconds": 7.2,
+  "rawTtsAudioDurationSeconds": 6.552,
+  "bakedAudioDurationSeconds": 7.248,
+  "quietAfterLastCueSeconds": 0.706,
+  "cues": [
+    {
+      "id": "boat",
+      "text": "一只小船",
+      "audioStart": 0.1,
+      "audioEnd": 1.789,
+      "visualStart": 0,
+      "visualEnd": 1.98
+    },
+    {
+      "id": "water",
+      "text": "一条水线",
+      "audioStart": 1.739,
+      "audioEnd": 3.41,
+      "visualStart": 1.74,
+      "visualEnd": 3.56
+    },
+    {
+      "id": "flat",
+      "text": "平平一横",
+      "audioStart": 3.41,
+      "audioEnd": 5.108,
+      "visualStart": 3.38,
+      "visualEnd": 5.23
+    },
+    {
+      "id": "close",
+      "text": "就是一",
+      "audioStart": 5.108,
+      "audioEnd": 6.494,
+      "visualStart": 5,
+      "visualEnd": 7.2
+    }
+  ],
+  "syncRules": [
+    "每个 visualStart 不晚于对应 audioStart 0.12 秒以上。",
+    "每句画面主物必须覆盖对应 audioStart 到 audioEnd。",
+    "glyph-close 从最后一句开始前 0.108 秒入场，确保听到“就是一”时已经看到大字收束。",
+    "末尾至少 0.65 秒不再新增信息，让孩子回看大字一。"
+  ],
+  "outputs": {
+    "audio": "tools/recognition-video/builds/yi-fresh-horizon-sync-v4/assets/audio/yi-fresh-horizon-sync-v4-narration.mp3",
+    "rawAudio": "tools/recognition-video/builds/yi-fresh-horizon-sync-v4/assets/audio/yi-fresh-horizon-sync-v4-narration-raw.mp3",
+    "subtitles": "tools/recognition-video/builds/yi-fresh-horizon-sync-v4/assets/audio/yi-fresh-horizon-sync-v4-narration.vtt"
+  }
+}

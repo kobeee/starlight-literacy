@@ -136,7 +136,7 @@
               "fill": {
                 "type": "image",
                 "enabled": true,
-                "url": "./images/generated-1776351541808.png",
+                "url": "images/generated-1776351541808.png",
                 "mode": "fill"
               },
               "cornerRadius": 85,
@@ -1166,7 +1166,7 @@
           "fill": {
             "type": "image",
             "enabled": true,
-            "url": "./images/generated-daytime-fire-lesson.png",
+            "url": "images/generated-daytime-fire-lesson.png",
             "mode": "fill"
           },
           "cornerRadius": 24,
@@ -2881,7 +2881,7 @@
               "fill": {
                 "type": "image",
                 "enabled": true,
-                "url": "./images/generated-1776351774210.png",
+                "url": "images/generated-1776351774210.png",
                 "mode": "fill"
               },
               "cornerRadius": 50,
@@ -4083,7 +4083,7 @@
           "fill": {
             "type": "image",
             "enabled": true,
-            "url": "./images/generated-daytime-result-celebration-clean.png",
+            "url": "images/generated-daytime-result-celebration-clean.png",
             "mode": "fit"
           },
           "cornerRadius": 28,
@@ -9066,7 +9066,7 @@
           "fill": {
             "type": "image",
             "enabled": true,
-            "url": "./images/p01-bg-redraw-road-centered-20260426.png",
+            "url": "images/p01-bg-redraw-road-centered-20260426.png",
             "mode": "fill"
           }
         },
@@ -10182,7 +10182,7 @@
               "fill": {
                 "type": "image",
                 "enabled": true,
-                "url": "./images/p01-bg-redraw-road-centered-20260426.png",
+                "url": "images/p01-bg-redraw-road-centered-20260426.png",
                 "mode": "fill"
               }
             },

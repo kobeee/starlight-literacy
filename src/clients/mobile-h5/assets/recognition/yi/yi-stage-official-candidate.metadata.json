@@ -1,0 +1,34 @@
+{
+  "characterId": "yi",
+  "char": "一",
+  "status": "visual-candidate-audio-blocked",
+  "teachingGoal": "用一条小路、一个苹果、一根木棒三个生活承载物，帮助孩子把“一”的数量语义和平平一横联系起来。",
+  "productSurface": "P03 认字页横向教学舞台",
+  "videoCandidate": "./yi-stage-official-candidate.mp4",
+  "webmCandidate": "./yi-stage-official-candidate.webm",
+  "posterCandidate": "./yi-stage-official-candidate-poster.png",
+  "finalFrameCandidate": "./yi-stage-official-candidate-final.png",
+  "width": 1280,
+  "height": 800,
+  "duration": 5.833333,
+  "fps": 24,
+  "frames": 140,
+  "posterAt": 1.0,
+  "finalFrameAt": 5.7,
+  "sourceComposition": "../../../../../../tools/hyperframes-one/index.html",
+  "sourceMeta": "../../../../../../tools/hyperframes-one/meta.json",
+  "audioTrack": {
+    "status": "blocked",
+    "target": "baked narration track",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "blockedBy": "Current sandbox generated unusable zero-duration macOS TTS files, and escalation for local TTS generation was rejected."
+  },
+  "validation": {
+    "hyperframesLint": "0 errors, 1 warning: composition_file_too_large",
+    "hyperframesInspect": "ok at 0.3,0.8,1.6,3.2,4.8,5.7",
+    "ffprobe": "1280x800, 24/1 fps, 5.833333s, 140 frames",
+    "finalFrame": "./yi-stage-official-candidate-final.png",
+    "h5Policy": "Not wired to unit01.characters[].recognitionVideo until audioTrack.status can be baked."
+  },
+  "version": "2026-05-07-official-visual-candidate-audio-blocked"
+}

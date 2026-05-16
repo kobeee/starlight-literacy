@@ -1,0 +1,45 @@
+{
+  "characterId": "yi",
+  "char": "一",
+  "status": "official",
+  "productSurface": "P03 认字页竖屏手机教学舞台",
+  "video": "./yi-stage-mobile-v1.mp4",
+  "webm": "./yi-stage-mobile-v1.webm",
+  "poster": "./yi-stage-mobile-v1-poster.png",
+  "finalFrame": "./yi-stage-mobile-v1-final.png",
+  "width": 1080,
+  "height": 1920,
+  "duration": 5.8,
+  "fps": 24,
+  "teachingGoal": "用一条小路、一个苹果、一根木棒三个生活承载物，帮助孩子把“一”的数量语义和平平一横联系起来。",
+  "audioTrack": {
+    "status": "baked",
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "timedAudio": "./source-assets/yi-video-narration-v1-timed.mp3"
+  },
+  "qualityGate": {
+    "status": "portrait-baseline",
+    "passed": [
+      "1080x1920 mobile portrait output",
+      "mp4 and webm both include baked audio streams",
+      "HyperFrames lint has 0 errors and 0 warnings",
+      "HyperFrames inspect reports 0 issues",
+      "final frame is stable enough for fallback"
+    ],
+    "knownLimits": [
+      "This version improves phone fit and introduces a small pose-step rabbit prototype, but it is still mostly timeline motion over static drawing layers.",
+      "The next production bar requires multi-frame cutout assets generated upstream and assembled by HyperFrames as sprite sequences."
+    ]
+  },
+  "sourceComposition": "tools/hyperframes-one/compositions/yi-mobile-v1.html",
+  "sourceAssets": {
+    "generatedBackdrop": "tools/hyperframes-one/assets/unit-01/yi/yi-stage-bg-v1.png",
+    "timedAudio": "tools/hyperframes-one/assets/unit-01/yi/yi-video-narration-v1-timed.mp3"
+  },
+  "createdAt": "2026-05-10T12:28:00+08:00",
+  "version": "2026-05-10-mobile-v1-portrait-baseline-pose-step"
+}

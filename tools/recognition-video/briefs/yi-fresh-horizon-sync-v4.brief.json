@@ -1,0 +1,395 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-fresh-horizon-sync-v4",
+  "character": "一",
+  "pinyin": "yi",
+  "unitId": "unit-01",
+  "duration": 7.2,
+  "fps": 24,
+  "teachingHook": "一只小船从一条平平水线上滑过，水波慢慢停成一横，再收成清楚的“一”。",
+  "narration": {
+    "script": "一只小船。一条水线。平平一横。就是一。",
+    "voice": "zh-CN-XiaoxiaoNeural, rate -8%, pitch +0Hz",
+    "cues": [
+      {
+        "at": 0.1,
+        "text": "一只小船"
+      },
+      {
+        "at": 1.739,
+        "text": "一条水线"
+      },
+      {
+        "at": 3.41,
+        "text": "平平一横"
+      },
+      {
+        "at": 5.108,
+        "text": "就是一"
+      }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "boat-meaning",
+      "start": 0,
+      "duration": 1.98,
+      "purpose": "语义先行：先看到一个生活物件和一条平静方向线。",
+      "description": "晨光水面上只有一只纸船，沿着平平水线慢慢滑过，给孩子时间看见一个和一条。",
+      "requiredAssets": [
+        "horizon-water-plate",
+        "paper-boat-glide-line"
+      ]
+    },
+    {
+      "id": "water-binding",
+      "start": 1.74,
+      "duration": 1.82,
+      "purpose": "字形绑定：水波从动到静，逐帧变成一条水平线。",
+      "description": "水波先轻轻晃，再慢慢收平，孩子看到生活里的线变成字形线索。",
+      "requiredAssets": [
+        "water-settle-line",
+        "html-water-cue"
+      ]
+    },
+    {
+      "id": "flat-line-lock",
+      "start": 3.38,
+      "duration": 1.85,
+      "purpose": "强调一横：平平的一条线被暖光托住。",
+      "description": "纸船退场后，水线变亮，平平一横在画面中间安静停住。",
+      "requiredAssets": [
+        "html-memory-line"
+      ]
+    },
+    {
+      "id": "glyph-close",
+      "start": 5,
+      "duration": 2.2,
+      "purpose": "认字收束：从水线回到大字一和拼音。",
+      "description": "大字一、yi 和记忆短语就是一出现，最终帧安静清楚，适合 poster。",
+      "requiredAssets": [
+        "html-glyph",
+        "html-memory-line"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "boat-meaning",
+      "description": "先让孩子看到一只小船和一条水线，语义动作早于大字出现。",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "water-binding",
+      "description": "水波从弯到平，小船沿线滑过，把一条水线和平平一横绑定到汉字一。",
+      "boundElements": [
+        "一只小船",
+        "一条水线",
+        "平平一横",
+        "汉字一"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "glyph-close",
+      "phrase": "就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "一只小船。一条水线。平平一横。就是一。",
+      "source": "narration.script"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "boat-meaning",
+        "target": "一只小船和一条水线",
+        "seconds": 1.45
+      },
+      {
+        "shotId": "water-binding",
+        "target": "水波收平成水平线",
+        "seconds": 1.45
+      },
+      {
+        "shotId": "glyph-close",
+        "target": "最终大字一和就是一",
+        "seconds": 2.2
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "meaning-shape-repeat",
+      "description": "小船、水线、平平一横三次递进复现一，最后由大字完成确认。"
+    },
+    "writingPosition": "late-or-omitted",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6",
+    "minimumCueHoldSeconds": 1.4,
+    "minimumFinalHoldSeconds": 2.2,
+    "maximumSceneChangesPerSecond": 0.62,
+    "productSurface": "P03 认字页竖屏手机教学舞台；参考洪恩单字卡慢节奏，但压缩为页面内 7.2 秒短片。"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "paper-boat",
+        "action": "glide-line",
+        "reason": "纸船需要船身、帆和小旗的逐帧变化，不能只平移单张图。",
+        "minFrames": 10,
+        "requiredMotionParts": [
+          "boat hull",
+          "paper sail",
+          "fold highlight",
+          "tiny flag"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "float-left",
+            "body": "纸船刚进入水线，船身轻轻前倾。",
+            "limbs": [
+              "boat hull",
+              "paper sail",
+              "fold highlight",
+              "tiny flag"
+            ],
+            "contact": "船底贴近水线。",
+            "mustReadAs": "一只小船出现。"
+          },
+          {
+            "frame": 1,
+            "pose": "sail-catches-light",
+            "body": "船帆向右侧鼓起，折痕变亮。",
+            "limbs": [
+              "paper sail",
+              "fold highlight",
+              "tiny flag"
+            ],
+            "contact": "船底保持在水线附近。",
+            "mustReadAs": "沿线慢慢滑。"
+          },
+          {
+            "frame": 2,
+            "pose": "soft-bob-down",
+            "body": "船身轻轻下沉，帆和小旗滞后。",
+            "limbs": [
+              "boat hull",
+              "paper sail",
+              "tiny flag"
+            ],
+            "contact": "船底压近水线。",
+            "mustReadAs": "小船在一条线上。"
+          },
+          {
+            "frame": 3,
+            "pose": "soft-bob-up",
+            "body": "船身回弹上浮，折痕角度变化。",
+            "limbs": [
+              "boat hull",
+              "fold highlight",
+              "paper sail"
+            ],
+            "contact": "船底离水线一点点。",
+            "mustReadAs": "平稳滑行。"
+          },
+          {
+            "frame": 4,
+            "pose": "mid-glide",
+            "body": "纸船居中，帆面打开。",
+            "limbs": [
+              "boat hull",
+              "paper sail",
+              "fold highlight",
+              "tiny flag"
+            ],
+            "contact": "船底对齐水线。",
+            "mustReadAs": "一只小船。"
+          },
+          {
+            "frame": 5,
+            "pose": "flag-flutter-a",
+            "body": "小旗向后飘，船头微微抬起。",
+            "limbs": [
+              "boat hull",
+              "tiny flag",
+              "paper sail"
+            ],
+            "contact": "船底轻触水线。",
+            "mustReadAs": "跟着水线走。"
+          },
+          {
+            "frame": 6,
+            "pose": "flag-flutter-b",
+            "body": "小旗回摆，帆的折面换光。",
+            "limbs": [
+              "tiny flag",
+              "paper sail",
+              "fold highlight"
+            ],
+            "contact": "船底贴近水线。",
+            "mustReadAs": "不是静态贴图。"
+          },
+          {
+            "frame": 7,
+            "pose": "glide-slow",
+            "body": "船身放慢，帆面收小。",
+            "limbs": [
+              "boat hull",
+              "paper sail",
+              "fold highlight"
+            ],
+            "contact": "船底继续对齐水线。",
+            "mustReadAs": "准备停住。"
+          },
+          {
+            "frame": 8,
+            "pose": "near-stop",
+            "body": "纸船停到右侧，旗子仍有轻摆。",
+            "limbs": [
+              "boat hull",
+              "tiny flag",
+              "paper sail"
+            ],
+            "contact": "船底贴住水线。",
+            "mustReadAs": "把焦点让给一横。"
+          },
+          {
+            "frame": 9,
+            "pose": "hold-side",
+            "body": "纸船安静停在旁边。",
+            "limbs": [
+              "boat hull",
+              "paper sail",
+              "fold highlight",
+              "tiny flag"
+            ],
+            "contact": "船底与水线稳定对齐。",
+            "mustReadAs": "配角停住。"
+          }
+        ]
+      },
+      {
+        "actor": "water",
+        "action": "settle-line",
+        "reason": "水波收平成一横是本版核心记忆动作，必须在帧内变化。",
+        "minFrames": 8,
+        "requiredMotionParts": [
+          "upper ripple",
+          "lower ripple",
+          "center line",
+          "sparkle"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "wide-ripple",
+            "body": "水面上下两道弯波还很明显。",
+            "limbs": [
+              "upper ripple",
+              "lower ripple",
+              "center line",
+              "sparkle"
+            ],
+            "contact": "波纹围绕水线展开。",
+            "mustReadAs": "水面在动。"
+          },
+          {
+            "frame": 1,
+            "pose": "ripple-narrows",
+            "body": "弯波变窄，中间线开始清楚。",
+            "limbs": [
+              "upper ripple",
+              "lower ripple",
+              "center line"
+            ],
+            "contact": "波纹靠近中线。",
+            "mustReadAs": "正在收平。"
+          },
+          {
+            "frame": 2,
+            "pose": "line-emerges",
+            "body": "中心横线变长，波纹幅度变小。",
+            "limbs": [
+              "upper ripple",
+              "lower ripple",
+              "center line",
+              "sparkle"
+            ],
+            "contact": "上下波纹夹住中线。",
+            "mustReadAs": "一条线出现。"
+          },
+          {
+            "frame": 3,
+            "pose": "almost-flat",
+            "body": "上下波纹接近水平，亮点向右走。",
+            "limbs": [
+              "upper ripple",
+              "lower ripple",
+              "center line",
+              "sparkle"
+            ],
+            "contact": "中心线稳定。",
+            "mustReadAs": "平平一横。"
+          },
+          {
+            "frame": 4,
+            "pose": "flat-line",
+            "body": "水线基本水平，波纹只剩浅浅起伏。",
+            "limbs": [
+              "center line",
+              "sparkle",
+              "upper ripple"
+            ],
+            "contact": "线条贴住水面。",
+            "mustReadAs": "一横清楚。"
+          },
+          {
+            "frame": 5,
+            "pose": "warm-highlight",
+            "body": "金色高光沿线展开。",
+            "limbs": [
+              "center line",
+              "sparkle"
+            ],
+            "contact": "水线保持水平。",
+            "mustReadAs": "亮出这一横。"
+          },
+          {
+            "frame": 6,
+            "pose": "settled-line",
+            "body": "水面安静，只剩一条平线。",
+            "limbs": [
+              "center line",
+              "sparkle"
+            ],
+            "contact": "线条稳定不晃。",
+            "mustReadAs": "就是一的形状。"
+          },
+          {
+            "frame": 7,
+            "pose": "hold-one-line",
+            "body": "一条水平线安静停住。",
+            "limbs": [
+              "center line",
+              "sparkle"
+            ],
+            "contact": "水线稳定。",
+            "mustReadAs": "可对照汉字一。"
+          }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "plate parallax",
+      "boat scene placement",
+      "warm line glow",
+      "html glyph and pinyin",
+      "final poster hold"
+    ]
+  },
+  "finalFrame": {
+    "description": "晨光水面淡在背景里，大字一、yi、就是一和平平横线居中安静可读，末尾留安静回看时间。",
+    "mustBeReadableAsPoster": true
+  }
+}

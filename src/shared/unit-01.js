@@ -1,3 +1,5 @@
+import { lessonDetails } from "./unit-01-lessons.js";
+
 export const unit01 = {
   id: "unit-01",
   title: "启蒙第一课",
@@ -16,15 +18,64 @@ export const unit01 = {
       strokes: [{ x1: 24, y1: 50, x2: 76, y2: 50 }],
       color: "#E8A800",
       image: "../../../images/p01-start-house-soft-ui-20260426.png",
-      scene: "一轮月光落在水面，安静地拉出一条亮亮的线。"
+      scene: "一轮月光落在水面，安静地拉出一条亮亮的线。",
+      recognitionVideo: {
+        status: "official",
+        src: "./assets/recognition/yi/yi-gpt-image-2-production.mp4",
+        webm: "./assets/recognition/yi/yi-gpt-image-2-production.webm",
+        sources: [
+          { src: "./assets/recognition/yi/yi-gpt-image-2-production.webm", type: "video/webm" },
+          { src: "./assets/recognition/yi/yi-gpt-image-2-production.mp4", type: "video/mp4" }
+        ],
+        poster: "./assets/recognition/yi/yi-gpt-image-2-production-poster.png",
+        finalFrame: "./assets/recognition/yi/yi-gpt-image-2-production-final.png",
+        width: 1080,
+        height: 1920,
+        duration: 10,
+        fps: 24,
+        version: "yi-gpt-image-2-production",
+        teachingCue: "一个太阳、一条光线、平平一横，就是一。",
+        audioTrack: {
+          status: "baked",
+          src: "./assets/recognition/yi/yi-gpt-image-2-production-narration.mp3",
+          voice: "zh-CN-XiaoxiaoNeural",
+          rate: "-10%",
+          pitch: "+0Hz",
+          duration: 10.056
+        }
+      },
+      legacyRecognitionVideo: {
+        status: "legacy-sample",
+        src: "./assets/recognition/yi/yi-stage-v3.mp4",
+        webm: "./assets/recognition/yi/yi-stage-v3.webm",
+        sources: [
+          { src: "./assets/recognition/yi/yi-stage-v3.webm", type: "video/webm" },
+          { src: "./assets/recognition/yi/yi-stage-v3.mp4", type: "video/mp4" }
+        ],
+        poster: "./assets/recognition/yi/yi-stage-poster-v3.png",
+        finalFrame: "./assets/recognition/yi/yi-stage-final-v3.png",
+        width: 1280,
+        height: 800,
+        duration: 9.833333,
+        fps: 24,
+        version: "2026-05-03-teaching-v4-natural-voice-cues",
+        teachingCue: "一个、一条、一根，都有一个平平的“一”。",
+        voiceCues: [
+          { at: 1.42, text: "一个苹果", rate: 0.9, pitch: 1 },
+          { at: 4.62, text: "一条小路", rate: 0.9, pitch: 1 },
+          { at: 7.24, text: "一根木棒", rate: 0.9, pitch: 1 },
+          { at: 9.24, text: "都是一", rate: 0.86, pitch: 1 }
+        ]
+      },
+      ...lessonDetails.yi
     },
     {
       id: "er",
       char: "二",
       pinyin: "er",
       tone: "er",
-      phrase: "二只的二",
-      words: ["二月", "二只", "第二"],
+      phrase: "两个的二",
+      words: ["两个", "二月", "第二"],
       group: 1,
       strokes: [
         { x1: 30, y1: 38, x2: 70, y2: 38 },
@@ -32,7 +83,8 @@ export const unit01 = {
       ],
       color: "#8FBED4",
       image: "../../../images/generated-1776267040668.png",
-      scene: "两只蝴蝶停在花瓣上，翅膀轻轻晃。"
+      scene: "两只蝴蝶停在花瓣上，翅膀轻轻晃。",
+      ...lessonDetails.er
     },
     {
       id: "san",
@@ -49,7 +101,8 @@ export const unit01 = {
       ],
       color: "#9CC077",
       image: "../../../images/generated-1776267161689.png",
-      scene: "三座小山排成队，像在和小朋友招手。"
+      scene: "三座小山排成队，像在和小朋友招手。",
+      ...lessonDetails.san
     },
     {
       id: "da",
@@ -67,7 +120,8 @@ export const unit01 = {
       ],
       color: "#F5A8A8",
       image: "../../../images/generated-1776267228736.png",
-      scene: "小朋友张开双臂，做出一个大大的拥抱。"
+      scene: "小朋友张开双臂，做出一个大大的拥抱。",
+      ...lessonDetails.da
     },
     {
       id: "xiao",
@@ -84,7 +138,8 @@ export const unit01 = {
       ],
       color: "#FFC947",
       image: "../../../images/p01-start-house-small-20260426.png",
-      scene: "一颗小种子冒出新芽，悄悄长高一点点。"
+      scene: "一颗小种子冒出新芽，悄悄长高一点点。",
+      ...lessonDetails.xiao
     },
     {
       id: "shang",
@@ -101,7 +156,8 @@ export const unit01 = {
       ],
       color: "#9CC077",
       image: "../../../images/generated-1776351486921.png",
-      scene: "热气球慢慢升到云朵上面。"
+      scene: "热气球慢慢升到云朵上面。",
+      ...lessonDetails.shang
     },
     {
       id: "xia",
@@ -118,7 +174,8 @@ export const unit01 = {
       ],
       color: "#8FBED4",
       image: "../../../images/generated-1776351541808.png",
-      scene: "小雨滴从云朵下面落下来。"
+      scene: "小雨滴从云朵下面落下来。",
+      ...lessonDetails.xia
     },
     {
       id: "ren",
@@ -134,7 +191,8 @@ export const unit01 = {
       ],
       color: "#FFB87A",
       image: "../../../images/generated-1776351774210.png",
-      scene: "一大一小两个人牵着手走在花田里。"
+      scene: "一大一小两个人牵着手走在花田里。",
+      ...lessonDetails.ren
     },
     {
       id: "kou",
@@ -152,7 +210,8 @@ export const unit01 = {
       ],
       color: "#F5A8A8",
       image: "../../../images/generated-1776266799267.png",
-      scene: "圆圆笑脸张开小口，唱出快乐的歌。"
+      scene: "圆圆笑脸张开小口，唱出快乐的歌。",
+      ...lessonDetails.kou
     },
     {
       id: "shou",
@@ -170,7 +229,8 @@ export const unit01 = {
       ],
       color: "#E8A800",
       image: "../../../images/p01-start-home-entrance-ui-20260426.png",
-      scene: "一只暖暖的小手向你挥一挥。"
+      scene: "一只暖暖的小手向你挥一挥。",
+      ...lessonDetails.shou
     },
     {
       id: "ri",
@@ -189,7 +249,8 @@ export const unit01 = {
       ],
       color: "#FFC947",
       image: "../../../images/generated-daytime-result-celebration-clean.png",
-      scene: "金色太阳从草地尽头升起来。"
+      scene: "金色太阳从草地尽头升起来。",
+      ...lessonDetails.ri
     },
     {
       id: "yue",
@@ -208,7 +269,8 @@ export const unit01 = {
       ],
       color: "#8FBED4",
       image: "../../../images/generated-1776696234354.png",
-      scene: "弯弯月亮挂在晚霞边，给花田盖上一层光。"
+      scene: "弯弯月亮挂在晚霞边，给花田盖上一层光。",
+      ...lessonDetails.yue
     },
     {
       id: "shui",
@@ -227,7 +289,8 @@ export const unit01 = {
       ],
       color: "#5B8FC7",
       image: "../../../images/generated-1776696404648.png",
-      scene: "清亮小溪从石头中间流过。"
+      scene: "清亮小溪从石头中间流过。",
+      ...lessonDetails.shui
     },
     {
       id: "huo",
@@ -246,7 +309,8 @@ export const unit01 = {
       ],
       color: "#E8A800",
       image: "../../../images/LUbTJ.png",
-      scene: "小火苗在篝火上跳舞，照亮旁边的树。"
+      scene: "小火苗在篝火上跳舞，照亮旁边的树。",
+      ...lessonDetails.huo
     },
     {
       id: "shan",
@@ -264,7 +328,8 @@ export const unit01 = {
       ],
       color: "#9CC077",
       image: "../../../images/generated-1776749248335-road-centered.png",
-      scene: "远处的山一层一层，云雾慢慢散开。"
+      scene: "远处的山一层一层，云雾慢慢散开。",
+      ...lessonDetails.shan
     },
     {
       id: "mu",
@@ -282,7 +347,8 @@ export const unit01 = {
       ],
       color: "#5BA88E",
       image: "../../../images/p01-animal-edge-overlay-20260426.png",
-      scene: "一棵大树在阳光里伸开枝叶。"
+      scene: "一棵大树在阳光里伸开枝叶。",
+      ...lessonDetails.mu
     },
     {
       id: "tu",
@@ -299,7 +365,8 @@ export const unit01 = {
       ],
       color: "#8B5E00",
       image: "../../../images/p01-pastoral-overlay-20260426.png",
-      scene: "松软泥土里冒出嫩嫩的小芽。"
+      scene: "松软泥土里冒出嫩嫩的小芽。",
+      ...lessonDetails.tu
     },
     {
       id: "tian",
@@ -317,7 +384,8 @@ export const unit01 = {
       ],
       color: "#8FBED4",
       image: "../../../images/generated-1776749248335.png",
-      scene: "抬头看见蓝天和软软的云。"
+      scene: "抬头看见蓝天和软软的云。",
+      ...lessonDetails.tian
     },
     {
       id: "mu-eye",
@@ -337,7 +405,8 @@ export const unit01 = {
       ],
       color: "#F5A8A8",
       image: "../../../images/generated-1777193369978.png",
-      scene: "一只明亮的大眼睛眨了一下。"
+      scene: "一只明亮的大眼睛眨了一下。",
+      ...lessonDetails["mu-eye"]
     },
     {
       id: "er-ear",
@@ -357,7 +426,8 @@ export const unit01 = {
       ],
       color: "#FFB87A",
       image: "../../../images/generated-1777193372245.png",
-      scene: "小兔子的长耳朵听见风吹过花丛。"
+      scene: "小兔子的长耳朵听见风吹过花丛。",
+      ...lessonDetails["er-ear"]
     }
   ]
 };

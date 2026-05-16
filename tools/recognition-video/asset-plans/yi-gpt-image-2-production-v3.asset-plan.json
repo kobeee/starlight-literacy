@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-gpt-image-2-production-v3",
+  "style": {
+    "source": "knowledge-base/01-产品设计/反AI设计规范.md + 田园暖彩色板（蜂蜜金 #d8a13a + 暖棕 #5D4A36 + 暖米 #faf3e3）",
+    "summary": "premium 儿童绘本田园暖彩，gouache + 彩铅质感，水平线明确，低饱和暖色系；天-地清晰、留白稳定供 SVG/HTML 教学叠层落位"
+  },
+  "plates": [
+    {
+      "id": "morning-field-plate",
+      "kind": "plate",
+      "purpose": "认字视频统一底板：晨光田园 + 清晰水平线 + 上方留白安放太阳，4 个镜头全程使用",
+      "path": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/plates/morning-field-plate-gpt-image-2.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/prompts/morning-field-plate.prompt.txt"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "sun-rise-glow-spritesheet",
+      "kind": "cutout",
+      "purpose": "太阳升起 + halo 打开的 10 帧 spritesheet（2 行 5 列），后续由 prepare-spritesheet-sprite 抠绿拆帧",
+      "path": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/cutouts/sun-rise-glow-spritesheet-gpt-image-2.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/prompts/sun-rise-glow-spritesheet.prompt.txt"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "yi-gpt-image-2-production-v3-sun-rise-glow",
+      "actor": "sun",
+      "action": "rise-glow",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/manifest.json",
+      "minFrames": 10,
+      "requiredMotionParts": [
+        "sun disk",
+        "warm halo",
+        "lower rim",
+        "morning rays"
+      ],
+      "motionCheckIntent": "10 帧依序展示太阳从 lower rim 触底 → 完整圆 → halo 打开 → rays 张开 → 稳态，确保不是同一帧复制 10 份",
+      "notes": "由 sun-rise-glow-spritesheet 通过 chroma-key (#00ff00 容差) 拆帧得到，单帧约 768x1024 抠出后裁切到 sun 主体 padding，最终统一 padding 输出"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "path": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/assets/audio/yi-gpt-image-2-production-v3-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v3.audio-plan.json"
+  },
+  "qualityBars": [
+    "plate 必须留出天空上方 1/3 净空，可承载 sprite 太阳与 halo，不与既有云 / 树冠抢位",
+    "sun sprite 10 帧必须看得出动作梯度（lower rim、halo、rays 三个维度都要变化），相邻帧不可像素完全一致",
+    "全片不在 raster 图上画任何中文/拼音文字，所有汉字与拼音由 HTML/CSS 渲染",
+    "横光与一横用 SVG/CSS 矢量元素，宽度 / 颜色 / 圆头圆尾必须可被产品 review 检查",
+    "final frame 必须 poster 化可读：暖橙太阳 + 暖金 一 大字 + 拼音 + 完整四句话条全部清晰"
+  ]
+}

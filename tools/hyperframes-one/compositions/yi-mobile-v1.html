@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #fff6dc;
+        color: #5d4a36;
+        font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 16%, rgba(255, 223, 104, 0.72) 0 13%, transparent 36%),
+          linear-gradient(180deg, #fff0bd 0%, #fff8df 45%, #dfeecf 78%, #faf6f0 100%);
+      }
+
+      .clip,
+      .backdrop,
+      .warm-wash,
+      .sun,
+      .cloud,
+      .ground,
+      .tree,
+      .house,
+      .animal,
+      .scene,
+      .caption,
+      .path,
+      .line-mark,
+      .apple,
+      .stick,
+      .glyph-card,
+      .big-glyph,
+      .memory-row {
+        position: absolute;
+      }
+
+      .backdrop {
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+        object-position: 48% 50%;
+        opacity: 0.55;
+        filter: saturate(0.95) contrast(0.94) brightness(1.08);
+      }
+
+      .warm-wash {
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(255, 246, 216, 0.1), rgba(255, 250, 236, 0.34) 62%, rgba(250, 246, 240, 0.82)),
+          radial-gradient(circle at 50% 24%, rgba(255, 214, 92, 0.34), transparent 36%);
+      }
+
+      .sun {
+        left: 50%;
+        top: 142px;
+        width: 480px;
+        height: 480px;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 221, 108, 0.42);
+        box-shadow: 0 0 160px rgba(232, 168, 0, 0.2);
+      }
+
+      .cloud {
+        width: 210px;
+        height: 58px;
+        border-radius: 999px;
+        background: rgba(255, 255, 247, 0.72);
+        box-shadow: 56px -17px 0 8px rgba(255, 255, 247, 0.52);
+      }
+
+      .cloud-a {
+        left: 84px;
+        top: 360px;
+      }
+
+      .cloud-b {
+        right: 132px;
+        top: 470px;
+        transform: scale(0.86);
+      }
+
+      .ground {
+        left: -150px;
+        right: -150px;
+        bottom: -96px;
+        height: 590px;
+        border-radius: 54% 54% 0 0;
+        background:
+          radial-gradient(ellipse at 50% 2%, rgba(156, 192, 119, 0.42), transparent 58%),
+          linear-gradient(180deg, #dceecf, #f8f1e4);
+      }
+
+      .tree {
+        left: -132px;
+        top: -26px;
+        width: 500px;
+        height: 610px;
+        opacity: 0.5;
+        background:
+          radial-gradient(circle at 38% 18%, rgba(156, 192, 119, 0.66) 0 150px, transparent 154px),
+          radial-gradient(circle at 68% 20%, rgba(216, 232, 197, 0.86) 0 168px, transparent 172px),
+          linear-gradient(104deg, transparent 0 44%, #9b7142 45% 52%, transparent 53%);
+      }
+
+      .house {
+        right: -84px;
+        top: 350px;
+        width: 270px;
+        height: 270px;
+        opacity: 0.42;
+        border-radius: 26px;
+        background:
+          linear-gradient(135deg, transparent 0 34%, rgba(179, 126, 77, 0.62) 35% 49%, transparent 50%),
+          linear-gradient(180deg, rgba(255, 250, 236, 0.78), rgba(255, 250, 236, 0.46));
+      }
+
+      .animal,
+      .sprite-rabbit,
+      .sprite-rabbit__frame,
+      .sparkle-seed {
+        z-index: 10;
+        position: absolute;
+      }
+
+      .animal {
+        opacity: 0;
+        filter: drop-shadow(0 20px 18px rgba(93, 74, 54, 0.12));
+      }
+
+      .animal-rabbit {
+        right: 92px;
+        bottom: 410px;
+        width: 116px;
+      }
+
+      .animal-squirrel {
+        left: 88px;
+        bottom: 378px;
+        width: 110px;
+      }
+
+      .sprite-rabbit {
+        right: 90px;
+        bottom: 388px;
+        width: 156px;
+        height: 132px;
+        opacity: 0;
+        filter: drop-shadow(0 20px 18px rgba(93, 74, 54, 0.12));
+      }
+
+      .sprite-rabbit__frame {
+        inset: 0;
+        opacity: 0;
+      }
+
+      .sprite-rabbit__body,
+      .sprite-rabbit__head,
+      .sprite-rabbit__ear,
+      .sprite-rabbit__tail,
+      .sprite-rabbit__foot {
+        position: absolute;
+        background: #fffaf0;
+        border: 3px solid rgba(93, 74, 54, 0.1);
+      }
+
+      .sprite-rabbit__body {
+        left: 42px;
+        top: 52px;
+        width: 82px;
+        height: 58px;
+        border-radius: 55% 45% 45% 55%;
+      }
+
+      .sprite-rabbit__head {
+        left: 96px;
+        top: 32px;
+        width: 44px;
+        height: 42px;
+        border-radius: 52% 52% 48% 48%;
+      }
+
+      .sprite-rabbit__head::before {
+        content: "";
+        position: absolute;
+        right: 9px;
+        top: 15px;
+        width: 5px;
+        height: 5px;
+        border-radius: 999px;
+        background: #5d4a36;
+      }
+
+      .sprite-rabbit__ear {
+        left: 106px;
+        top: 0;
+        width: 16px;
+        height: 48px;
+        border-radius: 999px;
+        transform-origin: 50% 100%;
+      }
+
+      .sprite-rabbit__ear--back {
+        left: 124px;
+        top: 2px;
+      }
+
+      .sprite-rabbit__tail {
+        left: 30px;
+        top: 64px;
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+      }
+
+      .sprite-rabbit__foot {
+        left: 50px;
+        top: 104px;
+        width: 44px;
+        height: 16px;
+        border-radius: 999px;
+        background: #f4eadc;
+      }
+
+      .sprite-rabbit__foot--back {
+        left: 88px;
+      }
+
+      .sprite-rabbit__frame--1 .sprite-rabbit__body {
+        transform: scale(1.04, 0.94);
+      }
+
+      .sprite-rabbit__frame--1 .sprite-rabbit__ear {
+        transform: rotate(-8deg);
+      }
+
+      .sprite-rabbit__frame--1 .sprite-rabbit__ear--back {
+        transform: rotate(8deg);
+      }
+
+      .sprite-rabbit__frame--2 .sprite-rabbit__body {
+        top: 43px;
+        transform: rotate(-3deg) scale(0.98, 1.04);
+      }
+
+      .sprite-rabbit__frame--2 .sprite-rabbit__head {
+        top: 25px;
+      }
+
+      .sprite-rabbit__frame--2 .sprite-rabbit__ear {
+        transform: rotate(-18deg);
+      }
+
+      .sprite-rabbit__frame--2 .sprite-rabbit__ear--back {
+        transform: rotate(2deg);
+      }
+
+      .sprite-rabbit__frame--2 .sprite-rabbit__foot {
+        top: 108px;
+        transform: rotate(-8deg);
+      }
+
+      .sprite-rabbit__frame--3 .sprite-rabbit__body {
+        top: 34px;
+        transform: rotate(-7deg) scale(0.94, 1.1);
+      }
+
+      .sprite-rabbit__frame--3 .sprite-rabbit__head {
+        top: 18px;
+      }
+
+      .sprite-rabbit__frame--3 .sprite-rabbit__ear {
+        transform: rotate(-26deg);
+      }
+
+      .sprite-rabbit__frame--3 .sprite-rabbit__ear--back {
+        transform: rotate(-8deg);
+      }
+
+      .sprite-rabbit__frame--3 .sprite-rabbit__foot {
+        top: 112px;
+        transform: rotate(-18deg);
+      }
+
+      .sprite-rabbit__frame--4 .sprite-rabbit__body {
+        top: 50px;
+        transform: scale(1.08, 0.9);
+      }
+
+      .sprite-rabbit__frame--4 .sprite-rabbit__head {
+        top: 34px;
+      }
+
+      .sprite-rabbit__frame--4 .sprite-rabbit__ear {
+        transform: rotate(4deg);
+      }
+
+      .sprite-rabbit__frame--4 .sprite-rabbit__ear--back {
+        transform: rotate(16deg);
+      }
+
+      .sparkle-seed {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(255, 201, 71, 0.82);
+        opacity: 0;
+        box-shadow: 0 0 0 12px rgba(255, 201, 71, 0.12);
+      }
+
+      .sparkle-seed--1 {
+        left: 210px;
+        top: 850px;
+      }
+
+      .sparkle-seed--2 {
+        right: 244px;
+        top: 768px;
+      }
+
+      .sparkle-seed--3 {
+        left: 498px;
+        top: 984px;
+      }
+
+      .title {
+        position: absolute;
+        left: 94px;
+        top: 270px;
+        z-index: 20;
+        color: #4a3827;
+        font-size: 106px;
+        line-height: 1;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-shadow: 0 12px 40px rgba(255, 250, 236, 0.76);
+      }
+
+      .caption {
+        z-index: 20;
+        min-width: 276px;
+        min-height: 82px;
+        border-radius: 999px;
+        padding: 16px 36px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 250, 236, 0.9);
+        color: #7b5200;
+        font-size: 50px;
+        line-height: 1;
+        font-weight: 950;
+        box-shadow: 0 22px 46px rgba(74, 56, 39, 0.1);
+      }
+
+      .path-caption {
+        left: 50%;
+        top: 610px;
+      }
+
+      .path {
+        left: 50%;
+        top: 810px;
+        z-index: 18;
+        width: 760px;
+        height: 164px;
+        border-radius: 999px;
+        background:
+          repeating-linear-gradient(90deg, rgba(255, 250, 236, 0.48) 0 88px, rgba(255, 220, 103, 0.24) 88px 176px),
+          rgba(255, 250, 236, 0.48);
+        border: 4px solid rgba(255, 201, 71, 0.28);
+        box-shadow: 0 28px 54px rgba(139, 94, 0, 0.12);
+      }
+
+      .path .line-mark {
+        left: 68px;
+        right: 68px;
+        top: 50%;
+        height: 32px;
+        border-radius: 999px;
+        transform: translateY(-50%) scaleX(0);
+        transform-origin: 0 50%;
+        background:
+          linear-gradient(180deg, rgba(255, 244, 192, 0.76), transparent 56%),
+          linear-gradient(90deg, #ffd75a, #e8a800 54%, #d89400);
+        box-shadow: 0 16px 26px rgba(232, 168, 0, 0.18);
+      }
+
+      .apple {
+        left: 168px;
+        bottom: 370px;
+        z-index: 22;
+        width: 128px;
+        height: 148px;
+        opacity: 0;
+        border-radius: 999px 999px 44px 44px;
+        background:
+          radial-gradient(circle at 62% 24%, rgba(255, 250, 236, 0.56) 0 22px, transparent 24px),
+          linear-gradient(180deg, #ffb29c, #f06f57);
+        box-shadow: 0 22px 32px rgba(126, 72, 44, 0.12);
+      }
+
+      .apple::before {
+        content: "";
+        position: absolute;
+        left: 58px;
+        top: -26px;
+        width: 18px;
+        height: 40px;
+        border-radius: 999px;
+        background: #7b5200;
+      }
+
+      .stick {
+        right: 162px;
+        bottom: 445px;
+        z-index: 22;
+        width: 230px;
+        height: 34px;
+        opacity: 0;
+        border-radius: 999px;
+        background:
+          linear-gradient(180deg, rgba(255, 238, 175, 0.62), transparent 52%),
+          linear-gradient(90deg, #b98242, #d6a25b 50%, #a96f36);
+        box-shadow: 0 18px 24px rgba(93, 74, 54, 0.12);
+      }
+
+      .big-glyph {
+        left: 50%;
+        bottom: 530px;
+        z-index: 24;
+        color: #e8a800;
+        font-size: 230px;
+        line-height: 0.8;
+        font-weight: 950;
+        text-shadow: 0 22px 42px rgba(139, 94, 0, 0.14);
+      }
+
+      .chant {
+        left: 72px;
+        right: 72px;
+        bottom: 300px;
+        z-index: 24;
+        min-height: 90px;
+        border-radius: 999px;
+        padding: 20px 40px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 250, 236, 0.88);
+        color: #8a6736;
+        font-size: 42px;
+        line-height: 1.1;
+        text-align: center;
+        font-weight: 900;
+        box-shadow: 0 22px 44px rgba(74, 56, 39, 0.08);
+      }
+
+      .final-card {
+        position: absolute;
+        left: 112px;
+        right: 112px;
+        top: 410px;
+        z-index: 30;
+        height: 720px;
+        border-radius: 64px;
+        background:
+          linear-gradient(90deg, transparent calc(50% - 2px), rgba(139, 94, 0, 0.1) 0 calc(50% + 2px), transparent 0),
+          linear-gradient(180deg, transparent calc(50% - 2px), rgba(139, 94, 0, 0.1) 0 calc(50% + 2px), transparent 0),
+          rgba(255, 250, 236, 0.88);
+        border: 5px solid rgba(255, 201, 71, 0.5);
+        box-shadow: 0 34px 80px rgba(139, 94, 0, 0.12);
+      }
+
+      .final-stroke {
+        position: absolute;
+        left: 190px;
+        right: 190px;
+        top: 730px;
+        z-index: 32;
+        height: 92px;
+        border-radius: 999px;
+        background:
+          linear-gradient(180deg, rgba(255, 233, 130, 0.56), transparent 48%),
+          linear-gradient(90deg, #f5b925 0%, #e8a800 52%, #d89400 100%);
+        box-shadow: 0 22px 0 rgba(139, 94, 0, 0.08), 0 0 0 20px rgba(255, 201, 71, 0.12);
+        transform-origin: 0 50%;
+      }
+
+      .pinyin {
+        position: absolute;
+        right: 164px;
+        top: 482px;
+        z-index: 34;
+        min-width: 150px;
+        min-height: 78px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 250, 236, 0.94);
+        border: 3px solid #eadfce;
+        color: #7a6a55;
+        font-size: 54px;
+        font-weight: 900;
+      }
+
+      .final-cue {
+        left: 50%;
+        top: 1110px;
+        z-index: 34;
+        font-size: 44px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="5.8" data-width="1080" data-height="1920">
+      <img id="mobile-backdrop" class="clip backdrop" data-start="0" data-duration="5.8" data-track-index="20" src="../assets/unit-01/yi/yi-stage-bg-v1.png" alt="" />
+      <div id="mobile-warm-wash" class="clip warm-wash" data-start="0" data-duration="5.8" data-track-index="0"></div>
+      <div id="mobile-sun" class="clip sun" data-start="0" data-duration="5.8" data-track-index="1"></div>
+      <div id="mobile-cloud-a" class="clip cloud cloud-a" data-start="0" data-duration="5.8" data-track-index="2"></div>
+      <div id="mobile-cloud-b" class="clip cloud cloud-b" data-start="0" data-duration="5.8" data-track-index="3"></div>
+      <div id="mobile-tree" class="clip tree" data-start="0" data-duration="5.8" data-track-index="4"></div>
+      <div id="mobile-house" class="clip house" data-start="0" data-duration="5.8" data-track-index="5"></div>
+      <div id="mobile-ground" class="clip ground" data-start="0" data-duration="5.8" data-track-index="6"></div>
+      <div id="mobile-rabbit-sprite" class="clip sprite-rabbit" data-start="0.2" data-duration="5.6" data-track-index="7" aria-hidden="true">
+        <div class="sprite-rabbit__frame sprite-rabbit__frame--1">
+          <span class="sprite-rabbit__tail"></span><span class="sprite-rabbit__body"></span><span class="sprite-rabbit__head"></span><span class="sprite-rabbit__ear"></span><span class="sprite-rabbit__ear sprite-rabbit__ear--back"></span><span class="sprite-rabbit__foot"></span><span class="sprite-rabbit__foot sprite-rabbit__foot--back"></span>
+        </div>
+        <div class="sprite-rabbit__frame sprite-rabbit__frame--2">
+          <span class="sprite-rabbit__tail"></span><span class="sprite-rabbit__body"></span><span class="sprite-rabbit__head"></span><span class="sprite-rabbit__ear"></span><span class="sprite-rabbit__ear sprite-rabbit__ear--back"></span><span class="sprite-rabbit__foot"></span><span class="sprite-rabbit__foot sprite-rabbit__foot--back"></span>
+        </div>
+        <div class="sprite-rabbit__frame sprite-rabbit__frame--3">
+          <span class="sprite-rabbit__tail"></span><span class="sprite-rabbit__body"></span><span class="sprite-rabbit__head"></span><span class="sprite-rabbit__ear"></span><span class="sprite-rabbit__ear sprite-rabbit__ear--back"></span><span class="sprite-rabbit__foot"></span><span class="sprite-rabbit__foot sprite-rabbit__foot--back"></span>
+        </div>
+        <div class="sprite-rabbit__frame sprite-rabbit__frame--4">
+          <span class="sprite-rabbit__tail"></span><span class="sprite-rabbit__body"></span><span class="sprite-rabbit__head"></span><span class="sprite-rabbit__ear"></span><span class="sprite-rabbit__ear sprite-rabbit__ear--back"></span><span class="sprite-rabbit__foot"></span><span class="sprite-rabbit__foot sprite-rabbit__foot--back"></span>
+        </div>
+      </div>
+      <img id="mobile-squirrel" class="clip animal animal-squirrel" data-start="1.2" data-duration="4.6" data-track-index="8" src="../assets/animals/squirrel.png" alt="" />
+      <span id="mobile-sparkle-1" class="clip sparkle-seed sparkle-seed--1" data-start="0.86" data-duration="1.1" data-track-index="21"></span>
+      <span id="mobile-sparkle-2" class="clip sparkle-seed sparkle-seed--2" data-start="1.72" data-duration="1.1" data-track-index="22"></span>
+      <span id="mobile-sparkle-3" class="clip sparkle-seed sparkle-seed--3" data-start="2.62" data-duration="1.1" data-track-index="23"></span>
+
+      <div id="mobile-title" class="clip title" data-start="0.15" data-duration="3.25" data-track-index="9">找「一」</div>
+      <div id="mobile-path-caption" class="clip caption path-caption" data-start="0.55" data-duration="2.95" data-track-index="10">一条小路</div>
+      <div id="mobile-path" class="clip path" data-start="0.55" data-duration="2.95" data-track-index="11"><div class="line-mark"></div></div>
+      <div id="mobile-apple" class="clip apple" data-start="1.55" data-duration="2.4" data-track-index="12"></div>
+      <div id="mobile-stick" class="clip stick" data-start="2.45" data-duration="1.75" data-track-index="13"></div>
+      <div id="mobile-big-glyph" class="clip big-glyph" data-start="3.05" data-duration="2.75" data-track-index="14">一</div>
+      <div id="mobile-chant" class="clip chant" data-start="3.28" data-duration="2.52" data-track-index="15">小路、苹果、木棒，都是“一”</div>
+      <div id="mobile-final-card" class="clip final-card" data-start="3.62" data-duration="2.18" data-track-index="16"></div>
+      <div id="mobile-final-stroke" class="clip final-stroke" data-start="3.78" data-duration="2.02" data-track-index="17"></div>
+      <div id="mobile-pinyin" class="clip pinyin" data-start="4.28" data-duration="1.52" data-track-index="18">yī</div>
+      <div id="mobile-final-cue" class="clip caption final-cue" data-start="4.66" data-duration="1.14" data-track-index="19">都是“一”</div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+
+      tl.set([".cloud-a", ".cloud-b"], { opacity: 0, y: 12 });
+      tl.set(".ground", { opacity: 0, y: 26 });
+      tl.set([".title", ".path-caption", ".chant"], { opacity: 0, y: 28 });
+      tl.set([".path-caption", ".path", ".big-glyph", ".final-cue"], { xPercent: -50 });
+      tl.set(".path", { opacity: 0, y: 26, scale: 0.96 });
+      tl.set(".line-mark", { scaleX: 0 });
+      tl.set([".apple", ".stick", ".big-glyph"], { opacity: 0, y: 34, scale: 0.86 });
+      tl.set([".final-card", ".final-stroke", ".pinyin", ".final-cue"], { opacity: 0, y: 28 });
+      tl.set(".final-stroke", { scaleX: 0, transformOrigin: "0% 50%" });
+      tl.set(".sprite-rabbit", { opacity: 0, y: 20, x: 18, scale: 0.9 });
+      tl.set(".sprite-rabbit__frame", { opacity: 0 });
+      tl.set(".sprite-rabbit__frame--1", { opacity: 1 });
+      tl.set(".animal-squirrel", { opacity: 0, y: 22, x: -18, scale: 0.9 });
+      tl.set(".sparkle-seed", { opacity: 0, y: 12, scale: 0.4 });
+
+      tl.to(".sun", { scale: 1.04, duration: 5.8, ease: "sine.inOut" }, 0);
+      tl.to([".cloud-a", ".cloud-b"], { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, 0.08);
+      tl.to(".cloud-a", { x: 18, duration: 5.6, ease: "none" }, 0.1);
+      tl.to(".cloud-b", { x: -18, duration: 5.6, ease: "none" }, 0.1);
+      tl.to(".ground", { opacity: 1, y: 0, duration: 0.5 }, 0.08);
+      tl.to(".title", { opacity: 1, y: 0, duration: 0.44 }, 0.16);
+      tl.to(".path-caption", { opacity: 1, y: 0, duration: 0.38 }, 0.55);
+      tl.to(".path", { opacity: 1, y: 0, scale: 1, duration: 0.5 }, 0.64);
+      tl.to(".line-mark", { scaleX: 1, duration: 0.72, ease: "power3.out" }, 0.86);
+      tl.to(".sprite-rabbit", { opacity: 0.95, y: 0, x: 0, scale: 1, duration: 0.22, overwrite: "auto" }, 0.96);
+      tl.set(".sprite-rabbit__frame", { opacity: 0 }, 1.18);
+      tl.set(".sprite-rabbit__frame--2", { opacity: 1 }, 1.18);
+      tl.to(".sprite-rabbit", { y: -18, x: -16, duration: 0.16, ease: "steps(1)" }, 1.18);
+      tl.set(".sprite-rabbit__frame", { opacity: 0 }, 1.34);
+      tl.set(".sprite-rabbit__frame--3", { opacity: 1 }, 1.34);
+      tl.to(".sprite-rabbit", { y: -34, x: -34, duration: 0.18, ease: "steps(1)" }, 1.34);
+      tl.set(".sprite-rabbit__frame", { opacity: 0 }, 1.54);
+      tl.set(".sprite-rabbit__frame--4", { opacity: 1 }, 1.54);
+      tl.to(".sprite-rabbit", { y: 0, x: -52, duration: 0.18, ease: "steps(1)" }, 1.54);
+      tl.set(".sprite-rabbit__frame", { opacity: 0 }, 1.76);
+      tl.set(".sprite-rabbit__frame--1", { opacity: 1 }, 1.76);
+      tl.to(".sprite-rabbit", { y: 0, x: -52, duration: 3.6, ease: "none" }, 1.76);
+      tl.to(".sparkle-seed--1", { opacity: 1, y: 0, scale: 1, duration: 0.16, ease: "power2.out" }, 0.86);
+      tl.to(".sparkle-seed--1", { opacity: 0, y: -38, scale: 0.7, duration: 0.58, ease: "sine.out" }, 1.06);
+      tl.to(".apple", { opacity: 1, y: 0, scale: 1, duration: 0.42 }, 1.55);
+      tl.to(".apple", { scale: 1.08, duration: 0.24, yoyo: true, repeat: 1, ease: "sine.inOut" }, 1.98);
+      tl.to(".sparkle-seed--2", { opacity: 1, y: 0, scale: 1, duration: 0.16, ease: "power2.out" }, 1.72);
+      tl.to(".sparkle-seed--2", { opacity: 0, y: -38, scale: 0.7, duration: 0.58, ease: "sine.out" }, 1.92);
+      tl.set(".sparkle-seed--2", { opacity: 0 }, 2.45);
+      tl.to(".animal-squirrel", { opacity: 0.95, y: 0, x: 0, scale: 1, duration: 0.42 }, 2.02);
+      tl.to(".stick", { opacity: 1, y: 0, scale: 1, duration: 0.42 }, 2.45);
+      tl.to(".stick", { y: -12, duration: 0.24, yoyo: true, repeat: 1, ease: "sine.inOut" }, 2.9);
+      tl.to(".sparkle-seed--3", { opacity: 1, y: 0, scale: 1, duration: 0.16, ease: "power2.out" }, 2.62);
+      tl.to(".sparkle-seed--3", { opacity: 0, y: -38, scale: 0.7, duration: 0.58, ease: "sine.out" }, 2.82);
+      tl.to(".big-glyph", { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, 3.05);
+      tl.to(".chant", { opacity: 1, y: 0, duration: 0.42 }, 3.28);
+      tl.to([".title", ".path-caption", ".path", ".apple", ".stick", ".big-glyph", ".chant"], { opacity: 0, y: -18, duration: 0.34 }, 3.52);
+      tl.to(".final-card", { opacity: 1, y: 0, duration: 0.42 }, 3.62);
+      tl.to(".final-stroke", { opacity: 1, y: 0, scaleX: 1, duration: 0.74, ease: "power3.out" }, 3.78);
+      tl.to(".pinyin", { opacity: 1, y: 0, duration: 0.32 }, 4.28);
+      tl.to(".final-cue", { opacity: 1, y: 0, duration: 0.34 }, 4.66);
+      tl.to(".final-stroke", { scale: 1.018, duration: 0.28, yoyo: true, repeat: 1, ease: "sine.inOut" }, 5.1);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

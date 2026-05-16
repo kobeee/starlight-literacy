@@ -1,0 +1,35 @@
+{
+  "characterId": "yi",
+  "char": "一",
+  "teachingGoal": "用一个苹果、一条小路、一根木棒三个慢节奏例子，帮助孩子把数量词里的“一”和平平一横的字形联系起来。",
+  "productSurface": "P03 认字页横向教学舞台",
+  "video": "./yi-stage-v3.mp4",
+  "webm": "./yi-stage-v3.webm",
+  "sources": [
+    {
+      "src": "./yi-stage-v3.webm",
+      "type": "video/webm"
+    },
+    {
+      "src": "./yi-stage-v3.mp4",
+      "type": "video/mp4"
+    }
+  ],
+  "poster": "./yi-stage-poster-v3.png",
+  "finalFrame": "./yi-stage-final-v3.png",
+  "width": 1280,
+  "height": 800,
+  "duration": 9.833333,
+  "fps": 24,
+  "frames": 236,
+  "posterAt": 1.7,
+  "finalFrameAt": 9.72,
+  "voiceCues": [
+    { "at": 1.42, "text": "一个苹果", "rate": 0.9, "pitch": 1 },
+    { "at": 4.62, "text": "一条小路", "rate": 0.9, "pitch": 1 },
+    { "at": 7.24, "text": "一根木棒", "rate": 0.9, "pitch": 1 },
+    { "at": 9.24, "text": "都是一", "rate": 0.86, "pitch": 1 }
+  ],
+  "sourceComposition": "../../../../../../tools/hyperframes-one/index.html",
+  "version": "2026-05-03-teaching-v4-natural-voice-cues"
+}

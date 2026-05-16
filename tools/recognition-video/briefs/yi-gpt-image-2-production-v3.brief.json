@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-gpt-image-2-production-v3",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "duration": 7.4,
+  "fps": 24,
+  "teachingHook": "晨光中升起的太阳点亮一道金色横光，这道光落下来稳成 平平的一横，就是 一。",
+  "narration": {
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      { "at": 0.1, "text": "一个太阳。" },
+      { "at": 1.638, "text": "一条光线。" },
+      { "at": 3.305, "text": "平平一横。" },
+      { "at": 5.041, "text": "就是一。" }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "sun-meaning",
+      "start": 0,
+      "duration": 1.638,
+      "purpose": "唤起 一 的意义入口：一个太阳从田园地平线缓缓升起，halo 呼吸",
+      "description": "1080x1920 田园 plate 满屏铺底；天空中上方一颗暖橙太阳 sprite 在 1.0s 内沿地平线 90px → 230px 上升 0→1 opacity 同步打开 halo；最终态停留在 plate 上方 1/3 的稳定位置，呼应旁白 一个太阳",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v3-sun-rise-glow"
+      ]
+    },
+    {
+      "id": "light-binding",
+      "start": 1.638,
+      "duration": 1.667,
+      "purpose": "字形绑定：从太阳中心射出一道金色横光，向左右徐徐展开",
+      "description": "保持 plate 与稳定的太阳；在 plate 视觉中线（约 60% 高度）SVG 渲染一条暖金色横光：scaleX 0 → 1.0，宽度 ~720px，强度从中心向两端扩散，光晕轻微脉冲。这条光与下一镜的横笔同根",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v3-sun-rise-glow",
+        "html-svg-light-beam"
+      ]
+    },
+    {
+      "id": "flat-line",
+      "start": 3.305,
+      "duration": 1.736,
+      "purpose": "光线静下来变成 一横，建立字形与意义的最终连接",
+      "description": "光线静稳：从金色光晕收束为一条粗细均匀、暖金色（#d8a13a）的笔画状一横，宽 760px、高 38px、圆头圆尾，水平居中于 plate 视觉中线；底色 plate 略微变柔（白纱叠层 0.18 opacity），太阳光晕降到 0.55 不抢注意",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v3-sun-rise-glow",
+        "html-svg-flat-line"
+      ]
+    },
+    {
+      "id": "glyph-close",
+      "start": 5.041,
+      "duration": 2.359,
+      "purpose": "字形收束：暖金 一 字大字定格在画面中央，便于孩子稳定看 ≥2s",
+      "description": "横笔向中线轻微缩短并加粗为最终大字 一（HTML 文本，颜色 #5D4A36，字号 320px，font-family 思源宋体，水平居中位于 plate 中线）；上方 拼音 yī（96px，#8c7853），下方 一个太阳 一条光线 平平一横 就是一 句子轻条（28px，#7a6750，0.85 opacity）；定格直到 7.4s 结束",
+      "requiredAssets": [
+        "morning-field-plate",
+        "html-glyph-yi",
+        "html-pinyin-yi",
+        "html-sentence-strip"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "sun-meaning",
+      "description": "一个太阳从田园地平线升起、halo 打开，把 一 的意义从抽象数量落到具体可看的物象",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-binding",
+      "description": "从太阳射出一条金色横光左右展开，光线物象与汉字 一 的横笔形态一一对应，建立物-形绑定",
+      "boundElements": [
+        "warm golden horizontal light beam from the sun",
+        "flat horizontal stroke of the character 一"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "glyph-close",
+      "phrase": "就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "一个太阳。一条光线。平平一横。就是一。",
+      "source": "Starlight Literacy Unit-01 一字儿童画风认字课，按一物一象一字一句结构串联"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "sun-meaning",
+        "target": "一个太阳的物象",
+        "seconds": 1.638
+      },
+      {
+        "shotId": "flat-line",
+        "target": "光线收束成 平平一横 的瞬间",
+        "seconds": 1.736
+      },
+      {
+        "shotId": "glyph-close",
+        "target": "大字 一 + 拼音 + 完整句子定格回看",
+        "seconds": 2.359
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-large-glyph-hold",
+      "description": "P03 认字页提供 replay 按钮支持点击复看，并把视频最后一帧大字 一 作为 poster；P05 / P07 提供找字与点字练习再次出现 一"
+    },
+    "writingPosition": "omitted",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.45,
+    "minimumFinalHoldSeconds": 2.2,
+    "maximumSceneChangesPerSecond": 0.6,
+    "productSurface": "P03 认字页正式 official 视频，作为 Starlight Literacy Unit-01 一 的 recognition 视频标杆"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "sun",
+        "action": "rise-glow",
+        "reason": "唤起意义阶段必须看到真实绘本风太阳的连续升起+光晕呼吸动作，不能用 CSS 圆 + 阴影伪装；这是 一个太阳 cue 的核心物象",
+        "minFrames": 10,
+        "requiredMotionParts": [
+          "sun disk",
+          "warm halo",
+          "lower rim",
+          "morning rays"
+        ],
+        "poseContract": [
+          { "frame": 0, "pose": "刚露脸初升", "body": "太阳大半隐在地平线下，只露出顶部圆弧", "limbs": ["lower rim hidden", "halo soft"], "contact": "lower rim 紧贴下边缘", "mustReadAs": "太阳刚从地平线探出，halo 还很弱" },
+          { "frame": 1, "pose": "继续上升 1", "body": "上升约 1/8，露出更多圆面", "limbs": ["lower rim 微露", "halo 略亮"], "contact": "lower rim 距离下边缘 ~8%", "mustReadAs": "太阳继续上升，halo 开始打开" },
+          { "frame": 2, "pose": "继续上升 2", "body": "上升约 1/4，露出半圆", "limbs": ["lower rim 浮出", "halo 中亮"], "contact": "lower rim 距离下边缘 ~16%", "mustReadAs": "太阳近一半浮出地平线" },
+          { "frame": 3, "pose": "继续上升 3", "body": "上升约 3/8，露出大半圆", "limbs": ["lower rim 完全脱离", "halo 渐亮"], "contact": "lower rim 已离开下边缘", "mustReadAs": "太阳大半浮起，halo 开始向外扩散" },
+          { "frame": 4, "pose": "halo 打开 1", "body": "完整圆 + 中等 halo", "limbs": ["halo 向外扩展", "rays 微露"], "contact": "lower rim 离地", "mustReadAs": "太阳完整且 halo 在打开" },
+          { "frame": 5, "pose": "halo 打开 2", "body": "完整圆 + 明亮 halo + 短 rays", "limbs": ["halo 更亮", "短 rays 可见"], "contact": "悬浮在地平线上方", "mustReadAs": "太阳完整且 halo 已经亮起" },
+          { "frame": 6, "pose": "halo 打开 3", "body": "完整圆 + 暖亮 halo + 中等 rays", "limbs": ["halo 暖亮", "rays 中等"], "contact": "稳定悬浮", "mustReadAs": "太阳稳定且 rays 开始张开" },
+          { "frame": 7, "pose": "settle 1", "body": "完整圆 + 稳定 halo + 长 rays", "limbs": ["halo 稳定", "rays 完整"], "contact": "稳定悬浮", "mustReadAs": "太阳进入稳定形态" },
+          { "frame": 8, "pose": "settle 2", "body": "完整圆 + 平衡 halo + 平和 rays", "limbs": ["halo 收敛", "rays 平和"], "contact": "稳定悬浮", "mustReadAs": "太阳即将定型" },
+          { "frame": 9, "pose": "final settle", "body": "完整圆 + 平和 halo + 暖和 rays，可作为整段的稳定背景", "limbs": ["halo 圆润", "rays 平和"], "contact": "稳定悬浮在 plate 上方 1/3", "mustReadAs": "太阳定型，可作为接下来三镜的稳定物象" }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "svg-light-beam 横光通过 SVG line stroke-dasharray + GSAP scaleX 渲染",
+      "svg-flat-line 一横通过 SVG rect 圆头圆尾 + GSAP 缩短加粗渲染",
+      "html-glyph-yi 大字 一 通过 HTML 文本节点 + GSAP opacity/scale 渲染",
+      "html-pinyin-yi 拼音 yī 通过 HTML 文本节点渲染",
+      "html-sentence-strip 完整句子条通过 HTML 文本节点渲染"
+    ]
+  },
+  "finalFrame": {
+    "description": "暖橙太阳静悬于 plate 上方 1/3；plate 中线展开一笔粗壮暖金色 一 大字（#5D4A36）；上方拼音 yī；下方完整四句话条；poster 状直接可读，是 P03 默认封面",
+    "mustBeReadableAsPoster": true
+  }
+}

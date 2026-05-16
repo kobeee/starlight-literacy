@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "water-settle-line",
+  "characterId": "yi-fresh-horizon-sync-v4",
+  "actor": "water",
+  "action": "settle-line",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.72
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 8,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "upper ripple",
+      "lower ripple",
+      "center line",
+      "sparkle"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "wide-ripple",
+        "contact": "波纹围绕水线展开。"
+      },
+      {
+        "frame": 1,
+        "pose": "ripple-narrows",
+        "contact": "波纹靠近中线。"
+      },
+      {
+        "frame": 2,
+        "pose": "line-emerges",
+        "contact": "上下波纹夹住中线。"
+      },
+      {
+        "frame": 3,
+        "pose": "almost-flat",
+        "contact": "中心线稳定。"
+      },
+      {
+        "frame": 4,
+        "pose": "flat-line",
+        "contact": "线条贴住水面。"
+      },
+      {
+        "frame": 5,
+        "pose": "warm-highlight",
+        "contact": "水线保持水平。"
+      },
+      {
+        "frame": 6,
+        "pose": "settled-line",
+        "contact": "线条稳定不晃。"
+      },
+      {
+        "frame": 7,
+        "pose": "hold-one-line",
+        "contact": "水线稳定。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "ripple-flattens",
+      "label": "ripples flatten into one horizontal line",
+      "region": {
+        "x": 28,
+        "y": 76,
+        "width": 200,
+        "height": 102
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 260,
+      "minMeanDelta": 6,
+      "notes": "The glyph-binding motion must happen inside the sprite frames before final HTML line growth."
+    },
+    {
+      "id": "sparkle-follow",
+      "label": "line sparkle follows the settling ripple",
+      "region": {
+        "x": 140,
+        "y": 70,
+        "width": 82,
+        "height": 82
+      },
+      "minChangedFramePairs": 4,
+      "minChangedPixels": 42,
+      "minMeanDelta": 3,
+      "notes": "Prevents the water sprite from being only a static line."
+    }
+  ],
+  "notes": "Water ripples flatten into a calm one-line cue, forming the memory action for 一."
+}

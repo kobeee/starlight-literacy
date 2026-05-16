@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-sunrise-line-v1",
+  "candidateStatus": "agent-pipeline-test",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "判断一个太阳和一条光线是否真正帮助 3-6 岁孩子记住一。",
+      "检查语义先行、字形绑定、final hold、儿童节奏和音画同步。",
+      "判断太阳光线记忆动作是否有足够产品吸引力，而不沦为装饰光效。"
+    ],
+    "genericHyperframesOwns": [
+      "装配 HTML/CSS/GSAP composition 并运行 lint 和 inspect。",
+      "渲染 mp4、提取 poster/final frame 和 review sheet。",
+      "检查 ffprobe metadata、音轨、帧率和输出路径。"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-sunrise-line-v1.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-sunrise-line-v1.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-sunrise-line-v1.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-sunrise-line-v1/meta.json",
+    "video": "tools/recognition-video/builds/yi-sunrise-line-v1/renders/yi-sunrise-line-v1.mp4",
+    "reviewSheet": "tools/recognition-video/builds/yi-sunrise-line-v1/renders/final-frames/yi-sunrise-line-v1-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-sunrise-line-v1/renders/final-frames/yi-sunrise-line-v1-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-sunrise-line-v1/renders/final-frames/yi-sunrise-line-v1-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.55,
+        "purpose": "语义入场",
+        "visibleAnchor": "一个太阳在清晨田野里慢慢升起。",
+        "readability": "pass",
+        "notes": "开场先建立“一个”，不先给字卡。"
+      },
+      {
+        "at": 2.25,
+        "purpose": "字形绑定",
+        "visibleAnchor": "太阳下方一条金色光线横向打开。",
+        "readability": "pass",
+        "notes": "“一条光线”和画面动作同拍。"
+      },
+      {
+        "at": 4.35,
+        "purpose": "平平一横",
+        "visibleAnchor": "多余光晕退去，只剩平平一横。",
+        "readability": "pass",
+        "notes": "光线由生活物抽象成字形线。"
+      },
+      {
+        "at": 6.42,
+        "purpose": "认字收束",
+        "visibleAnchor": "大字一、yi、就是一居中停住。",
+        "readability": "pass",
+        "notes": "最终帧安静，底部保留光线记忆回声。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "一个太阳升起后，只留下一条平平的晨光，晨光变成大字一。"
+    },
+    "actionReadability": [
+      {
+        "action": "sun rise-glow",
+        "verdict": "pass",
+        "reason": "太阳圆盘、下缘和光晕逐帧变化，能读成一个太阳慢慢升起。"
+      },
+      {
+        "action": "light line-unfold",
+        "verdict": "pass",
+        "reason": "金色光束在帧内从短到长、从发散到平直，是核心字形绑定动作。"
+      },
+      {
+        "action": "glyph closure",
+        "verdict": "pass",
+        "reason": "大字一在最后一句前入场，并与底部横线保持安静对照。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": true,
+    "officialAssetReadiness": "needs-polish",
+    "notes": [
+      "本轮为程序绘制的 agent animatic，用来验证新创意、提示词、音画同步和动作契约。",
+      "asset plan 已记录真实生图提示词；若要 official，需要用同构图真实暖阳绘本 plate/cutout 替换程序资产。",
+      "音频使用 macOS 本机 Tingting 离线 TTS 烘焙，cue 时间按脚本节奏手工写入 VTT 并进入 audio-plan；正式发布前仍建议替换为项目标准离线音色。"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 8.5,
+    "glyphBinding": 8.5,
+    "glyphAnchor": 8.2,
+    "pacing": 8.4,
+    "animationPerformance": 7.4,
+    "visualQuality": 6.8,
+    "childAppeal": 7.4,
+    "audioFit": 8,
+    "technicalCompliance": 8.7,
+    "officialReadiness": 5.7
+  },
+  "overallScore": 7.8,
+  "decision": "rendered-needs-iteration",
+  "blockers": [
+    "程序绘制占位资产不能作为 official 美术。",
+    "需要真实暖阳绘本 plate/cutout 或生图 spritesheet 替换后再冲 official。",
+    "正式发布前需人工听感复核，确认“一个太阳 / 一条光线”对 3-6 岁儿童自然清楚。"
+  ],
+  "nextActions": [
+    "按 asset plan 的 prompt 生产真实 sunrise plate、sun rise sprite 和 light-line sprite。",
+    "看 review sheet 确认太阳光线记忆动作是否比旧路径更适合作为一的产品标杆。",
+    "美术替换后重新跑 sprite validator、audio sync、HyperFrames render 和 --official 产品门禁。"
+  ]
+}

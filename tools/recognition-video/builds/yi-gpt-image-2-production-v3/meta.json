@@ -1,0 +1,32 @@
+{
+  "id": "yi-gpt-image-2-production-v3",
+  "name": "一 - GPT Image 2 Production V3 (Official)",
+  "characterId": "yi-gpt-image-2-production-v3",
+  "char": "一",
+  "status": "official",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 10,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-gpt-image-2-production-v3.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-gpt-image-2-production-v3.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v3.audio-plan.json",
+    "productReview": "tools/recognition-video/product-reviews/yi-gpt-image-2-production-v3.product-review.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-gpt-image-2-production-v3.mp4",
+    "webm": "renders/yi-gpt-image-2-production-v3.webm",
+    "poster": "renders/final-frames/yi-gpt-image-2-production-v3-poster.png",
+    "finalFrame": "renders/final-frames/yi-gpt-image-2-production-v3-final.png",
+    "reviewSheet": "renders/final-frames/yi-gpt-image-2-production-v3-review-sheet.png"
+  },
+  "prompt": "Use case: illustration-story\nAsset type: Starlight Literacy Unit-01 一 official recognition video, 1080x1920 portrait, 7.4s\nPrimary request: Render a calm picture-book micro lesson that binds the quantity meaning of 一 (one) to its glyph form. A warm orange sun rises from the pastoral horizon and its halo opens; one golden horizontal light beam unfolds left and right across the visual center line; the light settles into a single flat horizontal stroke; the stroke becomes the large character 一 with pinyin yī and the full four-phrase sentence underneath.\nScene/backdrop: warm pastoral morning field plate generated via codex-internal gpt-image-2 (Responses API image_generation tool); cream sky + soft meadow + clear horizon line.\nSubject: sun sprite (10-frame chroma-keyed rise-glow), inline SVG golden light beam, inline CSS flat horizontal stroke, HTML glyph 一 + pinyin yī + sentence strip.\nStyle/medium: premium children's picture-book gouache + colored-pencil; honey-gold + warm brown palette (#d8a13a + #5D4A36 + #faf3e3).\nComposition/framing: stage 1080x1920 portrait; sun upper-third stable; visual center line at ~57% height carries the light beam, the flat stroke, and the final 一; pinyin above, sentence strip below.\nTeaching purpose: hongen-micro-lesson v1 path — meaningAction (sun) → glyphBinding (light beam) → phraseBridge (就是一) → glyph closure (大字 一 + 拼音 + 完整句子) with explicit recognition pauses 1.638s / 1.736s / 2.359s.\nText policy: raster art contains no Chinese, no pinyin, no UI text; all glyph and pinyin rendered by HTML/CSS Source Han Serif SC; light beam and flat stroke are SVG/CSS vector elements reviewable by product.\nAudio: edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz, baked to 7.464s with 0.942s quiet tail for sustained glyph viewing.\nAvoid: ai-look gradients, neon, purple-blue tints, multiple suns, decorative reward effects, glyph crowding, jitter on the flat stroke.",
+  "note": "Official production v3 built on top of codex-internal gpt-image-2 (Responses API image_generation tool, opaque PNG + chroma-key sprite path). 2026-05-16 v37 extends original 7.4s lesson with a silent 米字格 + 笔顺示范段 (t=7.4-10s): tianzige cross-fades into an opaque mizige paper card with dashed `#` + `X` guides, then the LXGW WenKai 一 character writes itself left-to-right via clip-path. Audio padded with silence to 10s so video and audio tracks match length."
+}

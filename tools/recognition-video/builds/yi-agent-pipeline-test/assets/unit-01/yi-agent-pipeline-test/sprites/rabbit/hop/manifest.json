@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "rabbit-hop-agent-test",
+  "characterId": "yi-agent-pipeline-test",
+  "actor": "rabbit",
+  "action": "hop",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.78
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 8,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "后脚贴地向后压",
+      "前脚贴地但准备抬起",
+      "耳朵向后垂",
+      "后脚继续压地",
+      "前脚微微离地",
+      "耳朵开始滞后",
+      "后腿伸开",
+      "前脚收向身体",
+      "耳朵向后甩",
+      "后腿向后伸",
+      "前脚收起",
+      "耳朵明显滞后",
+      "后腿开始收回",
+      "前脚仍收起",
+      "耳朵追上身体",
+      "后脚向下找地",
+      "前脚伸向落点",
+      "耳朵向前回摆",
+      "后脚重新贴地",
+      "前脚贴地",
+      "耳朵向前弹",
+      "后脚稳定",
+      "前脚稳定",
+      "耳朵回到自然角度"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "crouch",
+        "contact": "两只脚都接触地面。"
+      },
+      {
+        "frame": 1,
+        "pose": "push-prep",
+        "contact": "后脚仍接触地面，前脚轻抬。"
+      },
+      {
+        "frame": 2,
+        "pose": "takeoff",
+        "contact": "脚离开地面。"
+      },
+      {
+        "frame": 3,
+        "pose": "air-up",
+        "contact": "无脚接触地面。"
+      },
+      {
+        "frame": 4,
+        "pose": "air-peak",
+        "contact": "无脚接触地面。"
+      },
+      {
+        "frame": 5,
+        "pose": "landing-reach",
+        "contact": "脚即将落地。"
+      },
+      {
+        "frame": 6,
+        "pose": "squash-landing",
+        "contact": "两只脚接触地面。"
+      },
+      {
+        "frame": 7,
+        "pose": "recover",
+        "contact": "两只脚稳定接触地面。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "rabbit-foot-motion",
+      "label": "rabbit feet and legs",
+      "region": {
+        "x": 28,
+        "y": 142,
+        "width": 178,
+        "height": 86
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 340,
+      "minMeanDelta": 9,
+      "notes": "Catches fake hop sprites where the body moves but feet keep the same pose."
+    },
+    {
+      "id": "rabbit-ear-lag",
+      "label": "rabbit ear lag",
+      "region": {
+        "x": 84,
+        "y": 34,
+        "width": 112,
+        "height": 84
+      },
+      "minChangedFramePairs": 4,
+      "minChangedPixels": 120,
+      "minMeanDelta": 5,
+      "notes": "Ear lag should support the jump instead of staying pasted to the body."
+    }
+  ],
+  "notes": "Procedural transparent cutout sequence for agent-pipeline-test; pose changes are baked into frames."
+}

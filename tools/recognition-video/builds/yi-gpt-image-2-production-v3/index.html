@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - GPT Image 2 Production V3</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    /* Local kaiti font for the big 一 glyph — HyperFrames font injection
+       does not map any kaiti family, so we embed a base64-inlined woff2
+       subset of LXGW WenKai (open-source screen-optimized Chinese kaiti)
+       containing only the characters used in this composition. Inlining
+       sidesteps HyperFrames' font-mapping pass and asset-loading races. */
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("data:font/woff2;base64,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") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #faf3e3;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #5D4A36;
+    }
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #faf3e3;
+    }
+    .clip { position: absolute; }
+    .plate {
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+    }
+    .plate-veil {
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background: #fffaee;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sun-wrap {
+      position: absolute;
+      left: 360px;
+      top: 320px;
+      width: 360px;
+      height: 360px;
+      opacity: 0;
+      filter: drop-shadow(0 22px 26px rgba(120, 78, 22, 0.18));
+    }
+    .sprite-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+    }
+
+    .beam-div {
+      position: absolute;
+      left: 180px;
+      top: 1086px;
+      width: 720px;
+      height: 28px;
+      border-radius: 14px;
+      background:
+        radial-gradient(ellipse 50% 100% at 50% 50%,
+          rgba(255, 245, 210, 1) 0%,
+          rgba(255, 220, 130, 0.95) 25%,
+          rgba(240, 180, 70, 0.7) 55%,
+          rgba(216, 161, 58, 0.25) 80%,
+          rgba(216, 161, 58, 0) 100%);
+      box-shadow:
+        0 0 40px rgba(255, 200, 90, 0.55),
+        0 0 80px rgba(255, 180, 60, 0.25);
+      transform-origin: 50% 50%;
+      transform: scaleX(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .flat-line {
+      position: absolute;
+      left: 160px;
+      top: 1081px;
+      width: 760px;
+      height: 38px;
+      border-radius: 19px;
+      background: linear-gradient(180deg, #f0c065 0%, #d8a13a 55%, #b78420 100%);
+      box-shadow:
+        0 0 36px rgba(216, 161, 58, 0.32),
+        0 14px 24px rgba(120, 78, 22, 0.12);
+      transform-origin: 50% 50%;
+      transform: scaleX(0);
+      opacity: 0;
+    }
+
+    /* Tianzige (田字格) — semi-transparent warm-brown grid that
+       frames the kaiti 一 glyph. Outer frame at 32% alpha, inner
+       cross at 22% alpha so the frame reads more clearly than the
+       midlines without obscuring the pastoral plate behind. */
+    .tianzige {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      border: 3px solid rgba(93, 74, 54, 0.45);
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: 0 2px 12px rgba(80, 50, 20, 0.08);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .tianzige::before,
+    .tianzige::after {
+      content: "";
+      position: absolute;
+      background: rgba(93, 74, 54, 0.32);
+    }
+    /* horizontal midline */
+    .tianzige::before {
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1.5px;
+      transform: translateY(-0.75px);
+    }
+    /* vertical midline */
+    .tianzige::after {
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1.5px;
+      transform: translateX(-0.75px);
+    }
+
+    /* The big final 一 glyph is rendered with LXGW WenKai (kaiti)
+       loaded via @font-face above. The flex container is sized to
+       match the tianzige so the character is geometrically centered
+       inside the grid. */
+    .glyph {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 520px;
+      line-height: 1;
+      color: #5D4A36;
+      text-shadow: 0 6px 14px rgba(80, 50, 20, 0.12);
+      opacity: 0;
+      transform-origin: 50% 50%;
+      transform: scale(0.94);
+    }
+
+    .pinyin {
+      position: absolute;
+      left: 0;
+      top: 720px;
+      width: 1080px;
+      text-align: center;
+      font-size: 110px;
+      line-height: 1;
+      font-weight: 700;
+      color: #a87f2a;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      letter-spacing: 10px;
+      opacity: 0;
+    }
+
+    .sentence-strip {
+      position: absolute;
+      left: 0;
+      top: 1500px;
+      width: 1080px;
+      text-align: center;
+      font-size: 52px;
+      line-height: 1.3;
+      font-weight: 600;
+      color: #6e5a3f;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      letter-spacing: 6px;
+      opacity: 0;
+    }
+    .sentence-strip .dot {
+      display: inline-block;
+      width: 18px;
+      text-align: center;
+      color: #b89a6a;
+    }
+
+    /* Mizige (米字格) — opaque practice-paper card that overlays the
+       田字格 in the final segment. Cream paper background + bold black
+       outer frame + drop shadow gives the impression of a physical
+       practice sheet pinned onto the pastoral plate (background is
+       preserved around the edges for visual continuity). */
+    .mizige {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      background: rgba(255, 250, 240, 0.96);
+      border: 4px solid #2d2d2d;
+      border-radius: 8px;
+      box-shadow:
+        0 22px 48px rgba(40, 28, 12, 0.28),
+        0 6px 14px rgba(40, 28, 12, 0.14);
+      opacity: 0;
+      transform-origin: 50% 50%;
+      transform: scale(0.95);
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .mizige-guides {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Stroke-order writing demo: same kaiti 一 as .glyph but rendered
+       black on the cream paper and animated via clip-path to simulate
+       left-to-right brush writing. Sits on top of .mizige at the same
+       geometric box. */
+    .glyph-write {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 540px;
+      line-height: 1;
+      color: #2d2d2d;
+      opacity: 0;
+      pointer-events: none;
+      clip-path: inset(0 100% 0 0);
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-gpt-image-2-production-v3"
+       class="stage"
+       data-composition-id="yi-gpt-image-2-production-v3"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="10">
+
+    <img id="morning-field-plate"
+         class="clip plate"
+         data-start="0"
+         data-duration="10"
+         data-track-index="0"
+         src="assets/unit-01/yi-gpt-image-2-production-v3/plates/morning-field-plate.png"
+         alt="" />
+
+    <div id="plate-veil"
+         class="clip plate-veil"
+         data-start="0"
+         data-duration="10"
+         data-track-index="1"
+         aria-hidden="true"></div>
+
+    <div id="sun-sprite"
+         class="clip sun-wrap"
+         data-start="0"
+         data-duration="10"
+         data-track-index="2"
+         aria-label="一个太阳"
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-000.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-001.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-002.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-003.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-004.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-005.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-006.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-007.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-008.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v3/sprites/sun/rise-glow/frame-009.png" alt="" />
+    </div>
+
+    <div id="light-beam"
+         class="clip beam-div"
+         data-start="1.638"
+         data-duration="1.667"
+         data-track-index="3"
+         aria-label="一条光线"
+         aria-hidden="true"></div>
+
+    <div id="flat-line-rect"
+         class="clip flat-line"
+         data-start="3.305"
+         data-duration="4.095"
+         data-track-index="4"
+         aria-label="平平一横"></div>
+
+    <div id="glyph-pinyin"
+         class="clip pinyin"
+         data-start="5.041"
+         data-duration="4.959"
+         data-track-index="5"
+         aria-hidden="true">yī</div>
+
+    <div id="tianzige"
+         class="clip tianzige"
+         data-start="3.305"
+         data-duration="4.395"
+         data-track-index="6"
+         aria-hidden="true"></div>
+
+    <div id="glyph-yi"
+         class="clip glyph"
+         data-start="5.041"
+         data-duration="2.659"
+         data-track-index="7"
+         aria-label="就是一">一</div>
+
+    <div id="sentence-strip"
+         class="clip sentence-strip"
+         data-start="5.5"
+         data-duration="4.5"
+         data-track-index="8"
+         aria-hidden="true">一个太阳<span class="dot">·</span>一条光线<span class="dot">·</span>平平一横<span class="dot">·</span>就是一</div>
+
+    <div id="mizige"
+         class="clip mizige"
+         data-start="7.7"
+         data-duration="2.3"
+         data-track-index="9"
+         aria-hidden="true">
+      <svg class="mizige-guides" viewBox="0 0 560 560" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="280" x2="560" y2="280" stroke="#2d2d2d" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.55"/>
+        <line x1="280" y1="0" x2="280" y2="560" stroke="#2d2d2d" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.55"/>
+        <line x1="0" y1="0" x2="560" y2="560" stroke="#2d2d2d" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.4"/>
+        <line x1="560" y1="0" x2="0" y2="560" stroke="#2d2d2d" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <div id="glyph-write"
+         class="clip glyph-write"
+         data-start="8.2"
+         data-duration="1.8"
+         data-track-index="10"
+         aria-label="一字笔顺示范">一</div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="10"
+           data-track-index="20"
+           src="assets/audio/yi-gpt-image-2-production-v3-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const scaleX = parts.scaleX == null ? scale : parts.scaleX;
+      const scaleY = parts.scaleY == null ? scale : parts.scaleY;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scaleX.toFixed(3) + "," + scaleY.toFixed(3) + ")";
+      });
+    };
+
+    const showSpriteFrame = (selector, time, start, length, frameCount) => {
+      const frames = gsap.utils.toArray(selector + " .sprite-frame");
+      const t = range(time, start, length);
+      const idx = Math.min(frameCount - 1, Math.floor(t * frameCount));
+      frames.forEach((frame, frameIndex) => {
+        frame.style.opacity = frameIndex === idx ? "1" : "0";
+      });
+    };
+
+    // HyperFrames drives `timeline.totalTime(t, false)` once per captured
+    // frame. With a 0-duration timeline (no real tweens, only this `.add`
+    // callback at position 0), GSAP's `totalTime` setter forces a full
+    // re-render on every call because of the `!this._dur && totalTime`
+    // branch — which fires this callback on every seek. The composition
+    // duration is driven by the root `data-duration="10"`, so HyperFrames
+    // ticks from 0 → 10s independent of the GSAP timeline's own duration.
+    // Do NOT add a dummy `.to(...)` to extend timeline duration; that
+    // switches GSAP to crossing-based semantics and the callback only fires
+    // once at t=0.
+    timeline.add((time) => {
+      // sun container fade in + rise
+      const sunFadeIn = ease(range(time, 0.05, 0.35));
+      // sun dims to 0.55 during flat-line shot (brief: 0.55) and holds through glyph
+      const sunDim = clamp(1 - 0.45 * ease(range(time, 3.305, 0.5)));
+      setOpacity("#sun-sprite", sunFadeIn * sunDim);
+
+      // sun rise: y translates from +60 to 0 in the first 1.0s, then breathes slightly
+      const riseProgress = ease(range(time, 0.05, 1.0));
+      const breathe = Math.sin((time - 1.0) * 1.8) * 4 * clamp(range(time, 1.0, 0.4));
+      setTransform("#sun-sprite", {
+        x: 0,
+        y: 60 * (1 - riseProgress) + breathe,
+        scale: 0.96 + 0.04 * riseProgress,
+      });
+
+      // sun sprite frame swap: 10 frames over 1.0s (0.05 - 1.05), then hold last
+      showSpriteFrame("#sun-sprite", time, 0.05, 1.0, 10);
+
+      // ------- SHOT 2 (1.638 - 3.305): golden light beam opens horizontally -------
+      // beam fades in quickly then scaleX 0 -> 1 from center
+      const beamIn = ease(range(time, 1.638, 0.24));
+      // beam fades out as it morphs into flat-line at shot 3 start
+      const beamOut = ease(range(time, 3.305, 0.35));
+      setOpacity("#light-beam", beamIn * (1 - beamOut));
+      const beamScale = easeInOut(range(time, 1.638, 1.1));
+      // gentle pulse after fully open
+      const beamPulse = 1 + 0.015 * Math.sin((time - 2.7) * 3.2) * clamp(range(time, 2.7, 0.4));
+      setTransform("#light-beam", {
+        scaleX: beamScale * beamPulse,
+        scaleY: 1,
+      });
+
+      // ------- SHOT 3 (3.305 - 5.041): light settles as solid flat horizontal stroke -------
+      // plate veil fades in to 0.18 to dim background
+      const veilLevel = 0.18 * ease(range(time, 3.305, 0.5));
+      setOpacity("#plate-veil", veilLevel);
+
+      // flat-line rect fades in and scales from 0 -> full width
+      const flatIn = ease(range(time, 3.305, 0.45));
+      // flat-line fully fades as the big 一 glyph takes over the visual center
+      const flatHandoff = ease(range(time, 5.2, 0.55));
+      setOpacity("#flat-line-rect", flatIn * (1 - flatHandoff));
+      const flatScaleX = easeInOut(range(time, 3.305, 0.8));
+      setTransform("#flat-line-rect", {
+        scaleX: flatScaleX,
+        scaleY: 1,
+      });
+
+      // ------- SHOT 3.5 (3.3 - 7.4): tianzige (田字格) fades in -------
+      // Grid fades to 0.85 opacity as the flat-line stabilizes, so by
+      // the time the kaiti 一 appears the writing frame is already there.
+      // In SHOT 5 (>=7.4s) the tianzige cross-fades into mizige.
+      const gridIn = ease(range(time, 3.3, 0.7));
+      const tianzigeHandoff = ease(range(time, 7.4, 0.3));
+      setOpacity("#tianzige", gridIn * 0.85 * (1 - tianzigeHandoff));
+
+      // ------- SHOT 4 (5.041 - 7.4): glyph closure -------
+      // The kaiti 一 fades in and gently scales from 0.94 -> 1.0 inside
+      // the tianzige. The flat-line dims out simultaneously (see above)
+      // so visually the golden stroke "settles into" the calligraphic 一.
+      // The brown kaiti 一 also fades out in SHOT 5 (>=7.4s) so the
+      // black stroke-order demo can take over.
+      const glyphIn = ease(range(time, 5.041, 0.55));
+      setOpacity("#glyph-yi", glyphIn * (1 - tianzigeHandoff));
+      const glyphScale = 0.94 + 0.06 * glyphIn;
+      setTransform("#glyph-yi", {
+        x: 0,
+        y: 0,
+        scale: glyphScale,
+      });
+
+      // pinyin fades in slightly after glyph; held through SHOT 5 to
+      // give the writing demo persistent phonetic context.
+      const pinyinIn = ease(range(time, 5.25, 0.45));
+      setOpacity("#glyph-pinyin", pinyinIn);
+      setTransform("#glyph-pinyin", {
+        x: 0,
+        y: 10 * (1 - pinyinIn),
+        scale: 1,
+      });
+
+      // sentence strip fades in last, at 0.85 opacity; held through SHOT 5
+      // so the four-part jingle stays on screen during the writing demo.
+      const sentenceIn = ease(range(time, 5.5, 0.55));
+      setOpacity("#sentence-strip", sentenceIn * 0.85);
+      setTransform("#sentence-strip", {
+        x: 0,
+        y: 14 * (1 - sentenceIn),
+        scale: 1,
+      });
+
+      // ------- SHOT 5 (7.4 - 10.0): mizige paper card + stroke-order writing -------
+      // 7.4 - 7.7s: tianzige + brown 一 cross-fade out (above).
+      // 7.7 - 8.2s: mizige paper card fades in and scales 0.95 -> 1.0
+      //             over the same geometric box as tianzige.
+      const mizigeIn = ease(range(time, 7.7, 0.5));
+      setOpacity("#mizige", mizigeIn);
+      setTransform("#mizige", {
+        x: 0,
+        y: 0,
+        scale: 0.95 + 0.05 * mizigeIn,
+      });
+
+      // 8.2 - 9.2s: black kaiti 一 writes itself left-to-right via
+      //             clip-path inset, simulating a single brush stroke.
+      //             Opacity ramps up quickly at the start so the first
+      //             pixels of the stroke are visible immediately.
+      const writeProgress = easeInOut(range(time, 8.2, 1.0));
+      const writeFade = ease(range(time, 8.2, 0.12));
+      setOpacity("#glyph-write", writeFade);
+      const insetRight = (1 - writeProgress) * 100;
+      setStyle("#glyph-write", "clipPath", "inset(0 " + insetRight.toFixed(2) + "% 0 0)");
+      setStyle("#glyph-write", "webkitClipPath", "inset(0 " + insetRight.toFixed(2) + "% 0 0)");
+
+      // 9.2 - 10.0s: hold the complete frame (mizige + black 一 + pinyin
+      //              + sentence strip) so the poster-quality final frame
+      //              reads cleanly for ~0.8s.
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-gpt-image-2-production-v3"] = timeline;
+  </script>
+</body>
+</html>

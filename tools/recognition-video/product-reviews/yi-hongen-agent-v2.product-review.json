@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-hongen-agent-v2",
+  "candidateStatus": "agent-pipeline-test",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "选择星光识字的教学钩子和儿童记忆动作",
+      "判断字义、字形、字音是否真正绑定",
+      "复核关键帧是否像正式儿童内容而不是测试素材",
+      "决定是否值得进入 official 候选"
+    ],
+    "genericHyperframesOwns": [
+      "按已批准素材和分镜装配 HTML/CSS/GSAP composition",
+      "执行 HyperFrames lint、inspect 和 render",
+      "输出 mp4、poster、final frame 和 metadata",
+      "执行 ffprobe、音轨和媒体结构校验"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-hongen-agent-v2.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-hongen-agent-v2.asset-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-hongen-agent-v2/meta.json",
+    "video": "tools/recognition-video/builds/yi-hongen-agent-v2/renders/yi-hongen-agent-v2.mp4",
+    "reviewSheet": "tools/recognition-video/builds/yi-hongen-agent-v2/renders/final-frames/yi-hongen-agent-v2-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-hongen-agent-v2/renders/final-frames/yi-hongen-agent-v2-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-hongen-agent-v2/renders/final-frames/yi-hongen-agent-v2-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.4,
+        "purpose": "语义开场和小手引导",
+        "visibleAnchor": "横向小路和小手出现",
+        "readability": "partial",
+        "notes": "不再是旧兔子第一视觉，但画面仍像程序测试稿。"
+      },
+      {
+        "at": 1.2,
+        "purpose": "手指描一横",
+        "visibleAnchor": "小手沿小路描线",
+        "readability": "partial",
+        "notes": "动作方向成立，但老师带孩子看的感觉不够自然。"
+      },
+      {
+        "at": 2.7,
+        "purpose": "数量复现",
+        "visibleAnchor": "一个苹果落下",
+        "readability": "pass",
+        "notes": "数量一清楚，但苹果和字形主线连接偏弱。"
+      },
+      {
+        "at": 4.5,
+        "purpose": "字形绑定",
+        "visibleAnchor": "木棒滚平成横线",
+        "readability": "partial",
+        "notes": "动作有变化，但顿悟感不足。"
+      },
+      {
+        "at": 6.3,
+        "purpose": "最终大字收束",
+        "visibleAnchor": "大字一、yi、都是一",
+        "readability": "partial",
+        "notes": "最终可读，但像教学卡片，记忆瞬间不够强。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": false,
+      "description": "缺少一个孩子能立刻记住的强收束瞬间；目前更像小路、苹果、木棒三张卡片顺序出现。"
+    },
+    "actionReadability": [
+      {
+        "action": "小手描一横",
+        "verdict": "partial",
+        "reason": "能看出描线方向，但手势表演和引导停顿仍然机械。"
+      },
+      {
+        "action": "苹果数量复现",
+        "verdict": "pass",
+        "reason": "一个苹果的数量含义清楚。"
+      },
+      {
+        "action": "木棒变成一横",
+        "verdict": "partial",
+        "reason": "木棒角度变化成立，但没有形成强烈的字形顿悟。"
+      },
+      {
+        "action": "都是一收束",
+        "verdict": "partial",
+        "reason": "最终帧清楚，但前三个物件到汉字一的统一感仍弱。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": true,
+    "officialAssetReadiness": "blocked",
+    "notes": [
+      "plate、小手、苹果和木棒由脚本图形生成，适合验证管线，不适合 official 儿童内容。",
+      "缺少正式插画关键帧、动作导演和风格前置 review。",
+      "图片不含文字这一点正确，但美术完成度不足。"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 7.5,
+    "glyphBinding": 6.8,
+    "glyphAnchor": 6.5,
+    "pacing": 7.0,
+    "animationPerformance": 4.8,
+    "visualQuality": 6.2,
+    "childAppeal": 5.5,
+    "audioFit": 6.0,
+    "technicalCompliance": 8.5,
+    "officialReadiness": 5.5
+  },
+  "overallScore": 6.3,
+  "decision": "rendered-needs-iteration",
+  "blockers": [
+    "程序图形素材不能作为 official 资产。",
+    "动作可读性只有 partial，缺少强记忆瞬间。",
+    "音频复用旧验证音频，尚未按新版动作重配。"
+  ],
+  "nextActions": [
+    "先产 3-6 张正式关键帧 review sheet，静帧通过后再进入 HyperFrames。",
+    "把主线收窄为小手发现一横、木棒躺平成一横、大字一收束，弱化苹果旁支。",
+    "用真实插画或 cutout 序列替换程序图形资产。",
+    "为新版动作重新规划 baked narration 和停顿。"
+  ]
+}

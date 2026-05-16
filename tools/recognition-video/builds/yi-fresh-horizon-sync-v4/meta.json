@@ -1,0 +1,32 @@
+{
+  "id": "yi-fresh-horizon-sync-v4",
+  "name": "一 - Fresh Horizon Sync V4",
+  "characterId": "yi-fresh-horizon-sync-v4",
+  "char": "一",
+  "status": "agent-pipeline-test",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 7.2,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-fresh-horizon-sync-v4.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-fresh-horizon-sync-v4.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-fresh-horizon-sync-v4.audio-plan.json",
+    "productReview": "tools/recognition-video/product-reviews/yi-fresh-horizon-sync-v4.product-review.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-fresh-horizon-sync-v4/sprites/paper-boat/glide-line/manifest.json",
+      "tools/recognition-video/assets/unit-01/yi-fresh-horizon-sync-v4/sprites/water/settle-line/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-fresh-horizon-sync-v4.mp4",
+    "webm": "renders/yi-fresh-horizon-sync-v4.webm",
+    "poster": "renders/final-frames/yi-fresh-horizon-sync-v4-poster.png",
+    "finalFrame": "renders/final-frames/yi-fresh-horizon-sync-v4-final.png",
+    "reviewSheet": "renders/final-frames/yi-fresh-horizon-sync-v4-review-sheet.png"
+  },
+  "note": "Fresh non-official sync test. It avoids previous rabbit/hand/apple/stick ideas, uses a paper-boat/horizon-water memory action, and locks shot timing to Edge TTS subtitle cues in a 7.2s page-friendly duration."
+}

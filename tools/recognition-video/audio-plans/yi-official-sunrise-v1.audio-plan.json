@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-official-sunrise-v1",
+  "script": "一个太阳。一条光线。平平一横。就是一。",
+  "voice": {
+    "provider": "macos-say",
+    "voice": "Tingting",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "使用本机 Tingting 离线 TTS 烘焙，避免外部服务依赖；节奏按儿童慢 cue 手工对齐并进入 audio-plan。"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-character-card/v1",
+    "referenceProduct": "洪恩识字汉字卡",
+    "referenceDurationSeconds": {
+      "min": 18,
+      "max": 23,
+      "example": 19
+    },
+    "referenceEvidence": "基础单字卡常用 18-23 秒完整带读；星光 P03 是页面内短片，只取慢 cue、强记忆动作和 final hold。",
+    "starlightTargetSeconds": 7.4,
+    "starlightDecision": "这版保留 4 个儿童可复述 cue，控制在 7.4 秒，避免快闪，同时不占满 P03 页面节奏。"
+  },
+  "targetDurationSeconds": 7.4,
+  "rawTtsAudioDurationSeconds": 4.598,
+  "bakedAudioDurationSeconds": 7.471,
+  "quietAfterLastCueSeconds": 0.6800000000000006,
+  "cues": [
+    {
+      "id": "sun",
+      "shotId": "sun-meaning",
+      "text": "一个太阳",
+      "audioStart": 0.1,
+      "audioEnd": 1.75,
+      "visualStart": 0,
+      "visualEnd": 2.05
+    },
+    {
+      "id": "light",
+      "shotId": "light-binding",
+      "text": "一条光线",
+      "audioStart": 1.72,
+      "audioEnd": 3.42,
+      "visualStart": 1.72,
+      "visualEnd": 3.72
+    },
+    {
+      "id": "flat",
+      "shotId": "flat-line",
+      "text": "平平一横",
+      "audioStart": 3.42,
+      "audioEnd": 5.12,
+      "visualStart": 3.36,
+      "visualEnd": 5.42
+    },
+    {
+      "id": "close",
+      "shotId": "glyph-close",
+      "text": "就是一",
+      "audioStart": 5.12,
+      "audioEnd": 6.72,
+      "visualStart": 5.06,
+      "visualEnd": 7.4
+    }
+  ],
+  "syncRules": [
+    "每个 visualStart 不晚于对应 audioStart 0.12 秒以上。",
+    "每句画面主物覆盖对应 audioStart 到 audioEnd。",
+    "glyph-close 从最后一句开始前入场，确保听到“就是一”时已经看到大字收束。",
+    "末尾至少 0.6 秒不再新增信息，让孩子回看大字一。"
+  ],
+  "outputs": {
+    "audio": "tools/recognition-video/builds/yi-official-sunrise-v1/assets/audio/yi-official-sunrise-v1-narration.mp3",
+    "rawAudio": "tools/recognition-video/builds/yi-official-sunrise-v1/assets/audio/yi-official-sunrise-v1-narration-raw.aiff",
+    "subtitles": "tools/recognition-video/builds/yi-official-sunrise-v1/assets/audio/yi-official-sunrise-v1-narration.vtt"
+  }
+}

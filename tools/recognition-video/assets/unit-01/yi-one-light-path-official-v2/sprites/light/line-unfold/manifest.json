@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "light-line-unfold",
+  "characterId": "yi-one-light-path-official-v2",
+  "actor": "light",
+  "action": "line-unfold",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.72
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#00ff00"
+  },
+  "minFrames": 8,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "left glow",
+      "center beam",
+      "right tip",
+      "dust sparkles"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "small-gleam",
+        "contact": "贴着地平线。"
+      },
+      {
+        "frame": 1,
+        "pose": "line-opens",
+        "contact": "保持水平。"
+      },
+      {
+        "frame": 2,
+        "pose": "longer-line",
+        "contact": "仍然贴着水平线。"
+      },
+      {
+        "frame": 3,
+        "pose": "tip-advances",
+        "contact": "线条稳定。"
+      },
+      {
+        "frame": 4,
+        "pose": "nearly-flat",
+        "contact": "中心线水平。"
+      },
+      {
+        "frame": 5,
+        "pose": "warm-line",
+        "contact": "水平不晃。"
+      },
+      {
+        "frame": 6,
+        "pose": "settled-line",
+        "contact": "可对照汉字一。"
+      },
+      {
+        "frame": 7,
+        "pose": "hold-one-line",
+        "contact": "一条线稳定。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "light-line-grows",
+      "label": "one light line grows horizontally",
+      "region": {
+        "x": 22,
+        "y": 108,
+        "width": 214,
+        "height": 44
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 340,
+      "minMeanDelta": 6,
+      "notes": "The beam must open across the frame in the actual sprite frames."
+    },
+    {
+      "id": "line-tip-moves",
+      "label": "right tip advances",
+      "region": {
+        "x": 120,
+        "y": 94,
+        "width": 112,
+        "height": 74
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 120,
+      "minMeanDelta": 4,
+      "notes": "The advancing tip makes it readable as one line being drawn."
+    }
+  ],
+  "notes": "Golden morning light unfolds into one flat horizontal stroke."
+}

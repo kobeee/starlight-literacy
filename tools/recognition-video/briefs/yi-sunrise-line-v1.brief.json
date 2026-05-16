@@ -1,0 +1,391 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-sunrise-line-v1",
+  "character": "一",
+  "pinyin": "yi",
+  "unitId": "unit-01",
+  "duration": 7.4,
+  "fps": 24,
+  "teachingHook": "一个太阳慢慢升起，一条金色光线铺平成一横，孩子把“一个”和“平平一横”同时记住。",
+  "narration": {
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "voice": "macOS Tingting local TTS, rate 145wpm",
+    "cues": [
+      {
+        "at": 0.1,
+        "text": "一个太阳"
+      },
+      {
+        "at": 1.72,
+        "text": "一条光线"
+      },
+      {
+        "at": 3.42,
+        "text": "平平一横"
+      },
+      {
+        "at": 5.12,
+        "text": "就是一"
+      }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "sun-meaning",
+      "start": 0,
+      "duration": 1.95,
+      "purpose": "语义先行：先看见一个清楚的太阳，而不是先看字卡。",
+      "description": "清晨的田野很安静，画面中只有一个太阳慢慢升起，孩子先建立“一个”的数量感。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "sun-rise-glow"
+      ]
+    },
+    {
+      "id": "light-binding",
+      "start": 1.72,
+      "duration": 1.88,
+      "purpose": "字形绑定：太阳拉出一条光线，光线天然就是横向的。",
+      "description": "金色光线从太阳下方慢慢打开，沿着地平线铺开，孩子看到“一条光线”。",
+      "requiredAssets": [
+        "light-line-unfold",
+        "html-horizon-guide"
+      ]
+    },
+    {
+      "id": "flat-line",
+      "start": 3.38,
+      "duration": 1.9,
+      "purpose": "强调一横：复杂晨光收束成一条平平的横线。",
+      "description": "多余光晕退去，只留一条稳定、平平、温暖的横线，准备对照汉字一。",
+      "requiredAssets": [
+        "html-memory-line"
+      ]
+    },
+    {
+      "id": "glyph-close",
+      "start": 5.06,
+      "duration": 2.34,
+      "purpose": "认字收束：从生活光线回到大字一。",
+      "description": "大字一、yi 和就是一出现，底部保留太阳光线作为记忆回声，最终帧安静可读。",
+      "requiredAssets": [
+        "html-glyph",
+        "html-memory-line"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "sun-meaning",
+      "description": "先让孩子看到一个太阳，语义动作早于大字出现。",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-binding",
+      "description": "一个太阳拉出一条光线，光线铺平成平平一横，再收束到汉字一。",
+      "boundElements": [
+        "一个太阳",
+        "一条光线",
+        "平平一横",
+        "汉字一"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "glyph-close",
+      "phrase": "就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "一个太阳。一条光线。平平一横。就是一。",
+      "source": "narration.script"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "sun-meaning",
+        "target": "一个太阳",
+        "seconds": 1.55
+      },
+      {
+        "shotId": "light-binding",
+        "target": "一条光线",
+        "seconds": 1.55
+      },
+      {
+        "shotId": "flat-line",
+        "target": "平平一横",
+        "seconds": 1.5
+      },
+      {
+        "shotId": "glyph-close",
+        "target": "大字一和就是一",
+        "seconds": 2.3
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "meaning-shape-repeat",
+      "description": "太阳、光线、一横三次递进复现一，最后用大字完成确认。"
+    },
+    "writingPosition": "late-or-omitted",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6",
+    "minimumCueHoldSeconds": 1.45,
+    "minimumFinalHoldSeconds": 2.3,
+    "maximumSceneChangesPerSecond": 0.58,
+    "productSurface": "P03 认字页竖屏手机教学舞台；节奏像老师带孩子慢慢看，不做快闪演示。"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "sun",
+        "action": "rise-glow",
+        "reason": "太阳升起是语义钩子，必须有逐帧上升、光晕和边缘变化。",
+        "minFrames": 10,
+        "requiredMotionParts": [
+          "sun disk",
+          "warm halo",
+          "lower rim",
+          "morning rays"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "first-glow",
+            "body": "太阳下缘刚露出地平线，光晕很浅。",
+            "limbs": [
+              "sun disk",
+              "warm halo",
+              "lower rim"
+            ],
+            "contact": "太阳贴近地平线。",
+            "mustReadAs": "一个太阳要出来。"
+          },
+          {
+            "frame": 1,
+            "pose": "rim-rises",
+            "body": "太阳上半圆更清楚，下缘仍被晨雾遮住。",
+            "limbs": [
+              "sun disk",
+              "lower rim",
+              "warm halo"
+            ],
+            "contact": "下缘压在地平线上。",
+            "mustReadAs": "太阳慢慢升。"
+          },
+          {
+            "frame": 2,
+            "pose": "half-sun",
+            "body": "太阳露出半个圆，光晕变大。",
+            "limbs": [
+              "sun disk",
+              "warm halo",
+              "morning rays"
+            ],
+            "contact": "太阳下缘贴近地平线。",
+            "mustReadAs": "一个圆圆太阳。"
+          },
+          {
+            "frame": 3,
+            "pose": "soft-rise",
+            "body": "太阳继续升起，边缘变亮。",
+            "limbs": [
+              "sun disk",
+              "warm halo",
+              "lower rim"
+            ],
+            "contact": "离地平线一点点。",
+            "mustReadAs": "太阳在动。"
+          },
+          {
+            "frame": 4,
+            "pose": "halo-opens",
+            "body": "光晕向外呼吸，晨光开始铺开。",
+            "limbs": [
+              "warm halo",
+              "morning rays",
+              "sun disk"
+            ],
+            "contact": "太阳稳定上升。",
+            "mustReadAs": "清晨变亮。"
+          },
+          {
+            "frame": 5,
+            "pose": "ray-begins",
+            "body": "太阳下方出现细细的金色光。",
+            "limbs": [
+              "morning rays",
+              "lower rim",
+              "warm halo"
+            ],
+            "contact": "光从太阳下方出来。",
+            "mustReadAs": "准备出现一条线。"
+          },
+          {
+            "frame": 6,
+            "pose": "full-disk",
+            "body": "太阳接近完整圆形，光晕温暖。",
+            "limbs": [
+              "sun disk",
+              "warm halo"
+            ],
+            "contact": "太阳离开地平线。",
+            "mustReadAs": "一个太阳。"
+          },
+          {
+            "frame": 7,
+            "pose": "steady-sun",
+            "body": "太阳停得更稳，光线方向变平。",
+            "limbs": [
+              "sun disk",
+              "morning rays"
+            ],
+            "contact": "光线朝横向铺开。",
+            "mustReadAs": "光变成线。"
+          },
+          {
+            "frame": 8,
+            "pose": "line-cue",
+            "body": "太阳保持安静，下面的横向光更明显。",
+            "limbs": [
+              "morning rays",
+              "lower rim"
+            ],
+            "contact": "横向光贴着地平线。",
+            "mustReadAs": "一条光线。"
+          },
+          {
+            "frame": 9,
+            "pose": "hold-sun",
+            "body": "太阳安静停住，把焦点让给光线。",
+            "limbs": [
+              "sun disk",
+              "warm halo",
+              "morning rays"
+            ],
+            "contact": "光线稳定。",
+            "mustReadAs": "配角停住。"
+          }
+        ]
+      },
+      {
+        "actor": "light",
+        "action": "line-unfold",
+        "reason": "光线展开成一横是字形绑定核心，不能只用 CSS 缩放一条线。",
+        "minFrames": 8,
+        "requiredMotionParts": [
+          "left glow",
+          "center beam",
+          "right tip",
+          "dust sparkles"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "small-gleam",
+            "body": "中间只有短短一段金光。",
+            "limbs": [
+              "left glow",
+              "center beam",
+              "right tip"
+            ],
+            "contact": "贴着地平线。",
+            "mustReadAs": "光线开始。"
+          },
+          {
+            "frame": 1,
+            "pose": "line-opens",
+            "body": "光线向左右展开，右端变亮。",
+            "limbs": [
+              "center beam",
+              "right tip"
+            ],
+            "contact": "保持水平。",
+            "mustReadAs": "一条线在长出来。"
+          },
+          {
+            "frame": 2,
+            "pose": "longer-line",
+            "body": "中心光束变长，上下散光变少。",
+            "limbs": [
+              "left glow",
+              "center beam",
+              "right tip"
+            ],
+            "contact": "仍然贴着水平线。",
+            "mustReadAs": "一条光线。"
+          },
+          {
+            "frame": 3,
+            "pose": "tip-advances",
+            "body": "右端继续前进，尘光跟随。",
+            "limbs": [
+              "right tip",
+              "dust sparkles",
+              "center beam"
+            ],
+            "contact": "线条稳定。",
+            "mustReadAs": "平平地铺开。"
+          },
+          {
+            "frame": 4,
+            "pose": "nearly-flat",
+            "body": "光线基本平直，厚度变均匀。",
+            "limbs": [
+              "center beam",
+              "left glow",
+              "right tip"
+            ],
+            "contact": "中心线水平。",
+            "mustReadAs": "平平一横。"
+          },
+          {
+            "frame": 5,
+            "pose": "warm-line",
+            "body": "金色中心线更实，上下光晕收掉。",
+            "limbs": [
+              "center beam",
+              "dust sparkles"
+            ],
+            "contact": "水平不晃。",
+            "mustReadAs": "清楚的一横。"
+          },
+          {
+            "frame": 6,
+            "pose": "settled-line",
+            "body": "只剩一条温暖横线，边缘圆润。",
+            "limbs": [
+              "center beam",
+              "right tip"
+            ],
+            "contact": "可对照汉字一。",
+            "mustReadAs": "就是一的形状。"
+          },
+          {
+            "frame": 7,
+            "pose": "hold-one-line",
+            "body": "横线安静停住。",
+            "limbs": [
+              "center beam",
+              "left glow",
+              "right tip"
+            ],
+            "contact": "一条线稳定。",
+            "mustReadAs": "一横。"
+          }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "plate parallax",
+      "HTML cue text",
+      "warm line glow",
+      "final glyph and pinyin",
+      "quiet final hold"
+    ]
+  },
+  "finalFrame": {
+    "description": "晨光淡在背景里，大字一、yi、就是一和一条暖光横线居中安静可读，可作为 poster/fallback。",
+    "mustBeReadableAsPoster": true
+  }
+}

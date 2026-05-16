@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>「一」baked audio 试听 · edge-tts 候选音色</title>
+    <style>
+      :root { color-scheme: light; }
+      body {
+        font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+        background: #FAF6F0; color: #2A2520; padding: 32px; max-width: 980px; margin: 0 auto;
+      }
+      h1 { font-size: 22px; margin: 0 0 8px; }
+      p.lead { color: #5D4A36; margin: 0 0 24px; line-height: 1.6; }
+      table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
+      th { text-align: left; font-weight: 600; color: #5D4A36; font-size: 13px; padding: 0 12px; }
+      td { background: #fff; padding: 14px 16px; vertical-align: middle; }
+      td:first-child { border-radius: 12px 0 0 12px; width: 40%; }
+      td:last-child { border-radius: 0 12px 12px 0; }
+      td.divider { background: transparent; padding: 0; }
+      .seg-text { font-size: 15px; line-height: 1.5; color: #2A2520; }
+      .seg-id { font-size: 12px; color: #998; margin-bottom: 4px; }
+      audio { width: 240px; height: 36px; }
+      .voice-head { font-size: 14px; padding-bottom: 4px; }
+      .voice-head .name { font-weight: 600; color: #2A2520; }
+      .voice-head .note { color: #998; font-size: 12px; margin-top: 2px; }
+      .row-section { margin-top: 28px; padding-top: 12px; border-top: 1px dashed #E6DFD0; }
+      .row-section h2 { font-size: 14px; color: #5D4A36; margin: 0 0 12px; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <h1>「一」baked audio 试听</h1>
+    <p class="lead">
+      3 个候选音色（edge-tts 微软神经合成）· 4 段教学 cue · 中文 · 慢速友好。<br/>
+      听完请告诉我：①推荐哪个音色 ②语速/语调要不要再调 ③是否能用作 baked audio 上线。
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>cue 内容</th>
+          <th class="voice-head">
+            <div class="name">A · 晓伊 (Xiaoyi)</div>
+            <div class="note">女童·活泼·卡通向</div>
+          </th>
+          <th class="voice-head">
+            <div class="name">B · 云夏 (Yunxia)</div>
+            <div class="note">男童·可爱·卡通向</div>
+          </th>
+          <th class="voice-head">
+            <div class="name">C · 晓晓 (Xiaoxiao)</div>
+            <div class="note">女老师·温暖·讲故事感</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="seg-id">01 · 单字</div>
+            <div class="seg-text">一</div>
+          </td>
+          <td><audio controls preload="auto" src="yi/xiaoyi-01-char.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/yunxia-01-char.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/xiaoxiao-01-char.mp3"></audio></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="seg-id">02 · phrase</div>
+            <div class="seg-text">一个的一</div>
+          </td>
+          <td><audio controls preload="auto" src="yi/xiaoyi-02-phrase.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/yunxia-02-phrase.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/xiaoxiao-02-phrase.mp3"></audio></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="seg-id">03 · soundCue（教学钩子总结）</div>
+            <div class="seg-text">一个、一条、一根，都有一个平平的一。</div>
+          </td>
+          <td><audio controls preload="auto" src="yi/xiaoyi-03-soundcue.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/yunxia-03-soundcue.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/xiaoxiao-03-soundcue.mp3"></audio></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="seg-id">04 · 视频 voiceCues（baked 进 mp4 音轨）</div>
+            <div class="seg-text">一个苹果。一条小路。一根木棒。都是一。</div>
+          </td>
+          <td><audio controls preload="auto" src="yi/xiaoyi-04-video-cues.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/yunxia-04-video-cues.mp3"></audio></td>
+          <td><audio controls preload="auto" src="yi/xiaoxiao-04-video-cues.mp3"></audio></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="row-section">
+      <h2>当前生成参数</h2>
+      <p class="lead" style="margin: 0;">
+        rate=-8% ~ -12%（轻微放慢，照顾 3-6 岁听感）· pitch=+0~+2Hz（保持原调）· format=mp3 · sample rate≈24kHz<br/>
+        如需更慢/更快/更高/更低，让我重跑就好，5 分钟内完成。
+      </p>
+    </div>
+  </body>
+</html>

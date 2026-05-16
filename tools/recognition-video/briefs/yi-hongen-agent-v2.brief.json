@@ -1,0 +1,487 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-hongen-agent-v2",
+  "character": "一",
+  "pinyin": "yi",
+  "unitId": "unit-01",
+  "duration": 7.8,
+  "fps": 24,
+  "teachingHook": "先看见一条真实的小路，再用一个苹果复现数量，最后把木棒推成一横并收成清楚的“一”。",
+  "narration": {
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "voice": "Ting-Ting-local-test",
+    "cues": [
+      {
+        "at": 0.55,
+        "text": "一条小路"
+      },
+      {
+        "at": 2.2,
+        "text": "一个苹果"
+      },
+      {
+        "at": 4.1,
+        "text": "一根木棒"
+      },
+      {
+        "at": 5.9,
+        "text": "都是一"
+      }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "meaning-path",
+      "start": 0,
+      "duration": 2.1,
+      "purpose": "语义先行：孩子先看到生活里的横向小路，而不是先看到字。",
+      "description": "暖草地中横向小路被轻轻点亮，一只引导小手用手指点一下并沿着小路描过去。",
+      "requiredAssets": [
+        "meadow-line-plate",
+        "guide-hand-trace-line"
+      ]
+    },
+    {
+      "id": "quantity-repeat",
+      "start": 2,
+      "duration": 1.85,
+      "purpose": "数量复现：一个苹果出现，让“一”不只是形状，也有数量意义。",
+      "description": "只有一个苹果轻轻落下并回弹，画面保持克制。",
+      "requiredAssets": [
+        "apple-one-bounce-agent-v2"
+      ]
+    },
+    {
+      "id": "shape-bind",
+      "start": 3.75,
+      "duration": 1.95,
+      "purpose": "字形绑定：木棒真的滚平，和小路一起指向一横。",
+      "description": "一根木棒从斜放滚到水平，停住后与小路方向一致。",
+      "requiredAssets": [
+        "stick-straighten-agent-v2"
+      ]
+    },
+    {
+      "id": "glyph-close",
+      "start": 5.55,
+      "duration": 2.25,
+      "purpose": "认字收束：生活物件淡下去，大字一、pinyin 和记忆短语安静停留。",
+      "description": "金色横线长成一，大字一出现，孩子有足够时间看清和跟读。",
+      "requiredAssets": [
+        "html-glyph",
+        "html-memory-line"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "meaning-path",
+      "description": "先让小路和引导手势建立横向意义，孩子知道要看一条平平的东西。",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "shape-bind",
+      "description": "木棒从斜到平的动作，把生活物件、横向小路和汉字一绑定在一起。",
+      "boundElements": [
+        "横向小路",
+        "滚平木棒",
+        "金色一横",
+        "汉字一"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "glyph-close",
+      "phrase": "都是一"
+    },
+    "sentenceBridge": {
+      "sentence": "一条小路。一个苹果。一根木棒。都是一。",
+      "source": "narration.script"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "meaning-path",
+        "target": "一条小路的横向语义",
+        "seconds": 1.45
+      },
+      {
+        "shotId": "shape-bind",
+        "target": "木棒滚平成一横",
+        "seconds": 1.55
+      },
+      {
+        "shotId": "glyph-close",
+        "target": "最终大字一和都是一",
+        "seconds": 2.25
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "semantic-repeat",
+      "description": "小路、苹果、木棒三次复现一的横向和数量意义，最后用都是一完成闭环。"
+    },
+    "writingPosition": "late-or-omitted",
+    "mascotRole": "supporting"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6",
+    "minimumCueHoldSeconds": 1.4,
+    "minimumFinalHoldSeconds": 2.2,
+    "maximumSceneChangesPerSecond": 0.62,
+    "productSurface": "P03 认字页竖屏手机教学舞台；节奏按幼儿园老师带读，不按 demo reel 快切。"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "guide-hand",
+        "action": "trace-line",
+        "reason": "引导动作改为手指点线和描线，不能复用旧兔子跳跃素材。",
+        "minFrames": 10,
+        "requiredMotionParts": [
+          "index finger",
+          "wrist",
+          "sleeve",
+          "tap motion"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "hand-near-line",
+            "body": "小手停在小路左侧，食指还没伸出。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "手腕轻轻悬在画面边缘。",
+            "mustReadAs": "准备指给孩子看。"
+          },
+          {
+            "frame": 1,
+            "pose": "finger-extends",
+            "body": "食指向右伸出，手腕跟着前移。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "指尖尚未碰到线。",
+            "mustReadAs": "伸手指向小路。"
+          },
+          {
+            "frame": 2,
+            "pose": "finger-reaches",
+            "body": "食指伸到小路边缘。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve",
+              "tap motion"
+            ],
+            "contact": "指尖接近横线。",
+            "mustReadAs": "快要点到一条线。"
+          },
+          {
+            "frame": 3,
+            "pose": "tap-line",
+            "body": "食指向下轻点小路。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve",
+              "tap motion"
+            ],
+            "contact": "指尖点到横线。",
+            "mustReadAs": "点一下这一横。"
+          },
+          {
+            "frame": 4,
+            "pose": "tap-rebound",
+            "body": "食指从点按中回弹。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve",
+              "tap motion"
+            ],
+            "contact": "指尖离开横线一点点。",
+            "mustReadAs": "提醒孩子看这里。"
+          },
+          {
+            "frame": 5,
+            "pose": "trace-start",
+            "body": "食指沿横向开始描线。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "指尖沿线滑动。",
+            "mustReadAs": "从左往右描一横。"
+          },
+          {
+            "frame": 6,
+            "pose": "trace-middle",
+            "body": "食指继续向右描，手腕跟进。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "指尖贴近横线中部。",
+            "mustReadAs": "这一横是平平的。"
+          },
+          {
+            "frame": 7,
+            "pose": "trace-end",
+            "body": "食指描到横线右侧。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "指尖靠近横线末端。",
+            "mustReadAs": "一横描完。"
+          },
+          {
+            "frame": 8,
+            "pose": "hold-point",
+            "body": "食指停住，给孩子一个观察停顿。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "指尖停在横线旁。",
+            "mustReadAs": "看清一条线。"
+          },
+          {
+            "frame": 9,
+            "pose": "hand-withdraws",
+            "body": "小手退回边缘，把焦点还给字形。",
+            "limbs": [
+              "index finger",
+              "wrist",
+              "sleeve"
+            ],
+            "contact": "小手离开横线。",
+            "mustReadAs": "配角退出。"
+          }
+        ]
+      },
+      {
+        "actor": "stick",
+        "action": "straighten",
+        "reason": "木棒滚平成一横是字形绑定核心，必须在帧内改变角度。",
+        "minFrames": 8,
+        "requiredMotionParts": [
+          "stick angle",
+          "wood highlight",
+          "contact point"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "tilted-start",
+            "body": "木棒左高右低，离一横还有明显角度。",
+            "limbs": [
+              "stick angle",
+              "wood highlight"
+            ],
+            "contact": "右端接触地面。",
+            "mustReadAs": "木棒还没放平。"
+          },
+          {
+            "frame": 1,
+            "pose": "roll-a",
+            "body": "木棒开始滚动，角度变小。",
+            "limbs": [
+              "stick angle",
+              "wood highlight",
+              "contact point"
+            ],
+            "contact": "接触点向中间移动。",
+            "mustReadAs": "正在滚向平平一横。"
+          },
+          {
+            "frame": 2,
+            "pose": "roll-b",
+            "body": "木棒继续靠近水平。",
+            "limbs": [
+              "stick angle",
+              "wood highlight",
+              "contact point"
+            ],
+            "contact": "接触点继续移动。",
+            "mustReadAs": "快平了。"
+          },
+          {
+            "frame": 3,
+            "pose": "near-flat",
+            "body": "木棒接近水平。",
+            "limbs": [
+              "stick angle",
+              "wood highlight",
+              "contact point"
+            ],
+            "contact": "接触面变长。",
+            "mustReadAs": "像一横了。"
+          },
+          {
+            "frame": 4,
+            "pose": "flat-touch",
+            "body": "木棒水平贴住地面。",
+            "limbs": [
+              "stick angle",
+              "wood highlight",
+              "contact point"
+            ],
+            "contact": "木棒平稳贴地。",
+            "mustReadAs": "平平一横。"
+          },
+          {
+            "frame": 5,
+            "pose": "tiny-rebound",
+            "body": "木棒轻轻回弹一点。",
+            "limbs": [
+              "stick angle",
+              "wood highlight",
+              "contact point"
+            ],
+            "contact": "接触面保持稳定。",
+            "mustReadAs": "软软停住。"
+          },
+          {
+            "frame": 6,
+            "pose": "flat-settle",
+            "body": "木棒再次水平停住。",
+            "limbs": [
+              "stick angle",
+              "wood highlight"
+            ],
+            "contact": "平稳贴地。",
+            "mustReadAs": "稳定的一横。"
+          },
+          {
+            "frame": 7,
+            "pose": "flat-hold",
+            "body": "木棒保持水平。",
+            "limbs": [
+              "stick angle",
+              "wood highlight"
+            ],
+            "contact": "平稳贴地。",
+            "mustReadAs": "可对照汉字一。"
+          }
+        ]
+      },
+      {
+        "actor": "apple",
+        "action": "one-bounce",
+        "reason": "一个苹果用于数量复现，落下和回弹需要形变帧。",
+        "minFrames": 7,
+        "requiredMotionParts": [
+          "apple body",
+          "stem",
+          "leaf"
+        ],
+        "poseContract": [
+          {
+            "frame": 0,
+            "pose": "single-high",
+            "body": "一个苹果从上方出现。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "未接触地面。",
+            "mustReadAs": "只有一个苹果。"
+          },
+          {
+            "frame": 1,
+            "pose": "fall-mid",
+            "body": "苹果继续下降，叶子滞后。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "未接触地面。",
+            "mustReadAs": "正在落下。"
+          },
+          {
+            "frame": 2,
+            "pose": "touch-ground",
+            "body": "苹果底部刚碰到地面。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "底部接触地面。",
+            "mustReadAs": "轻轻落地。"
+          },
+          {
+            "frame": 3,
+            "pose": "soft-squash",
+            "body": "苹果压扁变宽。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "底部充分接触。",
+            "mustReadAs": "软软弹一下。"
+          },
+          {
+            "frame": 4,
+            "pose": "rebound-up",
+            "body": "苹果回弹变高。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "减压回弹。",
+            "mustReadAs": "回弹。"
+          },
+          {
+            "frame": 5,
+            "pose": "settle-round",
+            "body": "苹果恢复圆润。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "稳定停住。",
+            "mustReadAs": "一个苹果。"
+          },
+          {
+            "frame": 6,
+            "pose": "hold-one",
+            "body": "苹果安静停住。",
+            "limbs": [
+              "apple body",
+              "stem",
+              "leaf"
+            ],
+            "contact": "稳定停住。",
+            "mustReadAs": "数量一。"
+          }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "background hold",
+      "path highlight grow",
+      "scene opacity",
+      "html glyph and pinyin",
+      "final card hold"
+    ]
+  },
+  "finalFrame": {
+    "description": "引导小手和物件退到辅助位置，大字一、yi、都是一和金色横线安静可读。",
+    "mustBeReadableAsPoster": true
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "paper-boat-glide-line",
+  "characterId": "yi-fresh-horizon-agent-v3",
+  "actor": "paper-boat",
+  "action": "glide-line",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.72
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 10,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png",
+    "frame-008.png",
+    "frame-009.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "boat hull",
+      "paper sail",
+      "fold highlight",
+      "tiny flag"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "float-left",
+        "contact": "船底贴近水线。"
+      },
+      {
+        "frame": 1,
+        "pose": "sail-catches-light",
+        "contact": "船底保持在水线附近。"
+      },
+      {
+        "frame": 2,
+        "pose": "soft-bob-down",
+        "contact": "船底压近水线。"
+      },
+      {
+        "frame": 3,
+        "pose": "soft-bob-up",
+        "contact": "船底离水线一点点。"
+      },
+      {
+        "frame": 4,
+        "pose": "mid-glide",
+        "contact": "船底对齐水线。"
+      },
+      {
+        "frame": 5,
+        "pose": "flag-flutter-a",
+        "contact": "船底轻触水线。"
+      },
+      {
+        "frame": 6,
+        "pose": "flag-flutter-b",
+        "contact": "船底贴近水线。"
+      },
+      {
+        "frame": 7,
+        "pose": "glide-slow",
+        "contact": "船底继续对齐水线。"
+      },
+      {
+        "frame": 8,
+        "pose": "near-stop",
+        "contact": "船底贴住水线。"
+      },
+      {
+        "frame": 9,
+        "pose": "hold-side",
+        "contact": "船底与水线稳定对齐。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "boat-sail-fold",
+      "label": "paper sail and fold changes",
+      "region": {
+        "x": 90,
+        "y": 42,
+        "width": 102,
+        "height": 104
+      },
+      "minChangedFramePairs": 6,
+      "minChangedPixels": 110,
+      "minMeanDelta": 4,
+      "notes": "The boat must breathe through sail and fold pose changes, not just slide as one PNG."
+    },
+    {
+      "id": "boat-flag-tail",
+      "label": "tiny flag and tail movement",
+      "region": {
+        "x": 150,
+        "y": 74,
+        "width": 72,
+        "height": 62
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 55,
+      "minMeanDelta": 3,
+      "notes": "Small fabric detail should visibly respond to the glide."
+    }
+  ],
+  "notes": "Fresh paper boat action for yi-fresh-horizon-agent-v3; no rabbit or guide-hand continuity from earlier samples."
+}

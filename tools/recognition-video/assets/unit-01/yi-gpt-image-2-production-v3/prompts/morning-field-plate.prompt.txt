@@ -1,0 +1,12 @@
+Use case: illustration-story
+Asset type: Starlight Literacy official recognition video background plate, 1080x1920 portrait
+Primary request: Create a warm pastoral children's picture-book background plate for teaching the Chinese character one. The scene is a quiet dawn meadow with one clean horizon path and warm honey morning light, designed for later HTML/SVG teaching overlays.
+Scene/backdrop: cream paper texture, soft gouache and colored-pencil feel, low-saturation green meadow, pale peach sky, one clear middle-third horizon line, gentle depth from foreground grasses.
+Subject: no characters, no animals, no visible letters, no symbols; only the calm field, sky, and horizon.
+Style/medium: premium children's picture book for ages 3-6, tactile rounded shapes, calm and joyful, warm pastoral Starlight Literacy visual system.
+Composition/framing: vertical 1080x1920; middle third must stay clean enough for a single horizontal light line; upper middle must have quiet space for one rising sun overlay; lower area should remain soft and uncluttered.
+Lighting/mood: honey sunrise, warm and safe, quiet teacher-led recognition moment.
+Color palette: cream, honey gold, soft peach, warm meadow green, low saturation.
+Materials/textures: paper grain, gouache wash, colored-pencil edges.
+Constraints: no Chinese characters, no pinyin, no readable text, no UI, no watermark, no logos, no extra suns, no arrows, no numbers, no stickers.
+Avoid: neon, purple-blue gradients, dark fantasy, glossy 3D, busy flowers, decorative reward effects, crowded animals, faux text, hard black outlines.

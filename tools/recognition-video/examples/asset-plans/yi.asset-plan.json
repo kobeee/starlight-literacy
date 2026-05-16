@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi",
+  "style": {
+    "source": "knowledge-base/06-素材资源/Unit-01素材与生图生产规范.md",
+    "summary": "Warm pastoral picture-book style, cream paper texture, honey sunlight, low-saturation colors, no generated text."
+  },
+  "plates": [
+    {
+      "id": "path-plate",
+      "kind": "plate",
+      "purpose": "A calm horizontal path plate that supports the line-shape hook.",
+      "path": "tools/hyperframes-one/assets/unit-01/yi/yi-stage-bg-v1.png"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "apple-cutout",
+      "kind": "cutout",
+      "purpose": "A single apple used to reinforce the quantity meaning of one."
+    },
+    {
+      "id": "stick-cutout",
+      "kind": "cutout",
+      "purpose": "A wooden stick that can settle into a horizontal line."
+    }
+  ],
+  "sprites": [
+    {
+      "id": "rabbit-hop",
+      "actor": "rabbit",
+      "action": "hop",
+      "manifest": "tools/recognition-video/examples/sprites/yi/rabbit-hop/manifest.json",
+      "minFrames": 4,
+      "notes": "Example manifest only. Replace placeholder frames before production."
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "planned",
+    "script": "一条小路。一个苹果。一根木棒。都是一。"
+  },
+  "qualityBars": [
+    "At least one required actor uses a real multi-frame sprite.",
+    "No raster image contains Chinese, pinyin, UI text, or watermarks.",
+    "Final frame is calm and readable as poster fallback.",
+    "HyperFrames only assembles validated assets."
+  ]
+}

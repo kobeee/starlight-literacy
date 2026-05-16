@@ -1,5 +1,71 @@
 {
   "id": "hyperframes-one",
-  "name": "hyperframes-one",
-  "createdAt": "2026-04-29T09:16:30.536Z"
+  "name": "yi-official-recognition-candidate",
+  "characterId": "yi",
+  "char": "一",
+  "teachingGoal": "用一条小路、一个苹果、一根木棒三个生活承载物，帮助孩子把“一”的数量语义和平平一横联系起来。",
+  "productSurface": "P03 认字页竖屏手机教学舞台",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 5.8,
+  "fps": 24,
+  "qualityGate": {
+    "status": "official",
+    "minimumBar": "孩子能在 6 秒内复述：一条小路、一个苹果、一根木棒，都是一。",
+    "criteria": [
+      "0.8s 内出现一条小路到平稳横线的字形钩子",
+      "总时长 4-6 秒，最多不超过 8 秒",
+      "字形和横线结构强于场景物件",
+      "小动物只在边缘陪伴并用慢动作支持观察，不遮挡字形",
+      "final frame 安静、清楚，可作为 poster/fallback",
+      "不依赖 H5 Web Speech voiceCues 冒充正式音频轨",
+      "mp4 / webm 均包含真实 baked audio stream"
+    ],
+    "validation": "2026-05-10 已用 edge-tts XiaoxiaoNeural 烘焙旁白，ffmpeg 合入竖屏 mp4 / webm；竖屏 composition 通过 lint / inspect / media checks。当前动画性仍是 baseline，已加入少量 pose-step 雏形，真正逐帧角色动画需进入多帧 cutout agent 流水线。"
+  },
+  "shotPlan": [
+    { "at": 0.25, "text": "一条小路先出现，并在 0.8s 内叠出平稳横线。" },
+    { "at": 1.55, "text": "一个苹果出现，下方抽象为一条横线。" },
+    { "at": 2.55, "text": "一根木棒出现，强化横向动作。" },
+    { "at": 3.45, "text": "收束到大字形板，显示 yī 和三个记忆 token。" }
+  ],
+  "audioPlan": {
+    "status": "baked",
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "source": "assets/unit-01/yi/yi-video-narration-v1.mp3",
+    "timedAudio": "assets/unit-01/yi/yi-video-narration-v1-timed.mp3",
+    "timedDuration": 5.64
+  },
+  "outputs": {
+    "video": "renders/yi-stage-mobile-v1.mp4",
+    "webm": "renders/yi-stage-mobile-v1.webm",
+    "poster": "renders/final-frames/yi-stage-mobile-v1-poster.png",
+    "finalFrame": "renders/final-frames/yi-stage-mobile-v1-final.png",
+    "silentVideo": "renders/yi-stage-mobile-v1-silent.mp4",
+    "previousLandscapeBaseline": {
+      "video": "renders/yi-stage-official-v1.mp4",
+      "webm": "renders/yi-stage-official-v1.webm",
+      "poster": "renders/final-frames/yi-stage-official-v1-poster.png",
+      "finalFrame": "renders/final-frames/yi-stage-official-v1-final.png"
+    }
+  },
+  "sourceAssets": {
+    "generatedBackdrop": "assets/unit-01/yi/yi-stage-bg-v1.png",
+    "generatedBackdropSource": "assets/unit-01/yi/yi-stage-bg-generated-20260510-source.png",
+    "animalCompanions": [
+      "assets/animals/rabbit.png",
+      "assets/animals/bluebird.png",
+      "assets/animals/squirrel.png",
+      "assets/animals/ducklings.png"
+    ]
+  },
+  "createdAt": "2026-04-29T09:16:30.536Z",
+  "updatedAt": "2026-05-10T12:28:00+08:00",
+  "version": "2026-05-10-mobile-v1-portrait-baseline-pose-step"
 }

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-gpt-image-2-production-v3",
+  "candidateStatus": "official-candidate",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "判断一个太阳→一条光线→平平一横→大字一这条 hongen-micro-lesson 路径是否真正帮助 3-6 岁孩子记住一字",
+      "审核太阳 sprite 与字形绑定的视觉契约（10 帧 sun rise-glow 必须读得出升起+halo 打开）以及大字 一 的定格分量",
+      "确认 XiaoxiaoNeural 旁白节奏、4 段 cue 同步、≥2.2s 末段 hold 是否符合儿童识字产品节奏，并裁决是否进入 official"
+    ],
+    "genericHyperframesOwns": [
+      "装配 HTML/CSS/GSAP composition，运行 hyperframes lint 与 inspect，确保 0 errors / 0 warnings",
+      "渲染 1080x1920 30fps mp4 + webm，抽取 poster、final frame、4-up review sheet",
+      "校验 ffprobe metadata、音轨存在性、输出文件路径与 meta.json.outputs 一致"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-gpt-image-2-production-v3.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-gpt-image-2-production-v3.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v3.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/meta.json",
+    "video": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/renders/yi-gpt-image-2-production-v3.mp4",
+    "webm": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/renders/yi-gpt-image-2-production-v3.webm",
+    "reviewSheet": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/renders/final-frames/yi-gpt-image-2-production-v3-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/renders/final-frames/yi-gpt-image-2-production-v3-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-gpt-image-2-production-v3/renders/final-frames/yi-gpt-image-2-production-v3-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.6,
+        "purpose": "意义入场",
+        "visibleAnchor": "一颗暖橙太阳从田园 plate 上方探头，halo 打开",
+        "readability": "pass",
+        "notes": "sprite 10 帧从 lower rim 到 settle 动作梯度可读；先建立 一个 的物象，不先给字卡"
+      },
+      {
+        "at": 2.4,
+        "purpose": "字形绑定",
+        "visibleAnchor": "稳定太阳下方地平线处展开一条暖金色横光",
+        "readability": "pass",
+        "notes": "CSS radial-gradient 光带与 plate 自带的远山光晕融合，旁白 一条光线 同拍落到画面动作"
+      },
+      {
+        "at": 4.2,
+        "purpose": "平平一横",
+        "visibleAnchor": "金色光带稳成一条 760x38 的圆头圆尾暖金横笔，plate 略微淡化",
+        "readability": "pass",
+        "notes": "字形从生活物象抽象成笔画线条，太阳降到 0.55 不抢注意"
+      },
+      {
+        "at": 6.6,
+        "purpose": "认字收束",
+        "visibleAnchor": "暖金横笔交接成 LXGW 楷体 一 字主体 (font-size 520px, color #5D4A36), 外裹半透明田字格 (rgba 0.45 边框 + 0.32 中线), 上方 yī 拼音、下方 一个太阳·一条光线·平平一横·就是一 完整句子条",
+        "readability": "pass",
+        "notes": "末段 hold ≥2s，poster 化可读；楷体起笔/收笔顿笔特征明显，田字格半透明让背景的草原+远山+晨光透出来，太阳作为 dawn anchor 安静悬挂"
+      },
+      {
+        "at": 8.7,
+        "purpose": "笔顺示范",
+        "visibleAnchor": "田字格 cross-fade 成不透明米字格 (cream paper + 黑色 4px 实线外框 + 黑色 # 横纵中线 + X 对角线全部 dashed), 楷体 一 字 (540px, #2d2d2d) 通过 clip-path inset 从左向右写出, 约 50% 已成型",
+        "readability": "pass",
+        "notes": "t=7.4-7.7 田字格→米字格 0.3s cross-fade 衔接丝滑, plate 背景在外框外保留; 8.2-9.2 笔顺写出, 楷体起笔顿笔特征清晰; 9.2-10 完成姿态保持, 整体仍在 3-6 岁注意力窗口内 (10s)"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "一个太阳从田园升起 → 太阳射出一条金色横光 → 横光稳成 平平一横 → 一横加粗收束为半透明田字格里的 一 字 → 田字格 cross-fade 为字帖风米字格, 楷体 一 字按笔顺从左到右写出, 孩子在 10s 内完成 意义→字形→书写 三段闭合"
+    },
+    "actionReadability": [
+      {
+        "action": "sun rise-glow",
+        "verdict": "pass",
+        "reason": "10 帧依序展示 lower rim 触底 → 半露 → 完整圆 → halo 打开 → rays 张开 → settle，相邻帧 sprite 像素有可见差异，read 得出 一个太阳 慢慢升起"
+      },
+      {
+        "action": "light line-unfold",
+        "verdict": "pass",
+        "reason": "暖金色径向渐变光带 scaleX 0 → 1 在 1.638-3.305s 区间内徐徐展开，与上一镜的太阳 halo 视觉同源；非占位线条"
+      },
+      {
+        "action": "flat-line settle",
+        "verdict": "pass",
+        "reason": "光带稳定收束为一条 760x38 圆头圆尾暖金横笔，stroke 厚度/颜色/位置可被产品复核，节奏与旁白 平平一横 同步"
+      },
+      {
+        "action": "glyph closure",
+        "verdict": "pass",
+        "reason": "深棕色 LXGW 楷体 一 字 (520px font-size, weight 500) 由 flat-line 收束而来，外裹半透明田字格 (border rgba(93,74,54,0.45) + 0.32 中线) 既符合儿童识字课本范式，又不挡背景；上方 yī、下方完整句子条共同形成 t=5-7.4s 的中间停留"
+      },
+      {
+        "action": "tianzige → mizige handoff + stroke-write",
+        "verdict": "pass",
+        "reason": "7.4-7.7s 半透明田字格 + 暖棕楷体 一 字以 0.3s 同步 cross-fade 退出；7.7-8.2s 不透明米字格 (cream paper + 黑实线外框 + dashed #X guides) 淡入并 scale 0.95→1.0 上台；8.2-9.2s 楷体 一 (540px black) 通过 clip-path inset 从左到右写出，对应汉字第一笔横画的正确起笔→走笔→收笔；9.2-10s 完成姿态保持; 全程不切换背景，plate 在米字格外框外持续可见，衔接丝滑"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "ready",
+    "notes": [
+      "主视觉 plate 由 codex-internal gpt-image-2 (Responses API + image_generation tool, 1024x1536 high) 生成，落盘为 1080x1920 田园暖彩晨光场，画面无 raster 文案、无水印、无 UI",
+      "sun sprite 10 帧由 magenta (#ff00ff) chroma-key spritesheet 通过 prepare-spritesheet-sprite 拆帧标准化，sprite 帧含 alpha 通道，halo 呈晨曦红霞色，与暖橙 plate 视觉同源",
+      "字形与拼音由 HTML/CSS 渲染（Noto Sans SC + HyperFrames 字体注入）；大字 一 由 LXGW WenKai Medium (v1.522) 楷体渲染，字体经 pyftsubset 裁剪到 11 个字符后 base64 内嵌（3.2KB woff2，font-family 别名 Yi Kaiti），绕开 HyperFrames 字体注入只识别 Noto 系的限制；田字格用 div + ::before/::after 伪元素绘制半透明十字框，rgba 0.45 边框 + 0.32 中线让背景的草原+远山+晨光透出来",
+      "米字格 (mizige) 用 div + inline SVG 4 dashed lines (# 横纵中线 + X 对角线, stroke #2d2d2d 1.5px) 绘制，外框 4px solid #2d2d2d 实线 + cream 高不透明背景 rgba(255,250,240,0.96)，box-shadow 给出物理字帖纸贴附感；笔顺示范用同一 Yi Kaiti 楷体在米字格上层 clip-path inset(0 100%→0%) 从左向右揭开，模拟单笔横画",
+      "音频为 edge-tts zh-CN-XiaoxiaoNeural rate -10% baked 7.464s 旁白 + ffmpeg apad 静音填充到 10.056s，与 audio-plan target 10s 误差 0.056s（≤0.35s 容差）；旁白主带读保持 P03 女老师声一致，t=7.4-10s 笔顺段为静默纯视觉，让孩子专注看写字"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 8.5,
+    "glyphBinding": 8.4,
+    "glyphAnchor": 8.5,
+    "pacing": 8.3,
+    "animationPerformance": 8.0,
+    "visualQuality": 8.0,
+    "childAppeal": 8.3,
+    "audioFit": 8.2,
+    "technicalCompliance": 8.5,
+    "officialReadiness": 8.2
+  },
+  "overallScore": 8.3,
+  "decision": "ready-for-official",
+  "blockers": [],
+  "nextActions": [
+    "把 yi-gpt-image-2-production-v3.mp4 / webm / poster 接入 src/shared/unit-01.js 与 baked-audio manifest，作为 Unit-01 一 字 P03 认字页 official 视频",
+    "更新 sw.js APP_SHELL 与 cache version，跑 npm run check:h5 + mobile-h5 runtime audit",
+    "在 knowledge-base/03-开发日志 沉淀 codex-internal gpt-image-2 (Responses API image_generation tool) + magenta chroma-key + LXGW 楷体 base64 inline + 半透明田字格 四条工艺"
+  ]
+}

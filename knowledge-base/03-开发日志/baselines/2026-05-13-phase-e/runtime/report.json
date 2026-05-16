@@ -1,0 +1,82 @@
+{
+  "appUrl": "http://127.0.0.1:4173/src/clients/mobile-h5/",
+  "steps": [
+    {
+      "id": "home-rendered",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "id": "home-fab-treasure",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "id": "home-fab-parent",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "id": "open-unit",
+      "ok": true,
+      "ms": 454
+    },
+    {
+      "id": "start-learning",
+      "ok": true,
+      "ms": 952
+    },
+    {
+      "id": "speak-current",
+      "ok": true,
+      "ms": 46
+    },
+    {
+      "id": "to-write",
+      "ok": true,
+      "ms": 418
+    },
+    {
+      "id": "skip-writing",
+      "ok": true,
+      "ms": 944
+    },
+    {
+      "id": "wrong-answer-replay",
+      "ok": true,
+      "ms": 409
+    },
+    {
+      "id": "replay-auto-dismiss",
+      "ok": true,
+      "ms": 3204
+    },
+    {
+      "id": "answer-question",
+      "ok": true,
+      "ms": 732
+    },
+    {
+      "id": "practice-correct-into-review",
+      "ok": true,
+      "ms": 4445
+    },
+    {
+      "id": "open-parent",
+      "ok": true,
+      "ms": 1319
+    },
+    {
+      "id": "open-treasure",
+      "ok": true,
+      "ms": 927
+    }
+  ],
+  "consoleIssues": [
+    {
+      "type": "warning",
+      "text": "Unmuting failed and the element was paused instead because the user didn't interact with the document before. https://goo.gl/xX8pDD"
+    }
+  ],
+  "failures": []
+}

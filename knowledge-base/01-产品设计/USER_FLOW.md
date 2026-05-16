@@ -1,9 +1,9 @@
 ---
 tags: [产品设计, 流程文档, 项目宪法, 必读]
 created: 2026-04-20
-updated: 2026-04-25
-status: 权威源 (single source of truth) · 偏离已纠正
-依据: PRD-v3.0 (docs/prd/v3.0.md) + design.pen 现状 + 2026-04-20 决策
+updated: 2026-05-14
+status: 权威源 (single source of truth) · Mobile H5 整改增量已登记
+依据: PRD-v3.0 (docs/prd/v3.0.md) + design.pen 现状 + 2026-04-20 决策 + 2026-05-13 H5 整改规划
 ---
 
 # 用户流程与页面架构 · USER_FLOW
@@ -109,12 +109,26 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 | P10 | 小星宝库 | 成就收藏 + 选成就生成分享卡（子能力） | MVP必须 | ✅ t6HVZ |
 | P11 | 家长中心 | 进度/设置/分享记录 | MVP必须 | ✅ wEaOQ |
 | -- | 过关庆祝（组件） | P05/P06 答对触发的弹层；不占页面编号 | MVP必须 | ✅ 复用 DWBnB 视觉 |
-| -- | 上下文引导（组件） | 首次进入 P03/P04 的小手指引导遮罩；不占页面编号 | MVP必须 | 🆕 待补 |
+| -- | 上下文引导（组件） | 首次进入 P01/P03/P04 的小手指引导遮罩 + 欢迎语 voice；不占页面编号 | MVP必须 | ✅ Phase D 第二轮落地（2026-05-13）`.first-guide` 全屏遮罩 + 欢迎气泡 + 小手指弹跳 + CTA 聚光环 + speakText 欢迎语；`state.progress.firstGuideSeen` 持久化只演示一次；P03/P04 引导延后到下个迭代 |
 | -- | 家长验证题弹层（组件） | P01 顶部"家长"按钮触发，3+5=? 数字键盘验证；不占页面编号 | MVP必须 | ✅ W7pdt |
+| -- | 今日恢复 banner（组件） | P01 顶部 sticky banner，"上次学到「X」，继续？"，关闭后 24h 不再出现；不占页面编号 | MVP必须 | ✅ Phase D 第二轮落地（2026-05-13）独立 `.recovery-banner` 在 P01 top area 显示「上次学到「X」 pinyin」+ 继续 CTA + × 关闭；点 × 写入 `recoveryBannerDismissedAt`，24h 内不重复出现；底部 `home-action-panel` 文案差异化继续保留 |
+| -- | 错答回放卡（组件） | P05/P06 答错后强制 3s 教学回放，不可跳过；不占页面编号 | MVP必须 | ✅ Phase E-1 落地（2026-05-13）`.replay-card` 全屏覆盖 + 模糊背景 + 大字 + 教学话术 + 倒计时圆环；practice 错答 3s 后清状态让重选，quiz 错答 3s 后自动 next（取代原 760ms schedule）；audit `wrong-answer-replay` + `replay-auto-dismiss` 入围栏 |
+| -- | 家长建议卡（组件） | P11 内 "今天重点复习 X / Y"、"易混点"、"时长建议"；不占页面编号 | MVP必须 | ✅ Phase D 落地（2026-05-13）`.parent-advice` ul/li，由 `parentAdviceItems()` 按 review/accuracy/minutes 动态生成（最多 4 条） |
+| -- | 全局错误 toast（组件） | window.onerror / unhandledrejection 兜底；不占页面编号 | MVP必须 | ✅ Phase B 落地（2026-05-13）`.global-toast` + 5s 冷却 |
+| -- | 全局 docked CTA（系统） | 主操作按钮 `position:absolute` 锁 `.screen` 底 + `env(safe-area-inset-bottom)` + 上沿渐变遮罩；先在 P02 unit 收口 D4 | MVP必须 | ✅ Phase C 落地（2026-05-13）`.docked-cta + .docked-cta__inner`，待迁移 P03/P05/P11 |
+| -- | 横屏锁定 banner（组件） | landscape + max-height ≤ 540px 时全屏遮罩，提示转回竖屏；不占页面编号 | MVP必须 | ✅ Phase C 落地（2026-05-13）`.landscape-lock` |
+| -- | 全局 FAB（系统） | 左上"家长" / 右上"宝库"在 P02–P10 常驻；不占页面编号 | MVP必须 | 🆕 Phase C 落地（2026-05-13） |
+| -- | 家长 shell（视觉变体） | 进入 P11 切换 `app-shell--parent`：字号 +2pt / 暖灰底 / 信息密度高 / 语气"您"；不占页面编号 | MVP必须 | ✅ Phase D 落地（2026-05-13，决策 D1=a）`.parent-page` 暖灰底 #ede4d2 / 主字 16px / 标题 22px / 段落字号梯度 + 副标题"给您看的学习证据" |
+| -- | 每字微复习段（组件） | P05 之后插入 60s 微复习"再看一眼"，可跳过；不占页面编号 | MVP必须 | ✅ Phase E-2 落地（2026-05-13）`.micro-review` 覆盖层 + 大字 + 拼音 + 笔形 / 字源 hook + 词卡片（≤3） + 60s 进度条 + "去下一个 →"CTA；practice 答对 → micro-review，60s 自动消失或 CTA 跳出；route 白名单加 `micro-review-next` |
+| -- | 收星动效升级（组件） | 粒子 + CC0 音效 + 数字跳动；替换现 celebration 弹层；不占页面编号 | MVP必须 | ✅ Phase E-3 落地（2026-05-13）`.result-hero__sparkles` 12 粒子径向扩散 / `.stars--celebrate` 五星 staggered pop / `data-count-up` rAF 760ms cubic-ease-out 数字跳动；renderResult 与 renderUnitCelebration 同步升级 |
+| -- | 关卡解锁破雾动画（组件） | P01 上对应组的雾带 600ms 散开；不占页面编号 | MVP必须 | ✅ Phase E-4 落地（2026-05-13）`isUnitComplete()` 首次 flip false→true 触发 `.home-map__mist--dispersing` 640ms 散开（含 3 团 puff drift），settle 至 `--cleared` 0.55；模块级 `lastIsUnitComplete` 防重复 firing；prefers-reduced-motion 直接落定 |
 
 **删除的旧定义**：
 - ~~P12 操作引导独立页~~ → 改为各页首次使用的上下文引导组件（孩子不看说明书）
 - ~~P10 分享卡片独立页~~ → 合并入"小星宝库"作为子能力（更符合儿童成就收集心智）
+
+**已废弃的实现技巧**（2026-05-13 H5 整改）：
+- ~~`bottom-action--scroll` (position: sticky)~~ → 内容短时退化为内容流元素，按钮漂到屏幕中央；统一迁移到全局 docked CTA
 
 ---
 
@@ -129,6 +143,8 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 | 单元星点（当前，如 u2Main + 跳动） | 点击 | P02 单元入口（该单元，继续） |
 | 单元星点（未解锁，如 u3Main + 锁icon） | 点击 | 轻震 + Toast"完成上一单元解锁" |
 | "宝库"金色角标 (4u9Ou) | 点击 | P10 小星宝库（已收集成就/字） |
+| 今日恢复 banner "继续上次"（2026-05-13 新增） | 点击 | P03（state.currentIndex 复位到 lastActiveCharId） |
+| 今日恢复 banner "关闭"（2026-05-13 新增） | 点击 | 24h 内不再显示 |
 
 ### P02 单元入口 (ws7mn)
 
@@ -160,15 +176,17 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 | 元素 | 触发动作 | 去向 |
 |---|---|---|
 | 选项 | 答对 | 庆祝小动画 → 进入下一字的 P03 / 全组学完 → P06 |
-| 选项 | 答错 | 显示正确答案 + 重播语音 → 进入下一字的 P03（不罚） |
+| 选项 | 答错（2026-05-13 修订，决策 D3=a） | 强制 3s 教学回放卡（不可跳过）→ "知道了" → 进入下一字的 P03（不罚但教） |
 
 ### P06 小组练习 (当前设计稿id: YSMNH，偏离待纠)
 
 | 元素 | 触发动作 | 去向 |
 |---|---|---|
 | 选项 | 答对 | 进入本组下一题 |
-| 选项 | 答错 | 标记错题 + 进入本组下一题（不罚） |
+| 选项 | 答错（2026-05-13 修订，决策 D3=a） | 标记错题 + 强制 3s 教学回放卡 + 进入本组下一题（不罚但教） |
 | 全组答完 | 自动 | 显示本组结果 → 还有下一组 → 回 P03；最后一组 → P07 |
+
+**实现备注**（2026-05-13 偏离登记）：P06 与 P07 复用 `renderQuiz`，通过参数控制题数与是否单元测验。
 
 ### P07 单元测验 (缺失，待新增)
 
@@ -213,10 +231,13 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 
 | 元素 | 触发动作 | 去向 |
 |---|---|---|
-| 返回 | 点击 | P01 |
+| 返回 | 点击 | P01（切回 child shell） |
 | 学习进度卡片 | 点击 | （子页）详细数据 |
 | 设置卡片 | 点击 | （子页）开关、提醒 |
 | 分享记录卡片 | 点击 | （子页）历史卡片 |
+| 今日重点字 X（2026-05-13 新增） | 点击 | 切回 child shell + 进 P03（指定字） |
+
+**实现备注**（2026-05-13）：进入 P11 时挂 `app-shell--parent` 视觉变体；离开时恢复 child shell。家长建议卡内容由 `needsReview` / `evidenceCounts` / `elapsedMinutes` 自动生成。
 
 ### P12 操作引导 (待新增)
 
@@ -226,7 +247,18 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 
 ---
 
-## 3. 偏离清单 ✅ 已全部清零（2026-04-20）
+## 3. 偏离清单
+
+### 2026-05-13 新增（H5 整改）
+
+| ID | 偏离 | 现状 | 决策 | 状态 |
+|---|---|---|---|---|
+| #5 | ~~renderPayment 路由未挂~~ | [app.js:409](../../src/clients/mobile-h5/app.js#L409) 实际已挂 `payment: renderPayment` | 无需处理 | ✅ 2026-05-13 撤销（登记错误） |
+| #6 | P06 / P07 共用 renderQuiz 没在 USER_FLOW 备注 | 实现复用，但文档未注明 | 已在按钮去向表备注 | ✅ 2026-05-13 完成 |
+| #7 | `bottom-action--scroll` sticky 翻车 | 内容短时按钮漂到屏幕中央（D4 病根） | 废弃此 class，P02 unit 已迁 `.docked-cta`；类降级为 `position: static` 无副作用 | ✅ 2026-05-13 Phase C 收口 |
+| #8 | FAB 仅 P01 出现 | `map-top-btn--treasure` / `--parent` 只在 P01 渲染，P02–P10 进家长 / 宝库需返回 P01 | **不做项**：P02–P08 各页已有 topbar（返回 / 播放声音 / 进度条），叠 FAB 会让顶部 4 button 拥挤；从 P02–P10 退到 P01 成本仅 1 个返回键，边际收益不抵视觉代价 | ✅ 2026-05-14 收口，剪入"不做项" |
+
+### ✅ 历史决策（2026-04-20，已清零）
 
 > 历史决策记录，作为后续决策的参考案例。
 
@@ -262,9 +294,12 @@ P06 小组练习 (2~3题，听音/看图/拖拽)
 
 ---
 
-## 5. 当前快照（2026-04-20 偏离已清零）
+## 5. 当前快照（2026-05-13 更新 · H5 整改进行中）
 
 - 设计稿对齐：P01/P02/P03/P04/P05/P06/P08/P09/P10/P11 (10 页)
-- 待新增：P07 单元测验页（基于 P06 视觉 + 进度条）
-- 组件化：过关庆祝（复用 DWBnB）、上下文引导（待补）
-- **偏离清单：0 项 ✅**
+- 待新增：P07 单元测验页（基于 P06 视觉 + 进度条；H5 已用 renderQuiz 复用实现）
+- 组件化：过关庆祝（复用 DWBnB）、上下文引导（Phase D 落地）
+- H5 整改新增组件 / 系统（已落地）：今日恢复 banner ✅ / 错答回放卡 ✅ / 家长建议卡 ✅ / 全局错误 toast ✅ / 全局 docked CTA ✅ / 家长 shell ✅ / 每字微复习段 ✅ / 收星动效升级 ✅ / 关卡解锁破雾 ✅ / 首次引导 ✅；全局 FAB 仅 P01（偏离 #8 已剪入"不做项"，2026-05-14 收口）
+- **偏离清单：4 项全部闭环**（#5/#6/#7/#8 ✅），见 § 3
+- **Mobile H5 整改正式收口**（2026-05-14）：Phase A→E + D 第二轮全部 ✅，版本 v34，runtime audit 16 步 + viewport 4 设备全绿
+- 整改规划权威源：[[03-开发日志/2026-05-13-Mobile-H5整改规划]]

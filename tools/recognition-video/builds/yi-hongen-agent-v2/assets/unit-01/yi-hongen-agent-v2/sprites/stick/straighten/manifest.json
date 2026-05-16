@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "stick-straighten-agent-v2",
+  "characterId": "yi-hongen-agent-v2",
+  "actor": "stick",
+  "action": "straighten",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.78
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 8,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png",
+    "frame-007.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "stick angle",
+      "wood highlight",
+      "contact point"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "tilted-start",
+        "contact": "右端接触地面。"
+      },
+      {
+        "frame": 1,
+        "pose": "roll-a",
+        "contact": "接触点向中间移动。"
+      },
+      {
+        "frame": 2,
+        "pose": "roll-b",
+        "contact": "接触点继续移动。"
+      },
+      {
+        "frame": 3,
+        "pose": "near-flat",
+        "contact": "接触面变长。"
+      },
+      {
+        "frame": 4,
+        "pose": "flat-touch",
+        "contact": "木棒平稳贴地。"
+      },
+      {
+        "frame": 5,
+        "pose": "tiny-rebound",
+        "contact": "接触面保持稳定。"
+      },
+      {
+        "frame": 6,
+        "pose": "flat-settle",
+        "contact": "平稳贴地。"
+      },
+      {
+        "frame": 7,
+        "pose": "flat-hold",
+        "contact": "平稳贴地。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "stick-rolls-flat",
+      "label": "stick rotates into one horizontal line",
+      "region": {
+        "x": 34,
+        "y": 58,
+        "width": 188,
+        "height": 146
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 520,
+      "minMeanDelta": 10,
+      "notes": "The shape-binding action must happen inside the PNG frames before HyperFrames places it."
+    }
+  ],
+  "notes": "The stick visibly rolls and settles into a horizontal line, serving the glyph binding."
+}

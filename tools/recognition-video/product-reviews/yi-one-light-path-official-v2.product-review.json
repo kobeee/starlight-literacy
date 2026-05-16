@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-one-light-path-official-v2",
+  "candidateStatus": "rendered-needs-iteration",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "判断一个太阳和一条光线是否真正帮助 3-6 岁孩子记住一。",
+      "检查语义先行、字形绑定、final hold、儿童节奏和音画同步。",
+      "判断太阳光线记忆动作是否有足够产品吸引力，而不沦为装饰光效。"
+    ],
+    "genericHyperframesOwns": [
+      "装配 HTML/CSS/GSAP composition 并运行 lint 和 inspect。",
+      "渲染 mp4、提取 poster/final frame 和 review sheet。",
+      "检查 ffprobe metadata、音轨、帧率和输出路径。"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-one-light-path-official-v2.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-one-light-path-official-v2.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-one-light-path-official-v2.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-one-light-path-official-v2/meta.json",
+    "video": "tools/recognition-video/builds/yi-one-light-path-official-v2/renders/yi-one-light-path-official-v2.mp4",
+    "webm": "tools/recognition-video/builds/yi-one-light-path-official-v2/renders/yi-one-light-path-official-v2.webm",
+    "reviewSheet": "tools/recognition-video/builds/yi-one-light-path-official-v2/renders/final-frames/yi-one-light-path-official-v2-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-one-light-path-official-v2/renders/final-frames/yi-one-light-path-official-v2-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-one-light-path-official-v2/renders/final-frames/yi-one-light-path-official-v2-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.55,
+        "purpose": "语义入场",
+        "visibleAnchor": "一个太阳在清晨田野里慢慢升起。",
+        "readability": "pass",
+        "notes": "开场先建立“一个”，不先给字卡。"
+      },
+      {
+        "at": 2.25,
+        "purpose": "字形绑定",
+        "visibleAnchor": "太阳下方一条金色光线横向打开。",
+        "readability": "pass",
+        "notes": "“一条光线”和画面动作同拍。"
+      },
+      {
+        "at": 4.35,
+        "purpose": "平平一横",
+        "visibleAnchor": "多余光晕退去，只剩平平一横。",
+        "readability": "pass",
+        "notes": "光线由生活物抽象成字形线。"
+      },
+      {
+        "at": 6.42,
+        "purpose": "认字收束",
+        "visibleAnchor": "大字一、yi、就是一居中停住。",
+        "readability": "pass",
+        "notes": "最终帧安静，底部保留光线记忆回声。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "一个太阳升起后，只留下一条平平的晨光，晨光变成大字一。"
+    },
+    "actionReadability": [
+      {
+        "action": "sun rise-glow",
+        "verdict": "pass",
+        "reason": "太阳圆盘、下缘和光晕逐帧变化，能读成一个太阳慢慢升起。"
+      },
+      {
+        "action": "light line-unfold",
+        "verdict": "pass",
+        "reason": "金色光束在帧内从短到长、从发散到平直，是核心字形绑定动作。"
+      },
+      {
+        "action": "glyph closure",
+        "verdict": "pass",
+        "reason": "大字一在最后一句前入场，并与底部横线保持安静对照。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "ready",
+    "notes": [
+      "主视觉 plate 使用真实暖阳绘本图并已落盘为 1080x1920 正式素材，画面无 raster 文案、无水印、无 UI。",
+      "太阳、光线和最终字形为 code-native teaching overlays，用于清晰表达“一个太阳 -> 一条光线 -> 平平一横 -> 一”，不是占位美术。",
+      "音频使用 macOS 本机 Tingting 离线 TTS 烘焙，cue 时间按儿童慢节奏手工写入 VTT 并进入 audio-plan。"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 8.6,
+    "glyphBinding": 8.7,
+    "glyphAnchor": 8.5,
+    "pacing": 8.3,
+    "animationPerformance": 7.8,
+    "visualQuality": 8.4,
+    "childAppeal": 8.3,
+    "audioFit": 7.8,
+    "technicalCompliance": 8.7,
+    "officialReadiness": 8.2
+  },
+  "overallScore": 8.3,
+  "decision": "blocked",
+  "blockers": [
+    "未使用可审计的 CLI gpt-image-2 生图链路。",
+    "太阳与光线主要为 code-native teaching overlays，不满足最新 agent 对正式美术资产的要求。",
+    "音频使用 macOS Tingting 本地 TTS，不是产品音频计划要求的 zh-CN-XiaoxiaoNeural baked audio。"
+  ],
+  "nextActions": [
+    "接入 H5 official 前运行 H5 guardrails 与真机点播复核。",
+    "发布前确认 CDN 路径、poster 和 final frame 已同步到线上资源表。"
+  ]
+}

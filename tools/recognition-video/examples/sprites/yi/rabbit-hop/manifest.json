@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "yi-rabbit-hop-example",
+  "characterId": "yi",
+  "actor": "rabbit",
+  "action": "hop",
+  "fps": 12,
+  "frameSize": {
+    "width": 64,
+    "height": 64
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.86
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 4,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png"
+  ],
+  "notes": "Tiny deterministic placeholder for validating the agent workflow. Do not use as production artwork."
+}

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi",
+  "character": "一",
+  "pinyin": "yi",
+  "unitId": "unit-01",
+  "duration": 5.8,
+  "fps": 24,
+  "teachingHook": "平平一条线，就是一。",
+  "narration": {
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "cues": [
+      {
+        "at": 0.8,
+        "text": "一条小路"
+      },
+      {
+        "at": 2.0,
+        "text": "一个苹果"
+      },
+      {
+        "at": 3.2,
+        "text": "一根木棒"
+      },
+      {
+        "at": 4.8,
+        "text": "都是一"
+      }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "scene-cue",
+      "start": 0,
+      "duration": 1.2,
+      "purpose": "建立一条平平小路的字形钩子。",
+      "description": "暖色小路横向展开，兔子在路边准备轻跳。",
+      "requiredAssets": ["path-plate", "rabbit-hop"]
+    },
+    {
+      "id": "one-examples",
+      "start": 1.2,
+      "duration": 2.6,
+      "purpose": "用一个苹果和一根木棒连接数量与横向形状。",
+      "description": "苹果轻落，木棒滚到横向，停留给孩子观察。",
+      "requiredAssets": ["apple-bounce", "stick-roll"]
+    },
+    {
+      "id": "glyph-close",
+      "start": 3.8,
+      "duration": 2,
+      "purpose": "把生活物件收束回清晰汉字一。",
+      "description": "横线发光生长，汉字、pinyin 和短语平静出现。",
+      "requiredAssets": ["glyph-line"]
+    }
+  ],
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "rabbit",
+        "action": "hop",
+        "reason": "兔子动作需要读得出轻跳，不能只移动单张图。",
+        "minFrames": 4
+      },
+      {
+        "actor": "apple",
+        "action": "settle",
+        "reason": "苹果轻落需要有形变或弹动帧。",
+        "minFrames": 4
+      },
+      {
+        "actor": "stick",
+        "action": "roll-flat",
+        "reason": "木棒滚到横向是字形归纳动作。",
+        "minFrames": 4
+      }
+    ],
+    "timelineOnly": [
+      "background slow push",
+      "cloud drift",
+      "html text fade in",
+      "final card hold"
+    ]
+  },
+  "finalFrame": {
+    "description": "暖色场景安静停住，汉字一、pinyin yi 和一个核心短语清楚可读。",
+    "mustBeReadableAsPoster": true
+  }
+}

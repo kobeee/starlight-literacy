@@ -1,7 +1,7 @@
 ---
 tags: [index, 导航]
 created: 2026-04-14
-updated: 2026-04-14
+updated: 2026-05-14
 ---
 
 # 📚 星光识字 · 项目知识库
@@ -50,6 +50,14 @@ PRD、交互设计、视觉规范、用户研究。
 | 技术选型决策 | [[02-技术架构/技术选型|技术选型]] |
 | Unit-01 设计 | [[01-产品设计/Unit-01-设计|Unit-01 完整设计]] |
 | 当前开发任务 | [[03-开发日志/当前任务|当前任务]] |
+| 最新研发日志 | [[03-开发日志/2026-05-14-HyperFrames生图Spritesheet标准化|2026-05-14 HyperFrames 生图 Spritesheet 标准化]] |
+| Mobile H5 整改规划 | [[03-开发日志/2026-05-13-Mobile-H5整改规划|Mobile H5 整改规划]] |
+| Unit-01 重构规划 | [[01-产品设计/Unit-01产品级重构执行规划|Unit-01 产品级重构执行规划]] |
+| Unit-01 生图规范 | [[06-素材资源/Unit-01素材与生图生产规范|Unit-01 素材与生图生产规范]] |
+| Mobile H5 VPS 部署 | [[05-技术文档/Mobile-H5-VPS部署Runbook|VPS 部署 Runbook]] |
+| Mobile H5 动画教学方案 | [[05-技术文档/Mobile-H5-HyperFrames教学动画优化方案|HyperFrames 教学动画优化方案]] |
+| HyperFrames 认字视频 | [[05-技术文档/认字动画视频生成方案-Remotion-vs-HyperFrames|认字动画视频生成方案]] |
+| HyperFrames Agent 底座 | [[05-技术文档/HyperFrames多帧动画Agent流水线方案|HyperFrames 多帧动画 Agent 流水线方案]] |
 
 ## 知识库使用规范
 

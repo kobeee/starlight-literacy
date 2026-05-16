@@ -1,0 +1,243 @@
+{
+  "id": "unit-01-recognition-video-production-plan",
+  "updatedAt": "2026-05-03T16:20:00+08:00",
+  "surface": "Mobile H5 P03 recognition stage",
+  "productRule": "Every recognition video is a short teaching clip, not a decorative reward animation.",
+  "globalAcceptance": [
+    "The child sees the everyday meaning before the glyph locks in.",
+    "The target character remains visually dominant after the first 2 seconds.",
+    "Every spoken cue has at least 1.6 seconds of quiet dwell time.",
+    "The final frame is calm enough to serve as poster and fallback art.",
+    "No app chrome, CTA, dense caption, unrelated mascot action, or reward burst appears inside the video."
+  ],
+  "batches": [
+    {
+      "id": "rescue-baseline",
+      "characters": ["yi"],
+      "goal": "Keep the current polished HyperFrames clip as the quality bar."
+    },
+    {
+      "id": "batch-01-core-shape",
+      "characters": ["er", "san", "ren", "shan", "huo"],
+      "goal": "Produce the next five clips with the clearest stroke-shape mapping."
+    },
+    {
+      "id": "batch-02-direction-body",
+      "characters": ["da", "xiao", "shang", "xia", "kou", "shou"],
+      "goal": "Cover body and direction words with strong gesture-based hooks."
+    },
+    {
+      "id": "batch-03-nature-objects",
+      "characters": ["ri", "yue", "shui", "mu", "tu", "tian", "mu-eye", "er-ear"],
+      "goal": "Finish nature and object words with calm scene-to-glyph transitions."
+    }
+  ],
+  "characters": [
+    {
+      "id": "yi",
+      "char": "一",
+      "status": "shipped",
+      "priority": "P0",
+      "targetDuration": 9.8,
+      "hook": "one apple, one path, one stick all resolve into one flat stroke",
+      "voiceCues": ["一个苹果", "一条小路", "一根木棒", "都是一"],
+      "visualBeats": ["single object appears", "horizontal path forms", "wood stick aligns", "large glyph rests"],
+      "outputs": {
+        "mp4": "src/clients/mobile-h5/assets/recognition/yi/yi-stage-v3.mp4",
+        "webm": "src/clients/mobile-h5/assets/recognition/yi/yi-stage-v3.webm",
+        "poster": "src/clients/mobile-h5/assets/recognition/yi/yi-stage-poster-v3.png",
+        "finalFrame": "src/clients/mobile-h5/assets/recognition/yi/yi-stage-final-v3.png"
+      }
+    },
+    {
+      "id": "er",
+      "char": "二",
+      "status": "planned",
+      "priority": "P0",
+      "targetDuration": 7.2,
+      "hook": "two calm stacked lines, top shorter and bottom longer",
+      "voiceCues": ["一条线", "再一条线", "合起来是二"],
+      "visualBeats": ["first line settles", "second line appears below", "spacing breathes", "glyph 二 rests large"]
+    },
+    {
+      "id": "san",
+      "char": "三",
+      "status": "planned",
+      "priority": "P0",
+      "targetDuration": 7.6,
+      "hook": "three horizontal strokes line up like three quiet steps",
+      "voiceCues": ["一条", "两条", "三条"],
+      "visualBeats": ["top stroke", "middle stroke", "bottom stroke", "all three glow softly"]
+    },
+    {
+      "id": "da",
+      "char": "大",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 7.8,
+      "hook": "a child opens arms and legs into the wide shape of 大",
+      "voiceCues": ["张开手", "站得大大的", "这是大"],
+      "visualBeats": ["body silhouette opens", "cross stroke aligns", "two legs settle", "glyph 大 replaces gesture"]
+    },
+    {
+      "id": "xiao",
+      "char": "小",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 7.4,
+      "hook": "one small sprout with two tiny side drops becomes 小",
+      "voiceCues": ["中间一竖", "两边小点", "这是小"],
+      "visualBeats": ["center stem grows", "left dot lands", "right dot lands", "glyph 小 stays centered"]
+    },
+    {
+      "id": "shang",
+      "char": "上",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 7.8,
+      "hook": "a balloon rises above a ground line, then the upper mark becomes 上",
+      "voiceCues": ["往上", "在上面", "这是上"],
+      "visualBeats": ["ground baseline", "vertical guide rises", "upper short line appears", "glyph 上 locks"]
+    },
+    {
+      "id": "xia",
+      "char": "下",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 7.8,
+      "hook": "a raindrop falls below a roof line and lands as the dot of 下",
+      "voiceCues": ["往下", "在下面", "这是下"],
+      "visualBeats": ["top line holds", "vertical stroke drops", "small dot lands below", "glyph 下 rests"]
+    },
+    {
+      "id": "ren",
+      "char": "人",
+      "status": "planned",
+      "priority": "P0",
+      "targetDuration": 7.8,
+      "hook": "two leaning strokes support each other like a person standing",
+      "voiceCues": ["一撇", "一捺", "站成一个人"],
+      "visualBeats": ["left stroke leans", "right stroke balances", "small figure fades out", "glyph 人 holds"]
+    },
+    {
+      "id": "kou",
+      "char": "口",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 7.6,
+      "hook": "four sides close gently around an open mouth shape",
+      "voiceCues": ["上边", "右边", "围成口"],
+      "visualBeats": ["top line", "right side", "bottom and left close", "inside stays open"]
+    },
+    {
+      "id": "shou",
+      "char": "手",
+      "status": "planned",
+      "priority": "P1",
+      "targetDuration": 8.2,
+      "hook": "a waving hand simplifies into three cross strokes and one vertical stroke",
+      "voiceCues": ["小手挥一挥", "横横横", "一竖是手"],
+      "visualBeats": ["hand silhouette", "three horizontal marks", "vertical stroke joins", "glyph 手 settles"]
+    },
+    {
+      "id": "ri",
+      "char": "日",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 7.8,
+      "hook": "a rising sun becomes a square sun with one inner line",
+      "voiceCues": ["太阳升起来", "中间一横", "这是日"],
+      "visualBeats": ["sun disc rises", "square frame forms", "inner line appears", "glyph 日 warms final frame"]
+    },
+    {
+      "id": "yue",
+      "char": "月",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.0,
+      "hook": "a crescent moon straightens into 月 with two inner moonlight lines",
+      "voiceCues": ["弯弯月亮", "两道月光", "这是月"],
+      "visualBeats": ["crescent appears", "outer frame forms", "inner lines glow", "glyph 月 holds"]
+    },
+    {
+      "id": "shui",
+      "char": "水",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.2,
+      "hook": "a stream splits from the center into the strokes of 水",
+      "voiceCues": ["水从中间流", "两边分开", "这是水"],
+      "visualBeats": ["center stream", "left branch", "right branch", "glyph 水 becomes still"]
+    },
+    {
+      "id": "huo",
+      "char": "火",
+      "status": "planned",
+      "priority": "P0",
+      "targetDuration": 8.0,
+      "hook": "a flame jumps upward and freezes into the dot-and-slant structure of 火",
+      "voiceCues": ["火苗跳一跳", "两边像火光", "这是火"],
+      "visualBeats": ["warm flame appears", "side sparks trace dots", "lower slants settle", "glyph 火 stays calm"]
+    },
+    {
+      "id": "shan",
+      "char": "山",
+      "status": "planned",
+      "priority": "P0",
+      "targetDuration": 7.8,
+      "hook": "three peaks rise from one base line and become 山",
+      "voiceCues": ["一座山", "三座山峰", "这是山"],
+      "visualBeats": ["base line", "middle peak rises", "two side peaks rise", "glyph 山 rests wide"]
+    },
+    {
+      "id": "mu",
+      "char": "木",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.0,
+      "hook": "a tree trunk and branches simplify into 木",
+      "voiceCues": ["树干直直", "树枝伸开", "这是木"],
+      "visualBeats": ["trunk grows", "horizontal branch", "two lower branches", "glyph 木 replaces tree"]
+    },
+    {
+      "id": "tu",
+      "char": "土",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 7.6,
+      "hook": "a sprout stands in soil; two ground lines become 土",
+      "voiceCues": ["脚下是土", "上面一横", "下面一横"],
+      "visualBeats": ["soil base", "vertical sprout", "upper cross line", "glyph 土 holds"]
+    },
+    {
+      "id": "tian",
+      "char": "天",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.0,
+      "hook": "a big sky sits above 大, making 天",
+      "voiceCues": ["大字上面", "多一横", "就是天"],
+      "visualBeats": ["大 shape appears", "sky line descends above", "open blue background", "glyph 天 settles"]
+    },
+    {
+      "id": "mu-eye",
+      "char": "目",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.0,
+      "hook": "an eye outline becomes a box with inner lines",
+      "voiceCues": ["像一只眼睛", "里面有横线", "这是目"],
+      "visualBeats": ["eye outline", "box frame", "inner lines blink once", "glyph 目 holds still"]
+    },
+    {
+      "id": "er-ear",
+      "char": "耳",
+      "status": "planned",
+      "priority": "P2",
+      "targetDuration": 8.2,
+      "hook": "an ear curve straightens into the vertical and inner strokes of 耳",
+      "voiceCues": ["耳朵听一听", "里面有横线", "这是耳"],
+      "visualBeats": ["ear silhouette", "left vertical and top line", "inner lines", "final slanted foot settles"]
+    }
+  ]
+}

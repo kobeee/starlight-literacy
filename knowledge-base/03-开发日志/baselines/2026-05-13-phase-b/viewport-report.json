@@ -1,0 +1,135 @@
+{
+  "appUrl": "http://127.0.0.1:4173/src/clients/mobile-h5/",
+  "outputDir": "/tmp/starlight-mobile-h5-viewport-b",
+  "viewports": [
+    {
+      "id": "iphone-se",
+      "width": 375,
+      "height": 667,
+      "steps": [
+        {
+          "id": "01-home",
+          "ok": true
+        },
+        {
+          "id": "02-unit",
+          "ok": true
+        },
+        {
+          "id": "03-recognize",
+          "ok": true
+        },
+        {
+          "id": "04-write",
+          "ok": true
+        },
+        {
+          "id": "05-practice",
+          "ok": true
+        },
+        {
+          "id": "06-parent",
+          "ok": true
+        }
+      ],
+      "consoleIssues": []
+    },
+    {
+      "id": "iphone-12",
+      "width": 390,
+      "height": 844,
+      "steps": [
+        {
+          "id": "01-home",
+          "ok": true
+        },
+        {
+          "id": "02-unit",
+          "ok": true
+        },
+        {
+          "id": "03-recognize",
+          "ok": true
+        },
+        {
+          "id": "04-write",
+          "ok": true
+        },
+        {
+          "id": "05-practice",
+          "ok": true
+        },
+        {
+          "id": "06-parent",
+          "ok": true
+        }
+      ],
+      "consoleIssues": []
+    },
+    {
+      "id": "iphone-max",
+      "width": 414,
+      "height": 896,
+      "steps": [
+        {
+          "id": "01-home",
+          "ok": true
+        },
+        {
+          "id": "02-unit",
+          "ok": true
+        },
+        {
+          "id": "03-recognize",
+          "ok": true
+        },
+        {
+          "id": "04-write",
+          "ok": true
+        },
+        {
+          "id": "05-practice",
+          "ok": true
+        },
+        {
+          "id": "06-parent",
+          "ok": true
+        }
+      ],
+      "consoleIssues": []
+    },
+    {
+      "id": "ipad-portrait",
+      "width": 768,
+      "height": 1024,
+      "steps": [
+        {
+          "id": "01-home",
+          "ok": true
+        },
+        {
+          "id": "02-unit",
+          "ok": true
+        },
+        {
+          "id": "03-recognize",
+          "ok": true
+        },
+        {
+          "id": "04-write",
+          "ok": true
+        },
+        {
+          "id": "05-practice",
+          "ok": true
+        },
+        {
+          "id": "06-parent",
+          "ok": true
+        }
+      ],
+      "consoleIssues": []
+    }
+  ],
+  "failures": []
+}

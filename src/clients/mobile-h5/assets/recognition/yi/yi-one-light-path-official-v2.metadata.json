@@ -1,0 +1,48 @@
+{
+  "characterId": "yi",
+  "char": "一",
+  "status": "rendered-needs-iteration",
+  "teachingGoal": "用一个太阳、一条光线和平平一横，帮助孩子把“一”的数量语义和字形横线联系起来。",
+  "productSurface": "P03 认字页竖屏手机教学舞台",
+  "video": "./yi-one-light-path-official-v2.mp4",
+  "webm": "./yi-one-light-path-official-v2.webm",
+  "poster": "./yi-one-light-path-official-v2-poster.png",
+  "finalFrame": "./yi-one-light-path-official-v2-final.png",
+  "reviewSheet": "./yi-one-light-path-official-v2-review-sheet.png",
+  "width": 1080,
+  "height": 1920,
+  "duration": 7.416667,
+  "fps": 24,
+  "frames": 178,
+  "posterAt": 0.3,
+  "finalFrameAt": 7.2,
+  "sourceArtifacts": {
+    "brief": "../../../../../../tools/recognition-video/briefs/yi-one-light-path-official-v2.brief.json",
+    "assetPlan": "../../../../../../tools/recognition-video/asset-plans/yi-one-light-path-official-v2.asset-plan.json",
+    "audioPlan": "../../../../../../tools/recognition-video/audio-plans/yi-one-light-path-official-v2.audio-plan.json",
+    "productReview": "../../../../../../tools/recognition-video/product-reviews/yi-one-light-path-official-v2.product-review.json",
+    "buildMeta": "../../../../../../tools/recognition-video/builds/yi-one-light-path-official-v2/meta.json"
+  },
+  "audioTrack": {
+    "status": "baked",
+    "provider": "macos-say",
+    "voice": "Tingting",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "audioDuration": 7.424
+  },
+  "validation": {
+    "hyperframesVersion": "0.6.6",
+    "hyperframesLatest": "0.6.6",
+    "teachingHarness": "ok",
+    "audioSyncPlan": "ok",
+    "spriteAssets": "ok: sun rise-glow + light line-unfold",
+    "hyperframesLint": "0 errors, 0 warnings",
+    "hyperframesInspect": "ok at 0.3,1.6,3.2,4.8,5.8,7.2",
+    "productGateOfficial": "validate-product-video-gate --official ok",
+    "ffprobe": "mp4/webm include video + baked audio streams, 1080x1920, 24fps, ~7.44s",
+    "audioLevel": "volumedetect mean -24.3 dB, max -6.9 dB"
+  },
+  "version": "2026-05-15-one-light-path-official-v2"
+}

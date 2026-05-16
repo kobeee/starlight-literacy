@@ -1,0 +1,399 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/brief.schema.json",
+  "title": "Recognition Video Teaching Brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "characterId",
+    "character",
+    "pinyin",
+    "duration",
+    "fps",
+    "teachingHook",
+    "narration",
+    "shotPlan",
+    "animationRequirements",
+    "finalFrame"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "recognition-video-brief/v1"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "character": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2
+    },
+    "pinyin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unitId": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number",
+      "minimum": 3,
+      "maximum": 8
+    },
+    "fps": {
+      "type": "integer",
+      "const": 24
+    },
+    "teachingHook": {
+      "type": "string",
+      "minLength": 4
+    },
+    "narration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["script", "voice", "cues"],
+      "properties": {
+        "script": {
+          "type": "string",
+          "minLength": 4
+        },
+        "voice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cues": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at", "text"],
+            "properties": {
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "shotPlan": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "start", "duration", "purpose", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 4
+          },
+          "description": {
+            "type": "string",
+            "minLength": 4
+          },
+          "requiredAssets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "teachingContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceModel",
+        "meaningAction",
+        "glyphBinding",
+        "phraseBridge",
+        "sentenceBridge",
+        "recognitionPauses",
+        "practiceOrRepeat",
+        "writingPosition",
+        "mascotRole"
+      ],
+      "properties": {
+        "sourceModel": {
+          "type": "string",
+          "const": "hongen-micro-lesson/v1"
+        },
+        "meaningAction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shotId", "description", "mustPrecedeGlyphClosure"],
+          "properties": {
+            "shotId": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 4
+            },
+            "mustPrecedeGlyphClosure": {
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "glyphBinding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shotId", "description", "boundElements"],
+          "properties": {
+            "shotId": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 4
+            },
+            "boundElements": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "phraseBridge": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shotId", "phrase"],
+          "properties": {
+            "shotId": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "phrase": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "sentenceBridge": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sentence", "source"],
+          "properties": {
+            "sentence": {
+              "type": "string",
+              "minLength": 4
+            },
+            "source": {
+              "type": "string",
+              "minLength": 4
+            }
+          }
+        },
+        "recognitionPauses": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["shotId", "target", "seconds"],
+            "properties": {
+              "shotId": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "target": {
+                "type": "string",
+                "minLength": 2
+              },
+              "seconds": {
+                "type": "number",
+                "minimum": 0.8
+              }
+            }
+          }
+        },
+        "practiceOrRepeat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "description"],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "minLength": 2
+            },
+            "description": {
+              "type": "string",
+              "minLength": 4
+            }
+          }
+        },
+        "writingPosition": {
+          "type": "string",
+          "enum": ["late", "late-or-omitted", "omitted"]
+        },
+        "mascotRole": {
+          "type": "string",
+          "enum": ["supporting", "none"]
+        }
+      }
+    },
+    "pacingRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audienceAgeRange",
+        "minimumCueHoldSeconds",
+        "minimumFinalHoldSeconds",
+        "maximumSceneChangesPerSecond",
+        "productSurface"
+      ],
+      "properties": {
+        "audienceAgeRange": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minimumCueHoldSeconds": {
+          "type": "number",
+          "minimum": 0.5
+        },
+        "minimumFinalHoldSeconds": {
+          "type": "number",
+          "minimum": 1
+        },
+        "maximumSceneChangesPerSecond": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "productSurface": {
+          "type": "string",
+          "minLength": 4
+        }
+      }
+    },
+    "animationRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spriteRequired", "timelineOnly"],
+      "properties": {
+        "spriteRequired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["actor", "action", "reason", "minFrames"],
+            "properties": {
+              "actor": {
+                "type": "string",
+                "minLength": 1
+              },
+              "action": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 4
+              },
+              "minFrames": {
+                "type": "integer",
+                "minimum": 4
+              },
+              "requiredMotionParts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "poseContract": {
+                "type": "array",
+                "minItems": 4,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["frame", "pose", "body", "limbs", "contact", "mustReadAs"],
+                  "properties": {
+                    "frame": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "pose": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "body": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "limbs": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "contact": {
+                      "type": "string",
+                      "minLength": 4
+                    },
+                    "mustReadAs": {
+                      "type": "string",
+                      "minLength": 4
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "timelineOnly": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "finalFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "mustBeReadableAsPoster"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 4
+        },
+        "mustBeReadableAsPoster": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    }
+  }
+}

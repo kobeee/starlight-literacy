@@ -5,6 +5,16 @@
   "type": "module",
   "scripts": {
     "dev:h5": "node src/clients/mobile-h5/server.mjs",
-    "check:h5": "node --check src/clients/mobile-h5/app.js && node --check src/shared/unit-01.js && node --check src/clients/mobile-h5/server.mjs && node --check src/clients/mobile-h5/sw.js"
+    "audit:h5": "node scripts/mobile-h5-visual-audit.mjs",
+    "audit:h5:viewport": "node scripts/audit-mobile-h5-viewport.mjs",
+    "audit:h5:runtime": "node scripts/audit-mobile-h5-runtime.mjs",
+    "bump:h5": "node scripts/bump-h5-version.mjs",
+    "video:create-example-sprite": "node tools/recognition-video/scripts/create-example-sprite.mjs",
+    "video:prepare-spritesheet": "node tools/recognition-video/scripts/prepare-spritesheet-sprite.mjs",
+    "video:check-sprite-example": "node tools/recognition-video/scripts/validate-sprite-assets.mjs tools/recognition-video/examples/sprites/yi/rabbit-hop/manifest.json",
+    "video:check-teaching-harness": "node tools/recognition-video/scripts/validate-teaching-harness.mjs tools/recognition-video/briefs/yi-agent-pipeline-test.brief.json tools/recognition-video/asset-plans/yi-agent-pipeline-test.asset-plan.json",
+    "video:check-audio-sync": "node tools/recognition-video/scripts/validate-audio-sync-plan.mjs tools/recognition-video/briefs/yi-fresh-horizon-sync-v4.brief.json tools/recognition-video/asset-plans/yi-fresh-horizon-sync-v4.asset-plan.json tools/recognition-video/audio-plans/yi-fresh-horizon-sync-v4.audio-plan.json",
+    "video:check-product-gate": "node tools/recognition-video/scripts/validate-product-video-gate.mjs tools/recognition-video/product-reviews/yi-hongen-agent-v2.product-review.json",
+    "check:h5": "node --check src/clients/mobile-h5/app.js && node --check src/shared/unit-01.js && node --check src/shared/unit-01-lessons.js && node --check src/shared/unit-01-visual-assets.js && node --check src/clients/mobile-h5/server.mjs && node --check src/clients/mobile-h5/sw.js && node --check scripts/mobile-h5-visual-audit.mjs && node --check scripts/check-mobile-h5-guardrails.mjs && node --check scripts/check-mobile-h5-learning-flow.mjs && node --check scripts/check-mobile-h5-routing.mjs && node --check scripts/audit-mobile-h5-viewport.mjs && node --check scripts/audit-mobile-h5-runtime.mjs && node --check scripts/bump-h5-version.mjs && node --check scripts/lib/h5-headless.mjs && node --check scripts/check-unit-01-visual-assets.mjs && node scripts/check-unit-01-course-model.mjs && node scripts/check-unit-01-visual-assets.mjs && node scripts/check-mobile-h5-speech.mjs && node scripts/check-mobile-h5-guardrails.mjs && node scripts/check-mobile-h5-learning-flow.mjs && node scripts/check-mobile-h5-routing.mjs && node scripts/bump-h5-version.mjs --check"
   }
 }

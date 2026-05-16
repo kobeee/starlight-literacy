@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>一 - Hongen Agent V2</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #f8ecd8;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #5a3422;
+    }
+    .stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #f8ecd8; }
+    .clip { position: absolute; }
+    .plate { inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    .paper-grain {
+      inset: 0;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(circle at 18% 24%, rgba(91, 61, 33, 0.10) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 71% 42%, rgba(91, 61, 33, 0.08) 0 1px, transparent 1.5px);
+      background-size: 42px 42px, 67px 67px;
+    }
+    .scene { inset: 0; width: 100%; height: 100%; opacity: 0; }
+    .cue {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 60px;
+      line-height: 1.1;
+      font-weight: 850;
+      letter-spacing: 0;
+      color: #725019;
+      text-shadow: 0 3px 0 rgba(255, 248, 222, 0.55);
+    }
+    .cue-path { top: 1284px; }
+    .cue-stick { top: 1278px; }
+    .cue-apple { top: 1234px; }
+    .path-glow,
+    .memory-line {
+      position: absolute;
+      left: 256px;
+      top: 1102px;
+      width: 568px;
+      height: 28px;
+      border-radius: 999px;
+      transform-origin: 0 50%;
+      background:
+        linear-gradient(180deg, rgba(255, 249, 196, 0.9), rgba(255, 222, 84, 0.20)),
+        linear-gradient(90deg, #f9c849, #dda015);
+      box-shadow: 0 0 0 15px rgba(249, 200, 73, 0.12), 0 18px 24px rgba(92, 57, 21, 0.12);
+    }
+    .sprite {
+      position: absolute;
+      width: 256px;
+      height: 256px;
+      transform-origin: 50% 78%;
+      filter: drop-shadow(0 18px 18px rgba(90, 52, 34, 0.12));
+    }
+    .sprite-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
+    .guide-hand { left: 56px; top: 978px; width: 292px; height: 292px; }
+    .stick { left: 338px; top: 988px; width: 398px; height: 398px; }
+    .apple { left: 414px; top: 794px; width: 254px; height: 254px; }
+    .soft-focus {
+      position: absolute;
+      left: 170px;
+      right: 170px;
+      top: 1018px;
+      height: 190px;
+      border-radius: 96px;
+      background: rgba(255, 243, 198, 0.24);
+      border: 4px solid rgba(196, 139, 42, 0.10);
+    }
+    .glyph-card {
+      position: absolute;
+      left: 168px;
+      right: 168px;
+      top: 438px;
+      height: 804px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 48px;
+      background: rgba(255, 250, 230, 0.78);
+      border: 6px solid rgba(188, 132, 38, 0.18);
+      box-shadow: 0 38px 80px rgba(92, 57, 21, 0.14);
+    }
+    .glyph { font-size: 382px; line-height: 0.84; font-weight: 900; color: #5b351f; }
+    .pinyin { margin-top: 44px; font-size: 76px; line-height: 1; font-weight: 850; color: #a46b12; }
+    .memory-line { top: 1324px; height: 34px; }
+    .final-phrase {
+      position: absolute;
+      left: 0;
+      top: 1414px;
+      width: 100%;
+      text-align: center;
+      font-size: 66px;
+      line-height: 1.15;
+      font-weight: 850;
+      color: #714817;
+    }
+    .tokens {
+      position: absolute;
+      left: 132px;
+      right: 132px;
+      bottom: 160px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .token {
+      min-height: 92px;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background: rgba(255, 250, 232, 0.76);
+      border: 4px solid rgba(165, 108, 27, 0.14);
+      color: #765226;
+      font-size: 34px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-hongen-agent-v2" class="stage" data-composition-id="yi-hongen-agent-v2" data-start="0" data-width="1080" data-height="1920" data-duration="7.8">
+    <img id="meadow-line-plate" class="clip plate" data-start="0" data-duration="7.8" data-track-index="0" src="assets/unit-01/yi-hongen-agent-v2/plates/meadow-line-plate.png" alt="" />
+    <div id="paper-grain" class="clip paper-grain" data-start="0" data-duration="7.8" data-track-index="1" aria-hidden="true"></div>
+
+    <section id="meaning-path-scene" class="clip scene path-scene" data-start="0" data-duration="2.1" data-track-index="2" aria-label="一条小路">
+      <div class="soft-focus"></div>
+      <div class="path-glow"></div>
+      <div class="sprite guide-hand">
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-000.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-001.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-002.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-003.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-004.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-005.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-006.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-007.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-008.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/frame-009.png" alt="" />
+      </div>
+      <div class="cue cue-path">一条小路</div>
+    </section>
+
+    <section id="quantity-repeat-scene" class="clip scene apple-scene" data-start="2" data-duration="1.85" data-track-index="3" aria-label="一个苹果">
+      <div class="sprite apple">
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-000.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-001.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-002.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-003.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-004.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-005.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/frame-006.png" alt="" />
+      </div>
+      <div class="cue cue-apple">一个苹果</div>
+    </section>
+
+    <section id="shape-bind-scene" class="clip scene stick-scene" data-start="3.75" data-duration="1.95" data-track-index="4" aria-label="一根木棒">
+      <div class="soft-focus"></div>
+      <div class="sprite stick">
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-000.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-001.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-002.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-003.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-004.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-005.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-006.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/frame-007.png" alt="" />
+      </div>
+      <div class="cue cue-stick">一根木棒</div>
+    </section>
+
+    <section id="glyph-close-scene" class="clip scene glyph-scene" data-start="5.55" data-duration="2.25" data-track-index="5" aria-label="都是一">
+      <div class="glyph-card">
+        <div>
+          <div class="glyph">一</div>
+          <div class="pinyin">yi</div>
+        </div>
+      </div>
+      <div class="memory-line"></div>
+      <div class="final-phrase">都是一</div>
+      <div class="tokens" aria-hidden="true">
+        <div class="token">小路</div>
+        <div class="token">木棒</div>
+        <div class="token">苹果</div>
+      </div>
+    </section>
+
+    <audio id="narration-audio" class="clip" data-start="0" data-duration="7.8" data-track-index="20" src="assets/audio/yi-hongen-narration.mp3" preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const range = (time, start, length) => clamp((time - start) / length);
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => { el.style.opacity = String(clamp(value)); });
+    };
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const rotation = parts.rotation || 0;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) scale(" + scale.toFixed(3) + ") rotate(" + rotation.toFixed(2) + "deg)";
+      });
+    };
+    const setScaleX = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => { el.style.transform = "scaleX(" + clamp(value).toFixed(3) + ")"; });
+    };
+    const showSpriteFrame = (selector, time, start, length, frameCount) => {
+      const frames = gsap.utils.toArray(selector + " .sprite-frame");
+      const progress = range(time, start, length);
+      const index = Math.min(frameCount - 1, Math.floor(progress * frameCount));
+      frames.forEach((frame, frameIndex) => { frame.style.opacity = frameIndex === index ? "1" : "0"; });
+    };
+
+    timeline.add((time) => {
+      setOpacity(".path-scene", ease(range(time, 0.0, 0.22)) * (1 - range(time, 1.92, 0.25)));
+      setScaleX(".path-glow", ease(range(time, 0.45, 0.8)));
+      showSpriteFrame(".guide-hand", time, 0.18, 1.55, 10);
+      setTransform(".guide-hand", {
+        x: 8 * ease(range(time, 0.18, 1.55)),
+        y: -5 * Math.sin(Math.PI * range(time, 0.18, 1.55)),
+        scale: 1,
+        rotation: -1 + 2 * Math.sin(Math.PI * range(time, 0.18, 1.55))
+      });
+
+      setOpacity(".apple-scene", ease(range(time, 2.0, 0.24)) * (1 - range(time, 3.62, 0.25)));
+      showSpriteFrame(".apple", time, 2.2, 1.05, 7);
+      setTransform(".apple", {
+        y: -30 * (1 - ease(range(time, 2.2, 1.05))),
+        scale: 1,
+        rotation: -2 + 4 * Math.sin(Math.PI * range(time, 2.2, 1.05))
+      });
+
+      setOpacity(".stick-scene", ease(range(time, 3.75, 0.24)) * (1 - range(time, 5.48, 0.25)));
+      showSpriteFrame(".stick", time, 3.95, 1.25, 8);
+      setTransform(".stick", {
+        y: -8 * Math.sin(Math.PI * range(time, 3.95, 1.25)),
+        scale: 1,
+        rotation: 0
+      });
+
+      setOpacity(".glyph-scene", ease(range(time, 5.55, 0.42)));
+      setScaleX(".memory-line", ease(range(time, 5.76, 0.7)));
+      setTransform(".glyph-card", {
+        y: 18 * (1 - ease(range(time, 5.55, 0.55))),
+        scale: 0.94 + 0.06 * ease(range(time, 5.55, 0.55)),
+        rotation: 0
+      });
+      setOpacity(".final-phrase", ease(range(time, 6.35, 0.35)));
+      setOpacity(".tokens", ease(range(time, 6.92, 0.35)));
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-hongen-agent-v2"] = timeline;
+  </script>
+</body>
+</html>

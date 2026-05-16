@@ -1,0 +1,77 @@
+{
+  "appUrl": "http://127.0.0.1:4173/src/clients/mobile-h5/",
+  "steps": [
+    {
+      "id": "home-rendered",
+      "ok": true,
+      "ms": 6
+    },
+    {
+      "id": "home-fab-treasure",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "id": "home-fab-parent",
+      "ok": true,
+      "ms": 2
+    },
+    {
+      "id": "open-unit",
+      "ok": true,
+      "ms": 464
+    },
+    {
+      "id": "start-learning",
+      "ok": true,
+      "ms": 955
+    },
+    {
+      "id": "speak-current",
+      "ok": true,
+      "ms": 48
+    },
+    {
+      "id": "to-write",
+      "ok": true,
+      "ms": 419
+    },
+    {
+      "id": "skip-writing",
+      "ok": true,
+      "ms": 992
+    },
+    {
+      "id": "wrong-answer-replay",
+      "ok": true,
+      "ms": 380
+    },
+    {
+      "id": "replay-auto-dismiss",
+      "ok": true,
+      "ms": 3205
+    },
+    {
+      "id": "answer-question",
+      "ok": true,
+      "ms": 731
+    },
+    {
+      "id": "open-parent",
+      "ok": true,
+      "ms": 1302
+    },
+    {
+      "id": "open-treasure",
+      "ok": true,
+      "ms": 918
+    }
+  ],
+  "consoleIssues": [
+    {
+      "type": "warning",
+      "text": "Unmuting failed and the element was paused instead because the user didn't interact with the document before. https://goo.gl/xX8pDD"
+    }
+  ],
+  "failures": []
+}

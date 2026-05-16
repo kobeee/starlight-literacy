@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/asset-plan.schema.json",
+  "title": "Recognition Video Asset Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "characterId",
+    "style",
+    "plates",
+    "cutouts",
+    "sprites",
+    "textRendering",
+    "audio",
+    "qualityBars"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "recognition-video-asset-plan/v1"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "summary"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "plates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "cutouts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "sprites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "actor", "action", "manifest", "minFrames"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "manifest": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minFrames": {
+            "type": "integer",
+            "minimum": 4
+          },
+          "requiredMotionParts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "motionCheckIntent": {
+            "type": "string",
+            "minLength": 4
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "textRendering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rasterImagesMayContainText", "renderer"],
+      "properties": {
+        "rasterImagesMayContainText": {
+          "type": "boolean",
+          "const": false
+        },
+        "renderer": {
+          "type": "string",
+          "enum": ["html-css", "svg", "canvas"]
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "script"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["planned", "generated", "baked"]
+        },
+        "script": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string"
+        },
+        "audioPlan": {
+          "type": "string"
+        }
+      }
+    },
+    "qualityBars": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 4
+      }
+    }
+  },
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "purpose"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["plate", "cutout", "reference"]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 4
+        },
+        "path": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

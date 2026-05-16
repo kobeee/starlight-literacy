@@ -1,0 +1,92 @@
+{
+  "appUrl": "http://127.0.0.1:4173/src/clients/mobile-h5/",
+  "steps": [
+    {
+      "id": "home-rendered",
+      "ok": true,
+      "ms": 2
+    },
+    {
+      "id": "home-fab-treasure",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "id": "home-fab-parent",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "id": "first-guide-shown",
+      "ok": true,
+      "ms": 156
+    },
+    {
+      "id": "first-guide-dismiss",
+      "ok": true,
+      "ms": 274
+    },
+    {
+      "id": "open-unit",
+      "ok": true,
+      "ms": 416
+    },
+    {
+      "id": "start-learning",
+      "ok": true,
+      "ms": 959
+    },
+    {
+      "id": "speak-current",
+      "ok": true,
+      "ms": 33
+    },
+    {
+      "id": "to-write",
+      "ok": true,
+      "ms": 434
+    },
+    {
+      "id": "skip-writing",
+      "ok": true,
+      "ms": 947
+    },
+    {
+      "id": "wrong-answer-replay",
+      "ok": true,
+      "ms": 395
+    },
+    {
+      "id": "replay-auto-dismiss",
+      "ok": true,
+      "ms": 3202
+    },
+    {
+      "id": "answer-question",
+      "ok": true,
+      "ms": 755
+    },
+    {
+      "id": "practice-correct-into-review",
+      "ok": true,
+      "ms": 4478
+    },
+    {
+      "id": "open-parent",
+      "ok": true,
+      "ms": 1313
+    },
+    {
+      "id": "open-treasure",
+      "ok": true,
+      "ms": 923
+    }
+  ],
+  "consoleIssues": [
+    {
+      "type": "warning",
+      "text": "Unmuting failed and the element was paused instead because the user didn't interact with the document before. https://goo.gl/xX8pDD"
+    }
+  ],
+  "failures": []
+}

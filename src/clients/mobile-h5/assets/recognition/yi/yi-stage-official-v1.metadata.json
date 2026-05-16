@@ -1,0 +1,47 @@
+{
+  "characterId": "yi",
+  "char": "一",
+  "status": "official",
+  "teachingGoal": "用一条小路、一个苹果、一根木棒三个生活承载物，帮助孩子把“一”的数量语义和平平一横联系起来。",
+  "productSurface": "P03 认字页横向教学舞台",
+  "video": "./yi-stage-official-v1.mp4",
+  "webm": "./yi-stage-official-v1.webm",
+  "poster": "./yi-stage-official-v1-poster.png",
+  "finalFrame": "./yi-stage-official-v1-final.png",
+  "width": 1280,
+  "height": 800,
+  "duration": 5.833333,
+  "fps": 24,
+  "frames": 140,
+  "posterAt": 1.0,
+  "finalFrameAt": 5.7,
+  "sourceComposition": "../../../../../../tools/hyperframes-one/index.html",
+  "sourceMeta": "../../../../../../tools/hyperframes-one/meta.json",
+  "sourceAssets": {
+    "generatedBackdrop": "./source-assets/yi-stage-bg-v1.png",
+    "timedAudio": "./source-assets/yi-video-narration-v1-timed.mp3",
+    "animalCompanions": [
+      "rabbit",
+      "bluebird",
+      "squirrel",
+      "ducklings"
+    ]
+  },
+  "audioTrack": {
+    "status": "baked",
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "audioDuration": 5.583
+  },
+  "validation": {
+    "hyperframesLint": "0 errors, 0 warnings",
+    "hyperframesInspect": "ok at 0.3,0.8,1.6,3.2,4.8,5.7",
+    "ffprobe": "mp4/webm include video + baked audio streams, 1280x800, 24fps, 5.833333s, 140 frames",
+    "finalFrame": "./yi-stage-official-v1-final.png",
+    "h5Policy": "Wired to unit01.characters[].recognitionVideo only after baked audio, animal companion pass, and real media stream checks."
+  },
+  "version": "2026-05-10-official-v1b-animal-companions-h5-stage-fix"
+}

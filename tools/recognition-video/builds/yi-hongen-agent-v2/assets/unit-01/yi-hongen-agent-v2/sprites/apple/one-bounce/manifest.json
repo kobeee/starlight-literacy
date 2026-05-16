@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "apple-one-bounce-agent-v2",
+  "characterId": "yi-hongen-agent-v2",
+  "actor": "apple",
+  "action": "one-bounce",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.78
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "chromaKey": {
+    "enabled": false,
+    "color": "#ff00ff"
+  },
+  "minFrames": 7,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png",
+    "frame-006.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "apple body",
+      "stem",
+      "leaf"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "single-high",
+        "contact": "未接触地面。"
+      },
+      {
+        "frame": 1,
+        "pose": "fall-mid",
+        "contact": "未接触地面。"
+      },
+      {
+        "frame": 2,
+        "pose": "touch-ground",
+        "contact": "底部接触地面。"
+      },
+      {
+        "frame": 3,
+        "pose": "soft-squash",
+        "contact": "底部充分接触。"
+      },
+      {
+        "frame": 4,
+        "pose": "rebound-up",
+        "contact": "减压回弹。"
+      },
+      {
+        "frame": 5,
+        "pose": "settle-round",
+        "contact": "稳定停住。"
+      },
+      {
+        "frame": 6,
+        "pose": "hold-one",
+        "contact": "稳定停住。"
+      }
+    ]
+  },
+  "motionChecks": [
+    {
+      "id": "apple-one-soft-bounce",
+      "label": "single apple lands with squash and leaf follow-through",
+      "region": {
+        "x": 52,
+        "y": 36,
+        "width": 152,
+        "height": 184
+      },
+      "minChangedFramePairs": 5,
+      "minChangedPixels": 300,
+      "minMeanDelta": 6,
+      "notes": "The apple is a quantity repeat cue, so it needs actual frame-level settle motion."
+    }
+  ],
+  "notes": "A single apple appears and gently bounces, reinforcing the quantity meaning of 一."
+}

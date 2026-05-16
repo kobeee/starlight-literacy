@@ -1,0 +1,10 @@
+Use case: illustration-story
+Asset type: chroma-key animation spritesheet for Starlight Literacy official recognition video
+Primary request: Create one clean animation spritesheet with 1 row and 8 columns (8 cells total) on a perfectly uniform solid neon pure green chroma-key backdrop (#00ff00). Each cell shows the same golden morning light beam in consecutive poses of one simple action: a short central glimmer opens horizontally into one calm flat line. This is the core glyph-binding motion for the Chinese character one.
+Subject: one warm golden horizontal light beam, soft center beam, left glow, advancing right tip, a few tiny dust sparkles that stay secondary.
+Style/medium: premium children's picture-book glow, soft gouache and colored-pencil texture, warm honey light, not glossy.
+Composition/framing: consistent scale and camera across all 8 cells, generous padding, centered on a horizontal axis, no grid lines or labels. All eight cells share one perfectly uniform pure neon green (#00ff00) background filling the entire image edge to edge; no panel borders, no white margins, no shadow halos, no gradient.
+Motion contract: frame 1 is a short central glimmer; frames 2-4 stretch left and right with the right tip advancing; frames 5-6 become flatter and more even; frames 7-8 settle into a single readable flat horizontal line. The left glow, center beam, right tip, and dust sparkles must visibly change between frames so no two cells are identical.
+Output: PNG, single image with all 8 cells arranged in 1x8 grid; background is solid pure neon green #00ff00 covering every pixel not part of the light beam subject. The green is for downstream chroma-key extraction; do not add any text or markers.
+Constraints: solid #00ff00 background only (no other backdrop, no floor plane, no cast shadow, no green bleeding into beam), no Chinese characters, no pinyin, no readable text, no watermark, no arrows, no symbols.
+Avoid: multiple lines, zigzags, calligraphy stroke, lightning bolt, neon laser, purple-blue gradients, identical cells, gradient backgrounds, off-green tints, lime, mint, white margins between cells.

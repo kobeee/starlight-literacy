@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-hongen-agent-v2",
+  "style": {
+    "source": "knowledge-base/06-素材资源/Unit-01素材与生图生产规范.md",
+    "summary": "暖阳绘本、低饱和、纸感草地；图片资产不含汉字、拼音、UI 文案或水印。"
+  },
+  "plates": [
+    {
+      "id": "meadow-line-plate",
+      "kind": "plate",
+      "purpose": "提供一条横向小路作为语义和字形共同钩子。",
+      "path": "tools/recognition-video/assets/unit-01/yi-hongen-agent-v2/plates/meadow-line-plate.png"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "guide-hand-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "引导小手指向小路、点一下并横向描过去，不复用旧兔子姿态。"
+    },
+    {
+      "id": "stick-straighten-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "木棒逐帧滚平成横线，承担字形绑定。"
+    },
+    {
+      "id": "apple-one-bounce-cutout-sequence",
+      "kind": "cutout",
+      "purpose": "单个苹果轻落回弹，承担数量复现。"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "guide-hand-trace-line",
+      "actor": "guide-hand",
+      "action": "trace-line",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-hongen-agent-v2/sprites/guide-hand/trace-line/manifest.json",
+      "minFrames": 10,
+      "requiredMotionParts": [
+        "index finger",
+        "wrist",
+        "sleeve",
+        "tap motion"
+      ],
+      "motionCheckIntent": "手指、手腕和袖口必须变化，挡住旧兔子素材或静态平移。",
+      "notes": "新动作是手指点线、描线，不是动物跳跃。"
+    },
+    {
+      "id": "stick-straighten-agent-v2",
+      "actor": "stick",
+      "action": "straighten",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-hongen-agent-v2/sprites/stick/straighten/manifest.json",
+      "minFrames": 8,
+      "requiredMotionParts": [
+        "stick angle",
+        "wood highlight",
+        "contact point"
+      ],
+      "motionCheckIntent": "木棒必须在帧内从斜到平，不能只靠 HTML rotate。",
+      "notes": "这是本版的主要字形绑定动作。"
+    },
+    {
+      "id": "apple-one-bounce-agent-v2",
+      "actor": "apple",
+      "action": "one-bounce",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-hongen-agent-v2/sprites/apple/one-bounce/manifest.json",
+      "minFrames": 7,
+      "requiredMotionParts": [
+        "apple body",
+        "stem",
+        "leaf"
+      ],
+      "motionCheckIntent": "苹果主体、叶子和梗必须在落地回弹中变化。",
+      "notes": "只出现一个苹果，服务数量意义。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一条小路。一个苹果。一根木棒。都是一。",
+    "path": "tools/recognition-video/builds/yi-hongen-agent-v2/assets/audio/yi-hongen-narration.mp3"
+  },
+  "qualityBars": [
+    "语义动作先于大字出现，不能一开场直接炫字。",
+    "引导小手是配角，画面主线是小路、苹果、木棒到一的绑定。",
+    "每个 required sprite 都有 poseContract 和 motionChecks。",
+    "核心 cue 间隔不低于 1.4 秒，final hold 不低于 2.2 秒。",
+    "图片资产不含中文、拼音或 UI 文案，文字只由 HTML 渲染。",
+    "测试产物不覆盖 existing official，也不自动接入 H5。"
+  ]
+}

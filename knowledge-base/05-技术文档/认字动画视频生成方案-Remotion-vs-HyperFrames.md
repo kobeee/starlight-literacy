@@ -1,7 +1,7 @@
 ---
 tags: [技术调研, 内容生产, 动画视频, Remotion, HyperFrames]
 created: 2026-04-29
-updated: 2026-04-29
+updated: 2026-05-02
 ---
 
 # 认字动画视频生成方案：Remotion vs HyperFrames
@@ -152,6 +152,84 @@ Remotion 的定位是用 React 生成真实视频，支持本地、服务端、A
 4. 用真实小程序页面验证加载、卡顿、弱网降级和孩子注意力。
 5. 再决定是否批量生产 100 字首批增强内容。
 
+## 2026-04-30 产品定位与本机工作流
+
+本轮进一步确认 HyperFrames 的边界：
+
+**HyperFrames 是星光识字的认字短视频生产管线，不是 App 内动画系统。**
+
+它负责离线生成内容资产：
+
+- 单字 `3-8 秒` 认字短视频。
+- `mp4 / poster / final frame / metadata`。
+- 字形、字音、字义的短节奏连接。
+- 输出后上传 CDN，小程序 P03 只做可选播放、缓存和降级。
+
+它不负责：
+
+- 不进入微信小程序运行时。
+- 不替代 P03 页面基础体验。
+- 不做洪恩式重剧情、强刺激、强游戏化长动画。
+- 不做夜空霓虹、粒子爆炸、奖励轰炸。
+- 不让视频抢走孩子对汉字本身的注意力。
+
+## 2026-05-02 教学媒介定位补充
+
+本轮进一步修正表述：动画不是炫技，也不是静态 P03 的可有可无增强层，而是认字教学媒介。它负责用运动、节奏、变形和场景关系吸引孩子注意力，并帮助孩子建立字形、字音、字义之间的记忆钩子。
+
+新的优先级是：
+
+```text
+产品顶层设计
+  -> 单字教学钩子
+  -> 页面容器和学习节奏
+  -> HyperFrames 输出比例/时长/画面结构
+```
+
+因此，HyperFrames 不应默认输出竖屏整页。P03 认字页可以使用横向或接近横向的教学舞台，宝库/测验/复习也可以各自输出 poster、短 loop 或局部视频。工具形态必须跟随产品形态，而不是反过来定义产品。
+
+2026-05-02 已为“一”字试作 `1280x800 / 4.8s` 横向教学舞台，并接入 Mobile H5 P03。详见 [[05-技术文档/Mobile-H5-HyperFrames教学动画优化方案|Mobile H5 + HyperFrames 教学动画优化方案]] 和 [[03-开发日志/2026-05-02-Mobile-H5认字动画教学化改造|2026-05-02 Mobile H5 认字动画教学化改造]]。
+
+最稳定的单字结构：
+
+```text
+场景/字源轻入场
+  -> 大字成为焦点
+  -> 局部笔画或字形关系轻高亮
+  -> 拼音/组词出现
+  -> 收束到静态认字页状态
+```
+
+### 本机优先原则
+
+HyperFrames 不一定需要 Docker。当前项目在本机开发时默认直跑：
+
+```bash
+cd tools/hyperframes-one
+
+npx hyperframes lint
+npx hyperframes inspect --at 0.3,1.6,3.2,4.8,5.8 --json
+npx hyperframes render -o renders/one-recognition.mp4 --fps 24 --quality draft --workers 1
+ffprobe -v error -select_streams v:0 \
+  -show_entries stream=width,height,r_frame_rate,duration,nb_frames \
+  -of default=noprint_wrappers=1 \
+  renders/one-recognition.mp4
+ffmpeg -hide_banner -loglevel error -y -ss 4.8 -i renders/one-recognition.mp4 \
+  -frames:v 1 -update 1 renders/final-frames/frame-4.8s.png
+```
+
+Docker 只作为 fallback：用户明确要求、CI 需要隔离环境、或本机 browser/FFmpeg 依赖不可用时才考虑 `--docker`。
+
+### Skill 沉淀
+
+已新增用户级 Codex skill：
+
+```text
+/Users/elvis/.agents/skills/starlight-recognition-video
+```
+
+后续新会话若要创建、编辑或验证星光识字认字短视频，应优先调用 `$starlight-recognition-video`。该 skill 只沉淀项目业务、视觉和验证规则；官方 HyperFrames skill 仍负责框架机制。
+
 ## 2026-04-29 HyperFrames 样片实测沉淀
 
 本次已用 HyperFrames 跑通一个“一”字认字动画样片：
@@ -165,8 +243,8 @@ Remotion 的定位是用 React 生成真实视频，支持本地、服务端、A
 ### 环境结论
 
 - HyperFrames `0.4.34` 可用，Node.js `22.22.0` 满足要求。
-- 本机缺 `ffmpeg/ffprobe` 时，普通本地 render 不可用；`--docker` 可跑通，但首次会构建 `hyperframes-renderer:0.4.34`，需要下载 Chromium、FFmpeg、字体等依赖，耗时较长。
-- `npx hyperframes browser ensure` 会下载 headless Chrome；但如果使用 `--docker`，最终以 Docker 镜像里的浏览器和 FFmpeg 为准。
+- 本机具备 `ffmpeg/ffprobe` 后应优先本地 render；`--docker` 只作为 fallback，不是 HyperFrames 必需条件。
+- `npx hyperframes browser ensure` 可用于准备 headless Chrome；是否需要取决于本机浏览器环境。
 - `npx hyperframes doctor` 是首选环境检查命令。
 
 ### 可复用命令
@@ -176,17 +254,13 @@ cd tools/hyperframes-one
 
 npx hyperframes lint
 npx hyperframes inspect --at 0.3,1.6,3.2,4.8,5.8 --json
-npx hyperframes render -o renders/one-recognition.mp4 --fps 24 --quality draft --workers 1 --docker
+npx hyperframes render -o renders/one-recognition.mp4 --fps 24 --quality draft --workers 1
 ```
 
-渲染后用 Docker 镜像里的 `ffprobe` 验证视频真实规格：
+渲染后用本机 `ffprobe` 验证视频真实规格：
 
 ```bash
-docker run --rm --entrypoint ffprobe \
-  -v /opt/apps/starlight-literacy/tools/hyperframes-one:/project \
-  -w /project \
-  hyperframes-renderer:0.4.34 \
-  -v error -select_streams v:0 \
+ffprobe -v error -select_streams v:0 \
   -show_entries stream=width,height,r_frame_rate,duration,nb_frames \
   -of default=noprint_wrappers=1 \
   renders/one-recognition.mp4
@@ -195,11 +269,7 @@ docker run --rm --entrypoint ffprobe \
 抽帧复核：
 
 ```bash
-docker run --rm --entrypoint ffmpeg \
-  -v /opt/apps/starlight-literacy/tools/hyperframes-one:/project \
-  -w /project \
-  hyperframes-renderer:0.4.34 \
-  -y -ss 4.8 -i renders/one-recognition.mp4 \
+ffmpeg -hide_banner -loglevel error -y -ss 4.8 -i renders/one-recognition.mp4 \
   -frames:v 1 -update 1 renders/final-frames/frame-4.8s.png
 ```
 
@@ -217,8 +287,8 @@ docker run --rm --entrypoint ffmpeg \
 - `npx hyperframes lint` 必须跑；0 error 后再看 warning。单文件超过 400 行会有 `composition_file_too_large` 维护性 warning，不阻塞样片，但量产模板应拆分子 composition。
 - `npx hyperframes inspect --json` 比只看截图更可靠，能抓到文字裁切、容器溢出、动物 sprite 放错坐标等问题。
 - `npx hyperframes snapshot` 在本次 `0.4.34` 环境里即使 composition metadata 是 `1080x1920`，输出截图仍表现为 `1920x1080`；最终 MP4 由 render 输出并经 `ffprobe` 验证为 `1080x1920`。后续不要只凭 snapshot 判断最终视频比例。
-- Docker render 的首次构建慢，本次首次包含镜像构建约 3 分钟；镜像缓存后同一 composition 约 20 多秒出片。
-- Docker 编译阶段会提示 `PingFang SC`、`Microsoft YaHei`、`SF Pro Rounded` 没有 deterministic font mapping；中文可优先写 `Noto Sans SC`，减少跨机器字体差异。
+- 本机 `ffprobe/ffmpeg` 可直接验证和抽帧；不要默认绕到 Docker。
+- 跨机器渲染时字体仍可能不同；中文可优先写 `Noto Sans SC`，减少字体差异。
 
 ### 产品与视觉经验
 

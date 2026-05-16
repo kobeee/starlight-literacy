@@ -1,0 +1,31 @@
+{
+  "id": "yi-fresh-horizon-agent-v3",
+  "name": "一 - Fresh Horizon Agent V3",
+  "characterId": "yi-fresh-horizon-agent-v3",
+  "char": "一",
+  "status": "agent-pipeline-test",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 7.8,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-fresh-horizon-agent-v3.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-fresh-horizon-agent-v3.asset-plan.json",
+    "productReview": "tools/recognition-video/product-reviews/yi-fresh-horizon-agent-v3.product-review.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-fresh-horizon-agent-v3/sprites/paper-boat/glide-line/manifest.json",
+      "tools/recognition-video/assets/unit-01/yi-fresh-horizon-agent-v3/sprites/water/settle-line/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-fresh-horizon-agent-v3.mp4",
+    "webm": "renders/yi-fresh-horizon-agent-v3.webm",
+    "poster": "renders/final-frames/yi-fresh-horizon-agent-v3-poster.png",
+    "finalFrame": "renders/final-frames/yi-fresh-horizon-agent-v3-final.png",
+    "reviewSheet": "renders/final-frames/yi-fresh-horizon-agent-v3-review-sheet.png"
+  },
+  "note": "Fresh non-official test. It deliberately avoids previous rabbit/hand/apple/stick animation ideas and uses a paper-boat/horizon-water memory action."
+}
