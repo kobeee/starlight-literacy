@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - GPT Image 2 Production V4</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("data:font/woff2;base64,d09GMgABAAAAAAyEAA8AAAAAFBQAAAwtAAGFogAAAAAAAAAAAAAAAAAAAAAAAAAAGyAcQgZgAIEEEQgKnGyXbQE2AiQDGgsaAAQgBYRGByAXJBgaG3IQIwPBxgGQIFsO8Y8E221UgSrDQYEloRmdUom+kSMCG3g6QpLZITzt0ga6qJ74gzpSD8Pl+by9v2vtmlRkWWHjMpdK0581k1fsItHam/ClQCh/V9+DEB+EsciGEsy/f+3X6i4y/drRREulUTqlfLG3i+yd7/w/c2KWMA2ZFK25pwuFkIlEQiLlhG5DZm9yUH5US1UdqmywByQOoIldO0XaWwACAKCBCTNIVExSFiABCgAABoNT6TISIgx+kN1ubWsF7qejujGx3/KWevRQuf2Xd21ZKgEGZ6Py68hXgAEgGy1LAQAkHpOQEqCP8z6ZDAfnNBLcK2nF5oKwCaZ7ytsMI0FJxJRUJ0CuynYAwCIGy7AclAlFfjYUtHEtoXlTMgWkdHp8vmORR0lnjVtteYMjsv+B6Z40V/Tw99nMN91cv3v57SVXF02ZdXPmimkPBiXW3wQIOEWMIAYD4HtZrEVONZgCALy1I0Gb9s4VA+A6hAIMUM9FVTaqGFEMEU3hMJRTekq8CYqGuguSHquMxtH/q0mKGoH3NUVRy12cTkZ1MbeFqhLno1Gh4nEmJyHZM330scAWanIXk7Nc0zWrmOzVyNvjWQ440HmUjG5ul/Ah9oxwiuKuEMuUJlVkanAEaMyIvGl1OM0e0aeguywFQYKBFNlmRwxgiVBMQuG05Lyfpz/ix04TXI/8vAfGZbLjvLbI8Kywt9cIZX5gMrcSSiaZdiZR9xgECWzARzu/Vr2IMwf+ra5FAf6T5WuNZngW+mwcptNbkzGpQvHp7g73ZlMitmyxQstOJClqq2LgR0ny9FCwxasVMWo+QRZK8M3itE29yRoZ7ZxHQlbxCGNVb0alh3RbUQt9ni84+QmTu2RqRCi9S8+EUUEm1Ys8liInh4RqkIEtiy329KEFbeMzVMoIP18xFihhhA3JZBDiTFbCF53J5Mo0RDhKI5o9bhCYQUMh4jJOWbKzK5ZDFg2nB8iorwyJw+lA1ZfxKvE/asXGf66QdO3p3HXy9JB0nGVBNILmN+R2dh6nbh7hVn4itvwwNXItAV1ahycGzFB7gri90kcLa5gE10QeMrRDjz9BwGikQF0ugOIanBbUPKt80HFyyPOi293J1iLQaIzhiEegnLVteYxhNLolzeGy9vDgAdXcLihQrhliHSedqcL0u7X+2IKhSRUEaZZc6uNbq1K1dTeUlHayd9ph1WWmAy6PW8RiGv21HGg97h8MfDhMU6rtNfON8Igt5FAqkr+GVVrtY8LaWuhV06vQTSzh9gPyooZsQvXlADDaoXMexqGKy+aUAZc6h0YmfisZOqoRCKKRYuo0wopZk6NY1NL8CkA0mkbx/doajaifkSJPY0HFUEjFiQA4AUzEtIzDUZrxUZtgjVCTN46TpGa+8kd+gSENrTdpxYQmlTuaKpYCyZxP+2SF+dZjjRK6M10dmmPK8y0oH+2afoeqmlp5cHU/Wtalobyy2X5NQUfKHny/yzUHg1iimHfmxrJoxse3PELmRkwOC16hRMKwO6b6+Eox+dsqj8qIWCyObBxqJysR5vH9am4rhRfT/ZGRkmsynDfDZ5Zm0nHOTj+rhGdpxLYfftNMBjPqpHWOlpMEMgM9Mg1c2fZLju5WP5jcCEElOplIrUaeXawtRMnrfxnZjxAy5L1lHTGTHWa/cYZGuyuu25T7EuSlMaz6EHD8y2m77pjVNDoi06V8iJ3IUjvUZG63uVOrEr2K3B1o6pVIpDm/ndfWa2H28GGd9YUZztK5WupHlTHRQ7NUgeZhnEb8+IEHSkvgkckw7II5+SnDHOM1xacZvxuZkMU9VbytILNX/fDGOOXGSMYMhPzhvmAEebieUlxCOczO5m5w03DNrBZJVeOIJljb+c7KjtS4OuLuqaj10qqm5OxCh2gLA81AclPeKAuVyEprhBiv+PyMwT9xdp13XET4HZqcx+qKq+1Z8nMrsEkSWOFyUWBu8cAR7hsfMA8F4aQMZ6CXMSR5dR3arjIQrASjMAXWW1UdLmko+nkjJVqniWX7Zo1IjEhziNcqFfiXVPeqxoEjklfkWX6enut7O47bH1s89S1kjyv/nfHITtUwAFT7KW68IVk4hJlHIcUChVMiuypYRBomk77S0J8kP+WG3wGaWU5L1b146rzJQ0N4YknNQZKB1OVEwCyRmavRo8HGBCZCpiVuC8pJkPvJK97s1spkDIMrpRqcyuujDiU4kVGYmvWh2nqQOYMJ8maMUnHoKJvlKZdBZBmPOVscucT7P+N7Fona1g64I8lh6kEH3Nqy0IPas8KS4XlGNWqBy/3ddYWYOLrZH0VklL+yzygaZvXGZTYy3uRX/4pFe2iq/jwjtPODBnuEs/AyJeT2lNg/KxIgR8/zi7bNLNTyHPWyuxq1Tet+ugx876UJUBGVwLqZV9Y8VEMO+6Zp4ZCKd6yI7mAFiKGWnKmverE9pXgk8aAyh6tl4VKCFJ9MFUG5ueddhiX3rw+ud1cptK/vKF1Sm8eGT3/DCVMcsqIyDyu/0rqc/q6RkE4BsbNVRpIZK57UuBOcVnrcR2FyjaaKVJv7MFx1fwkaC7czJM8CJVwWLCTESKaTOI5xjvCOaw0sdTDjGdluSuGWEGeVaox8cuMVwz5qoJStnWxJCLe+dzmUIoC8KfjiZ+xJ2y6PbtOgeY3bZ2Ezrx5+R/dMuhHVZJXncqYsPcYe/GgVw82LYgRWYLKtvoNnA7cRgsetVJbB7YT3dICpmmAl7ucmmLuJSo8WTqqVwqc/NHgLlUPsMhJjWhJpmpzyUdkZnx/zhlFdVR4mRJZ3rpmaEJ6uh/TVMdKs8LDVRQ3BIieuuxs9rw7EBsf4VesZnoGDZ3TElPw2EzHNdx2F2sh5ZZBZSG5eol+JfmdQhbQN0r0X4SoyfUDyzj7PnFcew+O9Y+XwKvjtTxL3jFFJYA7w4wpxWiUc6or7XWONu74jWQaLMeqPy/NzUM5pkwynGfypUIHhhTwOldzMo5w8uSvhZq19T9BqUWWE5UaifgS5BfKbexNYYTJq0YdmltgT0iVDEj6dNBqrzNcdmcdww9KhEbeAb+JhSBcTRG7HWWMxJf4pOoajF2b2Tf2ST9Cw87YHxXJPwspJZJnqF85J8OB+iGx9vJ2i2zFSGFxCcpRY2ouFr6Gwvc8CbLdZdGMNLtB8C1EQ1RVL6olvjGzC6FZ889ZaFI9rRlemVqNxDeiYYG7ypRJPI8i60MS5FKs0/zYeSq4KAY6K65lyspyhayHDnqwMLdfFA7+NRab1yfro9sGJixxf0ALk7+xNKwtzKODDWiXaepwtCqV0sUnK4dLOsEq5C8lwHxVRkG/zDe+UEZyYYo/GCSOHaVluTjdGUu+0URQab7dIIIntsSpu2z177fqPtgmB2iSGOPVXx6w+lulfmOpZQZtNW2DhAVJgafDogdd4UNMHQmuSSO6ZakkcGr11En0ylKKG7FwWHG8Rq6WMHFaTd+HMpzpTuIjO1eXFeMSb1/PUIxF+T+9ulW8ucsTLkbo73Vf12xxc16iVWOJmd4r0y5mR2SuO6cnrOEUf/RALYBJMPF1gmmGF6W0MOMMpcpVKay1kiznLHww/NIQlTbFL3yB2+b8CZ19R+O8vcOxSqR/H1JNN0a9JCLXuWwWrfdLemDuR1ZIcFfOzm12Xq0xNBpZrKEj+fwAQ0sc/IeWxlZV35QSGPG/z76jLyLDFkQ+bPpXyQd8opwvqJQAA3PlXBwDg2b0HQ/+i/0+LzSgAAEggA4FcvtAAB7PzAmpe+p/F34XIXwIIvJmyp2LHhCMemItUAwEAsFg1sPQNHUyRhROgQBiCMgcQM+ByDAE2MRuTAQ6JGJODsKRtRLuNYSAgE7uBA6ucBpFatemlQ71adbqyoOdOz4PLDj7t0iR5YuWCdukIXQdLOwVw46a4/rp1uqngqlKrZm6a9FSrx+pP+qm5qrVIVK6eAxoe3AFZTVydSdSkukHaZd6qwWnlYYbrBg2tR3vVSQ5qBFqE9giGRl1wuR3o5Aa6wWHgi+iLDZwMVVLUTbMMBrWEpuPddwTxADmQaNN64O9qwYMrb3r6hzTwkGDMSnVLwZczC5vUbTH0VBeXHJwzGtKB3smIAPn6nwVA/tIwyhCBLr+9dBkfZ5q9YCiWJGPoPERoID0AAAAA") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #faf3e3;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #5D4A36;
+    }
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #faf3e3;
+      isolation: isolate;
+    }
+    .clip { position: absolute; }
+    .plate {
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* ----- SUN: two stacked layers around the same center -----
+       sun-halo  : 6-frame chroma-keyed warm halo sprite, sits BEHIND
+                   the disk, mix-blend-mode:screen neutralizes any
+                   green-cream chroma-key residue against the warm plate.
+       sun-disk  : pure CSS warm-orange disk drawn on top so the visual
+                   sun body never depends on chroma-key fidelity. */
+    .sun-anchor {
+      position: absolute;
+      left: 540px;
+      top: 500px;
+      width: 0;
+      height: 0;
+      transform: translate(-50%, -50%);
+    }
+    .sun-halo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 460px;
+      height: 460px;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none;
+      /* hue-rotate pushes any residual greens toward warm-amber; saturate
+         knocks back any remaining off-warm tints; combined with the
+         screen blend below this leaves only the warm glow visible against
+         the pastoral plate. */
+      filter: hue-rotate(-35deg) saturate(0.75) brightness(1.08);
+      mix-blend-mode: screen;
+    }
+    .sun-halo .sprite-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+    }
+    .sun-disk {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background:
+        radial-gradient(circle at 42% 38%,
+          #fff3c8 0%,
+          #ffe19a 18%,
+          #f5b85a 55%,
+          #e08a35 92%,
+          #c97320 100%);
+      box-shadow:
+        0 0 36px 6px rgba(245, 184, 90, 0.55),
+        0 0 78px 18px rgba(224, 138, 53, 0.32),
+        0 14px 30px rgba(120, 78, 22, 0.22);
+      opacity: 0;
+    }
+
+    /* ----- light band: warm golden CSS gradient across the visual middle ----- */
+    .light-band {
+      position: absolute;
+      left: 84px;
+      top: 1083px;
+      width: 912px;
+      height: 28px;
+      border-radius: 14px;
+      background: linear-gradient(90deg,
+        rgba(255, 223, 150, 0) 0%,
+        rgba(255, 220, 130, 0.95) 8%,
+        #ffd071 28%,
+        #e89a2a 50%,
+        #ffd071 72%,
+        rgba(255, 220, 130, 0.95) 92%,
+        rgba(255, 223, 150, 0) 100%);
+      box-shadow:
+        0 0 32px rgba(245, 184, 90, 0.75),
+        0 0 68px rgba(232, 154, 42, 0.45);
+      transform-origin: 50% 50%;
+      transform: scaleX(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ----- flat-line: warm-brown rounded horizontal stroke that the
+              light band condenses into. Same warm brown as the kaiti
+              glyph so the eye reads the same character continuing. ----- */
+    .flat-line {
+      position: absolute;
+      left: 260px;
+      top: 1078px;
+      width: 560px;
+      height: 38px;
+      border-radius: 19px;
+      background: #5D4A36;
+      box-shadow:
+        0 4px 10px rgba(80, 50, 20, 0.18),
+        0 0 24px rgba(216, 161, 58, 0.18);
+      transform-origin: 50% 50%;
+      transform: scaleX(0);
+      opacity: 0;
+    }
+
+    /* ----- mizige (米字格): single grid with two states driven by CSS
+              variables. 识字态 (default) is a translucent cream box with
+              a soft warm-brown border so the pastoral plate reads
+              through; 写字态 (data-state="write") opaque cream paper
+              with a bold black border for the stroke-order demo. The
+              dashed `#` + `X` guide lines stay in both states. ----- */
+    .mizige {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      --bg-opacity: 0.42;
+      --border-color: #5D4A36;
+      --border-strength: 0.55;
+      --border-width: 3px;
+      background: rgba(250, 243, 227, var(--bg-opacity));
+      border-width: var(--border-width);
+      border-style: solid;
+      border-color: rgba(93, 74, 54, var(--border-strength));
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(80, 50, 20, 0.10);
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .mizige .guides {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ----- glyph-yi-warm: brown LXGW WenKai 楷体 一, the recognition
+              centerpiece during the spoken segment (5.041 - 7.4s). It
+              fades out during 7.4 - 8.0s so the black writing demo can
+              take its place inside the same mizige. ----- */
+    .glyph-yi {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 560px;
+      line-height: 1;
+      color: #5D4A36;
+      text-shadow: 0 4px 10px rgba(80, 50, 20, 0.10);
+      opacity: 0;
+      transform-origin: 50% 50%;
+      transform: scale(0.94);
+    }
+
+    /* ----- glyph-write-black: same kaiti 一 in pure black, sits on the
+              opaque mizige and is uncovered left-to-right via clip-path
+              to simulate a single brush stroke. ----- */
+    .glyph-write {
+      position: absolute;
+      left: 260px;
+      top: 820px;
+      width: 560px;
+      height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 560px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      clip-path: inset(0 100% 0 0);
+      -webkit-clip-path: inset(0 100% 0 0);
+    }
+
+    .pinyin {
+      position: absolute;
+      left: 0;
+      top: 720px;
+      width: 1080px;
+      text-align: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-size: 96px;
+      line-height: 1;
+      font-weight: 500;
+      color: #8c7853;
+      letter-spacing: 8px;
+      opacity: 0;
+    }
+
+    .sentence-strip {
+      position: absolute;
+      left: 0;
+      top: 1500px;
+      width: 1080px;
+      text-align: center;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      font-size: 48px;
+      line-height: 1.3;
+      font-weight: 600;
+      color: #7a6750;
+      letter-spacing: 4px;
+      opacity: 0;
+    }
+    .sentence-strip .dot {
+      display: inline-block;
+      width: 22px;
+      text-align: center;
+      color: #c9a874;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-gpt-image-2-production-v4"
+       class="stage"
+       data-composition-id="yi-gpt-image-2-production-v4"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="10">
+
+    <img id="morning-field-plate"
+         class="clip plate"
+         data-start="0"
+         data-duration="10"
+         data-track-index="0"
+         src="assets/unit-01/yi-gpt-image-2-production-v4/plates/morning-field-plate.png"
+         alt="" />
+
+    <div id="sun-anchor"
+         class="clip sun-anchor"
+         data-start="0"
+         data-duration="10"
+         data-track-index="2"
+         aria-label="一个太阳">
+      <div id="sun-halo" class="sun-halo" aria-hidden="true">
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-000.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-001.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-002.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-003.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-004.png" alt="" />
+        <img class="sprite-frame" src="assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/frame-005.png" alt="" />
+      </div>
+      <div id="sun-disk" class="sun-disk" aria-hidden="true"></div>
+    </div>
+
+    <div id="light-band"
+         class="clip light-band"
+         data-start="1.638"
+         data-duration="1.767"
+         data-track-index="3"
+         aria-label="一条光线"
+         aria-hidden="true"></div>
+
+    <div id="flat-line"
+         class="clip flat-line"
+         data-start="3.305"
+         data-duration="4.095"
+         data-track-index="4"
+         aria-label="平平一横"></div>
+
+    <div id="pinyin"
+         class="clip pinyin"
+         data-start="5.041"
+         data-duration="4.959"
+         data-track-index="5"
+         aria-hidden="true">yī</div>
+
+    <div id="mizige"
+         class="clip mizige"
+         data-start="3.305"
+         data-duration="6.695"
+         data-track-index="6"
+         aria-hidden="true">
+      <svg class="guides" viewBox="0 0 560 560" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="280" x2="560" y2="280" stroke="#5D4A36" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.4"/>
+        <line x1="280" y1="0" x2="280" y2="560" stroke="#5D4A36" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.4"/>
+        <line x1="0" y1="0" x2="560" y2="560" stroke="#5D4A36" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.35"/>
+        <line x1="560" y1="0" x2="0" y2="560" stroke="#5D4A36" stroke-width="1.5" stroke-dasharray="10 6" opacity="0.35"/>
+      </svg>
+    </div>
+
+    <div id="glyph-yi"
+         class="clip glyph-yi"
+         data-start="5.041"
+         data-duration="2.959"
+         data-track-index="7"
+         aria-label="就是一">一</div>
+
+    <div id="sentence-strip"
+         class="clip sentence-strip"
+         data-start="5.5"
+         data-duration="4.5"
+         data-track-index="8"
+         aria-hidden="true">一个太阳<span class="dot">·</span>一条光线<span class="dot">·</span>平平一横<span class="dot">·</span>就是一</div>
+
+    <div id="glyph-write"
+         class="clip glyph-write"
+         data-start="8.0"
+         data-duration="2.0"
+         data-track-index="9"
+         aria-label="一字笔顺示范">一</div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="10"
+           data-track-index="20"
+           src="assets/audio/yi-gpt-image-2-production-v4-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+    const setVar = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.setProperty(name, value);
+      });
+    };
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const scaleX = parts.scaleX == null ? scale : parts.scaleX;
+      const scaleY = parts.scaleY == null ? scale : parts.scaleY;
+      const tx = parts.tx == null ? "-50%" : parts.tx;
+      const ty = parts.ty == null ? "-50%" : parts.ty;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + tx + "," + ty + ") " +
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scaleX.toFixed(3) + "," + scaleY.toFixed(3) + ")";
+      });
+    };
+    const setFlatTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const scaleX = parts.scaleX == null ? scale : parts.scaleX;
+      const scaleY = parts.scaleY == null ? scale : parts.scaleY;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scaleX.toFixed(3) + "," + scaleY.toFixed(3) + ")";
+      });
+    };
+
+    const showSpriteFrame = (selector, time, start, length, frameCount) => {
+      const frames = gsap.utils.toArray(selector + " .sprite-frame");
+      const t = range(time, start, length);
+      const cyclic = (t % 1 + 1) % 1;
+      const idx = Math.min(frameCount - 1, Math.floor(cyclic * frameCount));
+      frames.forEach((frame, frameIndex) => {
+        frame.style.opacity = frameIndex === idx ? "1" : "0";
+      });
+    };
+
+    timeline.add((time) => {
+      // ===================================================================
+      // SHOT 1 (0 - 1.638s) — sun-meaning
+      // CSS sun disk rises from y=+120 → 0 over the first 1.0s + fade in.
+      // Halo sprite cycles 6 frames continuously (loop duration 1.2s) to
+      // read as a continuous breathing pulse. mix-blend-mode: screen on
+      // the halo means any chroma-key residue against the warm plate
+      // adds rather than blocks light, so the residue reads as glow.
+      // ===================================================================
+      const sunRise = easeInOut(range(time, 0.05, 1.0));
+      const sunFadeIn = ease(range(time, 0.05, 0.55));
+      setOpacity("#sun-anchor", sunFadeIn);
+      setTransform("#sun-anchor", {
+        x: 0,
+        y: 120 * (1 - sunRise),
+        scale: 1,
+      });
+
+      // sun disk visible alongside halo; fade in slightly later so the
+      // halo precedes the disk by ~0.1s for a "light first" feel
+      const diskIn = ease(range(time, 0.15, 0.5));
+      setOpacity("#sun-disk", diskIn);
+      const diskBreathe = 1 + 0.025 * Math.sin((time - 1.0) * 1.8) * clamp(range(time, 1.0, 0.4));
+      setTransform("#sun-disk", {
+        x: 0,
+        y: 0,
+        scale: diskBreathe,
+      });
+
+      // halo fades in slightly ahead and starts the 6-frame breathing loop
+      const haloIn = ease(range(time, 0.05, 0.45));
+      // halo stays present through SHOT 2 and SHOT 3, then dims during
+      // glyph-close so the eye centers on the character
+      const haloDim = clamp(1 - 0.55 * ease(range(time, 5.041, 0.6)));
+      setOpacity("#sun-halo", haloIn * haloDim);
+      // Cycle 6 frames over a 1.2s breath (continuous loop throughout video)
+      showSpriteFrame("#sun-halo", time, 0.05, 1.2, 6);
+      // gentle halo scale pulse synced with the breath
+      const haloPulse = 1 + 0.04 * Math.sin((time - 0.05) * (Math.PI * 2 / 1.2));
+      setTransform("#sun-halo", {
+        x: 0,
+        y: 0,
+        scale: haloPulse,
+      });
+
+      // ===================================================================
+      // SHOT 2 (1.638 - 3.305s) — light-binding
+      // CSS warm-golden light band opens horizontally from center
+      // scaleX 0 → 1 over 1.1s, then small ±1.5% pulse into SHOT 3.
+      // ===================================================================
+      const bandIn = ease(range(time, 1.638, 0.2));
+      // band fades out as it morphs into the warm-brown flat-line at SHOT 3 start
+      const bandOut = ease(range(time, 3.305, 0.4));
+      setOpacity("#light-band", bandIn * (1 - bandOut));
+      const bandScale = easeInOut(range(time, 1.638, 1.1));
+      const bandPulse = 1 + 0.015 * Math.sin((time - 2.7) * 3.2) * clamp(range(time, 2.7, 0.4));
+      setFlatTransform("#light-band", {
+        scaleX: bandScale * bandPulse,
+        scaleY: 1,
+      });
+
+      // ===================================================================
+      // SHOT 3 (3.305 - 5.041s) — flat-line + mizige (识字态)
+      // The light band condenses into a warm-brown flat horizontal stroke
+      // at the same baseline. Mizige fades in over 0.7s as the 识字态
+      // (translucent cream + soft brown border) to start staging the
+      // glyph centerpiece. flat-line then dims as the kaiti 一 takes over.
+      // ===================================================================
+      const flatIn = ease(range(time, 3.305, 0.45));
+      const flatHandoff = ease(range(time, 5.2, 0.55));
+      setOpacity("#flat-line", flatIn * (1 - flatHandoff));
+      const flatScaleX = easeInOut(range(time, 3.305, 0.7));
+      setFlatTransform("#flat-line", {
+        scaleX: flatScaleX,
+        scaleY: 1,
+      });
+
+      // mizige fades in at SHOT 3 in 识字态 (semi-transparent cream)
+      const mizigeIn = ease(range(time, 3.3, 0.7));
+      setOpacity("#mizige", mizigeIn);
+
+      // mizige state transition (识字态 → 写字态) over 7.4 - 8.0s
+      const stateProgress = easeInOut(range(time, 7.4, 0.6));
+      // 识字态: bg 0.42, border 0.55, border 3px warm-brown
+      // 写字态: bg 0.96, border 1.0, border 4px black
+      const bgOpacity = 0.42 + (0.96 - 0.42) * stateProgress;
+      const borderStrength = 0.55 + (1.0 - 0.55) * stateProgress;
+      const borderWidth = 3 + (4 - 3) * stateProgress;
+      const borderR = Math.round(93 + (31 - 93) * stateProgress);
+      const borderG = Math.round(74 + (26 - 74) * stateProgress);
+      const borderB = Math.round(54 + (20 - 54) * stateProgress);
+      setVar("#mizige", "--bg-opacity", bgOpacity.toFixed(3));
+      setVar("#mizige", "--border-strength", borderStrength.toFixed(3));
+      setVar("#mizige", "--border-width", borderWidth.toFixed(2) + "px");
+      setStyle("#mizige", "borderColor",
+        "rgba(" + borderR + "," + borderG + "," + borderB + "," + borderStrength.toFixed(3) + ")");
+      setStyle("#mizige", "background",
+        "rgba(250, 243, 227, " + bgOpacity.toFixed(3) + ")");
+
+      // ===================================================================
+      // SHOT 4 (5.041 - 7.4s) — glyph-close
+      // Warm-brown kaiti 一 fades in (0.55s) and scales 0.94 → 1.0 inside
+      // the mizige (识字态 still active so plate reads through). Pinyin
+      // yī appears just above; sentence strip appears below.
+      // ===================================================================
+      const glyphIn = ease(range(time, 5.041, 0.55));
+      // warm glyph fades out as mizige transitions to 写字态 (7.4 - 8.0s)
+      const glyphHandoff = ease(range(time, 7.4, 0.5));
+      setOpacity("#glyph-yi", glyphIn * (1 - glyphHandoff));
+      setFlatTransform("#glyph-yi", {
+        x: 0,
+        y: 0,
+        scale: 0.94 + 0.06 * glyphIn,
+      });
+
+      const pinyinIn = ease(range(time, 5.25, 0.45));
+      setOpacity("#pinyin", pinyinIn);
+      setFlatTransform("#pinyin", {
+        x: 0,
+        y: 10 * (1 - pinyinIn),
+        scale: 1,
+      });
+
+      const sentenceIn = ease(range(time, 5.5, 0.55));
+      setOpacity("#sentence-strip", sentenceIn * 0.85);
+      setFlatTransform("#sentence-strip", {
+        x: 0,
+        y: 14 * (1 - sentenceIn),
+        scale: 1,
+      });
+
+      // ===================================================================
+      // SILENT TAIL (7.4 - 10.0s) — stroke-order demo
+      // 7.4 - 8.0s: mizige transitions 识字态 → 写字态 (see above), warm
+      //             glyph fades out (see above).
+      // 8.0 - 9.4s: black kaiti 一 writes left-to-right via clip-path.
+      // 9.4 - 10.0s: poster hold — black 一 + mizige + pinyin + sentence
+      //             strip stable for ≥0.6s so the final frame is readable.
+      // ===================================================================
+      const writeFade = ease(range(time, 8.0, 0.15));
+      setOpacity("#glyph-write", writeFade);
+      const writeProgress = easeInOut(range(time, 8.0, 1.4));
+      const insetRight = (1 - writeProgress) * 100;
+      setStyle("#glyph-write", "clipPath", "inset(0 " + insetRight.toFixed(2) + "% 0 0)");
+      setStyle("#glyph-write", "webkitClipPath", "inset(0 " + insetRight.toFixed(2) + "% 0 0)");
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-gpt-image-2-production-v4"] = timeline;
+  </script>
+</body>
+</html>

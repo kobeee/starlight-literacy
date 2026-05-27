@@ -1,0 +1,33 @@
+{
+  "id": "yi-v7",
+  "name": "一 - V7 Minimalist Refactor (12s single-container, 0 AI plates)",
+  "characterId": "yi-v7",
+  "char": "一",
+  "status": "draft",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 12,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-v7.brief.json",
+    "narrationSpec": "tools/recognition-video/narration-specs/yi-v7.narration-spec.json",
+    "tailSpec": "tools/recognition-video/tail-specs/yi-v7.tail-spec.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v7.audio-plan.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-v7.asset-plan.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-v7.mp4",
+    "webm": "renders/yi-v7.webm",
+    "poster": "renders/final-frames/yi-v7-poster.png",
+    "finalFrame": "renders/final-frames/yi-v7-final.png",
+    "reviewSheet": "renders/final-frames/yi-v7-review-sheet.png"
+  },
+  "prompt": "12s minimalist single-container literacy short for 一. ZERO AI raster plates — entire visual = HTML/CSS/SVG over a fixed canvas (xuan paper #f5ead0 + dashed mizige watermark + ink mountain silhouette). 4 narrative beats but NO scene cuts (same container morphs): bird-pass (0-2.4s, v5 bird-flight-loop sprite crosses above mizige + concrete-anchor 看，一只小鸟) → light-band (2.4-4.2s, single CSS warm-gold horizontal beam fades in above mizige + phrase-bridge 飞过一道光, both quantifiers bound to visible single-count) → ink-glyph (4.2-9.0s, beam descends to mizige center + transforms into kaiti 一 via CSS mask reveal + glyph-naming 这就是一 + 3.35s clean dwell) → stroke-order-tail (9.0-12.0s, mizige 0.18→0.30 + brush-tip SVG writes the 一 stroke left-to-right over 2.0s + child-hand SVG hovers). The 一 glyph exists as a SINGLE HTML element only; impossible to render as 二. Audio: edge-tts XiaoxiaoNeural -10%, raw=5.652s baked apad to 12.048s.",
+  "note": "v7 minimalist refactor over v5/v6. Three root-cause fixes from v6 product review failure (yi-v6 candidateStatus downgraded to agent-pipeline-test 2026-05-21): (1) dual-render impossible — single HTML kaiti element, no AI plate carrying pre-drawn 一 underneath; (2) stroke-order writing extended from v6's 0.9s to v7's 2.0s (industry standard ≥ 2s); (3) narration script rewritten — cut v6's jarring '晨光直直的' adjective phrase and '念，一' imperative; v7 uses natural '看，一只小鸟。飞过一道光。这就是一。' that a 3-6 year old can follow. Visual reuses ONLY the v5 cinematic bird-flight-loop sprite (256×256 6-frame transparent PNG); all 5 v5/v6 AI plates abandoned. Product-review forward-validation target: overallScore ≥ 9.0 + teachingFunctionalIntegrity ≥ 9.0 + human-eye verdict '这是一不是二' MUST pass."
+}

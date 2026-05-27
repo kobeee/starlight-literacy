@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "starlight-double-blind-review/v1",
+  "reviewerId": "codex",
+  "characterId": "yi",
+  "buildId": "yi-v8",
+  "reviewedAt": "2026-05-23T03:20:00Z",
+  "input": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v8.brief.json",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v8.audio-plan.json",
+    "tailSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/tail-specs/yi-v8.tail-spec.json",
+    "narrationSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/narration-specs/yi-v8.narration-spec.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/yi-v8.mp4",
+    "reviewSheet": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/final-frames/yi-v8-review-sheet.png",
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-00-at-0.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-01-at-2.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-02-at-3.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-03-at-5.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-04-at-7.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-05-at-8.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-06-at-10.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-07-at-11.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-08-at-11.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-09-at-11.8s.png"
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6,
+      "reason": "Spoken body has a clear meaning-to-glyph arc, but the required tail demonstration is detached from the written glyph."
+    },
+    "glyphBinding": {
+      "score": 6,
+      "reason": "The bird, light, and one-stroke narration bind the idea of one, but the tail pointer does not bind to the stroke it is supposed to demonstrate."
+    },
+    "glyphAnchor": {
+      "score": 4,
+      "reason": "The character appears in the mizige, but the final pointer is far from the glyph and creates a second visual focus."
+    },
+    "pacing": {
+      "score": 5,
+      "reason": "The early pacing is calm, but the final hold contract is internally inconsistent and the visible poster hold is only 0.5s."
+    },
+    "animationPerformance": {
+      "score": 4,
+      "reason": "The tail pointer is clipped/offscreen and does not follow the stroke path shown in the mizige."
+    },
+    "visualQuality": {
+      "score": 6,
+      "reason": "The plates are visually clean, but the oversized upper-left brush breaks the final composition and poster readability."
+    },
+    "childAppeal": {
+      "score": 5,
+      "reason": "The scene is quiet and legible, but the final teaching action feels mechanical because the guide object never touches the writing."
+    },
+    "audioFit": {
+      "score": 7,
+      "reason": "Narration repeats the target four times and reserves silence for the tail, though the visual tail does not match the audio-plan promise."
+    },
+    "technicalCompliance": {
+      "score": 3,
+      "reason": "Brief, audio-plan, and tail-spec disagree on child-hand versus brush-pointer and on final hold requirements."
+    },
+    "officialReadiness": {
+      "score": 2,
+      "reason": "The build is blocked by observable tail contract failures and cannot be marked official."
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 4,
+      "reason": "The narration meets the repeat requirement, but the final frame contains an extra brush layer and lacks the specified child-hand anchor."
+    }
+  },
+  "overallScore": 4.7,
+  "blockers": [
+    {
+      "severity": "critical",
+      "atTime": 11.8,
+      "atKeyframe": "frame-09-at-11.8s.png",
+      "issue": "The final poster frame shows a large brush-pointer in the upper-left area while the completed '一' sits in the lower mizige. There is no child hand, and the brush is an extra visible layer unrelated to the final written character.",
+      "rootCause": "brief.finalFrame and brief.shotPlan[4] require a child-hand fingertip hovering at the right end of the character, while tail-spec.finalFrame changes the pointerForm to brush-pointer. The build follows the tail-spec change and violates the brief poster contract.",
+      "specRef": "brief.finalFrame; brief.shotPlan[4].description; tailSpec.finalFrame.pointerForm"
+    },
+    {
+      "severity": "critical",
+      "atTime": 11,
+      "atKeyframe": "frame-07-at-11.0s.png",
+      "issue": "During the stroke-order phase, the brush-pointer is partially clipped at the far left edge and is not near the forming horizontal stroke inside the mizige. The child cannot read the brush as the tool guiding the left-to-right stroke.",
+      "rootCause": "tail-spec.strokeOrder says the pointer should enter from bottom-right and follow the writing mask, ending at the right side of the glyph. The animation places the pointer in a separate upper-left coordinate space with no shared anchor to the mizige stroke.",
+      "specRef": "tailSpec.strokeOrder[0].notes; brief.teachingContract.strokeOrderTail.writingDirection"
+    },
+    {
+      "severity": "high",
+      "atTime": null,
+      "atKeyframe": null,
+      "issue": "The final-hold requirement is internally contradictory: brief.pacingRequirements.minimumFinalHoldSeconds is 2.0, but the tail spec allocates only 0.5s dwell from 11.5s to 12.0s.",
+      "rootCause": "The official-readiness brief asks for a minimum 2.0s final hold while the tail contract is authored as a 2.0s total segment with only 0.5s final dwell. The build cannot satisfy both without changing the timing contract.",
+      "specRef": "brief.pacingRequirements.minimumFinalHoldSeconds; tailSpec.strokeOrder[0].phaseEndSeconds"
+    },
+    {
+      "severity": "high",
+      "atTime": 10.3,
+      "atKeyframe": "frame-06-at-10.3s.png",
+      "issue": "At the tail entry, the brush appears above the mizige in the upper third of the frame while the mizige remains lower on screen and empty. The pointer does not enter from bottom-right as specified.",
+      "rootCause": "The tail entry animation is staged independently from the mizige container. The pointer's entry transform contradicts the declared bottom-right 30-degree entry and prevents spatial continuity into the writing phase.",
+      "specRef": "brief.shotPlan[4].description; tailSpec.strokeOrder[0].notes"
+    }
+  ],
+  "strengths": [
+    "The first four keyframes preserve clean plate-to-plate visual transitions without accidental raster text.",
+    "The narration script includes four occurrences of the target character and uses concrete quantifier anchors."
+  ],
+  "decision": "blocked",
+  "confidence": "high",
+  "rationale": "The build promises a 12s recognition video for '一': bird and sunlight anchors, a single horizontal glyph forming on paper, then a silent two-second stroke-order tail inside one mizige. The keyframes deliver the calm opening and the horizontal glyph, but the final teaching contract breaks. The tail's guide object is a brush instead of the brief's required child-hand poster anchor, the brush is spatially detached from the mizige and even clipped/offscreen during writing, and the final frame contains an extra visible layer rather than exactly the target character with the specified hand pose. The dominant gap is not general polish; it is a spec-level contradiction between brief, audio-plan, and tail-spec that makes the stroke-order tail fail as instruction."
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-v5-cinematic",
+  "script": "天亮了。山那边升起一道光。就是「一」。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "Mobile H5 baked audio 同款女老师声，慢 10% 帮助 3-6 岁孩子辨字辨义；保持与 v3/v4 同一个老师不切换；v5 旁白脚本变为 3 段诗化叙事但音色不动，避免 cinematic 美学升级反而带来老师变声的不一致"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "referenceProduct": "洪恩识字 一 字单页认字微课（公开 demo）",
+    "referenceDurationSeconds": {
+      "min": 25,
+      "max": 45,
+      "example": 32
+    },
+    "referenceEvidence": "洪恩公开 demo 单字卡通常 25-45s 覆盖意义/字形/组词/笔顺/互动；P03 是认字流程中的 recognition 短片，承担其中的意义→字形→收束三段；v5 cinematic 重做将旁白主体保持在 8s 内，把节省下来的时间投入到 silent prologue + dwell + stroke-order tail 三段呼吸，与洪恩 信息密度堆满 的工业风刻意拉开",
+    "starlightTargetSeconds": 8,
+    "starlightDecision": "P03 recognition v5 cinematic 旁白主体固定为 8.0s（schema 上限，留给 3 段诗化叙事 天亮了 / 山那边升起一道光 / 就是「一」 + 段间呼吸 + 末段 0.45s 留白）。视频总时长 12s 含 10-12s 静默笔顺示范尾段，独立由 paddedTotalDurationSeconds=12 表达，与 brief.duration=12 同步"
+  },
+  "targetDurationSeconds": 8,
+  "paddedTotalDurationSeconds": 12,
+  "audioPaddingNotes": "edge-tts 直出 3 段旁白合成单 mp3 约 6.3-6.6s，末端用 ffmpeg apad 静音填充至 12s 与视频等长；t=7.4-12s 段为静默尾声，覆盖 ink-glyph 末段 dwell (7.4-10s, 2.6s) + stroke-order-tail 全段 (10-12s, 2.0s)；apad 不剪视频，padded 与 brief.duration=12 对齐 ≤0.1s 误差",
+  "quietAfterLastCueSeconds": 0.6,
+  "cues": [
+    {
+      "id": "dawn-meaning",
+      "shotId": "sun-rising",
+      "text": "天亮了。",
+      "audioStart": 1.0,
+      "audioEnd": 2.3,
+      "visualStart": 1.0,
+      "visualEnd": 2.4,
+      "narration": "spoken",
+      "rationale": "意义入场：旁白与 sun-rising 镜头切换同步，把 天亮 的时间感锚定到地平线后金团破云的瞬间；与 dawn-valley silent prologue (0-1.0s) 之间留 0 gap 让画面切换与旁白起音同帧"
+    },
+    {
+      "id": "light-binding",
+      "shotId": "light-band",
+      "text": "山那边升起一道光。",
+      "audioStart": 2.4,
+      "audioEnd": 5.8,
+      "visualStart": 2.4,
+      "visualEnd": 5.85,
+      "narration": "spoken",
+      "rationale": "字形绑定：旁白与 light-band 镜头切换同步，9 字 + 句号在 -10% 速率下约 3.4s；让旁白完整覆盖 横贯画面的金色光带凝固成一道横笔 的整段画面，物-形绑定语义最强"
+    },
+    {
+      "id": "glyph-name",
+      "shotId": "ink-glyph",
+      "text": "就是「一」。",
+      "audioStart": 5.9,
+      "audioEnd": 7.4,
+      "visualStart": 5.9,
+      "visualEnd": 7.7,
+      "narration": "spoken",
+      "rationale": "字形点题：旁白 就是「一」 与 ink-glyph 镜头切换同步，4 字 + 句号在 -10% 速率下约 1.5s；点题后留 ~2.6s silent dwell 让宣纸上的墨字稳定回看，是整片节奏最关键的呼吸点"
+    },
+    {
+      "id": "stroke-order-tail",
+      "shotId": "stroke-order-tail",
+      "text": "",
+      "audioStart": null,
+      "audioEnd": null,
+      "visualStart": 10.0,
+      "visualEnd": 12.0,
+      "narration": "silent",
+      "rationale": "纯视觉笔顺尾段：t=10-12s 米字格水印 识字态→写字态 切换 + 楷体 一 字 left-to-right 二次渗墨 + 孩子手指悬入摹字。让孩子在没有旁白的静默里专注看完整一笔笔顺与摹字动作，与 spoken body 末段 dwell 形成 stillness → silence 的两层递进；audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s 与视频等长"
+    }
+  ],
+  "syncRules": [
+    "每一段旁白起始时刻 (audioStart) 与对应镜头的视觉 cue 起始 (visualStart) 同帧或视觉早 ≤ 0.12s；3 段旁白与 3 个 spoken 镜头一一对齐",
+    "每一段旁白结束后镜头视觉至少持续 0.08s 不立即切换，保证孩子语义闭合；ink-glyph 末段 dwell 留 ≥0.45s 让大字稳定回看（实际 0.6s）",
+    "末段 就是「一」 旁白结束 (7.4s) 后保留 ≥0.45s 安静 (实际 0.6s) 让宣纸上的墨字稳定回看，再进入 ink-glyph 段 silent dwell 与 stroke-order-tail 静默尾段",
+    "stroke-order-tail 段 (10-12s) 为 narration=\"silent\" 静默 cue，不占 spoken target；视觉窗口由 paddedTotalDurationSeconds=12s 覆盖，apad 不剪视频",
+    "baked mp3 末端 apad 至 paddedTotalDurationSeconds=12s，与 brief.duration=12s 对齐 ≤0.1s 误差；3 段旁白合成体 ~6.3-6.6s + 静音填充 ~5.4-5.7s"
+  ],
+  "outputs": {
+    "audio": "tools/recognition-video/builds/yi-v5-cinematic/assets/audio/yi-v5-cinematic-narration.mp3",
+    "rawAudio": "/tmp/yi-v5-cinematic-narration-raw.mp3",
+    "subtitles": "tools/recognition-video/builds/yi-v5-cinematic/assets/audio/yi-v5-cinematic-narration.vtt"
+  }
+}

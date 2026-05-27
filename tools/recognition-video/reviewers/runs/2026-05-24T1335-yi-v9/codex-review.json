@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "starlight-double-blind-review/v1",
+  "reviewerId": "codex",
+  "characterId": "yi",
+  "buildId": "yi-v9",
+  "reviewedAt": "2026-05-24T13:35:00Z",
+  "input": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v9.brief.json",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v9.audio-plan.json",
+    "tailSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/tail-specs/yi-v9.tail-spec.json",
+    "narrationSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/narration-specs/yi-v9.narration-spec.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/yi-v9-sun-tailvoice-check.mp4",
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-3.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-4.8s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-9.45s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.55s.png"
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6.0,
+      "reason": "意义入口到字形主体的结构成立，但尾段合同和实际教学动作冲突，最后的笔顺段没有完成应有的教学闭环。"
+    },
+    "glyphBinding": {
+      "score": 6.0,
+      "reason": "旁白有“一只、一 道、这一笔”的绑定设计，但 3.3s/4.8s 的光束不可数，尾段又是在已完成字上移动光点。"
+    },
+    "glyphAnchor": {
+      "score": 5.0,
+      "reason": "米字格和目标字位置稳定，但 9.45s 起完整黑色横画已经可见，写字前沿不再承担真正锚定作用。"
+    },
+    "pacing": {
+      "score": 6.0,
+      "reason": "12s 总长和 final dwell 表面满足要求，但 brief/audio/tailSpec 对 9.35-10.75s 写字窗口不一致。"
+    },
+    "animationPerformance": {
+      "score": 5.0,
+      "reason": "keyframes 显示 tail 光点在移动，但底层完整字已提前存在，核心笔顺动画退化成指示器扫过成字。"
+    },
+    "visualQuality": {
+      "score": 7.0,
+      "reason": "宣纸、晨光和米字格整体干净，但前半段过空，光束弱到不可读，尾段橙色 bloom 成为额外视觉层。"
+    },
+    "childAppeal": {
+      "score": 5.5,
+      "reason": "暖色水墨风柔和，但小鸟和光束都太弱，3-6 岁儿童不容易把“一只小鸟/一道光”看成明确事件。"
+    },
+    "audioFit": {
+      "score": 6.0,
+      "reason": "语音内容重复目标字足够多，且尾音与光点移动对齐；但这直接违反 silent stroke-order tail 合同。"
+    },
+    "technicalCompliance": {
+      "score": 4.0,
+      "reason": "tailSpec、brief teachingContract 和 audioPlan 互相矛盾，且 tailSpec 的 stroke phase 没有同步到实际 1.4s 写字设计。"
+    },
+    "officialReadiness": {
+      "score": 3.0,
+      "reason": "该 build 明确是 voiced-tail 变体，仍保留 silent-tail 官方字段，不能作为 official recognition video 发布。"
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 4.5,
+      "reason": "旁白满足目标字重复和 concrete-anchor phrase，但 final/poster 设计保留额外 bloom，tail 也没有隐藏未写部分。"
+    }
+  },
+  "overallScore": 5.3,
+  "blockers": [
+    {
+      "severity": "critical",
+      "atTime": 9.45,
+      "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+      "issue": "At 9.45s, only about 0.10s after the voiced tail write window begins, the full black horizontal stroke of “一” is already visible across the mizige while the orange ink-front-bloom sits at the left start point.",
+      "rootCause": "The tail transition protects and leaves the completed kaiti-glyph-base visible during the stroke-order tail, so the tail is not revealing an unwritten stroke; it is moving a guide over an already completed glyph.",
+      "specRef": "brief.shotPlan[3].description / tailSpec.transition.protectedLayerIds"
+    },
+    {
+      "severity": "high",
+      "atTime": 10.0,
+      "atKeyframe": "yi-v9-tailvoice-10.0s.png",
+      "issue": "The 10.0s keyframe shows the orange ink-front-bloom near the center of the stroke, not in a completed right-end hold, while the full glyph is still already drawn underneath.",
+      "rootCause": "The timing contracts are stale and disagree: tailSpec.strokeOrder[0] says the write phase is 0.5-1.0s inside the tail, but brief/audioPlan describe a 9.35-10.75s 1.4s write window.",
+      "specRef": "tailSpec.strokeOrder[0].phaseStartSeconds / tailSpec.strokeOrder[0].phaseEndSeconds / audioPlan.cues[3]"
+    },
+    {
+      "severity": "high",
+      "atTime": 9.35,
+      "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+      "issue": "The stroke-order tail is a voiced segment from 9.35s to 10.70s, with the final spoken “一。” placed over the writing action instead of leaving the tail silent.",
+      "rootCause": "audioPlan and narrationSpec add a tail-stroke-sound cue, while brief.teachingContract.strokeOrderTail.narrationPolicy and tailSpec.narrationPolicy still declare the official tail policy as silent.",
+      "specRef": "brief.teachingContract.strokeOrderTail.narrationPolicy / tailSpec.narrationPolicy / audioPlan.cues[3]"
+    },
+    {
+      "severity": "high",
+      "atTime": 10.55,
+      "atKeyframe": "yi-v9-tailvoice-10.55s.png",
+      "issue": "The frame shows an orange glow and ink dot attached to the right end of the glyph; the specified final poster keeps this guide object visible during the final hold.",
+      "rootCause": "brief.finalFrame intentionally preserves ink-front-bloom at glyph_right_end_plus_18px, which conflicts with the teaching integrity requirement that the final frame show exactly the target character with no extra layers.",
+      "specRef": "brief.finalFrame.description / brief.finalFrame.guideObject"
+    },
+    {
+      "severity": "medium",
+      "atTime": 4.8,
+      "atKeyframe": "yi-v9-tailvoice-4.8s.png",
+      "issue": "The sunlight shot reads as pale paper with a soft sun disk and haze; there is no clearly countable single 45-degree beam for the spoken phrase “一道光”.",
+      "rootCause": "The single-sun-motif was softened into broad mist and a weak light band, so the visual count anchor required by the phrase-bridge and quantifier usage is no longer legible.",
+      "specRef": "brief.shotPlan[1].purpose / narrationSpec.quantifierUsage[1]"
+    },
+    {
+      "severity": "medium",
+      "atTime": 3.3,
+      "atKeyframe": "yi-v9-tailvoice-3.3s.png",
+      "issue": "The bird anchor is a tiny dark mark high in the frame, far from the child’s likely focus area and too small to function as a clear “一只小鸟” visual count anchor.",
+      "rootCause": "The bird-flight-loop is staged at near-background scale inside a mostly empty sky composition; the required concrete anchor exists in the spec but is not visually dominant enough in the keyframe.",
+      "specRef": "brief.shotPlan[0].purpose / animationRequirements.spriteRequired[0]"
+    }
+  ],
+  "decision": "blocked",
+  "confidence": "high",
+  "rationale": "The build promises a 12s recognition video for “一”: dawn bird and single sunlight beam establish concrete meaning, ink bleed names the glyph, and a final mizige tail demonstrates left-to-right stroke order. The keyframes deliver a calm warm-paper look and a stable target glyph, but the dominant failure is instructional: the tail shows a completed black “一” before the stroke-order action, then moves an orange bloom over it. On top of that, the voiced tail contradicts the official silent-tail contract, the tail timing fields disagree, and the final/poster spec keeps an extra bloom layer next to the character. This should not be marked official."
+}

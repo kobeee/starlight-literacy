@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "recognition-video-narration-spec/v1",
+  "characterId": "yi-v5-cinematic-as-shipped",
+  "targetCharacter": "一",
+  "targetCharSemantic": "number",
+  "script": "天亮了。山那边升起一道光。就是「一」。",
+  "segments": [
+    {
+      "id": "scene-setup",
+      "text": "天亮了。",
+      "role": "scene-setup",
+      "targetCharOccurrences": 0,
+      "notes": "Scene setup before the glyph anchor."
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "山那边升起一道光。",
+      "role": "phrase-bridge",
+      "targetCharOccurrences": 1,
+      "notes": "Uses 一道 as a quantifier (measure word for a streak of light), not as a count."
+    },
+    {
+      "id": "glyph-naming",
+      "text": "就是「一」。",
+      "role": "glyph-naming",
+      "targetCharOccurrences": 1
+    }
+  ],
+  "quantifierUsage": [
+    {
+      "segmentId": "phrase-bridge",
+      "phrase": "一道",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": false,
+      "visualReference": ""
+    }
+  ],
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "Calm warm female teacher voice for 3-6 yr olds; -10% slows just enough to give recognition pause time without sounding sleepy."
+  },
+  "tts": {
+    "engine": "edge-tts",
+    "commandTemplate": "edge-tts --voice {{voice}} --rate={{rate}} --pitch={{pitch}} --text {{text}} --write-media {{audioOut}} --write-subtitles {{subtitleOut}}",
+    "postProcess": {
+      "apadToSeconds": 12
+    }
+  },
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v5-cinematic-as-shipped-narration.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v5-cinematic-as-shipped-narration.vtt",
+    "measuredTimings": "src/clients/mobile-h5/assets/recognition/yi/yi-v5-cinematic-as-shipped-narration.measured-timings.json"
+  }
+}

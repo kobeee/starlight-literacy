@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "starlight-double-blind-review/v1",
+  "reviewerId": "claude",
+  "characterId": "yi",
+  "buildId": "yi-v9",
+  "reviewedAt": "2026-05-24T13:50:00Z",
+  "input": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v9.brief.json",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v9.audio-plan.json",
+    "tailSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/tail-specs/yi-v9.tail-spec.json",
+    "narrationSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/narration-specs/yi-v9.narration-spec.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/yi-v9-sun-tailvoice-check.mp4",
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-3.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-4.8s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-9.45s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.55s.png"
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6.0,
+      "reason": "Four-beat arc (dawn → ray → ink-bleed → tail-write) is present in the brief, but in the rendered tail beat the writing action collapses to ~0.1s instead of 1.4s, so the demonstrate→practice transition that the structure depends on does not actually play out on screen."
+    },
+    "glyphBinding": {
+      "score": 6.5,
+      "reason": "Brief promises a countable single bird and single light beam for 「一只」「一道」. In t=3.3s the bird is a dark fleck barely 6-8px wide against a wash sky — readable as a smudge, not a confident '一只'. The sunlight beam at t=4.8s reads cleanly but the bird that was supposed to bridge dawn→ray is no longer in frame."
+    },
+    "glyphAnchor": {
+      "score": 5.0,
+      "reason": "The mizige+character is present at t=9.45 onward, but the glyph appears as a fully completed black rectangle blob with no observable 楷体 brush taper/serif. It looks like a wide marker stroke, not the Kaiti '一' the brief specifies (font-family Yi Kaiti / STKaiti). Anchor exists, anchor identity is weak."
+    },
+    "pacing": {
+      "score": 4.0,
+      "reason": "The 1.4s writing reveal that justifies the entire voiced-tail variant has been compressed to <0.1s on screen. Pacing of the rest is fine, but the most important teaching beat has no breathing room — it is instant. This is the dimension that drives the verdict."
+    },
+    "animationPerformance": {
+      "score": 3.5,
+      "reason": "There is no observable left-to-right writing motion in the tail. At t=9.45 (0.1s into the writing window) the stroke is already complete; at t=10.0 and t=10.55 the only thing that has moved is the small orange bloom dot sliding along an already-drawn stroke. That is not writing animation — it is a follow-spot on a finished line."
+    },
+    "visualQuality": {
+      "score": 7.0,
+      "reason": "Color harmony of the warm-paper / sun palette is coherent and on-brand. The tail composition is clean. The bloom dot itself is tasteful and small enough not to compete with the glyph. Color reads as warm and paper-like throughout."
+    },
+    "childAppeal": {
+      "score": 5.5,
+      "reason": "The dawn plates (t=3.3, t=4.8) are pretty but very subtle — a 3-6yo will see almost-empty cream paper with a small sun. The tail is static (fully-drawn stroke + tiny dot moving) which is not exciting. Nothing pops, nothing rewards a second watch."
+    },
+    "audioFit": {
+      "score": 6.0,
+      "reason": "I cannot hear the audio so this is partly inferred from the spec, but the central premise — '声音跟着光标沿横笔移动' — fails visually because the stroke is already fully present when the voice 「一」 begins. Voice will land on a static finished stroke with a dot moving over it, not on a writing-in-progress, so the audio-visual semantic bond the v9 revision was supposed to deliver does not hold."
+    },
+    "technicalCompliance": {
+      "score": 6.0,
+      "reason": "Schema-wise the four spec files are consistent with each other and with the run notes. But the rendered tail does not honor brief.shotPlan[3].description ('1.4s writing渗墨 + ink-front-bloom 严格绑 mask front 1:1') — observable behavior contradicts the brief contract."
+    },
+    "officialReadiness": {
+      "score": 3.0,
+      "reason": "Not shippable as the canonical '一' video. Children will see a finished line and a tiny moving dot during the tail and learn that '一' is 'a line that is already there before you say it'. That is the opposite of what stroke-order tail exists to teach."
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 4.5,
+      "reason": "Target character '一' appears clearly and is named, so the safety floor is not zero. But the writing demonstration is functionally absent in the tail — the dimension that this field is supposed to protect (does writing actually happen on screen) fails."
+    }
+  },
+  "overallScore": 5.2,
+  "blockers": [
+    {
+      "severity": "critical",
+      "atTime": 9.45,
+      "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+      "issue": "At t=9.45s — only 0.1s into the 9.35-10.75s tail writing window — the horizontal stroke is already 100% drawn end-to-end as a solid black bar inside the mizige. The ink-front-bloom (small orange dot) is parked at the LEFT end of an already-completed line. There is no in-progress mask front to follow, because the mask has already fully revealed the glyph by t=9.45.",
+      "rootCause": "The render pipeline is reusing the body-segment kaiti-glyph-base (kept persistent by tail-spec.transition.protectedLayerIds) and is NOT re-masking it for the tail's 1.4s writing window. The brief commits to 'css mask reveal 9.35-10.75s' for the tail stroke, but in practice the body's already-revealed glyph is what's visible during the tail, so there is nothing left to reveal — the tail mask either runs on a layer that is already opaque, or doesn't run at all. The brief tries to have it both ways (persistent kaiti AND re-written tail) and the rendered output proves you can't.",
+      "specRef": "tail-spec.strokeOrder[0].phaseStart/End + brief.shotPlan[3].description + tail-spec.transition.protectedLayerIds"
+    },
+    {
+      "severity": "critical",
+      "atTime": 10.0,
+      "atKeyframe": "yi-v9-tailvoice-10.0s.png",
+      "issue": "At t=10.0s (mid-writing window) the only thing that has visibly changed since 9.45 is the orange bloom dot's x-position — it slid from the left end of the stroke to roughly center. The stroke itself has not grown, no new ink has been laid down. The pointer is decorative, not generative. A 4-year-old will read this as 'a glowing bead is sliding along a drawn line', not 'a brush is writing a line'.",
+      "rootCause": "Even the brief's own description of ink-front-bloom — '严格绑 mask front x-position 1:1' — is being honored as a position binding only, not as a causal one. Bloom-follows-mask only teaches writing if the mask is what creates the visible stroke. Here the bloom follows a phantom mask while the actual stroke is supplied by the protected body layer. The first-principles fix is: during tail, hide kaiti-glyph-base (don't protect it) and let the tail mask do real reveal of a fresh tail-only glyph layer; OR drop the voiced-tail variant entirely.",
+      "specRef": "brief.animationRequirements.writingImplements[1].tracksMaskFront + tail-spec.transition.protectedLayerIds"
+    },
+    {
+      "severity": "high",
+      "atTime": 3.3,
+      "atKeyframe": "yi-v9-tailvoice-3.3s.png",
+      "issue": "At t=3.3s, during the dawn→sunlight-ray cross-dissolve, the 'concrete countable bird' that anchors '一只小鸟' is rendered as a tiny dark V approximately 6-8 pixels wide in the upper-left third of the frame. Against the very pale cream sky it reads as a blemish on the paper, not as a bird a child would point at and count. The mountain horizon is also barely visible (low-contrast strokes at the bottom 15%).",
+      "rootCause": "The brief calls for v9-bird-flight-loop as a 6-frame sprite from 0.35-4.7s, but the rendered scale at this timestamp shows the sprite is too small relative to the canvas. Concrete-anchor only works if the anchor is visually dominant during the words that name it. Bird needs to be 2-3x larger AND on a higher-contrast region of the plate (e.g. against the mist band, not against the lightest sky). Brief leaves bird size as 'follows v8 reuse' but v9's lighter sky reduces effective contrast — never re-verified after plate change."
+    },
+    {
+      "severity": "high",
+      "atTime": 9.45,
+      "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+      "issue": "The rendered tail glyph is a thick rounded-end black rectangle with no taper, no entry pressure, no exit hook. Kaiti '一' should have a visible head/tail brush identity. What is on screen reads as a generic marker stroke or 'minus' typographic glyph, not the Kaiti hanzi the brief promises.",
+      "rootCause": "Brief specifies font-family 'Yi Kaiti, STKaiti, KaiTi, serif' for html-kaiti-glyph, but the rendered shape has none of those typefaces' characteristic horizontal-stroke taper. Likely the system fallback (a generic serif or even sans-serif) is being used because the named fonts are not present in the render environment, OR the mask is clipping the taper. For a recognition video targeting 3-6yo where '这是「一」' is the entire point, the glyph must look like Kaiti '一', not '−'."
+    },
+    {
+      "severity": "medium",
+      "atTime": 4.8,
+      "atKeyframe": "yi-v9-tailvoice-4.8s.png",
+      "issue": "At t=4.8s — mid sunlight-ray segment — there is no visible bird anywhere in frame. The brief's continuityWithPrev for sunlight-ray-plate explicitly names 'bird-cross-plate-bridge' as the transitionalElementId carrying continuity across the cross-dissolve, and bird sprite is supposed to fly 0.35-4.7s. By 4.8 the bird is just gone, leaving only a sun and a beam.",
+      "rootCause": "The bird sprite exit timing (4.7s) is too tight against the 4.8s probe and against the user's mental model of 'the bird flies across two scenes'. The brief specifies bird ends at 4.7s but the segment runs to 5.7s — there's a 1s gap where the visual bridge concept is dead but the segment still uses cross-dissolve language. Either extend bird through 5.5s or drop the bird-bridge claim from the brief."
+    }
+  ],
+  "strengths": [
+    "Warm dawn/sun palette is genuinely beautiful and on-brand with the project's '田园暖彩' design system.",
+    "Final-frame poster composition (mizige + black stroke + bloom dot at right end) reads cleanly and could work as a P03 poster — the issue is only how we got there.",
+    "Removal of explicit hand/brush in favor of an ink-bloom is the right first-principles direction even though the execution does not yet deliver it."
+  ],
+  "decision": "blocked",
+  "confidence": "high",
+  "rationale": "This build's stated v9 thesis — replace child-hand/brush-pointer with an ink-front-bloom that IS the mask front, and add a voiced final '一' synchronised to that writing motion — is sound on paper and is the right answer to v8's blocker set. But the rendered tail at 9.45/10.0/10.55s shows the writing action has collapsed to roughly 0.1s while the bloom dot slides over an already-finished stroke for another 1.3s. A child watching this will not see '一' being written; they will see a glowing bead moving along a pre-drawn line while a voice says '一'. That is functionally identical to the v8 blocker#8 wipe-not-writing failure that v9 was specifically meant to fix. Combined with the bird being barely visible during '一只小鸟' and the rendered glyph not reading as Kaiti, this build cannot ship as the canonical 一. The fix is structural, not cosmetic: tail-spec.transition.protectedLayerIds=['kaiti-glyph-base'] contradicts a real tail re-write, and one of them has to give. I am confident on this verdict because the failure is observable in three keyframes and follows directly from the brief/tail-spec contradiction."
+}

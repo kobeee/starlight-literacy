@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-v5-cinematic",
+  "style": {
+    "source": "tools/recognition-video/art-bibles/yi-v5-cinematic.art-bible.md（v5 cinematic 色板 + 美学定位）+ knowledge-base/01-产品设计/反AI设计规范.md（低饱和暖色 + 留白）+ DESIGN.md（田园暖彩衍生）",
+    "summary": "cinematic 油画 + 水墨意境：低饱和暖色温滤镜（黎明暗紫 #3a3550 → 晨光起色 #f4b06a → 晨光满色 #ffd071 → 宣纸底 #f5ead0 → 墨色 #1f1a14 → 暖棕 #5D4A36）；视觉对标 Tonko House + Cartoon Saloon + 宫崎骏开场段 + 追光长安三万里宣纸 + 熊亮蔡皋绘本墨韵 + Jon Klassen 克制留白；明确反对洪恩 / 巧虎 / Pinkfong 工业流水线和 CoComelon 3D 软糖；6 张 plate + 1 sprite，每张 plate 都是 可以挂在墙上的完整剧照，禁止留白等 CSS 补天"
+  },
+  "plates": [
+    {
+      "id": "dawn-valley-plate",
+      "kind": "plate",
+      "purpose": "电影开场全屏底板：5:30 AM 山坳全景，深紫天空 + 远山墨色剪影 + 左下村庄一盏暖橙小光点 + 右下飞鸟剪影掠入；唤起 silent prologue 氛围；与 sun-rising-plate 共享山形构图保证 cross-dissolve 读起来是同一地点的时间流逝",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/dawn-valley-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/dawn-valley-plate.prompt.txt"
+    },
+    {
+      "id": "sun-rising-plate",
+      "kind": "plate",
+      "purpose": "意义入口全屏底板：与 dawn-valley-plate 同一山形 + 同一构图，但晨光刚破云——地平线后金色光团、丁达尔光柱、雾带被打亮成金雾、远山上缘暖金 rim-light；旁白 天亮了 落在此 plate；plate 自带太阳与光柱，不需要 CSS 圆盘或 box-shadow",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/sun-rising-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/sun-rising-plate.prompt.txt"
+    },
+    {
+      "id": "light-band-plate",
+      "kind": "plate",
+      "purpose": "字形绑定全屏特写：横贯画面的暖金光带凝固成一道有形的横笔，两端柔光晕染、中心 #fff3c8 最亮、外缘 #f4b06a；背景虚化为暖金雾但仍能辨出同一山谷；旁白 山那边升起一道光 落在此 plate；plate 自带光带，不需要 CSS linear-gradient 假光带",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/light-band-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/light-band-plate.prompt.txt"
+    },
+    {
+      "id": "light-to-ink-plate",
+      "kind": "plate",
+      "purpose": "光化为墨过渡帧：横笔左侧仍是金光、中段在变化、右侧已收为暖棕墨色 #5D4A36 with wet ink bleed；背景上半还有金雾、下半已成宣纸 #f5ead0；米字格水印 18% opacity 在最下方开始浮现；用于 ink-glyph 段开头 0.5s cross-dissolve",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/light-to-ink-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/light-to-ink-plate.prompt.txt"
+    },
+    {
+      "id": "ink-glyph-plate",
+      "kind": "plate",
+      "purpose": "字形闭合主帧：宣纸 #f5ead0 + 黑色楷体 一 字 #1f1a14 完全收笔成形 + 米字格水印 18% opacity；纸面有手工纹理、茶渍、竖纹；楷体起笔/收笔顿笔特征清晰；这是整片美学最关键的一张 plate，3-5 轮迭代到位；旁白 就是「一」 落在此 plate",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/ink-glyph-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ink-glyph-plate.prompt.txt"
+    },
+    {
+      "id": "hand-tracing-plate",
+      "kind": "plate",
+      "purpose": "笔顺尾段主帧：宣纸 + 黑色楷体 一 字 + 米字格水印 + 一只孩子右手从右下入画食指指腹悬在横笔上方 + 阳光从右上 30° 斜入打温柔暖光与柔影；末帧作为 P03 poster；strokeOrderTail 段全程使用",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/plates/hand-tracing-plate.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/hand-tracing-plate.prompt.txt"
+    },
+    {
+      "id": "ref-mountains",
+      "kind": "reference",
+      "purpose": "山形剪影 character reference：单层墨色远山剪影 + 中段一个明显但不刻意的山峰、左下一个次峰、右下一道斜坡；用作 dawn-valley-plate 与 sun-rising-plate 的 reference_image 锁定同一座山",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-mountains.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ref-mountains.prompt.txt"
+    },
+    {
+      "id": "ref-xuan-paper",
+      "kind": "reference",
+      "purpose": "宣纸纹理 character reference：1024×1536 纯净宣纸底，有手工纤维、竖纹、茶渍边缘但无任何字或印；用作 light-to-ink-plate / ink-glyph-plate / hand-tracing-plate 的 reference_image 锁定同一张纸",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-xuan-paper.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ref-xuan-paper.prompt.txt"
+    },
+    {
+      "id": "ref-mizige-watermark",
+      "kind": "reference",
+      "purpose": "米字格水印 character reference：宣纸上一格浅暖棕 #5D4A36 米字格水印，外框 1px、内部 # 与 X 0.5px、整体 opacity 18%；用作 light-to-ink-plate / ink-glyph-plate / hand-tracing-plate 的 reference_image 锁定同一格水印",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-mizige-watermark.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ref-mizige-watermark.prompt.txt"
+    },
+    {
+      "id": "ref-child-hand",
+      "kind": "reference",
+      "purpose": "孩子的手 character reference：4-5 岁孩子的右手从腕到指尖、肤色低饱和暖米、圆润指节、无指甲油无饰物；用作 hand-tracing-plate 的 reference_image 锁定同一只手形",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-child-hand.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ref-child-hand.prompt.txt"
+    },
+    {
+      "id": "ref-style-anchor",
+      "kind": "reference",
+      "purpose": "style anchor mood board character reference：单图包含完整 v5 色板 6 色块 + 一笔暖金光带样例 + 一笔暖棕墨样例 + 宣纸纹理样例 + 油画笔触样例；用作所有 6 张 plate 与 1 张 sprite 的 reference_image 喂入，统一笔触语言与色温",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-style-anchor.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/prompts/ref-style-anchor.prompt.txt"
+    }
+  ],
+  "cutouts": [],
+  "sprites": [
+    {
+      "id": "yi-v5-cinematic-bird-flight-loop",
+      "actor": "bird",
+      "action": "flight-loop",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/manifest.json",
+      "minFrames": 6,
+      "requiredMotionParts": [
+        "wing-up",
+        "wing-down",
+        "body-translate"
+      ],
+      "motionCheckIntent": "6 帧依序展示翅膀从 down stroke 起点 → down stroke 中段 → 极底 → up stroke 起点 → up stroke 中段 → 极顶 的完整扑翅循环；任两帧不可像素完全一致；frame 0 与 frame 5 几何接近但相位略异以避免视觉冻结；body 在 6 帧间需有微小 ±2px 上下浮动配合翅膀升力变化",
+      "notes": "由 gpt-image-2 原生透明 PNG 直出 6 帧（不走 chroma-key fallback），单帧约 64x64 透明 PNG；最终在 dawn-valley shot 中以 ~12px 物理尺寸显示；GSAP 在 0-1.0s 内做 translateX(画面右下→左上) + translateY 小幅起伏；frame 切换由 CSS animation steps(6) 同步循环，1.5 cycles per second，确保扑翅速率与小鸟尺寸视觉一致"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "planned",
+    "script": "天亮了。山那边升起一道光。就是「一」。",
+    "path": "tools/recognition-video/builds/yi-v5-cinematic/assets/audio/yi-v5-cinematic-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v5-cinematic.audio-plan.json"
+  },
+  "qualityBars": [
+    "6 张 plate 每张单独看都必须是 可以挂在墙上的剧照：完整 cinematic composition + 油画质感 + 留白经营 + 低饱和暖色温滤镜，禁止任何 等 CSS 补天 的留白工艺路径",
+    "6 张 plate 串起来视觉风格一致：同一台 5:30 AM 相机 / 同一种油画 + 水墨笔触 / 同一套色板，色温飘移 > 一档直接重生",
+    "ink-glyph-plate 与 hand-tracing-plate 上的楷体 一 字必须有楷体起笔/收笔顿笔特征，不能是一根直棍——这是整片美学最关键的两张 plate",
+    "米字格水印在 light-to-ink-plate / ink-glyph-plate / hand-tracing-plate 三处必须几何与位置完全一致（用 ref-mizige-watermark 锁定）；opacity 永远 ≤ 30%，永不抢戏",
+    "全片严禁出现任何 raster 上的中文 / 拼音 / 数字 / 拉丁字符 / 印章 / 水印标签 / UI 元素；ink-glyph-plate 与 hand-tracing-plate 上的 一 字是单独的 brush stroke 非 typed text，无字幕条无 mascot",
+    "颜色严格收敛在低饱和暖色温滤镜里：禁止任何饱和度 > 60% 的颜色、任何紫蓝/洋红/霓虹绿/薄荷蓝、任何 pure #ffffff 或 pure #000000",
+    "bird-flight-loop sprite 6 帧必须有 wing-down → wing-up 的连续梯度，相邻帧不可像素完全一致；翅膀位置必须真切换 frame，禁止用 CSS transform skew 假装扑翅",
+    "final frame hand-tracing-plate 必须 poster 化可读：宣纸 + 楷体 一 字 + 米字格水印 + 孩子手指 + 右上斜入暖光全部清晰，无任何叠加 UI"
+  ]
+}

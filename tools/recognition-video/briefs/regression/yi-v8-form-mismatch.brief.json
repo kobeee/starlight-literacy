@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-v8-form-mismatch-regression",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "narrationSpecRef": {
+    "path": "../../narration-specs/yi-v8.narration-spec.json",
+    "schemaVersion": "recognition-video-narration-spec/v1"
+  },
+  "tailSpecRef": {
+    "path": "../../tail-specs/yi-v8.tail-spec.json",
+    "schemaVersion": "recognition-video-tail-spec/v1"
+  },
+  "duration": 12,
+  "fps": 24,
+  "teachingHook": "v8.1 修复 v8 初版三处项目宪法违规：(1) tail narrationPolicy 由 carries-final-cue → silent（mizige-anchors 锁死 tail 段静默让孩子专注笔顺）；(2) clearLayerIds 补回 light-band-layer + phrase-bridge-layer 满足 anchors.clearingContract 全集；(3) handPosePresent 由 false → true（项目宪法锁死 P03 poster bottom-right child-hand 入画，brand 不可商量）。同时 v8.1 重排时间轴让出 silent tail 独占视频最后 10.0-12.0s（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0）：旁白 4 段每段 ≤12 字（3-6 岁认知上限），spoken body raw=9.744s 在 9.694s 收尾，9.694-10.0s 共 0.306s 桥接到 silent stroke-order tail 段。v8 → v8.1 关键差异：spoken body 段时间轴整体提前 1.5s（dawn 0-3.3 → 0-3.0 / sunlight 3.3-6.1 → 3.0-5.7 / ink-bleed 6.5-9.5 → 5.7-8.5 / glyph-naming 9.5-12 → 8.5-10.0）让 tail 在 10.0s 准时启动；移除 v7 brush（宪法不要求）+ 重画 child-hand 用细线插画风格（非 v7 漫画肤色块）。视觉总览：dawn-mountain plate 0-3.0s（含小鸟）→ sunlight-ray plate 3.0-5.7s（45° 对角光）→ 纯宣纸 + 渗墨「一」字 5.7-8.5s（米字格 6.5-7.5s 淡入 0.18 识字态）→ 米字格写字态 + 完整字 8.5-10.0s（spoken body 收束）→ silent stroke-order tail 10.0-12.0s（米字格 0.30 写字态 + child-hand 食指悬停在「一」字右端 +18px + 完整 dwell 0.5s 作 P03 poster）。",
+  "narration": {
+    "script": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      {
+        "at": 0.1,
+        "text": "一只小鸟，飞过山头。"
+      },
+      {
+        "at": 2.944,
+        "text": "一道光，落在白纸。"
+      },
+      {
+        "at": 5.611,
+        "text": "轻轻一笔，画过去。"
+      },
+      {
+        "at": 8.125,
+        "text": "这就是「一」。"
+      }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "dawn-mountain-plate",
+      "start": 0,
+      "duration": 3,
+      "purpose": "意义入口 (meaningAction)：gpt-image-2 真实生图水墨晨景 plate（宣纸 + 三层远山 + 上方小鸟剪影）作底，旁白「一只小鸟，飞过山头」对位 plate Ken Burns 缓推；plate 上既存的小鸟剪影承担 concrete-anchor 视觉锚 + 旁白「一只」量词在 0.1s 起把目标字「一」绑到 plate 上的单只小鸟剪影 — 这是 12s 短片中目标字「一」的首次音视同步锚定",
+      "description": "0-0.1s plate 静默 prologue 缓入；0.1-2.994s 旁白「一只小鸟，飞过山头」与 plate Ken Burns（scale 1.0→1.04、translateY 0→-12px）同步；2.7-3.0s plate opacity 1→0 渐隐为下一段 sunlight-ray 让位。米字格、楷体「一」字本段全程不显示。",
+      "requiredAssets": [
+        "v8-plate-dawn-mountain-bird-A",
+        "html-xuan-paper-bg"
+      ]
+    },
+    {
+      "id": "sunlight-ray-plate",
+      "start": 3,
+      "duration": 2.7,
+      "purpose": "字形预备 (glyphBinding)：gpt-image-2 真实生图水墨阳光 plate（宣纸底 + 一束 45° 对角线暖金阳光），旁白「一道光，落在白纸」用「一道」量词绑画面单束阳光的视觉计数锚；光的 45° 对角刻意不与「一」字横笔重合避免 dual-render",
+      "description": "3.0-3.6s sunlight-ray plate opacity 0→1（同时 dawn-mountain 完全 0），plate 自身有 subtle Ken Burns（scale 1.0→1.025）；3.6-5.4s plate dwell；5.4-5.7s plate opacity 1→0 渐隐让位给纯宣纸 + 渗墨字段。米字格、楷体「一」字本段全程不显示。",
+      "requiredAssets": [
+        "v8-plate-sunlight-ray-A",
+        "html-xuan-paper-bg"
+      ]
+    },
+    {
+      "id": "ink-bleed",
+      "start": 5.7,
+      "duration": 2.425,
+      "purpose": "字形主体 (glyph-binding)：纯宣纸背景 + 楷体「一」字通过 CSS mask-image linear-gradient(90deg) 从左到右 2.5s 渗墨成形（满足行业标准 ≥2s）；旁白「轻轻一笔，画过去」承担量词「一笔」绑视觉单一笔横画；米字格在 6.5-7.5s 才淡入到识字态 0.18（v8.1 关键修复 — 米字格不再 0-12s 全程暴露）",
+      "description": "5.7-6.0s 纯宣纸背景显露（前面 plate 已退场）；5.9-8.4s 楷体「一」字 div（HTML kaiti、color #1f1a14、居中）通过 CSS mask-image linear-gradient(90deg) 从左到右 2.5s 渗墨成形 + filter blur(2px)→0；同时 6.5-7.5s 米字格 SVG 从 opacity 0 缓动到 --mizige-opacity:0.18（识字态）；8.4-8.5s 字稳定 dwell。本段无 plate 图、无 brush、无 hand。旁白「轻轻一笔，画过去」audio 5.611-8.125s 与渗墨同步。",
+      "requiredAssets": [
+        "html-ink-glyph-bleed-layer",
+        "html-kaiti-glyph",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg"
+      ]
+    },
+    {
+      "id": "glyph-naming",
+      "start": 8.125,
+      "duration": 1.875,
+      "purpose": "字-形-音三绑定收束 (glyph-naming)：楷体「一」字稳定居中（已渗墨完毕）、米字格保持 0.18 识字态、旁白「这就是「一」」配合字音延长建立 spoken body 收束",
+      "description": "8.5-9.694s 旁白「这就是一」与完整字形同框，米字格保持 0.18 识字态；9.694-10.0s 共 0.306s 桥接静默到 silent stroke-order tail 段。本段无 brush、无 hand、无 plate（plate 已在 5.7s 退场）。",
+      "requiredAssets": [
+        "html-kaiti-glyph",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg"
+      ]
+    },
+    {
+      "id": "stroke-order-tail",
+      "start": 10,
+      "duration": 2,
+      "purpose": "silent stroke-order tail (P03 poster)：严格符合 mizige-anchors.timing.totalDurationSeconds=2.0，narrationPolicy='silent' 让孩子专注看 child-hand 笔顺示范；本段独立于 spoken body，是 P03 poster 锚帧的唯一来源",
+      "description": "10.0-10.6s mizige opacity 0.18→0.30 切到写字态 + 五层 clearLayerIds 清空（ink-glyph-bleed-layer/light-band-layer/phrase-bridge-layer/sunlight-ray-plate/dawn-mountain-plate）+ child-hand SVG（细线插画风格，肤色 #f4d2b0 简洁线条，非 v7 漫画肤色块）从 bottom-right 入画到悬停姿态、entryAngleDeg=30；10.6-11.5s 楷体「一」字单笔横画从左到右 0.9s 写字渗墨（mask softness=2 锐边写字态，与 cinematic body 渗墨态 softness=4 区分）+ 食指尖随笔锋移动；11.5-12.0s finalHold 0.5s child-hand 食指悬停在「一」字右端 +18px 作 P03 poster 锚帧 + 完整字形定格。本段无 brush（v7 移除）、无旁白（silent 严格符合 anchors）。",
+      "requiredAssets": [
+        "html-mizige-watermark",
+        "html-kaiti-glyph",
+        "html-child-hand-svg",
+        "html-xuan-paper-bg"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "dawn-mountain-plate",
+      "description": "gpt-image-2 真实生图水墨晨景 plate（宣纸 + 三层远山 + 小鸟剪影）作底；旁白「一只小鸟，飞过山头」与 plate Ken Burns 同步；让「一」字背后的破晓时刻在画面上具象化。v8.1 旁白第一段就含「一只」量词，0.1s 起把目标字「一」绑到 plate 上的单只小鸟剪影 — 这是 12s 短片中目标字「一」的首次音视同步锚定。",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "sunlight-ray-plate",
+      "description": "gpt-image-2 真实生图阳光 plate（宣纸底 + 一束 45° 对角线暖金阳光）；「一道光」绑画面单束阳光视觉计数锚；plate 上的光是 45° 对角，刻意不与「一」字横笔（90° 水平）重合避免 dual-render。",
+      "boundElements": [
+        "v8 sunlight-ray plate 上的 45° 对角线暖金阳光束",
+        "html-kaiti-glyph 横画（90° 水平）— 与 plate 阳光方向 45° 错开"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "ink-bleed",
+      "phrase": "轻轻一笔，画过去"
+    },
+    "sentenceBridge": {
+      "sentence": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+      "source": "Starlight Literacy Unit-01 一字 recognition 短片 v8.1；4 段叙事每段 ≤12 字覆盖意义入口（小鸟 + 山头）→ 字形预备（一道光）→ 字形主体 + 量词「一笔」→ 字-形-音三绑定收束。相对 v8 初版砍掉「天刚亮」前缀 + 「从左画到右」笔顺旁白（已由 silent tail 段独立承担），把 spoken body 整体压到 9.694s 让出 10.0-12.0s 给 silent stroke-order tail。"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "dawn-mountain-plate",
+        "target": "破晓水墨晨景 plate Ken Burns 缓推 + 旁白「一只小鸟，飞过山头」整段",
+        "seconds": 3
+      },
+      {
+        "shotId": "ink-bleed",
+        "target": "楷体「一」字从左到右 2.5s 渗墨成形 + 旁白「轻轻一笔，画过去」",
+        "seconds": 2.8
+      },
+      {
+        "shotId": "stroke-order-tail",
+        "target": "silent stroke-order tail：mizige 写字态 + child-hand 食指悬停 + 单笔横画 0.9s 写字 + 0.5s finalHold P03 poster",
+        "seconds": 2
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-clean-stroke-bleed",
+      "description": "P03 replay 按钮支持点击复看；视频末帧（米字格写字态 0.30 + 黑色楷体「一」字 + child-hand 食指悬停 +18px、无 brush、无 plate）作 P03 poster；spoken body 5.7-8.5s 提供 2.5s 笔顺渗墨为 P09 写字练习铺垫；silent stroke-order tail 10.0-12.0s 提供独立的 child-hand 笔顺示范段（严格符合 mizige-anchors 项目宪法）。"
+    },
+    "strokeOrderTail": {
+      "shotId": "stroke-order-tail",
+      "startSeconds": 10,
+      "minSeconds": 2,
+      "container": "mizige",
+      "containerStatePolicy": "single-mizige-dual-state",
+      "narrationPolicy": "silent",
+      "writingDirection": "left-to-right",
+      "description": "v8.1 stroke-order tail 占据视频最后 10.0-12.0s 共 2.0s（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0）。本段独立于 spoken body：narrationPolicy='silent' 严格满足 anchors 规范、孩子不被旁白干扰专注看 child-hand 笔顺示范；container='mizige' single-mizige-dual-state 不可能 dual-render；writingDirection='left-to-right' 横画从左到右 0.9s 写字（== anchors.timing.writingDurationSeconds=0.9）；末段 0.5s finalHold 作 P03 poster 锚帧。受 tail-spec yi-v8.tail-spec.json + anchors/mizige-anchors.json 双重约束。"
+    },
+    "writingPosition": "late",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.5,
+    "minimumFinalHoldSeconds": 2,
+    "maximumSceneChangesPerSecond": 0.4,
+    "productSurface": "P03 认字页正式 official 视频，Starlight Literacy Unit-01 一 的 recognition 短片 v8.1；引入 gpt-image-2 真实生图 plate + 移除 brush 道具但保留 child-hand（项目宪法锁死）+ 米字格延后到 6.5s 出现 + 4 段拉长旁白每段 ≤12 字 + silent stroke-order tail 独占 10.0-12.0s；product-review 阈值 overallScore ≥ 9.0 + teachingFunctionalIntegrity ≥ 9.0 + 用户人眼审「这是一不是二」必须通过；这一次自审必须诚实"
+  },
+  "animationRequirements": {
+    "spriteRequired": [],
+    "rasterImagesMayContainText": false,
+    "rasterImageInventory": [
+      {
+        "id": "v8-plate-dawn-mountain-bird-A",
+        "path": "tools/recognition-video/assets/unit-01/yi-v8/plates/dawn-mountain-bird-A.png",
+        "size": "1024x1536",
+        "containsCharacter": false,
+        "containsText": false,
+        "horizontalLineRisk": "none",
+        "notes": "gpt-image-2 真实生图水墨晨景，含三层远山 + 上方小鸟剪影 + 宣纸暖底 #f5ead0。无任何汉字、文字、水平光带、几何水平条。dual-render 风险：none — 画面无水平横画状元素。"
+      },
+      {
+        "id": "v8-plate-sunlight-ray-A",
+        "path": "tools/recognition-video/assets/unit-01/yi-v8/plates/sunlight-ray-A.png",
+        "size": "1024x1536",
+        "containsCharacter": false,
+        "containsText": false,
+        "horizontalLineRisk": "low",
+        "notes": "gpt-image-2 真实生图阳光，单束 45° 对角线暖金阳光（强制 prompt 约束 NO horizontal beam）。无任何汉字、文字、水平光带。dual-render 风险：low — 阳光为对角线，与「一」字 90° 横笔形态错开 45°。"
+      }
+    ],
+    "timelineOnly": [
+      "html-xuan-paper-bg: 宣纸 #f5ead0 全屏背景 + subtle CSS box-shadow inset，贯穿 0-12s",
+      "html-mizige-watermark: 单一米字格水印 SVG（实线外框 + 实线十字 + 虚线对角），0-6.5s 完全 opacity 0 不显示，6.5-7.5s 缓入 --mizige-opacity:0.18 识字态，10.0-10.6s 切到 0.30 写字态；6.5s 后始终居中可见",
+      "html-ink-glyph-bleed-layer: 楷体「一」字渗墨过渡层、与 html-kaiti-glyph 重叠定位、CSS mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→0 + opacity 0→1，GSAP 在 ink-bleed 段 5.9-8.4s 推进 2.5s（softness=4 软边渗墨态）",
+      "html-kaiti-glyph: 黑色楷体「一」字、font-family 'Yi Kaiti, STKaiti, KaiTi, serif'、color #1f1a14、position absolute 居中米字格、字-形唯一映射元素；初始 opacity 0、5.9-8.4s 通过 mask-image 渗墨成形、8.4s 起持续可见到 12.0s",
+      "html-child-hand-svg: 儿童右手 SVG（细线插画风格，非肤色块）从 bottom-right 入画 entryAngleDeg=30，食指悬停在「一」字右端 +18px；初始 opacity 0、10.0-10.6s opacity 0→1 + translate 入画、10.6-11.5s 食指尖随写字 mask 推进同步移动、11.5-12.0s finalHold 悬停作 P03 poster",
+      "html-stroke-order-tail-mask: tail 段单笔横画写字 mask（softness=2 锐边写字态），与 ink-glyph-bleed-layer 的 softness=4 渗墨态视觉区分；只在 10.6-11.5s 启动 0.9s == anchors.writingDurationSeconds",
+      "v8-plate-dawn-mountain-bird-A: gpt-image-2 真实生图 plate，作 0-3.0s 底图 Ken Burns",
+      "v8-plate-sunlight-ray-A: gpt-image-2 真实生图 plate，作 3.0-5.7s 底图 + 微 Ken Burns"
+    ]
+  },
+  "finalFrame": {
+    "description": "全屏宣纸 #f5ead0 + 居中米字格水印写字态 (--mizige-opacity: 0.30) + 居中黑色楷体「一」字 (#1f1a14) 完全成形 + 儿童右手 SVG 食指悬停在「一」字右端 +18px（细线插画风格、暖金 30° rim light 投下软阴影向 bottom-left）。无 brush、无 plate（plate 已在 5.7s 退场）、无旁白（silent tail 严格符合 mizige-anchors 项目宪法）。读起来像「一幅写完那一刻被孩子手指轻轻指住的纸上墨字」，作 P03 poster 锚帧。",
+    "mustBeReadableAsPoster": true,
+    "guideObject": {
+      "form": "child-hand",
+      "anchor": "glyph_right_end_plus_18px",
+      "entryDirection": "bottom-right-30deg"
+    },
+    "posterHoldSeconds": 2
+  }
+}

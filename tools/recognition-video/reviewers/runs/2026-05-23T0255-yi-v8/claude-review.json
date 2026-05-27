@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "starlight-double-blind-review/v1",
+  "reviewerId": "claude",
+  "characterId": "yi",
+  "buildId": "yi-v8",
+  "reviewedAt": "2026-05-23T03:05:00Z",
+  "input": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v8.brief.json",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v8.audio-plan.json",
+    "tailSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/tail-specs/yi-v8.tail-spec.json",
+    "narrationSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/narration-specs/yi-v8.narration-spec.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/yi-v8.mp4",
+    "reviewSheet": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/final-frames/yi-v8-review-sheet.png",
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-00-at-0.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-01-at-2.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-02-at-3.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-03-at-5.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-04-at-7.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-05-at-8.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-06-at-10.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-07-at-11.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-08-at-11.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-09-at-11.8s.png"
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6.5,
+      "reason": "Arc exists (concrete-anchor → glyph-binding → glyph-naming → silent stroke-order tail) but the tail re-writes the character from scratch after the spoken body already showed it complete, breaking the teach→demonstrate→practice continuity for a 3-6 year-old."
+    },
+    "glyphBinding": {
+      "score": 5.5,
+      "reason": "Quantifier phrasing (一只/一道/一笔) is on-script, but the bird in frame-00/01 is tiny in the upper corner and the sunlight ray in frame-02/03 lives on a completely different plate with no bird, no count visualization, nothing reinforcing 'one'. The binding is verbal, not visual."
+    },
+    "glyphAnchor": {
+      "score": 7.0,
+      "reason": "The kaiti '一' is clearly rendered in the mizige in frames 04/05/07/08/09 and the mizige stays visible. Anchor itself reads as '一' not '二'. Single-glyph binding is preserved."
+    },
+    "pacing": {
+      "score": 5.0,
+      "reason": "First 5.7s (47.5% of the video) is two static photographic plates with imperceptible Ken Burns (frame-00 ≈ frame-01, frame-02 ≈ frame-03). The target glyph only appears at 5.7s and the writing reveal is short. Too much aesthetic preamble, too little glyph time."
+    },
+    "animationPerformance": {
+      "score": 4.5,
+      "reason": "Almost nothing moves. Two plates are near-static between t=0.5s/2.5s and t=3.5s/5.0s. The body 'writing' is a CSS mask reveal with no visible brush trace. The tail brush-pointer remains stationary in the top-left across frames 06/08/09 while the character writes itself underneath — pointer is not animated to follow the stroke."
+    },
+    "visualQuality": {
+      "score": 6.5,
+      "reason": "Dawn-mountain plate is genuinely beautiful (frame-00). Sunlight plate (frame-02/03) is a flat orange diagonal smear with no compositional structure — looks like a Photoshop gradient, not a paint. Mizige + kaiti is clean. Brush-pointer in frames 06-09 reads as a brown popsicle stick, not a brush."
+    },
+    "childAppeal": {
+      "score": 5.0,
+      "reason": "A 4-year-old's first 5 seconds are two static landscapes — no character on screen, no movement, nothing to engage. The character appears, vanishes at 10.3s (frame-06 mizige is empty), then is re-written by a stick in the corner. The vanish-and-rewrite is confusing, not delightful."
+    },
+    "audioFit": {
+      "score": 7.0,
+      "reason": "Narration script lands on the spec windows per cue list and quantifiers map to visible referents (bird, ray, stroke). I cannot judge audio level/timbre from stills, so this rating is from spec alignment only."
+    },
+    "technicalCompliance": {
+      "score": 8.0,
+      "reason": "Brief, audio-plan, tail-spec, narration-spec all cross-reference cleanly. mizige policy single-mizige-dual-state, paddedTotalDurationSeconds=12 lines up with brief.duration. No obvious schema conflicts in the documents I read."
+    },
+    "officialReadiness": {
+      "score": 4.0,
+      "reason": "The brush-pointer is placed wrong (top-left instead of brief-promised bottom-right at the character's right end +18px), the character disappears between body and tail, the body has no visible writing animation. This is not what a child should be told is the canonical '一' video."
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 6.0,
+      "reason": "Target '一' is repeated ≥3× in narration with concrete anchor phrasing — that part holds. But the final P03 poster frame (frame-09) shows the brush-pointer in the top-left corner, NOT hovering at the '一' right end +18px as the brief commits. The poster semantics the brief promised are not delivered."
+    }
+  },
+  "overallScore": 5.8,
+  "blockers": [
+    {
+      "severity": "critical",
+      "atTime": 11.8,
+      "atKeyframe": "frame-09-at-11.8s.png",
+      "issue": "The brush-pointer at the final poster frame is parked in the upper-left of the canvas, ABOVE and to the LEFT of the mizige container, roughly a third of the frame away from the '一' character's right end. The brief commits to 'child-hand 食指悬停在 一 字右端 +18px 作 P03 poster 锚帧' and to bottom-right entry at 30°. What is on screen is the opposite quadrant. Frames 06/07/08/09 all show the brush in this same wrong position — it never reaches the character's right end.",
+      "rootCause": "Animation entry pose / final pose targets diverge from the brief. The brush-pointer was given a translate(in from bottom-right) intent but the actual rendered transform leaves it in the top-left, suggesting either an inverted axis in the entry tween, or the container anchor was placed outside the mizige instead of relative to the kaiti glyph's right edge. The P03 poster requirement is violated and the build cannot ship as official.",
+      "specRef": "brief.shotPlan.stroke-order-tail / tail-spec.finalFrame.handPosePresent + pointerForm=brush-pointer"
+    },
+    {
+      "severity": "critical",
+      "atTime": 10.3,
+      "atKeyframe": "frame-06-at-10.3s.png",
+      "issue": "At t=10.3s the mizige is EMPTY — the fully-formed '一' that was on screen at t=8.5s (frame-05) has been wiped before the tail begins writing. The brush-pointer is hovering in the upper-left over blank paper while the mizige below has no glyph. The child sees the character appear, vanish, then redraw, which is exactly the confusion a 3-6 year old cannot reconcile.",
+      "rootCause": "The transition.clearLayerIds list in tail-spec includes 'ink-glyph-bleed-layer' but the cinematic body's persistent kaiti layer is being cleared too aggressively at the 10.0s handoff, so the body's stable '一' is destroyed at the boundary. The tail was conceived as an independent 2s composition rather than as a continuation; the body→tail handoff needs to PRESERVE the existing glyph and only swap the mizige opacity, not clear the character itself.",
+      "specRef": "tail-spec.transition.clearLayerIds + brief.shotPlan.stroke-order-tail.description"
+    },
+    {
+      "severity": "high",
+      "atTime": 11.5,
+      "atKeyframe": "frame-08-at-11.5s.png",
+      "issue": "Across frames 06 (10.3s), 08 (11.5s) and 09 (11.8s) the brush-pointer is in the IDENTICAL position in the upper-left while the '一' goes from empty mizige → partial stroke → complete stroke. The pointer never moves to follow the writing stroke. The 'tip follows the stroke' contract from the brief ('食指尖随笔锋移动' / '笔尖随笔锋移动') is not executed — the pointer is a static decoration in the corner.",
+      "rootCause": "The brush-pointer translate animation for the 10.6–11.5s writing phase is either missing or its target keyframes share the same x/y as the entry pose. Tail animation Phase 2 (mask sweep + pointer follow) was decoupled — the mask sweeps left-to-right under the mizige but the pointer's GSAP timeline does not bind to mask progress. As guidance for a child this is worse than no pointer: it tells the child 'the stick over there has nothing to do with the writing here'.",
+      "specRef": "tail-spec.strokeOrder[0].notes (笔尖锚点 (215, 50) 与原食指尖同坐标 → Phase 2 跟随写字 mask 全部零修改)"
+    },
+    {
+      "severity": "high",
+      "atTime": 2.5,
+      "atKeyframe": "frame-01-at-2.5s.png",
+      "issue": "Frames 00 (0.5s) and 01 (2.5s) are visually indistinguishable — the mountain shapes, mist, and bird position are essentially identical. The brief promises a Ken Burns of scale 1.0→1.04 + translateY 0→-12px across 3 seconds, but at typical 360px viewport that is only ~14px of motion, which is imperceptible to a child. The opening 3s reads as a still photograph for the audience.",
+      "rootCause": "Ken Burns deltas are tuned for cinematography aesthetics, not for child engagement. 3 seconds of near-static plate before the target glyph even appears wastes the most attention-rich window of a 12s teaching video. Either the Ken Burns must be more dramatic (5-8% scale + clear translation), or the plate must include diegetic motion (bird actually flying across, ray sweeping), or the dawn-mountain shot needs to be shorter."
+    },
+    {
+      "severity": "high",
+      "atTime": 3.5,
+      "atKeyframe": "frame-02-at-3.5s.png",
+      "issue": "The hand cut from frame-01 (mountain landscape with bird, cool ink-wash blues) to frame-02 (a flat 45° orange diagonal smear on cream paper, no mountains, no bird, no transitional element) has zero narrative blood between scenes. The two plates do not share palette, subject, or composition; they look like two different videos spliced together.",
+      "rootCause": "The shotPlan treats each plate as an independent gpt-image-2 still with a cross-fade between them. For a 3-6 year old who is mid-binding ('one bird' just landed), the abrupt switch to a context-free ray breaks the 'one bird, one ray, one stroke' continuity the brief claims to deliver. The plates need shared elements (e.g., the ray plate should still contain a faint mountain horizon, or the bird should fly across into the ray scene) so the child reads it as one continuous world."
+    },
+    {
+      "severity": "medium",
+      "atTime": 7.0,
+      "atKeyframe": "frame-04-at-7.0s.png",
+      "issue": "The 'ink-bleed' writing of '一' between 5.9s and 8.4s is a CSS mask reveal — there is no visible brush, no ink-front, no animation of the writing act itself. By frame-04 (7.0s) a left-half stroke is just SITTING there, by frame-05 (8.5s) the full stroke is there. The child does not see WRITING happen; they see a stroke partially appear, then fully appear.",
+      "rootCause": "The brief commits to 'mask-image linear-gradient(90deg) 从左到右 2.5s 渗墨成形' but a linear-gradient mask reveal looks visually identical to a wipe — there is no pen, no tip, no ink expansion. A 3-6 year old learning to write needs to see the implement and the motion. The body has the same problem the tail has on a smaller scale: the writing motion is mathematically present but visually absent."
+    }
+  ],
+  "strengths": [
+    "Dawn-mountain plate composition is genuinely lovely as a still image — ink-wash three-layer mountains plus bird silhouette would work as a book illustration.",
+    "Quantifier strategy (一只 / 一道 / 一笔) is well-considered teaching-design — verbally each segment counts 'one' something, which is the right approach even if the visuals don't support it.",
+    "Mizige + kaiti pair in frame-05 reads cleanly as '一', not '二' — the single-mizige-dual-state policy successfully avoids the dual-render trap from earlier builds."
+  ],
+  "decision": "needs-revision",
+  "confidence": "high",
+  "rationale": "yi-v8 wants to be a cinematic, painterly recognition video that lets a 3-6 year old internalize '一' through three counted referents (bird / ray / stroke) plus a silent stroke-order tail showing a guided hand. The intention is sound. The execution has three structural defects that a child WILL notice. First, the brush-pointer that the brief makes load-bearing for the P03 poster ends up in the upper-left corner of every tail frame — opposite the bottom-right entry the brief promises, and disconnected from the character's right end where it is meant to hover. Second, the spoken-body character is destroyed at the 10s boundary (frame-06 mizige is empty), so the child experiences appear-vanish-redraw, which is a teaching disaster for this age. Third, neither the body's CSS-mask reveal nor the tail's stroke writing has a visible writing implement following the stroke — the pointer is static while the line grows underneath. The first 5.7s are also visually static photographs with imperceptible Ken Burns, wasting the highest-attention window. The two plates do not share visual language, so the bird-then-ray sequence does not read as one world. None of these are polish issues; each one is a brief/spec choice that needs to change before this can be the official '一'."
+}

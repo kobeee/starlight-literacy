@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "recognition-video-narration-measured/v1",
+  "characterId": "yi-v9",
+  "sourceVtt": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.vtt",
+  "concatenatedTtsText": "一只小鸟，飞过山头。一道光，落在白纸。这一笔，就是「一」。一。",
+  "rawScriptNormalized": "一只小鸟，飞过山头。一道光，落在白纸。这一笔，就是「一」。一。",
+  "totalCharCount": 31,
+  "rawAudioEndSeconds": 10.7,
+  "apadToSeconds": 12,
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "一只小鸟，飞过山头。",
+      "audioStart": 0.1,
+      "audioEnd": 2.994
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "一道光，落在白纸。",
+      "audioStart": 2.995,
+      "audioEnd": 5.611
+    },
+    {
+      "id": "glyph-binding-naming",
+      "text": "这一笔，就是「一」。",
+      "audioStart": 5.611,
+      "audioEnd": 7.805
+    },
+    {
+      "id": "tail-stroke-sound",
+      "text": "一。",
+      "audioStart": 9.35,
+      "audioEnd": 10.7
+    }
+  ]
+}

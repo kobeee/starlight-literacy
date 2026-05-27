@@ -1,0 +1,29 @@
+Chinese ink painting (shuimo) style, soft dawn landscape on warm cream xuan paper background (#f5ead0).
+
+Composition (1080×1920 vertical, but ONLY the upper 50% of the canvas should contain content; the lower 50% must be EMPTY warm cream paper #f5ead0 with subtle paper grain):
+- Upper third: pale dawn sky, very subtle warm golden glow in the upper-right corner suggesting an unseen sunrise (NO sun disk visible).
+- Middle band (around 30-50% from top): three layers of distant mountains in pale ink-grey-blue (#a8b4c4 for far range, #6b7889 for mid, #4a5360 for nearest), wash-style, soft edges, no sharp peaks.
+- A single small bird silhouette (very small, around 40×30 pixels equivalent), positioned at upper-right area, depicted in mid-flight pose with wings spread, ink-brush silhouette in dark warm grey (#3a3530). The bird is the ONLY focal living element.
+- Subtle ink-wash texture, watercolor bleeding edges, gentle and child-friendly mood.
+- NO foreground elements, NO trees, NO houses, NO water, NO additional birds, NO clouds with hard edges.
+
+Color palette (STRICT — warm earth tones only):
+- Background: warm cream #f5ead0
+- Mountains: pale ink-grey-blue, low saturation (#a8b4c4 / #6b7889 / #4a5360)
+- Bird silhouette: warm dark grey #3a3530
+- Sky tint: very pale warm gold suggestion #f4e4b8 in upper-right only
+- ABSOLUTELY NO bright neon, NO purple, NO blue saturation, NO candy colors
+
+STRICTLY FORBIDDEN in the generated image (zero tolerance — these will cause the asset to be rejected):
+- ANY Chinese character (汉字), Japanese kanji, Korean hanja
+- ANY pinyin, latin letters, numbers, or text of any kind
+- ANY horizontal lines, horizontal light bands, horizontal stripes
+- ANY calligraphy strokes, brush strokes that resemble writing
+- ANY geometric horizontal bars, rectangles, or rules
+- ANY watermarks, logos, signatures, or stamps
+- ANY UI elements (buttons, frames, borders)
+- ANY sun disk visible (only a hint of warm glow in upper-right)
+- ANY frames, grids, or 米字格-like patterns
+- ANY second bird, flock, or animal
+
+The image must be poster-quality, premium children-book illustration aesthetic, gouache + ink wash hybrid, ready to be used as a back-plate in a Chinese-character-recognition video for 3-6 year olds.

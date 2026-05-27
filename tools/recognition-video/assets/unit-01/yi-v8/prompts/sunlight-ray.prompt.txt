@@ -1,0 +1,31 @@
+Chinese ink painting (shuimo) style, single diagonal sunlight ray on warm cream xuan paper background (#f5ead0).
+
+Composition (1080×1920 vertical):
+- A single beam of warm dawn sunlight, entering from upper-right corner at exactly 45 degrees, traveling toward lower-left.
+- The light beam should be DIAGONAL (45°), NOT horizontal.
+- The beam has soft diffuse edges, ink-particle texture inside the beam (small dust motes catching the light), gentle gaussian fall-off.
+- Warm color gradient inside the beam: from #fff3c8 (cream-gold core) to #f4b06a (warm peach edge) with feathered translucency.
+- The beam occupies roughly the central 60% of the canvas diagonally.
+- Background: warm cream xuan paper #f5ead0 with subtle ink-wash texture, NO mountains, NO birds, NO other elements — only the diagonal light beam and the empty paper.
+- The lower-left corner where the beam terminates should fade gently into the paper without any clear endpoint.
+
+Color palette (STRICT):
+- Background: warm cream #f5ead0
+- Beam core: cream-gold #fff3c8
+- Beam edge: warm peach #f4b06a
+- Outer halo: very pale warm gold #faecca with high transparency
+- ABSOLUTELY NO neon, NO purple, NO blue, NO candy colors
+
+STRICTLY FORBIDDEN in the generated image (zero tolerance — these will cause the asset to be rejected):
+- ANY Chinese character (汉字), Japanese kanji, Korean hanja
+- ANY pinyin, latin letters, numbers, text
+- ANY HORIZONTAL light beam, horizontal stripe, horizontal line, horizontal band — the beam MUST be diagonal at 45°
+- ANY calligraphy strokes, brush strokes that resemble writing
+- ANY geometric horizontal bars, rectangles, rules
+- ANY watermarks, logos, signatures, stamps
+- ANY UI elements
+- ANY sun disk
+- ANY frames, grids, 米字格-like patterns
+- ANY mountains, birds, trees, clouds, or additional scenery (only the diagonal beam on empty cream paper)
+
+The image must be poster-quality, premium children-book illustration aesthetic, gouache + ink wash hybrid, ready to be used as a back-plate during the "light reveal" moment in a Chinese-character-recognition video for 3-6 year olds. The diagonal direction is critical — a horizontal beam would dual-render with the 一 character which is forbidden.

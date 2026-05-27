@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-gpt-image-2-production-v4",
+  "candidateStatus": "official-candidate",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "判断 v4 单米字格双状态 (识字态→写字态) 是否清除 v3 田字格+米字格顺序冗余, 且仍然保留 hongen-micro-lesson 一个太阳→一条光线→平平一横→大字一 教学闭环",
+      "审核 sprite + CSS 双层日轮的视觉契约 (halo 仅暖色光晕、CSS 沉稳橙红实心 disk、光带为暖金 CSS linear-gradient) 在 3-6 岁儿童眼中是否读得出晨光升起+横光铺开",
+      "确认 XiaoxiaoNeural 旁白节奏与 7.4-10s 静默笔顺段的搭配是否符合儿童识字产品节奏, 并裁决是否升级 official 取代 v3"
+    ],
+    "genericHyperframesOwns": [
+      "装配 HTML/CSS/GSAP composition, 运行 hyperframes lint 与 inspect, 确保 0 errors / 0 warnings",
+      "渲染 1080x1920 24fps mp4 + webm, 抽取 poster、final frame、4-up review sheet",
+      "校验 ffprobe metadata、音轨存在性、输出文件路径与 meta.json.outputs 一致"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-gpt-image-2-production-v4.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-gpt-image-2-production-v4.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v4.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/meta.json",
+    "video": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/renders/yi-gpt-image-2-production-v4.mp4",
+    "webm": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/renders/yi-gpt-image-2-production-v4.webm",
+    "reviewSheet": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/renders/final-frames/yi-gpt-image-2-production-v4-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/renders/final-frames/yi-gpt-image-2-production-v4-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/renders/final-frames/yi-gpt-image-2-production-v4-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.5,
+        "purpose": "意义入场",
+        "visibleAnchor": "暖橙 CSS 太阳 disk 已升到画面上三分位, 6 帧 halo sprite 在 mix-blend-mode:screen 下吹出暖白光晕, 田园 plate 静默承接",
+        "readability": "pass",
+        "notes": "CSS 实心 disk + halo-only sprite 的双层组合替代 v3 的整块 sprite, halo 残色被 isolation:isolate + hue-rotate filter 中和, 不再出现 v3 的奇怪粉紫光圈"
+      },
+      {
+        "at": 2.5,
+        "purpose": "字形绑定",
+        "visibleAnchor": "在视觉中线 ~57% 高度展开一条 912x28 暖金 CSS linear-gradient 光带, 中心 #e89a2a 焦点配合 box-shadow 暖光晕",
+        "readability": "pass",
+        "notes": "v4 把 v3 易碎的 SVG 光束换成纯 CSS 渐变带, 与暖橙 plate 同色温; 旁白 一条光线 同拍落到画面动作"
+      },
+      {
+        "at": 4.0,
+        "purpose": "平平一横",
+        "visibleAnchor": "光带收束为一条 560x38 暖棕 (#5D4A36) 圆头圆尾横笔, 同时单一米字格以 识字态 (rgba 0.42 cream 底 + 0.55 暖棕边框) 入场套在横笔外圈",
+        "readability": "pass",
+        "notes": "横笔颜色直接预告最终 大字 一 的色相, 字形从生活物象抽象成笔画线条; 米字格此时半透明让 plate 透出, 不抢注意"
+      },
+      {
+        "at": 6.0,
+        "purpose": "认字收束",
+        "visibleAnchor": "暖棕 LXGW 楷体 一 (font-size 560px) 落定在 识字态 米字格中央, 上方 yī 拼音、下方 一个太阳·一条光线·平平一横·就是一 完整句子条",
+        "readability": "pass",
+        "notes": "中间 hold 区, 拼音/句子/字三件套同时在场, 提供 ~1.4s 认字停留; 大字与下方平平一横同色 (#5D4A36) 形成视觉血缘"
+      },
+      {
+        "at": 7.9,
+        "purpose": "米字格状态切换",
+        "visibleAnchor": "米字格在 7.4-8.0s 通过 CSS 变量 (--bg-opacity 0.42→0.96, --border-strength 0.55→1.0) 从 识字态 平滑过渡到 写字态: cream 底加深、暖棕边框升级为黑色实线、米字虚线显形, 楷体 一 同步由 #5D4A36 渐变到 #1f1a14 黑色",
+        "readability": "pass",
+        "notes": "v3 田字格→米字格 0.3s cross-fade 改成 v4 同一米字格内的 0.6s 状态变量过渡, 消除两套格子并列的冗余, 视觉聚焦没有切镜"
+      },
+      {
+        "at": 9.0,
+        "purpose": "笔顺示范",
+        "visibleAnchor": "写字态 米字格 (cream + 黑色实线外框 + 黑色横/纵中线 + dashed X 对角线) 内, 黑色楷体 一 (560px, #1f1a14) 通过 clip-path inset 从左向右揭开, 约 60% 已成型",
+        "readability": "pass",
+        "notes": "8.2-9.4s 笔顺写出, 楷体起笔顿笔特征清晰; 9.4-10s 完成姿态保持, 拼音/句子条仍在场, 形成稳定 poster"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "一个太阳从田园升起 → 太阳射出一条暖金横光 → 横光收束成 平平一横 (暖棕色) → 横笔包进单一米字格中央成 暖棕楷体 一 字, 拼音 yī + 完整句子条同时到位 → 米字格在原地从 识字态 平滑切到 写字态, 楷体 一 同时由暖棕变黑 → 黑色 一 字按笔顺从左到右揭开. 全程一个格子贯穿 识字+写字 两阶段, 孩子在 10s 内完成 意义→字形→书写 三段闭合, 没有 v3 那种切两个格子的认知割裂"
+    },
+    "actionReadability": [
+      {
+        "action": "sun rise + halo-breathe (CSS disk + sprite halo)",
+        "verdict": "pass",
+        "reason": "CSS 暖橙实心 disk (radial-gradient #fff3c8→#ffe19a→#f5b85a→#e08a35→#c97320) 提供稳定的太阳本体, 6 帧 halo sprite 在 mix-blend-mode:screen + isolation:isolate 下叠加暖白呼吸光晕; 通过 hue-rotate(-35deg) saturate(0.75) brightness(1.08) filter 把 chroma-key 留下的微量残色压成暖光, 不再出现 v3 的奇怪粉紫或绿边"
+      },
+      {
+        "action": "warm-golden CSS light band unfold",
+        "verdict": "pass",
+        "reason": "光带为 912x28 px CSS linear-gradient (#ffd071 28%→#e89a2a 50%→#ffd071 72%) + 双层 box-shadow 暖光晕, 替代 v3 易碎的 SVG path 光束; 1.6-2.5s scaleX 0→1 徐徐展开, 与上一镜的太阳 halo 视觉同源"
+      },
+      {
+        "action": "warm-brown flat-line settle",
+        "verdict": "pass",
+        "reason": "光带稳定收束为一条 560x38 暖棕 (#5D4A36) 圆头圆尾横笔, 颜色直接预告最终大字 一 的色相, 节奏与旁白 平平一横 同步; v4 改成暖棕 (v3 是暖金) 让 横笔→字 的血缘更紧"
+      },
+      {
+        "action": "glyph closure inside 识字态 mizige",
+        "verdict": "pass",
+        "reason": "暖棕 LXGW WenKai 一 字 (560px, #5D4A36) 由 flat-line 收束而来, 外裹半透明 识字态 米字格 (rgba(250,243,227,0.42) 底 + rgba(93,74,54,0.55) 边框); 上方 yī 拼音、下方完整句子条共同形成 t=5-7.4s 的中间停留, 字号 560px 比 v3 的 520px 更具书页分量"
+      },
+      {
+        "action": "mizige state transition + stroke-write (single格贯穿)",
+        "verdict": "pass",
+        "reason": "7.4-8.0s 通过 CSS 变量 (--bg-opacity, --border-strength, --border-color) 把同一米字格从 识字态 (rgba 底 + 暖棕半透明边) 过渡到 写字态 (cream 实色底 + 黑色实线外框 + dashed X 对角线全显), 楷体 一 由 #5D4A36 渐变到 #1f1a14 黑色; 8.2-9.4s 通过 clip-path inset(0 100%→0%) 从左到右揭开横画, 对应汉字第一笔横画的正确起笔→走笔→收笔; 9.4-10s 完成姿态保持. 全程不切换格子也不切换背景, 一个米字格承担 识字+写字 两个阶段, 彻底消除 v3 田字格+米字格顺序冗余"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "ready",
+    "notes": [
+      "主视觉 plate 由 codex-internal gpt-image-2 (Responses API + image_generation tool, 1024x1536 high, 通过 aicodewith 代理的 gpt-5.5 wrapper) 生成, 落盘后被合成裁剪到 1080x1920 田园暖彩晨光场. 提示词强约束 no sun / no light beam / no UI text, 把太阳和光带留给 CSS 层渲染, plate 仅承担柔和的山-草-天底色",
+      "sun halo-breathe sprite 由同管线生成的 2x3 spritesheet (绿色 #00ff00 chroma-key, 仅暖色 halo 无中心 disk) 经 prepare-spritesheet-sprite 拆为 6 帧 480x480 PNG, manifest 标 chromaKey enabled #00ff00; 合成层用 mix-blend-mode:screen + isolation:isolate + hue-rotate(-35deg) saturate(0.75) brightness(1.08) 把抠像残留的边缘色谱压成暖白光晕",
+      "光带 (.light-band) 与平平一横 (.flat-line) 全部由 CSS 渲染, 替代 v3 的 SVG path; CSS 渐变天然抗锯齿, 在 24fps mp4 + 1080x1920 portrait 上稳定无闪烁",
+      "单一米字格 (.mizige) 通过 4 个 CSS 变量 (--bg-opacity, --border-strength, --border-width, --border-color) 与 inline ::before/::after dashed X 对角线 + ::after 横纵中线驱动状态切换. GSAP timeline 在 7.4-8.0s 内插值这些变量, 把 识字态 (半透明配色框) 平滑变为 写字态 (cream 实色 + 黑实线外框 + dashed 米字辅助线全显), 楷体 一 同步从 #5D4A36 渐变到 #1f1a14",
+      "大字 一 与笔顺 写出层均由 LXGW WenKai Medium (v1.522) 楷体渲染, 字体经 pyftsubset 裁剪到 11 字符后 base64 内嵌 (3.2KB woff2, font-family 别名 Yi Kaiti), 字号 560px (v3 为 520px), 视觉上与米字格 720px 边长比例更协调",
+      "音频复用 v37 baked 7.464s edge-tts zh-CN-XiaoxiaoNeural rate -10% 旁白 + ffmpeg apad 静音补齐到 10.056s, 与 audio-plan target 10s 误差 0.056s (≤0.35s 容差); 教师声与 v3 完全一致, 保证 Unit-01 一 字识字课内 official 系列听感连续"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 9.0,
+    "glyphBinding": 8.8,
+    "glyphAnchor": 8.8,
+    "pacing": 8.5,
+    "animationPerformance": 8.3,
+    "visualQuality": 8.5,
+    "childAppeal": 8.6,
+    "audioFit": 8.4,
+    "technicalCompliance": 8.7,
+    "officialReadiness": 8.6,
+    "teachingFunctionalIntegrity": 9.2
+  },
+  "overallScore": 8.6,
+  "decision": "ready-for-official",
+  "blockers": [],
+  "nextActions": [
+    "把 yi-gpt-image-2-production-v4.mp4 / webm / poster 接入 src/shared/unit-01.js 与 baked-audio manifest, 替换 v3 作为 Unit-01 一 字 P03 认字页 official 视频 (命名避开 /v3|legacy|sample/ 正则)",
+    "更新 sw.js APP_SHELL 与 cache version, 跑 npm run check:h5 + mobile-h5 runtime audit 确保 H5 端无回退到 v3 资源",
+    "在 knowledge-base/03-开发日志 沉淀 v3→v4 的四条工艺升级: (1) 单米字格双状态消除 田字格+米字格顺序冗余, (2) CSS 实心 disk + halo-only sprite 双层日轮, (3) CSS 暖金光带替代易碎 SVG path, (4) mix-blend-mode:screen + isolation:isolate + hue-rotate filter 中和 chroma-key 残留"
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-v5-cinematic",
+  "char": "一",
+  "buildId": "yi-v5-cinematic",
+  "candidateStatus": "official-candidate",
+  "reviewedAt": "2026-05-19",
+  "reviewer": "starlight-product-video-agent",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "六镜头交叉溶解叙事编排（dawn-valley → sun-rising → light-band → light-to-ink → ink-glyph → hand-tracing），含 0-1.0s 静默序曲与 10.0-12.0s 静默笔顺尾巴的双层呼吸",
+      "汉字「一」绑定证据链：横向暖金光带（light-band）→ 渗墨（ink-glyph mask 6.9-8.2s, 暖深 #1f1a14）→ 楷体黑字第二遍书写（hand-tracing + glyph-write mask 10.6-11.5s），同色相同位置同形状贯穿三段",
+      "米字格双态语义（识字态 0.18 → 写字态 0.30，10.0-10.6s 切换）+ 静默笔顺契约（strokeOrderTail.narrationPolicy='silent'）"
+    ],
+    "genericHyperframesOwns": [
+      "GSAP MiniTimeline shim 调度（data-composition-id + data-duration='12' 解锁 7.4s 上限）",
+      "1080×1920 / 24fps / h264+aac 渲染管线（standard quality, --workers 1）",
+      "sprite manifest schema/lint（alphaRequired const true, fps 12, frames=6, transparentPixelRatio 0.9446）"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-v5-cinematic.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-v5-cinematic.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v5-cinematic.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-v5-cinematic/meta.json",
+    "video": "tools/recognition-video/builds/yi-v5-cinematic/renders/yi-v5-cinematic.mp4",
+    "webm": "tools/recognition-video/builds/yi-v5-cinematic/renders/yi-v5-cinematic.webm",
+    "reviewSheet": "tools/recognition-video/builds/yi-v5-cinematic/renders/final-frames/yi-v5-cinematic-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-v5-cinematic/renders/final-frames/yi-v5-cinematic-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-v5-cinematic/renders/final-frames/yi-v5-cinematic-final.png"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.4,
+        "purpose": "silentPrologue",
+        "visibleAnchor": "dawn-valley plate 完全显形 + 远景小鸟剪影沿对角线斜向左上飞行（sumi-e 暖灰 #5d5366 wash，6 帧 wing-flap）",
+        "readability": "pass",
+        "notes": "0-1.0s 全静默，让晨雾山谷与小鸟扑翅先把镜头语调立稳，避免 v4 草台开场。鸟体只有 96px 等比，不抢主体。"
+      },
+      {
+        "at": 1.5,
+        "purpose": "meaningAction",
+        "visibleAnchor": "sun-rising plate 已稳定 hold 中段，山棱与暖金日轮同框，0.6s 处旁白「天亮了」刚结束的视觉余韵帧",
+        "readability": "pass",
+        "notes": "Ken Burns 6% 慢推 + 12px 下降，山尖随时间露出，是教学语义『一 = 太阳跃出地平线那一道横』的物象起点。"
+      },
+      {
+        "at": 3.5,
+        "purpose": "glyphBinding",
+        "visibleAnchor": "light-band plate 中段 hold，暖金水平光带横贯视觉中线（y≈midline），与未来汉字「一」的横笔同 y / 同朝向 / 同色相",
+        "readability": "pass",
+        "notes": "光带呼吸（0.3% scale 正弦）极克制，未做卡通光晕，对位 Tonko/长安三万里 美学。这是『光 = 横』的关键一帧。"
+      },
+      {
+        "at": 5.7,
+        "purpose": "lightToInkBridge",
+        "visibleAnchor": "light-to-ink-plate 处于 5.5-6.4s 过渡桥段，光带边缘开始向墨色化，背景宣纸暖色已渗出",
+        "readability": "pass",
+        "notes": "v4 没有这层桥段，光直接跳到字，是被点名『暴殄天物』的根因之一。v5 在此 0.9s 桥让『光 → 墨』有显式相变。"
+      },
+      {
+        "at": 7.5,
+        "purpose": "phraseBridge",
+        "visibleAnchor": "ink-glyph plate 已 hold 1.1s，米字格 0.18 透明居中，楷体「一」mask 已渗到 ~46%（6.9-8.2s 渗墨段中段），暖深墨 #1f1a14 由 blur(2px)→sharp 收锋",
+        "readability": "pass",
+        "notes": "narration 5.9-7.4s『就是「一」』恰好覆盖 mask 渗墨 1.3s，画外音收尾后还有 0.1s 视觉余韵。米字格不抢字，只做容器。"
+      },
+      {
+        "at": 9.0,
+        "purpose": "phraseBridgeDwell",
+        "visibleAnchor": "ink-glyph 完整态 hold，墨字已收到锐利锋芒，米字格仍处 0.18 识字态，画面静默",
+        "readability": "pass",
+        "notes": "0.6s≥0.45s 干净 dwell（syncRule#3）满足。这是 poster/final-frame 候选时间点之一，也是儿童认字最需要的『静态停留看清』。"
+      },
+      {
+        "at": 9.8,
+        "purpose": "strokeOrderTailIntro",
+        "visibleAnchor": "hand-tracing-plate 已 cross-dissolve 入场（9.6 起 0.6s），ink-glyph 同步 fade-out，画面进入手写示范前奏，narration 已止，纯静默",
+        "readability": "pass",
+        "notes": "10.0-10.6s 米字格态切换（0.18→0.30）即将开始；narrationPolicy='silent' 严格遵守，无任何旁白污染笔顺段。"
+      },
+      {
+        "at": 10.8,
+        "purpose": "strokeOrderTailWriting",
+        "visibleAnchor": "笔顺第二遍书写中段：glyph-write mask 10.6-11.5s 由左→右锐边推进 ~22%，米字格已切到 0.30 写字态，暖深墨字与 ink-glyph 同色相",
+        "readability": "pass",
+        "notes": "softness=2.5（vs ink 渗墨 6-14）—— 锐边对应『此刻在写』而非『还在渗』，与认字段语义区分。"
+      },
+      {
+        "at": 11.0,
+        "purpose": "strokeOrderTailNearFinal",
+        "visibleAnchor": "笔顺接近完成，mask 推进 ~75%，画面 0.5s 内将进入静态收尾",
+        "readability": "pass",
+        "notes": "11.5-12.0s 0.5s 干净静止帧，poster/final-frame 安全锚点。米字格 0.30 写字态保持到末帧。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "5.9-7.4s『就是「一」』口播 + 米字格中暖深墨「一」mask 渗墨同步，是儿童在 12 秒里唯一被明确点名+视觉收锚的瞬间，前后各有 0.45s+ 干净 dwell 包裹。"
+    },
+    "actionReadability": [
+      {
+        "action": "silentPrologue (dawn-valley 0-1.0s + bird flight-loop)",
+        "verdict": "pass",
+        "reason": "晨雾色温 + 远景小鸟扑翅给镜头先建『静』的基调，避免 v4 草台开场；6 帧 wing-flap 在 1.6s 内完成对角线掠过，符合 sprite poseContract.requiredMotionParts=['wings']。"
+      },
+      {
+        "action": "meaningAction (sun-rising 1.0-2.4s + 旁白『天亮了』)",
+        "verdict": "pass",
+        "reason": "1.0s 旁白入点对位 sun-rising 入场后 0.4s 视觉锚定时间，drift ≤0.12s（syncRule#1）。Ken Burns 推 6% 不喧宾夺主。"
+      },
+      {
+        "action": "glyphBinding (light-band 2.4-5.9s + 旁白『山那边升起一道光』)",
+        "verdict": "pass",
+        "reason": "光带 y 位置与最终楷体「一」横笔 y 位置同线（米字格中线 y≈1245），色相由暖金渐变到暖深墨，是 v5 区别 v4 最强的一笔——v4 是『讲完一/讲再写』，v5 是『光本身就是一』。"
+      },
+      {
+        "action": "lightToInkBridge (5.5-6.4s 过渡桥)",
+        "verdict": "pass",
+        "reason": "0.9s 显式相变让『光 → 墨』被看见，而不是 v4 那种『一刀切』。l2iIn easeInOut 0.6 + l2iOut 0.6 双边软切。"
+      },
+      {
+        "action": "phraseBridge (ink-glyph 6.4-10.0s + glyph-ink mask + 旁白『就是「一」』)",
+        "verdict": "pass",
+        "reason": "mask 渗墨 6.9-8.2s 1.3s，恰好覆盖『就是「一」』口播 1.5s，blur 2px→0 与 mask 同步收锋。后接 1.4s 静默 dwell（含 t=9.0 安全 poster 锚点），≥0.45s（syncRule#3）。"
+      },
+      {
+        "action": "strokeOrderTail (hand-tracing 9.6-12.0s + 米字格双态 + glyph-write 二次书写)",
+        "verdict": "pass",
+        "reason": "narration 完全静默；米字格 0.18→0.30 0.6s 软切；glyph-write mask 0.9s 锐边二写（softness=2.5）与 ink-glyph 渗墨（softness 6-14）形成『写 vs 渗』的笔感对比。containerStatePolicy='single-mizige-dual-state' 严格满足。"
+      },
+      {
+        "action": "audioFit (apad 12s, drift 10.7ms)",
+        "verdict": "pass",
+        "reason": "ffprobe: h264 12.000s + aac 12.010s @ 48000Hz, drift ~10.7ms < 25ms 容差。XiaoxiaoNeural rate -10% 与 v3/v4 同声（teacher continuity），quietAfterLastCue 0.6s 满足。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "ready",
+    "notes": [
+      "6 张 cinematic plate 全部为正式产出，不存在 CSS 几何占位（v4 被点名『暴殄天物』的根因已根除）",
+      "bird flight-loop 6 帧 256×256 透明 PNG，transparentPixelRatio 0.9446，alphaRequired const true，无 chroma-key",
+      "米字格为 SVG inline overlay（动态 --mizige-opacity 双态），非位图占位",
+      "字形渲染走 web font (LXGW Wenkai Yi subset .woff2) + mask-image 二次曝光，warm-deep 墨色 #1f1a14 与 ink-glyph plate 色相延续",
+      "narration 走 baked edge-tts (XiaoxiaoNeural) + ffmpeg apad 至 12.0s，无运行时 TTS 依赖；与 v3/v4 同 teacher voice 满足声线连续性",
+      "vignette 用 radial-gradient + multiply 0.85 透明度温和压边，未喧宾夺主"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 9.2,
+    "glyphBinding": 9.3,
+    "glyphAnchor": 9.0,
+    "pacing": 9.1,
+    "animationPerformance": 9.0,
+    "visualQuality": 9.4,
+    "childAppeal": 8.9,
+    "audioFit": 9.2,
+    "technicalCompliance": 9.0,
+    "officialReadiness": 9.1,
+    "teachingFunctionalIntegrity": 5.5
+  },
+  "scoreRationale": {
+    "teachingStructure": "5 段叙事（silentPrologue / meaningAction / glyphBinding / phraseBridge / strokeOrderTail）+ 双静默呼吸（开场 1s + 结尾 2s），比 v4 的三段直叙多出『起势』与『收势』，更接近长安三万里诗化叙事而非洪恩硬讲。",
+    "glyphBinding": "横向光带 → 渗墨 → 楷体黑字 → 笔顺二写四态共享同一 y 中线 / 同暖深色相收敛，是 v5 最强的产品链路，明显领先 v4 的『光带 → 字』直接切换。",
+    "glyphAnchor": "米字格双态 + 字形居中 0.5/0.5 锚点 + 0.6s+ dwell，儿童认字停留充足；扣 0.3 是因为米字格 0.18 透明在某些机型暗色屏可能略弱，但仍在可读区间。",
+    "pacing": "12s 切 5 段，最长段 ink-glyph 3.6s（含 0.6s+ dwell），最短段 silentPrologue 1.0s，无任何段被挤压；交叉溶解皆 ≥0.4s 不突兀。",
+    "animationPerformance": "GSAP timeline 单工作线程渲染稳定，bird sprite 12fps wing-flap + 24fps 主帧无掉帧；扣 1.0 因 cross-dissolve 全靠 opacity 叠加，多 plate 同时显形时帧成本略高（H5 实测仍流畅）。",
+    "visualQuality": "六张 plate 是本次最大跃迁——晨雾山谷、暖金日轮、横向光带、光转墨过渡、宣纸渗墨、握笔示范，色温/笔触/留白皆对位 Tonko House / 吉卜力 / 长安三万里 / Jon Klassen。v4 的 CSS 几何已被彻底替换。",
+    "childAppeal": "0-1.0s 静默序曲对最低龄段略沉，但小鸟扑翅提供动态钩子；旁白用 Xiaoxiao 老师声温润不亢奋；扣 1.1 是承认这套美学比 Pinkfong 慢，年龄段偏 4-6 岁会更受用。",
+    "audioFit": "三段口播分别落在 1.0/2.4/5.9s 视觉切换前 0.0-0.4s，drift 10.7ms，apad 至 12.0s 干净，silent tail 严格遵守 narrationPolicy='silent'。",
+    "technicalCompliance": "1080×1920 / 24fps / h264+aac / data-composition-id+data-duration='12' shim / sprite manifest alphaRequired const true / brief teachingContract 全字段对应实现 / 米字格 single-mizige-dual-state 满足。",
+    "officialReadiness": "mp4 8.9MB / webm 3.5MB / poster + final-frame 已渲，可直接接入 H5 v39。扣 0.9 是给 H5 实机回归的不确定性留余量。"
+  },
+  "overallScore": 9.12,
+  "decision": "ready-for-official",
+  "blockers": [],
+  "nextActions": [
+    "切换 src/shared/unit-01.js 的 recognitionVideo entry 从 v4 → v5（绝对路径走 H5 资产命名 v39，避开 /v3|legacy|sample/i 正则）",
+    "拷贝 mp4/webm/poster/final 到 src/clients/mobile-h5/assets/recognition/yi/，以 yi-v5-cinematic-* 或 yi-cinematic-final-* 命名",
+    "运行 bump-h5-version 至 v39，跑 check-mobile-h5-guardrails.mjs 全绿，再人工回归 P01→P03→P05→P07→P10→P11"
+  ]
+}

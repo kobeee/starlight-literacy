@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-gpt-image-2-production-v4",
+  "style": {
+    "source": "knowledge-base/01-产品设计/反AI设计规范.md + DESIGN.md 田园暖彩色板（蜂蜜金 #d8a13a + 暖棕 #5D4A36 + 暖米 #faf3e3 + 暖橙 #f5b85a + 太阳暖红 #e08a35）",
+    "summary": "premium 儿童绘本田园暖彩，gouache + 彩铅质感，统一暖阳滤镜；plate 只画背景大景（无太阳、无光带、无文字），把所有教学焦点元素让给前景 CSS/HTML/sprite 层；中线、上 1/3 必须留白安放教学元素"
+  },
+  "plates": [
+    {
+      "id": "morning-field-plate",
+      "kind": "plate",
+      "purpose": "认字视频统一底板：晨光田园 + 远山 + 草地 + 清晰水平线；上方 1/3 留白安放 CSS 太阳，中线留白安放晨光带与一横，下半 1/2 是草地/野花氛围。4 个镜头全程使用，不切场",
+      "path": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/plates/morning-field-plate-gpt-image-2.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/prompts/morning-field-plate.prompt.txt"
+    }
+  ],
+  "cutouts": [
+    {
+      "id": "sun-glow-breathe-spritesheet",
+      "kind": "cutout",
+      "purpose": "太阳光晕呼吸 6 帧 spritesheet（2 行 3 列），后续由 prepare-spritesheet-sprite 绿幕抠 alpha；只表达 halo 由内向外的呼吸变化，不承担升起动作",
+      "path": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/cutouts/sun-glow-breathe-spritesheet-gpt-image-2.png",
+      "prompt": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/prompts/sun-glow-breathe-spritesheet.prompt.txt"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "yi-gpt-image-2-production-v4-sun-glow-breathe",
+      "actor": "sun",
+      "action": "glow-breathe",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/manifest.json",
+      "minFrames": 6,
+      "requiredMotionParts": [
+        "halo inner ring",
+        "halo outer ring",
+        "warm light intensity"
+      ],
+      "motionCheckIntent": "6 帧依序展示光晕从收敛起点 → 渐扩 → 极盛 → 渐收 → 回归起点的呼吸循环；任两帧不可像素完全一致；frame 0 与 frame 5 接近但不等同（保证循环平滑）",
+      "notes": "由 sun-glow-breathe-spritesheet 通过 chroma-key (#00ff00 容差) 拆帧得到，单帧约 480x480，最终透明 PNG。叠在 CSS 圆盘背后做光晕辅助；CSS 圆盘承担主体颜色与位置，sprite 即便有 chroma-key 边缘残留也被圆盘本体遮挡，不影响主视觉"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "path": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/assets/audio/yi-gpt-image-2-production-v4-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v4.audio-plan.json"
+  },
+  "qualityBars": [
+    "plate 必须 严格不画太阳与光带：任何 raster 圆形发光体或水平亮带都禁止，避免与前景 CSS 太阳和晨光带冲突；plate 只负责背景景深与色温",
+    "plate 上方 1/3 净空足以承载 CSS 圆盘 (直径 180px) + 光晕呼吸 sprite (440x440)，不能有云朵或树冠遮挡 CSS 太阳定位区",
+    "plate 视觉中线 ±20% 区域留白足够，让晨光带、暖棕一横、米字格依次落位",
+    "sun-glow-breathe sprite 6 帧必须呈现 halo 由内向外脉动 的连续梯度，相邻帧不可像素完全一致；不能误生 sun disk（disk 由 CSS 提供）",
+    "全片不在 raster 图上画任何中文 / 拼音 / 数字 / 拉丁字符 / 水印 / UI 元素",
+    "晨光带 / 暖棕一横 / 米字格 / 大字 / 拼音 / 完整句子条全部由 CSS/HTML 渲染，可被产品 review 检查",
+    "final frame 必须 poster 化可读：米字格（写字态，黑实线外框） + 黑色楷体一字 + 拼音 + 完整四句话条全部清晰",
+    "暖色板严格收敛：禁止紫蓝色调、霓虹、糖果色；只允许蜂蜜金 / 暖棕 / 暖米 / 暖橙 / 太阳暖红的低饱和暖系组合"
+  ]
+}

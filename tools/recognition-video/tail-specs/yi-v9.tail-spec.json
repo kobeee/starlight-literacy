@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "recognition-video-tail-spec/v1",
+  "characterId": "yi-v9",
+  "targetCharacter": "一",
+  "anchorsRef": {
+    "path": "../anchors/mizige-anchors.json",
+    "schemaVersion": "recognition-video-mizige-anchors/v1"
+  },
+  "glyph": {
+    "source": "html-kaiti",
+    "boxOverride": { "allowed": false }
+  },
+  "strokeOrder": [
+    {
+      "index": 1,
+      "directionCode": "h",
+      "phaseStartSeconds": 0.5,
+      "phaseEndSeconds": 1.0,
+      "notes": "v9 stroke-order tail 占据视频最后 9.0-12.0s 共 3.0s（anchors.timing.totalDurationSeconds=2.0 之外多 1.0s extraDwellOutsideTail 满足 jury#4 minimumFinalHoldSeconds=2.0）。本 tail 段内时间轴：0.0-0.5s 米字格 0.18→0.30 + clearLayerIds 清空辅助层 + protectedLayerIds 保护持久 kaiti-glyph-base + ink-front-bloom 从 bottom-right 30° 入画到「一」字横笔起笔点；0.5-1.0s 横笔写字 0.5s 渗墨（满足 anchors writingDurationSeconds=0.9 的下沉版本，写字本身慢即可），ink-front-bloom 暖墨晕严格绑 mask 前沿 x-position 1:1；1.0-2.0s 完整 dwell 1.0s（anchors 内）+ 1.0s extraDwell（anchors 外，shot.duration 3.0s 减 anchors.total 2.0s），ink-front-bloom 停留在「一」字右端 +18px 作 P03 poster 锚帧 + 完整字形定格 2.0s 完整可见 poster dwell。narrationPolicy='silent' 严格满足 anchors 规范，孩子不被旁白干扰专注看笔顺示范。v9 关键变更（相对 v8.2）：(1) pointerForm 从 brush-pointer 切到 ink-front-bloom（修 jury blocker#1 + #2 — pointer 不再是 'an object on top of the writing'，而是 ink 本身的前沿，跟 mask 不分家）。(2) transition.protectedLayerIds 显式声明 kaiti-glyph-base 不被清掉（修 jury blocker#3 empty-mizige at 10.3s）。(3) phaseEnd 1.0s 让 dwell 拉到 2.0s end-to-end（修 jury blocker#4 minimumFinalHoldSeconds 不可达）。"
+    }
+  ],
+  "container": {
+    "policy": "single-mizige-dual-state",
+    "recognitionOpacity": 0.18,
+    "writingOpacity": 0.30
+  },
+  "narrationPolicy": "silent",
+  "transition": {
+    "fromCinematicBody": "cross-dissolve",
+    "durationSeconds": 0.4,
+    "clearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer",
+      "sunlight-ray-plate",
+      "dawn-mountain-plate"
+    ],
+    "protectedLayerIds": [
+      "kaiti-glyph-base"
+    ]
+  },
+  "finalFrame": {
+    "posterReady": true,
+    "handPosePresent": true,
+    "pointerForm": "ink-front-bloom",
+    "mizigeStateAtEnd": "writing"
+  },
+  "outputs": {
+    "composition": "output/yi-v9.tail.html",
+    "finalFramePng": "output/yi-v9.tail.final-frame.png",
+    "domProbeJson": "output/yi-v9.tail.dom-probe.json"
+  }
+}

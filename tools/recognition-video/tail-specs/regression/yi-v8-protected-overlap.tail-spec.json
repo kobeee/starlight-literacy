@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "recognition-video-tail-spec/v1",
+  "characterId": "yi-v8-protected-overlap-regression",
+  "targetCharacter": "一",
+  "anchorsRef": {
+    "path": "../../anchors/mizige-anchors.json",
+    "schemaVersion": "recognition-video-mizige-anchors/v1"
+  },
+  "glyph": { "source": "html-kaiti", "boxOverride": { "allowed": false } },
+  "strokeOrder": [
+    { "index": 1, "directionCode": "h", "phaseStartSeconds": 0.6, "phaseEndSeconds": 1.5 }
+  ],
+  "container": { "policy": "single-mizige-dual-state", "recognitionOpacity": 0.18, "writingOpacity": 0.30 },
+  "narrationPolicy": "silent",
+  "transition": {
+    "fromCinematicBody": "cross-dissolve",
+    "durationSeconds": 0.4,
+    "clearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer",
+      "persistent-kaiti-glyph-layer"
+    ],
+    "protectedLayerIds": [
+      "persistent-kaiti-glyph-layer"
+    ]
+  },
+  "finalFrame": { "posterReady": true, "handPosePresent": true, "pointerForm": "brush-pointer", "mizigeStateAtEnd": "writing" },
+  "outputs": {
+    "composition": "regression/output/yi-v8-protected-overlap.html",
+    "finalFramePng": "regression/output/yi-v8-protected-overlap.png",
+    "domProbeJson": "regression/output/yi-v8-protected-overlap.json"
+  }
+}

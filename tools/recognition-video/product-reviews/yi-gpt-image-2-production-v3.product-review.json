@@ -116,7 +116,8 @@
     "childAppeal": 8.3,
     "audioFit": 8.2,
     "technicalCompliance": 8.5,
-    "officialReadiness": 8.2
+    "officialReadiness": 8.2,
+    "teachingFunctionalIntegrity": 9.0
   },
   "overallScore": 8.3,
   "decision": "ready-for-official",

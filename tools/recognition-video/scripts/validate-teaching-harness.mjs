@@ -76,10 +76,10 @@ function validatePair({ brief, briefPath, assetPlan, assetPlanPath, errors }) {
   );
   check(brief.fps === 24, errors, label, "brief.fps must stay at 24 for P03 recognition clips.");
   check(
-    isNumber(brief.duration) && brief.duration >= 3 && brief.duration <= 8,
+    isNumber(brief.duration) && brief.duration >= 3 && brief.duration <= 12,
     errors,
     label,
-    "brief.duration must be within the 3-8 second recognition-video window.",
+    "brief.duration must be within the 3-12 second recognition-video window (3-8s spoken body + optional stroke-order tail up to 4s).",
   );
 
   validateNarration({ brief, assetPlan, errors, label });
@@ -333,6 +333,64 @@ function validateTeachingContract({ brief, errors, label }) {
       "final recognition pause must satisfy minimumFinalHoldSeconds.",
     );
   }
+
+  validateStrokeOrderTail({ brief, contract, shotsById, errors, label });
+}
+
+function validateStrokeOrderTail({ brief, contract, shotsById, errors, label }) {
+  const tail = contract.strokeOrderTail;
+  check(Boolean(tail), errors, label, "teachingContract.strokeOrderTail is required: every recognition video must end with a stroke-order demo inside a mizige.");
+  if (!tail) {
+    return;
+  }
+
+  const tailShot = shotsById.get(tail.shotId);
+  check(Boolean(tailShot), errors, label, `strokeOrderTail.shotId "${tail.shotId}" must exist in shotPlan.`);
+  if (!tailShot) {
+    return;
+  }
+
+  check(
+    Math.abs(tailShot.start - tail.startSeconds) <= 0.05,
+    errors,
+    label,
+    `strokeOrderTail.startSeconds (${tail.startSeconds}) must match shot "${tail.shotId}" start (${tailShot.start}).`,
+  );
+  check(
+    tailShot.duration >= tail.minSeconds,
+    errors,
+    label,
+    `strokeOrderTail shot "${tail.shotId}" must hold for at least ${tail.minSeconds}s for the writing demo to read.`,
+  );
+
+  const phraseShot = shotsById.get(contract.phraseBridge?.shotId);
+  if (phraseShot) {
+    check(
+      tailShot.start >= phraseShot.start + phraseShot.duration - 0.05,
+      errors,
+      label,
+      "strokeOrderTail must come after the phrase/glyph closure; recognition body must finish before the stroke-order tail.",
+    );
+  }
+
+  const tailEnd = tailShot.start + tailShot.duration;
+  check(
+    tailEnd <= brief.duration + 0.05,
+    errors,
+    label,
+    `strokeOrderTail extends past brief.duration (tail ends ${tailEnd.toFixed(2)}s, duration ${brief.duration}s).`,
+  );
+
+  const cues = Array.isArray(brief.narration?.cues) ? brief.narration.cues : [];
+  for (const cue of cues) {
+    if (!isNumber(cue.at)) continue;
+    check(
+      cue.at < tail.startSeconds - 0.05,
+      errors,
+      label,
+      `strokeOrderTail must stay silent: narration cue "${cue.text}" at ${cue.at}s lands inside the tail (starts ${tail.startSeconds}s).`,
+    );
+  }
 }
 
 function validateAssetPlan({ assetPlan, errors, label }) {
@@ -393,7 +451,16 @@ function validateSpriteContracts({ brief, assetPlan, errors, label }) {
   const requiredSprites = brief.animationRequirements?.spriteRequired || [];
   const plannedSprites = assetPlan.sprites || [];
 
-  check(requiredSprites.length > 0, errors, label, "animationRequirements.spriteRequired cannot be empty.");
+  const animReqs = brief.animationRequirements || {};
+  const rasterPlateOnly =
+    animReqs.rasterImagesMayContainText === false &&
+    Array.isArray(animReqs.rasterImageInventory) &&
+    animReqs.rasterImageInventory.length > 0 &&
+    requiredSprites.length === 0;
+
+  if (!rasterPlateOnly) {
+    check(requiredSprites.length > 0, errors, label, "animationRequirements.spriteRequired cannot be empty.");
+  }
 
   for (const required of requiredSprites) {
     const spriteLabel = `${required.actor}/${required.action}`;

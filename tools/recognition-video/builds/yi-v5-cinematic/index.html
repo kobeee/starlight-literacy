@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - V5 Cinematic</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("assets/fonts/LXGWWenKai-Yi-subset.woff2") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #1c1a22;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #1f1a14;
+    }
+
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #1c1a22;
+      isolation: isolate;
+    }
+
+    .clip { position: absolute; }
+
+    /* Plates: full-bleed cinematic stills, cross-dissolved by GSAP opacity. */
+    .plate {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transform-origin: 50% 50%;
+      transform: translate(0, 0) scale(1);
+    }
+
+    /* Bird sprite — 6 stacked frames, only the active one is opaque. */
+    .bird {
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      left: 760px;
+      top: 1280px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      transform: translate(0, 0) scale(1);
+    }
+    .bird .sprite-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+    }
+
+    /* Mizige watermark — single SVG overlay, dual-state via CSS variable. */
+    .mizige-watermark {
+      position: absolute;
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      --mizige-opacity: 0.18;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mizige-watermark svg {
+      width: 100%;
+      height: 100%;
+      opacity: var(--mizige-opacity);
+    }
+
+    /* Glyph layers — kaiti 一 rendered as web text on top of ink-glyph-plate.
+       glyph-ink: warm-deep ink #1f1a14 with mask-image left→right reveal +
+       blur→sharp settle, simulates the brush bleeding ink across paper.
+       glyph-write: same character used by stroke-order-tail with a second
+       mask-image phase so the writing demo reads as a separate gesture. */
+    .glyph-base {
+      position: absolute;
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, filter, mask-image;
+    }
+    .glyph-ink {
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      filter: blur(2px);
+    }
+    .glyph-write {
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      filter: blur(0.6px);
+    }
+
+    /* Tiny edge vignette to seat plates against the stage; very gentle. */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0) 60%,
+        rgba(0, 0, 0, 0.18) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-v5-cinematic"
+       class="stage"
+       data-composition-id="yi-v5-cinematic"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="12">
+
+    <img id="plate-dawn-valley"
+         class="clip plate"
+         data-start="0"
+         data-duration="2.4"
+         data-track-index="0"
+         src="assets/unit-01/yi-v5-cinematic/plates/dawn-valley-plate.png"
+         alt="" />
+
+    <img id="plate-sun-rising"
+         class="clip plate"
+         data-start="0.6"
+         data-duration="2.6"
+         data-track-index="1"
+         src="assets/unit-01/yi-v5-cinematic/plates/sun-rising-plate.png"
+         alt="" />
+
+    <img id="plate-light-band"
+         class="clip plate"
+         data-start="2.0"
+         data-duration="4.4"
+         data-track-index="2"
+         src="assets/unit-01/yi-v5-cinematic/plates/light-band-plate.png"
+         alt="" />
+
+    <img id="plate-light-to-ink"
+         class="clip plate"
+         data-start="5.5"
+         data-duration="1.6"
+         data-track-index="3"
+         src="assets/unit-01/yi-v5-cinematic/plates/light-to-ink-plate.png"
+         alt="" />
+
+    <img id="plate-ink-glyph"
+         class="clip plate"
+         data-start="6.4"
+         data-duration="4.0"
+         data-track-index="4"
+         src="assets/unit-01/yi-v5-cinematic/plates/ink-glyph-plate.png"
+         alt="" />
+
+    <img id="plate-hand-tracing"
+         class="clip plate"
+         data-start="9.6"
+         data-duration="2.4"
+         data-track-index="5"
+         src="assets/unit-01/yi-v5-cinematic/plates/hand-tracing-plate.png"
+         alt="" />
+
+    <div id="bird"
+         class="clip bird"
+         data-start="0"
+         data-duration="2.4"
+         data-track-index="6"
+         aria-hidden="true">
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-000.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-001.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-002.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-003.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-004.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-005.png" alt="" />
+    </div>
+
+    <div id="mizige-watermark"
+         class="clip mizige-watermark"
+         data-start="5.5"
+         data-duration="6.5"
+         data-track-index="7"
+         aria-hidden="true">
+      <svg viewBox="0 0 730 730" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="2" y="2" width="726" height="726" fill="none" stroke="#c9b48a" stroke-width="2"/>
+        <line x1="0"   y1="365" x2="730" y2="365" stroke="#c9b48a" stroke-width="2"/>
+        <line x1="365" y1="0"   x2="365" y2="730" stroke="#c9b48a" stroke-width="2"/>
+        <line x1="0"   y1="0"   x2="730" y2="730" stroke="#c9b48a" stroke-width="2"/>
+        <line x1="730" y1="0"   x2="0"   y2="730" stroke="#c9b48a" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div id="glyph-ink"
+         class="clip glyph-base glyph-ink"
+         data-start="6.4"
+         data-duration="3.2"
+         data-track-index="8"
+         aria-label="一">一</div>
+
+    <div id="glyph-write"
+         class="clip glyph-base glyph-write"
+         data-start="9.6"
+         data-duration="2.4"
+         data-track-index="9"
+         aria-label="一字笔顺示范">一</div>
+
+    <div id="vignette"
+         class="clip vignette"
+         data-start="0"
+         data-duration="12"
+         data-track-index="19"></div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="12"
+           data-track-index="20"
+           src="assets/audio/yi-v5-cinematic-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+    const setVar = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.setProperty(name, value);
+      });
+    };
+    const setPlateTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scale.toFixed(4) + ")";
+      });
+    };
+    const setBirdTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scale.toFixed(4) + ")";
+      });
+    };
+    const showSpriteFrame = (selector, time, start, length, frameCount) => {
+      const frames = gsap.utils.toArray(selector + " .sprite-frame");
+      const t = range(time, start, length);
+      const cyclic = (t % 1 + 1) % 1;
+      const idx = Math.min(frameCount - 1, Math.floor(cyclic * frameCount));
+      frames.forEach((frame, frameIndex) => {
+        frame.style.opacity = frameIndex === idx ? "1" : "0";
+      });
+    };
+    const setMaskReveal = (selector, percent, softness) => {
+      // percent: 0..100 of how much of the glyph (left→right) is revealed.
+      // softness: width in % of the gradient feather edge.
+      const p = clamp(percent / 100) * 100;
+      const s = Math.max(0.5, softness);
+      const stop1 = Math.max(0, p - s).toFixed(2);
+      const stop2 = Math.min(100, p).toFixed(2);
+      const value =
+        "linear-gradient(90deg, #000 0%, #000 " + stop1 + "%, " +
+        "rgba(0,0,0,0) " + stop2 + "%, rgba(0,0,0,0) 100%)";
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.maskImage = value;
+        el.style.webkitMaskImage = value;
+      });
+    };
+
+    timeline.add((time) => {
+      // ============================================================
+      // SHOT 1 (0 - 1.0s) — dawn-valley : silent prologue
+      // Plate fades in fast, holds ~0.6s, then begins crossing into
+      // sun-rising at t=0.6s. 0.5% Ken Burns slow push (1.000 → 1.005)
+      // suggests the camera breathing without calling attention.
+      // Bird sprite cycles 6 frames over a 1.0s wing-flap, translating
+      // diagonally up-and-left across the lower-right quadrant.
+      // ============================================================
+      const dawnIn = ease(range(time, 0.0, 0.4));
+      const dawnOut = easeInOut(range(time, 0.6, 1.0));
+      setOpacity("#plate-dawn-valley", dawnIn * (1 - dawnOut));
+      const dawnKen = easeInOut(range(time, 0.0, 1.6));
+      setPlateTransform("#plate-dawn-valley", {
+        x: 0,
+        y: 0,
+        scale: 1.0 + 0.005 * dawnKen,
+      });
+
+      const birdIn = ease(range(time, 0.05, 0.35));
+      const birdOut = easeInOut(range(time, 1.0, 0.6));
+      setOpacity("#bird", birdIn * (1 - birdOut));
+      const birdT = clamp(range(time, 0.0, 1.6));
+      // diagonal flight: from (760, 1280) toward (-120, 540)
+      const birdDx = (-120 - 760) * birdT;
+      const birdDy = (540 - 1280) * birdT;
+      setBirdTransform("#bird", {
+        x: birdDx,
+        y: birdDy,
+        scale: 1.0 - 0.10 * birdT, // slight diminish as it recedes
+      });
+      showSpriteFrame("#bird", time, 0.0, 0.55, 6);
+
+      // ============================================================
+      // SHOT 2 (1.0 - 2.4s) — sun-rising : meaningAction
+      // Cross-dissolve from dawn 0.6s → sun 0.6s; sun-rising plate
+      // holds clean 1.2s → 2.0s; 6% Ken Burns push toward upper third
+      // (slight scale + slight downward translate to keep horizon).
+      // ============================================================
+      const sunIn = easeInOut(range(time, 0.6, 1.0));
+      const sunOut = easeInOut(range(time, 2.0, 0.8));
+      setOpacity("#plate-sun-rising", sunIn * (1 - sunOut));
+      const sunKen = easeInOut(range(time, 0.6, 2.6));
+      setPlateTransform("#plate-sun-rising", {
+        x: 0,
+        y: 12 * sunKen,
+        scale: 1.0 + 0.06 * sunKen,
+      });
+
+      // ============================================================
+      // SHOT 3 (2.4 - 5.9s) — light-band : glyphBinding
+      // Cross-dissolve sun → light-band over 2.0 → 2.8s, hold clean
+      // 2.8 → 5.5s; subtle 0.3% scale breathing, no translation.
+      // ============================================================
+      const bandIn = easeInOut(range(time, 2.0, 0.8));
+      const bandOut = easeInOut(range(time, 5.5, 1.2));
+      setOpacity("#plate-light-band", bandIn * (1 - bandOut));
+      const bandBreath = 1.0 + 0.003 * Math.sin((time - 2.4) * (Math.PI * 2 / 3.5));
+      setPlateTransform("#plate-light-band", {
+        x: 0,
+        y: 0,
+        scale: bandBreath,
+      });
+
+      // ============================================================
+      // SHOT 4a (5.5 - 6.4s) — light-to-ink dissolve bridge
+      // Quick 0.6s rise of the transition plate; then 0.5s hold; then
+      // 0.4s cross-dissolve into ink-glyph-plate at 6.4s. This is the
+      // "light becomes ink" moment.
+      // ============================================================
+      const l2iIn = easeInOut(range(time, 5.5, 0.6));
+      const l2iOut = easeInOut(range(time, 6.4, 0.6));
+      setOpacity("#plate-light-to-ink", l2iIn * (1 - l2iOut));
+
+      // ============================================================
+      // SHOT 4b (6.4 - 9.6s) — ink-glyph plate hold
+      // Plate cross-dissolves in over 0.4s, holds; then dissolves out
+      // into hand-tracing-plate at 9.6s.
+      // ============================================================
+      const inkIn = easeInOut(range(time, 6.4, 0.4));
+      const inkOut = easeInOut(range(time, 9.6, 0.6));
+      setOpacity("#plate-ink-glyph", inkIn * (1 - inkOut));
+
+      // mizige watermark fades in alongside light-to-ink at 5.6s
+      // and stays through the rest of the video.
+      const mizigeIn = ease(range(time, 5.6, 0.7));
+      setOpacity("#mizige-watermark", mizigeIn);
+      // 识字态: --mizige-opacity 0.18 → 写字态: 0.30
+      // transition driven by stroke-order-tail (10.0 → 10.6s)
+      const stateT = easeInOut(range(time, 10.0, 0.6));
+      const mzOpacity = 0.18 + (0.30 - 0.18) * stateT;
+      setVar("#mizige-watermark", "--mizige-opacity", mzOpacity.toFixed(3));
+
+      // ============================================================
+      // GLYPH-INK ANIMATION (6.9 - 8.2s, inside ink-glyph plate)
+      // mask-image linear-gradient reveals warm-deep ink left → right
+      // over 1.3s, with blur(2px) → blur(0) settling in parallel.
+      // The plate already shows the painted character; the mask is a
+      // clean second pass on top so the eye reads "ink condensing".
+      // The glyph fades out at 9.6s as hand-tracing arrives.
+      // ============================================================
+      const glyphInkOpacity = ease(range(time, 6.9, 0.4));
+      const glyphInkOut = easeInOut(range(time, 9.6, 0.5));
+      setOpacity("#glyph-ink", glyphInkOpacity * (1 - glyphInkOut));
+      const glyphInkProgress = easeInOut(range(time, 6.9, 1.3));
+      const glyphInkSoftness = 6 + 8 * (1 - glyphInkProgress); // edge feather narrows
+      setMaskReveal("#glyph-ink", glyphInkProgress * 100, glyphInkSoftness);
+      const blurPx = 2.0 * (1 - easeInOut(range(time, 6.9, 1.0)));
+      setStyle("#glyph-ink", "filter", "blur(" + blurPx.toFixed(2) + "px)");
+
+      // ============================================================
+      // SHOT 5 (9.6 - 12.0s) — hand-tracing : strokeOrderTail
+      // Plate cross-dissolves in 0.6s, holds clean. mizige watermark
+      // shifts 识字态 → 写字态 (--mizige-opacity 0.18 → 0.30) over
+      // 10.0 → 10.6s. Black kaiti 一 second-pass writes left → right
+      // 10.6 → 11.5s with a different mask phase (sharper edge,
+      // shorter feather) so the gesture reads as "writing now", not
+      // "still bleeding". Final 0.5s clean hold for poster.
+      // ============================================================
+      const handIn = easeInOut(range(time, 9.6, 0.6));
+      setOpacity("#plate-hand-tracing", handIn);
+
+      const writeOpacityIn = ease(range(time, 10.5, 0.2));
+      setOpacity("#glyph-write", writeOpacityIn);
+      const writeProgress = easeInOut(range(time, 10.6, 0.9));
+      const writeSoftness = 2.5; // sharp brushed edge, not bleeding
+      setMaskReveal("#glyph-write", writeProgress * 100, writeSoftness);
+      const writeBlur = 0.6 * (1 - easeInOut(range(time, 10.6, 0.6)));
+      setStyle("#glyph-write", "filter", "blur(" + writeBlur.toFixed(2) + "px)");
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-v5-cinematic"] = timeline;
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "recognition-video-narration-measured/v1",
+  "characterId": "yi-v6",
+  "sourceVtt": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/src/clients/mobile-h5/assets/recognition/yi/yi-v6-narration.vtt",
+  "concatenatedTtsText": "看，一只小鸟。晨光直直的。念，一。这就是一。",
+  "rawScriptNormalized": "看，一只小鸟。晨光直直的。念，一。这就是一。",
+  "totalCharCount": 22,
+  "rawAudioEndSeconds": 7.402,
+  "apadToSeconds": 12,
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "看，一只小鸟。",
+      "audioStart": 0.1,
+      "audioEnd": 2.327
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "晨光直直的。",
+      "audioStart": 2.277,
+      "audioEnd": 4.208
+    },
+    {
+      "id": "glyph-naming",
+      "text": "念，一。",
+      "audioStart": 4.208,
+      "audioEnd": 5.833
+    },
+    {
+      "id": "extension",
+      "text": "这就是一。",
+      "audioStart": 5.833,
+      "audioEnd": 7.402
+    }
+  ]
+}

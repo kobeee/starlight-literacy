@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-v7",
+  "script": "看，一只小鸟。飞过一道光。这就是一。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3/v4/v5/v6 同一 Xiaoxiao 女老师声 + -10% 慢速；v7 重构叙事 + 视觉但保留声线，让孩子在跨版本时听感连续。3 段紧凑叙事在 -10% 下预估 raw ≈ 5.5-6.5s，留 ≥1.5s final quiet，舒服落在 8s spoken body 上限内"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "referenceProduct": "洪恩识字 一 字单页认字微课（公开 demo）",
+    "referenceDurationSeconds": {
+      "min": 25,
+      "max": 45,
+      "example": 32
+    },
+    "referenceEvidence": "洪恩公开 demo 单字卡通常 25-45s 覆盖意义/字形/组词/笔顺/互动；P03 是认字流程中的 recognition 短片，承担其中的意义→字形→收束三段；v7 spoken body 固定为 8.0s 含 3 段叙事（实测 raw 预估 6.5s），把节省下来的时间投入到 silent prologue 0-0.3s + dwell + stroke-order tail 三段呼吸，与洪恩「信息密度堆满」的工业风刻意拉开；v7 相对 v6 改动是叙事 + 视觉重构（去 dual-render、加长笔顺），不改 spoken body 上限",
+    "starlightTargetSeconds": 8,
+    "starlightDecision": "P03 recognition v7 spoken body 固定为 8.0s（schema 上限 + audio-plan validator 硬约束）：3 段叙事 raw ≈ 6.5s（实测后回填 bakedAudioDurationSeconds），留 ≥1.5s final quiet；视频总时长 12s 含 9-12s 静默笔顺示范尾段，由 paddedTotalDurationSeconds=12 表达，与 brief.duration=12 同步"
+  },
+  "targetDurationSeconds": 8,
+  "paddedTotalDurationSeconds": 12,
+  "rawTtsAudioDurationSeconds": 5.652,
+  "bakedAudioDurationSeconds": 12.048,
+  "audioPaddingNotes": "edge-tts 直出 3 段旁白合成单 mp3 实测 raw=5.652s（measured-timings 实测，rawAudioEndSeconds=5.652），末端用 ffmpeg apad 静音填充至 12.048s（ffprobe 实测）与视频 12s 等长 ≤0.05s 误差；t=5.652-12.0s 段为静默尾声，覆盖 ink-glyph 末段 2.2s dwell + stroke-order-tail 全段；apad 不剪视频，padded 与 brief.duration=12 对齐",
+  "quietAfterLastCueSeconds": 2.198,
+  "cues": [
+    {
+      "id": "concrete-anchor",
+      "shotId": "bird-pass",
+      "text": "看，一只小鸟。",
+      "audioStart": 0.1,
+      "audioEnd": 2.327,
+      "visualStart": 0.1,
+      "visualEnd": 2.4,
+      "narration": "spoken",
+      "rationale": "意义入场（concrete anchor）：旁白与 bird-flight-loop sprite 同步入场，让「一只小鸟」音画同框；让 number-as-numeral「一只」绑画面上可数 1 只小鸟。visual 比 audio 多 0.07s 让 sprite 完整飞出画面后再切到 light-band 视觉。measured-timings 实测 audioEnd 2.327s"
+    },
+    {
+      "id": "phrase-bridge",
+      "shotId": "light-band",
+      "text": "飞过一道光。",
+      "audioStart": 2.277,
+      "audioEnd": 4.083,
+      "visualStart": 2.39,
+      "visualEnd": 4.2,
+      "narration": "spoken",
+      "rationale": "字形绑定 + 第二次量词重复：旁白与 CSS 暖金光带的 opacity 0→1 + dwell 同步；「飞过一道光」让 number-as-quantifier「一道」在画面单一光带上有可数视觉锚；光带的水平形态与即将出现的楷体「一」字横笔一一对应。measured-timings 实测 audioEnd 4.083s，visualEnd 4.2s 留 0.12s gap"
+    },
+    {
+      "id": "glyph-naming",
+      "shotId": "ink-glyph",
+      "text": "这就是一。",
+      "audioStart": 4.083,
+      "audioEnd": 5.652,
+      "visualStart": 4.2,
+      "visualEnd": 7.85,
+      "narration": "spoken",
+      "rationale": "字-形-音三绑定（glyph naming）：旁白与光带下沉 + 楷体「一」字渗墨成形同步；audio 在 5.652s 收音后画面继续 dwell；visualEnd 7.85 在 target spoken body 8s 上限内（lastSpokenCue.visualEnd ≥ target-0.35=7.65 满足），cue 之后到 9.0s 进入 stroke-order tail 还有 1.15s 干净 dwell（在 ink-glyph shot 4.2-9.0 范围内）"
+    },
+    {
+      "id": "stroke-order-tail",
+      "shotId": "stroke-order-tail",
+      "text": "",
+      "audioStart": null,
+      "audioEnd": null,
+      "visualStart": 9.0,
+      "visualEnd": 12.0,
+      "narration": "silent",
+      "rationale": "纯视觉笔顺尾段：t=9-12s 米字格识字态→写字态切换 + 楷体「一」字 left-to-right 2.2s 二次渗墨 + 毛笔尖 + 孩子手指。让孩子在没有旁白的静默里专注看完整 2.2s 行业标准时长的笔顺动画；audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s。受 tail-spec yi-v7.tail-spec.json + anchors/mizige-anchors.json 双重约束"
+    }
+  ],
+  "syncRules": [
+    "每一段旁白起始时刻 (audioStart) 与对应镜头的视觉 cue 起始 (visualStart) 同帧或视觉略晚 ≤ 0.12s；3 段 spoken 旁白与 bird-pass (0-2.4) / light-band (2.4-4.2) / ink-glyph (4.2-9.0) 一一对齐",
+    "每一段旁白结束后镜头视觉至少持续 0.07s 不立即切换，保证孩子语义闭合；glyph-naming 旁白结束 (5.652s) 后 ink-glyph 镜头 dwell 到 9.0s，留 3.35s 让宣纸上的楷体「一」字稳定回看（远超 ≥0.45s syncRule）",
+    "末段「这就是一」旁白结束 (5.652s) 后保留 2.198s 安静再进入 stroke-order-tail (9.0s)，syncRule#3 要求 ≥0.45s 大幅满足",
+    "stroke-order-tail 段 (9-12s) 为 narration=\"silent\" 静默 cue，不占 spoken target；视觉窗口由 paddedTotalDurationSeconds=12s 覆盖，apad 不剪视频",
+    "baked mp3 末端 apad 至 paddedTotalDurationSeconds=12s，ffprobe 实测 12.048s 与 brief.duration=12s 对齐 ≤0.05s 误差；3 段旁白合成体 raw=5.652s + 静音填充 ~6.4s"
+  ],
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v7-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v7-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v7-narration.vtt"
+  }
+}

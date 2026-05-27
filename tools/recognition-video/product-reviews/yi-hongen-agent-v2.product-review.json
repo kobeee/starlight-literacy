@@ -109,7 +109,8 @@
     "childAppeal": 5.5,
     "audioFit": 6.0,
     "technicalCompliance": 8.5,
-    "officialReadiness": 5.5
+    "officialReadiness": 5.5,
+    "teachingFunctionalIntegrity": 5.5
   },
   "overallScore": 6.3,
   "decision": "rendered-needs-iteration",

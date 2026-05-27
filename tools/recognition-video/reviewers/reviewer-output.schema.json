@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/reviewer-output.schema.json",
+  "title": "Starlight Double-Blind Reviewer Output",
+  "description": "Output contract for a single blind reviewer (Claude or Codex). Two such outputs are produced independently, then a third Jury agent reads both to produce a final product-review.json. The mandatory 3-blocker floor is intentional: a reviewer that finds zero blockers on a non-shipped video is automatically considered derelict (per memory:feedback_validator_pass_not_product_pass).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "reviewerId",
+    "characterId",
+    "buildId",
+    "reviewedAt",
+    "input",
+    "scores",
+    "overallScore",
+    "blockers",
+    "decision",
+    "confidence",
+    "rationale"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "starlight-double-blind-review/v1"
+    },
+    "reviewerId": {
+      "type": "string",
+      "enum": ["claude", "codex"],
+      "description": "Which model produced this review. The Jury uses this to weigh dimension-specific trust (Claude on narrative/childAppeal, Codex on schema/timing-window conflicts)."
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "buildId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Matches the build directory under tools/recognition-video/builds/."
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["brief", "audioPlan", "tailSpec", "video", "keyframes"],
+      "properties": {
+        "brief": { "type": "string", "minLength": 1 },
+        "audioPlan": { "type": "string", "minLength": 1 },
+        "tailSpec": { "type": "string", "minLength": 1 },
+        "narrationSpec": { "type": "string" },
+        "video": { "type": "string", "minLength": 1 },
+        "reviewSheet": { "type": "string" },
+        "keyframes": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "description": "Exact files the reviewer was given. Allows the Jury to verify both reviewers saw the same 5-piece input pack."
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "teachingStructure",
+        "glyphBinding",
+        "glyphAnchor",
+        "pacing",
+        "animationPerformance",
+        "visualQuality",
+        "childAppeal",
+        "audioFit",
+        "technicalCompliance",
+        "officialReadiness",
+        "teachingFunctionalIntegrity"
+      ],
+      "properties": {
+        "teachingStructure": { "$ref": "#/$defs/scoreWithReason" },
+        "glyphBinding": { "$ref": "#/$defs/scoreWithReason" },
+        "glyphAnchor": { "$ref": "#/$defs/scoreWithReason" },
+        "pacing": { "$ref": "#/$defs/scoreWithReason" },
+        "animationPerformance": { "$ref": "#/$defs/scoreWithReason" },
+        "visualQuality": { "$ref": "#/$defs/scoreWithReason" },
+        "childAppeal": { "$ref": "#/$defs/scoreWithReason" },
+        "audioFit": { "$ref": "#/$defs/scoreWithReason" },
+        "technicalCompliance": { "$ref": "#/$defs/scoreWithReason" },
+        "officialReadiness": { "$ref": "#/$defs/scoreWithReason" },
+        "teachingFunctionalIntegrity": { "$ref": "#/$defs/scoreWithReason" }
+      },
+      "description": "11-dimension scores mirroring product-review.schema.json. Each score requires a one-line reason so the Jury can audit reasoning rather than just numbers."
+    },
+    "overallScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "blockers": {
+      "type": "array",
+      "minItems": 3,
+      "description": "Mandatory floor of 3. A reviewer that cannot find 3 issues on a non-shipped build is dismissing the job; the orchestrator should re-run the review with a stricter system prompt.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "issue", "rootCause"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium"]
+          },
+          "atTime": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "description": "Seconds into the video where the issue is visible, or null if it is a structural/cross-frame issue."
+          },
+          "atKeyframe": {
+            "type": ["string", "null"],
+            "description": "Filename of the keyframe snapshot evidencing the issue, or null."
+          },
+          "issue": {
+            "type": "string",
+            "minLength": 20,
+            "description": "What is wrong (observable). No hand-wavy adjectives — describe what is on screen."
+          },
+          "rootCause": {
+            "type": "string",
+            "minLength": 20,
+            "description": "First-principles diagnosis of why it is wrong. Must point to a brief/spec/animation choice, not a polish item."
+          },
+          "specRef": {
+            "type": "string",
+            "description": "Optional pointer to the spec/brief field that is at fault."
+          }
+        }
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 10 },
+      "description": "Optional. Worth noting only if they are non-obvious; this field is not a politeness slot."
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["ready-for-official", "needs-revision", "blocked"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Self-rated confidence in the verdict. Low means the Jury should weight this review less or request a second pass."
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 100,
+      "description": "Plain-language summary of the overall verdict. Forces the reviewer to state a coherent narrative, not just a score sheet."
+    }
+  },
+  "$defs": {
+    "scoreWithReason": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "reason"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 10,
+          "description": "One-line justification for the score on this dimension."
+        }
+      }
+    }
+  }
+}

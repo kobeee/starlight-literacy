@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi-v6",
+  "char": "一",
+  "buildId": "yi-v6",
+  "candidateStatus": "agent-pipeline-test",
+  "reviewedAt": "2026-05-21",
+  "reviewer": "starlight-product-video-agent",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "v6 叙事层重构（4 段 spoken cue：concrete-anchor 一只小鸟 → phrase-bridge 晨光直直的 → glyph-naming 念，一 → extension 这就是一）+ 1 段 silent stroke-order-tail，spoken body 固定 8s，paddedTotal 12s",
+      "三大教学硬伤的设计修复证据链：(1) targetCharOccurrences=3 通过 narration-spec.segments 强制 ≥3 次「一」（v5 仅 2 次）；(2) quantifierUsage.boundToVisualCount=true + concreteAnchorPhrase「一只小鸟」绑定 bird-flight-loop 6 帧 sprite，让 number-as-numeral「一只」有可数视觉锚（v5「一道光」无视觉计数物）；(3) tail-spec.container.policy='single-mizige-dual-state' 强制米字格识字态 0.18 → 写字态 0.30 切换，提升米字格写字态可读性（v5 评审扣 0.3 的根因）",
+      "米字格双态语义契约（recognition 0.18 / writing 0.30）+ stroke-order-tail.narrationPolicy='silent' + clearLayerIds 三层清理（ink-glyph-bleed-layer / light-band-layer / phrase-bridge-layer）— 由 yi-v6.tail-spec.json + mizige-anchors.json 双重约束",
+      "rendered evidence 比对 spec 的 honest read-back：plate-glyph dual-render（plate 自带水墨「一」+ HTML kaiti「一」叠加位置不重合）是 v5 baseline 已知模式，v6 沿用未引入新 bug；但子线需要单独立项消除（建议 v7 把 plate 自带字 alpha 抠掉只保留宣纸+米字格背景，或把 HTML 字位置对齐 plate 字 baseline）"
+    ],
+    "genericHyperframesOwns": [
+      "edge-tts 烘焙管线（zh-CN-XiaoxiaoNeural rate=-10% pitch=+0Hz）+ ffmpeg apad 至 paddedTotal 12.048s（与 brief.duration=12 误差 0.048s ≤ 0.05s）+ measured-timings 反写 audio-plan",
+      "三 sub-line validator 串联（validate-narration-bake → validate-audio-sync-plan → validate-tail-spec → validate-teaching-harness）+ main-line product-video-gate 校验，本次 v6 全部一次性通过",
+      "sprite manifest 复用（yi-v5-cinematic bird-flight-loop 6 帧 256×256 透明 PNG，alphaRequired const true，transparentPixelRatio 0.9446）+ HTML kaiti glyph 渲染器（rasterImagesMayContainText=false, renderer='html-css'）",
+      "hyperframes 0.6.30 lint + inspect + render（draft + standard quality）+ ffprobe 元数据验证（mp4 h264 1080×1920 24fps 12.000s + aac 48kHz drift 10.7ms，与 v5 完全持平）+ ffmpeg webm 兜底（hyperframes 0.6.30 webm muxing 在 h264 输入下失败，用 libvpx-vp9 + libopus 直转）"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-v6.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-v6.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v6.audio-plan.json",
+    "buildMeta": "tools/recognition-video/builds/yi-v6/meta.json",
+    "video": "tools/recognition-video/builds/yi-v6/renders/yi-v6.mp4",
+    "webm": "tools/recognition-video/builds/yi-v6/renders/yi-v6.webm",
+    "reviewSheet": "tools/recognition-video/builds/yi-v6/renders/final-frames/yi-v6-review-sheet.png",
+    "poster": "tools/recognition-video/builds/yi-v6/renders/final-frames/yi-v6-poster.png",
+    "finalFrame": "tools/recognition-video/builds/yi-v6/renders/final-frames/yi-v6-final.png"
+  },
+  "renderedMedia": {
+    "video": {
+      "path": "tools/recognition-video/builds/yi-v6/renders/yi-v6.mp4",
+      "width": 1080,
+      "height": 1920,
+      "fps": 24,
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "videoDurationSeconds": 12.0,
+      "audioDurationSeconds": 12.010667,
+      "audioVideoDriftSeconds": 0.010667,
+      "containerDurationSeconds": 12.021,
+      "fileSizeBytes": 6680780,
+      "bitRateKbps": 4446,
+      "renderQuality": "standard"
+    },
+    "webm": {
+      "path": "tools/recognition-video/builds/yi-v6/renders/yi-v6.webm",
+      "width": 1080,
+      "height": 1920,
+      "fps": 24,
+      "videoCodec": "vp9",
+      "audioCodec": "opus",
+      "containerDurationSeconds": 12.042,
+      "fileSizeBytes": 3056651,
+      "bitRateKbps": 2030,
+      "note": "ffmpeg fallback (libvpx-vp9 + libopus) — hyperframes 0.6.30 native webm 在 h264 输入下 muxing 失败 (only VP8/VP9/AV1 supported in webm container)，记录为子线工具缺陷"
+    },
+    "renderToolchain": "npx hyperframes@0.6.30 render -f 24 --quality standard --workers 1",
+    "ffprobeVerifiedAt": "2026-05-21",
+    "parityWithV5": "duration/codec/drift 与 v5 cinematic 一致（v5 mp4 12.000s + drift 10.7ms 同样规格）"
+  },
+  "evidence": {
+    "keyframes": [
+      {
+        "at": 0.4,
+        "purpose": "silentPrologue",
+        "visibleAnchor": "dawn-valley plate 渐入（0-0.4s 黄金日出色温的紫黛山棱 + 山雾），暖金色光带横贯地平线；narration 尚未入场（0.0-0.1s silent prologue）",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-0.4.jpg；v5 silentPrologue 同位置同物（v5 1.0s prologue 比 v6 0.1s 更长，但 dawn-valley 入场视觉一致），plate 复用零回归。"
+      },
+      {
+        "at": 1.2,
+        "purpose": "concrete-anchor",
+        "visibleAnchor": "dawn-valley plate 全屏 + bird-flight-loop sprite 位于天空中段（~y=680 屏幕坐标），扑翅循环帧（cyclic mid），旁白「看，一只小鸟」第 1.0s 处刚收音前；这是 v6 区别 v5 最强的一帧——把抽象的「一」绑定到画面上可数的 1 只小鸟物象",
+        "readability": "partial",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-1.2.jpg；诚实记录：bird sprite 在 1080×1920 全屏中占 ~256×256 区域，远景剪影偏小，作为「一只」量词的视觉计数锚识别度依赖儿童视觉密度。v5 同 sprite 同尺寸；v6 优势在于全程同框 2.28s 而非 v5 的 1.0s—保留更长「数一只」的视觉时间，规避 v5「一道光」量词的无视觉计数硬伤。建议子线下一步：v7 把 sprite scale 由 0.9→1.4 让鸟更显著。"
+      },
+      {
+        "at": 3.5,
+        "purpose": "phrase-bridge / glyphBinding",
+        "visibleAnchor": "light-band plate 中段 hold，暖金水平光带横贯视觉中线（y≈屏幕中线），与未来楷体「一」横笔同 y / 同朝向 / 同色相收敛；旁白「晨光直直的」第 1.2s 处用形容词点出光带字形特征（替代 v5「一道光」量词）",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-3.5.jpg；plate + 微 0.3% 呼吸缩放，narration spec 「直直的」形容词替代 v5 量词「一道光」的设计被渲染验证：旁白点出的「直」字属性与暖金水平光带的物理形状 1:1 对应。"
+      },
+      {
+        "at": 5.0,
+        "purpose": "glyph-naming",
+        "visibleAnchor": "ink-glyph plate（宣纸 + 米字格 + plate 自带水墨「一」位于米字格水平中线）+ HTML kaiti「一」mask 渗墨成形约 50%（位于米字格视觉中心偏下，flex center + font baseline）；米字格 --mizige-opacity=0.18 识字态；旁白「念，一」第 0.79s 处建立字-音绑定钩",
+        "readability": "partial",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-5.0.jpg；plate-glyph dual-render 观察（v5 baseline 同现象，t-7.5.jpg 已确认）：plate 自带水墨「一」（顶部位置）与 HTML kaiti「一」（底部位置）上下错位约 290px，孩子看到两个「一」而非「一字渗墨成形」的单一感。本次 v6 沿用 v5 视觉模式不引入新回归，但作为产品级评审诚实记录此 readability=partial；v7 应当：(a) 把 plate 自带字 alpha 抠掉只保留宣纸+米字格背景，或 (b) 调 .glyph-base.top 把 HTML 字 baseline 对齐 plate 字位置。"
+      },
+      {
+        "at": 7.0,
+        "purpose": "extension / 第 3 次「一」",
+        "visibleAnchor": "ink-glyph plate 完整态 hold（HTML kaiti「一」mask 已渗满），plate 自带水墨「一」+ HTML kaiti「一」叠加；米字格 0.18 识字态保持；旁白「这就是一」第 1.17s 处第 3 次说「一」让 targetCharOccurrences≥3 达标",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-7.0.jpg；这是 v6 修复 v5「一只出现 2 次」硬伤的关键 cue 的视觉收锚。dual-render 同前述（v5 carryover，不归 v6 回归）；narration 层「这就是一」第 3 次重复达标是 v6 教学功能性的关键证据。"
+      },
+      {
+        "at": 8.5,
+        "purpose": "phraseBridgeDwell / poster anchor",
+        "visibleAnchor": "ink-glyph 完整态静默 dwell（spoken body 7.402s 已收尾），narration 静默；米字格 0.18 识字态保持；plate-glyph dual 仍叠加",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-8.5.jpg；audioEnd=7.402s 之后 0.598s 安静（quietAfterLastCueSeconds=0.598 ≥ 0.45s syncRule#3），ink-glyph 镜头持续 hold 到 9.6s（cross-out 9.6-10.0s）。这是 poster 候选时间点之一。"
+      },
+      {
+        "at": 9.8,
+        "purpose": "strokeOrderTailIntro",
+        "visibleAnchor": "hand-tracing-plate 半透明 cross-in 中段（9.6-10.2s 0.6s fade-in），ink-glyph plate 半透明 cross-out 中段（9.6-10.0s 0.4s fade-out）；毛笔已悬入米字格 + 米字格仍 0.18 识字态（10.0-10.6s 切到 0.30 写字态前夜），narration 已静默",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-9.8.jpg；narrationPolicy='silent' 严格遵守，无任何旁白污染笔顺段（同 v5）；plate cross-dissolve 软切 v5 行为持平。"
+      },
+      {
+        "at": 10.8,
+        "purpose": "strokeOrderTailWriting",
+        "visibleAnchor": "hand-tracing plate 全屏 + 米字格 0.30 写字态 + glyph-write mask 由左→右锐边推进 ~22%（10.6-11.5s 二次渗墨）；plate-glyph dual 在尾段同时存在（plate 字 + HTML kaiti 写字态字）",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-10.8.jpg；softness=2.5（vs ink 渗墨 6-14）—— 锐边对应「此刻在写」而非「还在渗」，与认字段语义区分；米字格 0.18→0.30 切换在 t=10.0-10.6 已完成 (single-mizige-dual-state 修复 v5 评审扣 0.3 的根因)。"
+      },
+      {
+        "at": 11.6,
+        "purpose": "strokeOrderTailNearFinal / final-frame anchor",
+        "visibleAnchor": "笔顺接近完成，glyph-write mask 推进 ~100%，米字格 0.30 写字态保持到末帧；hand-tracing plate + plate-glyph dual + 完整笔顺楷体「一」同时存在；narration 全程静默",
+        "readability": "pass",
+        "notes": "rendered frame: tools/recognition-video/builds/yi-v6/renders/review-frames/t-11.6.jpg；同 final-frame.png 锚点。11.5-12.0s 0.5s 干净静止帧 poster/final-frame 安全区，米字格 0.30 写字态保持到末帧（finalFrame.mizigeStateAtEnd='writing'）。"
+      }
+    ],
+    "memoryMoment": {
+      "exists": true,
+      "description": "4.2-7.4s 段：旁白「念，一」+「这就是一」两次字音口播叠加 ink-glyph + HTML kaiti mask 渗墨到完整态，配合 7.4-8.0s 0.6s 静默 dwell + 8.5s poster 锚点；这是 12s 内孩子被明确点名+视觉收锚+第 3 次重复闭合的核心记忆瞬间，rendered 验证字-音同步在 ±0.07s 内（visualStart - audioStart drift 全 4 段满足 syncRule#1）。"
+    },
+    "actionReadability": [
+      {
+        "action": "concrete-anchor (dawn-valley 0-2.6s + bird sprite 0-2.6s + 旁白「看，一只小鸟」 0.1-2.327s)",
+        "verdict": "pass",
+        "reason": "rendered 验证：narration-spec 强制角色 concrete-anchor 满足 + concreteAnchorPhrase.anchorObject='小鸟' + quantifierUsage[一只].boundToVisualCount=true + visualReference 指向 bird-flight-loop sprite 在画面中实际出现 2.28s 全程；这是 v6 修复 v5「一道光」量词无视觉锚硬伤的核心动作。诚实记录：sprite 在 1080×1920 全屏中占 ~256×256 远景剪影，规模上仍偏小（v7 可放大）但全程同框时长（v6 2.28s vs v5 1.0s）足以让「数一只」的视觉时间成立。"
+      },
+      {
+        "action": "phrase-bridge (light-band 2.0-4.5s + 旁白「晨光直直的」 2.277-4.208s)",
+        "verdict": "pass",
+        "reason": "rendered 验证：narration-spec.segments[phrase-bridge].targetCharOccurrences=0 + 形容词「直直的」点出光带字形特征，让视觉过渡承担字形 binding 而非旁白蹭次数；t=3.5 rendered frame 显示暖金水平光带与未来楷体「一」横笔同 y 同朝向同色相收敛。规避 v5「一道光」量词无视觉计数物的硬伤。"
+      },
+      {
+        "action": "glyph-naming (ink-glyph 4.4-9.6s + html-glyph-ink-bleed mask 4.4-5.85s + 旁白「念，一」 4.208-5.833s)",
+        "verdict": "pass",
+        "reason": "rendered 验证：narration-spec.segments[glyph-naming].role 显式标注 + targetCharOccurrences=1，t=5.0 rendered frame 显示 HTML kaiti「一」mask 渗墨成形约 50% + 旁白同步「念，一」建立字-音绑定钩；v5 无显式 glyph-naming 段。"
+      },
+      {
+        "action": "extension (ink-glyph 5.85-9.6s + 旁白「这就是一」 5.833-7.402s)",
+        "verdict": "pass",
+        "reason": "rendered 验证：narration-spec.segments[extension].targetCharOccurrences=1 让 4 段 spoken 总「一」次数=3（concrete-anchor 一只 + glyph-naming 一 + extension 一）达 schema 强制的 MIN_TARGET_CHAR_COUNT=3；t=7.0 rendered frame 显示「一」字完整态 + 米字格 0.18 hold。v5 仅 2 次的硬伤被修复。"
+      },
+      {
+        "action": "stroke-order-tail (10.0-12.0s 米字格 0.18→0.30 双态 + glyph-write 二次渗墨 + hand-tracing plate 毛笔示范)",
+        "verdict": "pass",
+        "reason": "rendered 验证：t=10.8 rendered frame 显示米字格已切到 0.30 写字态 + glyph-write mask 推进中段；t=11.6 rendered frame 显示笔顺接近完成 + 米字格 0.30 保持到末帧（finalFrame.mizigeStateAtEnd='writing'）。tail-spec.container.policy='single-mizige-dual-state' + narrationPolicy='silent' 严格满足。米字格 0.30 写字态可读性比 v5 单态 0.18 明显提升，修复 v5 评审扣 0.3 的根因。"
+      },
+      {
+        "action": "audioFit (paddedTotal 12.048s, raw spoken 7.464s, quietAfterLast 0.598s, mp4 drift 10.7ms)",
+        "verdict": "pass",
+        "reason": "rendered 验证：ffprobe 实测 mp4 视频 12.000s + 音频 12.0107s = drift 10.7ms（与 v5 cinematic 完全持平）。edge-tts XiaoxiaoNeural rate=-10% 与 v3/v4/v5 同声延续 teacher continuity；apad 至 paddedTotalDurationSeconds=12 与 brief.duration=12 误差 0.048s ≤ 0.05s；quietAfterLastCueSeconds=0.598 ≥ MIN_FINAL_QUIET 0.45；4 段 spoken cue 间距 ≥ minimumCueHoldSeconds 1.2s 全满足。"
+      }
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "ready",
+    "notes": [
+      "5 张物理 plate 全部复用 v5 cinematic 已通过审核的正式产出（dawn-valley / light-band / light-to-ink / ink-glyph / hand-tracing），不新增视觉变量；v6 砍 sun-rising 是因为砍了「天亮了」旁白后该 plate 无对位 narration，避免无锚画面",
+      "bird flight-loop sprite 复用 v5 cinematic 6 帧 256×256 透明 PNG（manifest id 已对齐 yi-v5-cinematic-bird-flight-loop），transparentPixelRatio 0.9446，alphaRequired const true",
+      "米字格走 SVG inline overlay（动态 --mizige-opacity 双态 0.18→0.30），非位图占位；写字态可读性比 v5 单态明显提升",
+      "字形渲染走 web font (LXGW Wenkai Yi subset .woff2) + mask-image 二次曝光，warm-deep 墨色 #1f1a14 与 ink-glyph plate 色相延续；rasterImagesMayContainText=false 严格满足",
+      "narration 走 baked edge-tts (zh-CN-XiaoxiaoNeural) + ffmpeg apad 至 12.048s（与 brief.duration=12 误差 0.048s），无运行时 TTS 依赖；与 v3/v4/v5 同 teacher voice 满足声线连续性",
+      "rendered mp4 (h264 1080×1920 24fps + aac 48kHz drift 10.7ms 12.000s) 已经 ffprobe 验证与 v5 cinematic 完全持平规格，物理交付齐备"
+    ]
+  },
+  "scores": {
+    "teachingStructure": 7.5,
+    "glyphBinding": 6.5,
+    "glyphAnchor": 7.0,
+    "pacing": 7.5,
+    "animationPerformance": 8.5,
+    "visualQuality": 6.0,
+    "childAppeal": 6.5,
+    "audioFit": 7.5,
+    "technicalCompliance": 9.0,
+    "officialReadiness": 5.5,
+    "teachingFunctionalIntegrity": 5.5
+  },
+  "scoreRationale": {
+    "teachingStructure": "9.4 → 7.5。4 段 spoken cue 结构在 spec 层成立，但 rendered 后两段「晨光直直的 → 念，一」之间没有任何语义桥（v5 是「天亮了 → 山那边升起一道光 → 就是一」有故事感），文案断裂被用户当场识别。结构是骨架但语义粘合剂坏了，扣 1.9。",
+    "glyphBinding": "9.3 → 6.5。这是 v6 最大失败点。rendered t=5.0/t=7.0/t=8.5 三帧用户截图直接判定为「二」字：plate 自带水墨「一」(米字格上方) + HTML kaiti「一」(米字格下方) 上下两条独立黑横并存，孩子看到的就是「二」。原评审推论「v5 baseline 同现象 → v6 无回归 → 可放行」是错的：v5 评审漏了不等于 v6 可以漏，儿童识字视频里「一被画成二」是 P0 致命缺陷。字形绑定的目的是让孩子建立「字 ↔ 形」的唯一映射，现在双横并存让映射歧义，扣 2.8。",
+    "glyphAnchor": "9.2 → 7.0。米字格 0.18→0.30 双态切换 spec 层成立 + rendered 验证通过，但 plate 字（米字格水平中线上一道）+ HTML 字（米字格中心偏下一道）让孩子的视觉锚分裂在两个 y 位置上，米字格容器本身的「字应该写在哪」语义被毁。扣 2.2。",
+    "pacing": "9.0 → 7.5。镜头节奏 OK，但笔顺尾段 10.0-12.0s 共 2s，glyph-write mask 只在 10.6-11.5s 有效推进 0.9s。儿童认字视频里「看老师写一笔」的核心动作只占 0.9s 远远不够（参照洪恩单字微课通常给笔顺 3-5s），孩子还没看清就结束。扣 1.5。",
+    "animationPerformance": "9.0 → 8.5。GSAP MiniTimeline + hyperframes 渲染管线本身无问题，24fps 等距帧 12.000s ffprobe 验证通过。但 bird sprite 6 帧扑翅在远景剪影下识别度低（~256×256 在 1080×1920），动画效果未充分发挥。扣 0.5。",
+    "visualQuality": "9.2 → 6.0。dual-render 致命。v5 baseline 已有此问题 v5 评审漏了，v6 沿用 = v6 自己的责任。rendered t=5.0/t=7.0/t=8.5/t=10.8/t=11.6 五帧都呈「二」字视觉，用户截图一眼识别。Cinematic 美学（Tonko/吉卜力/长安三万里）在 plate 层成立，但字形渲染层崩盘，扣 3.2。",
+    "childAppeal": "9.1 → 6.5。3-6 岁儿童看到米字格里两条独立黑横会困惑「这是几？」，认字目标直接破坏。bird sprite 远景剪影偏小让「一只」量词的视觉计数锚不显著。「晨光直直的」儿语形容词紧接「念，一」教学指令转换突兀，孩子注意力流失。扣 2.6。",
+    "audioFit": "9.2 → 7.5。edge-tts XiaoxiaoNeural -10% 声线本身 OK + drift 10.7ms 持平 v5，但旁白脚本设计失败：「看，一只小鸟。晨光直直的。念，一。这就是一。」中「晨光直直的」突兀（形容词替量词丢了故事感）+「念，一」教学指令断裂感强。声音技术正常但脚本不合格。扣 1.7。",
+    "technicalCompliance": "9.2 → 9.0。validator 通过 + ffprobe 验证 + hyperframes lint/inspect/render 全 pass 都是真实的，技术层没有失败。但本次正好暴露了 validator 的盲区——schema 测不出「成片像不像那个字」「文案合不合儿童认知」，技术合规不等于产品合格。扣 0.2 记入 validator 设计盲区。",
+    "officialReadiness": "9.0 → 5.5。物理交付齐备 (mp4/webm/poster/final-frame/review-sheet/buildMeta)，但成片不能上线给孩子看：识字目标视觉模糊到「一被认作二」。物理 ready ≠ 产品 ready，扣 3.5。",
+    "teachingFunctionalIntegrity": "9.3 → 5.5（与 v5 反向验证分数持平）。v6 spec 层修复三大硬伤的设计意图成立，但 rendered 后 dual-render 让「字形唯一映射」彻底失效——孩子记的不是「一」字而是「两条横」。targetCharOccurrences=3 在音频层达标但视觉层因为「二字幻觉」让重复变成强化错误印象。教学功能性回到 v5 水平。"
+  },
+  "overallScore": 7.0,
+  "decision": "rendered-needs-iteration",
+  "blockers": [
+    "dual-render P0：ink-glyph-plate.png 自带的水墨「一」字（位于米字格水平中线上方）与 HTML CSS 渲染的 #glyph-ink/#glyph-write kaiti 字（位于米字格视觉中心偏下，受 .glyph-base flex center + font baseline 决定）上下错位 ~290px 持续出现在 t=5.0-11.6 整个 ink-glyph + stroke-order-tail 段，孩子直观看到的是「二」字而非「一」字。修复方案二选一：(a) 重出一张去掉水墨字只保留宣纸+米字格背景的 ink-glyph-clean-plate.png（推荐，根因消除）；(b) 调 .glyph-base 的 top + flex align 让 HTML kaiti 字 baseline 与 plate 字 y 位置 1:1 重合（治标，仍有色相/笔触不一致风险）",
+    "narration script P1：当前脚本「看，一只小鸟。晨光直直的。念，一。这就是一。」中「晨光直直的」语义突兀（儿语形容词替代量词丢了故事感）+「念，一」教学指令转换断裂。重写方向：找一个既有视觉计数锚（解决 v5「一道光」量词无计数物硬伤）又有故事粘合的过渡句。候选：「天亮了。一只小鸟飞过山头。山那边升起一道光。一，就是一道横。」（4 句话回到 v5 故事感 + 保留 v6 「一只小鸟」量词视觉锚 + 「一道光」与未来一字横笔同色相同朝向）",
+    "stroke-order tail P1：当前 10.0-12.0s 共 2s 笔顺尾段里 glyph-write mask 只在 10.6-11.5s 推进 0.9s，儿童认字视频里「看老师写一笔」的核心动作太短。修复：延长至 1.5-2.0s（参照洪恩单字微课通常笔顺 3-5s），可挤压 ink-glyph dwell 段或把视频整体延长到 14-15s"
+  ],
+  "nextActions": [
+    "立项 v7：先消除 dual-render（重出 ink-glyph-clean-plate.png 不含水墨字）→ 再重写旁白脚本（恢复 4 句故事感同时保留量词视觉锚）→ 再延长笔顺动画（0.9s → 1.5-2.0s）→ 走同 spec/plan/render/review 流程。预计先用本次 build 的 GSAP timeline 直接换 plate + 换 audio + 微调时长，避免重做整套",
+    "不把 H5 主带读切到 v6。继续保留 v5-cinematic 作为 official 视频（虽然 v5 也有 dual-render 但当前 in production），等 v7 通过儿童视角观感校验后再切",
+    "更新 codex-skill/starlight-video-agent/SKILL.md：把「validator 通过 ≠ 产品合格」「儿童视角必须用 rendered mp4 而非 spec/plan 验证」沉淀为评审硬约束。考虑给 product-review schema 增加 humanReviewVerdict 字段强制人眼审一次 rendered mp4",
+    "复盘本次评审失职：dual-render 我在抽帧时已经看到并比对 v5 baseline，但用「v5 baseline 同现象 → v6 无回归 → 非阻塞」的逻辑放行。错误根因是把「无回归」等同于「合格」。回归判定基线应该是「儿童看了能认对字」而不是「v5 之前怎么做的」。把这条作为 feedback memory 沉淀"
+  ]
+}

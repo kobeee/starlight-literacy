@@ -1,0 +1,32 @@
+{
+  "id": "yi-gpt-image-2-production-v4",
+  "name": "一 - GPT Image 2 Production V4 (Official)",
+  "characterId": "yi-gpt-image-2-production-v4",
+  "char": "一",
+  "status": "official",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 10,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-gpt-image-2-production-v4.brief.json",
+    "assetPlan": "tools/recognition-video/asset-plans/yi-gpt-image-2-production-v4.asset-plan.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-gpt-image-2-production-v4.audio-plan.json",
+    "productReview": "tools/recognition-video/product-reviews/yi-gpt-image-2-production-v4.product-review.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-gpt-image-2-production-v4/sprites/sun/glow-breathe/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-gpt-image-2-production-v4.mp4",
+    "webm": "renders/yi-gpt-image-2-production-v4.webm",
+    "poster": "renders/final-frames/yi-gpt-image-2-production-v4-poster.png",
+    "finalFrame": "renders/final-frames/yi-gpt-image-2-production-v4-final.png",
+    "reviewSheet": "renders/final-frames/yi-gpt-image-2-production-v4-review-sheet.png"
+  },
+  "prompt": "Use case: illustration-story\nAsset type: Starlight Literacy Unit-01 一 official recognition video v4, 1080x1920 portrait, 10s (spoken body 7.4s + silent stroke-order tail 2.6s)\nPrimary request: Replace v3's tianzige+mizige sequential pair with a single mizige whose two states (识字态/写字态) drive both the recognition shot and the stroke-order demo. Fix v3's awkward halo color and brittle SVG light beam: the sun is now a pure CSS warm-orange disk with a chroma-keyed 6-frame breathing halo behind it (mix-blend-mode:screen so any residue reads as glow), and the light beam is a warm-golden CSS linear-gradient band along the visual center line.\nScene/backdrop: warm pastoral morning field plate from codex-internal gpt-image-2 (Responses API image_generation tool, opaque PNG); cream sky + soft meadow + low warm-honey hills.\nSubject: CSS sun disk + sun-glow-breathe 6-frame sprite halo (screen blend), CSS light band, warm-brown flat stroke, single mizige with state transition (CSS variables), LXGW WenKai 一 in warm-brown then black, pinyin yī, four-phrase sentence strip.\nStyle/medium: premium children's picture-book gouache + colored-pencil; honey-gold + warm brown palette (#d8a13a + #5D4A36 + #faf3e3 + #f5b85a + #e08a35).\nComposition/framing: stage 1080x1920 portrait; sun at upper-third; visual center line at ~57% carries the light band, the flat stroke, and the final glyph baseline; pinyin above, sentence strip below.\nTeaching purpose: hongen-micro-lesson v1 path — meaningAction (sun) → glyphBinding (warm-golden CSS light band) → phraseBridge (就是一) → glyph closure (warm-brown 大字 一 + 拼音 + 完整句子) → silent stroke-order tail (米字格 识字态→写字态 + 黑色一 clip-path 揭开).\nText policy: raster art contains no Chinese, no pinyin, no UI text; all glyph and pinyin rendered via inline @font-face base64 LXGW WenKai subset.\nAudio: reuses v37 baked mp3 (edge-tts zh-CN-XiaoxiaoNeural rate -10%, 7.464s narration + apad to 10.056s) for zero-drift carry-over and consistent teacher voice across Unit-01.\nAvoid: tianzige + mizige sequential redundancy (fixed by single mizige with state variables), pink/purple halo residue (fixed by mix-blend-mode:screen against warm plate), ai-look gradients, neon, candy colors.",
+  "note": "Official production v4 supersedes v3 (yi-gpt-image-2-production-v3 / aka v37). 2026-05-17 redesign: (1) collapses the v3 redundancy where tianzige (3.3-7.4s) and mizige (7.7-10s) coexisted — v4 uses one mizige with CSS-variable-driven state transition; (2) replaces SVG light beam + sprite-based sun rise-glow with a CSS warm-orange disk + chroma-keyed halo-only 6-frame sprite (screen blend); (3) replaces golden flat-line with warm-brown flat-line that visually matches the final kaiti glyph color. Audio reuses v37 baked mp3 verbatim so the teacher voice and timing are identical. Validated by validate-teaching-harness + validate-audio-sync-plan + validate-sprite-assets; product-gate run separately."
+}

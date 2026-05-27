@@ -1,0 +1,39 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic child-hand reference image (character reference). Used as `reference_image` input to `hand-tracing-plate` so the child's right hand has consistent skin tone, finger proportions, brush grip, and sleeve appearance. 1024x1536 portrait.
+
+Primary request: A single painterly study of a 4-5 year old child's right hand holding a traditional Chinese calligraphy brush (毛笔) in correct beginner posture, painted as a character reference. The hand and brush are the ONLY subjects — no paper underneath, no ink, no stroke, no environment, no other body parts beyond the wrist.
+
+Subject (strict pose contract): A small chubby child's right hand, approximately 4-5 years old, holding a traditional Chinese calligraphy brush in a relaxed beginner pencil-like grip (NOT formal three-finger 三指执笔法 — this is a young child learning, the grip is gentle and slightly clumsy). The hand is shown from a soft three-quarter top-down angle as if a parent is watching the child practice. Specific pose details:
+  - thumb softly wrapped around the brush shaft, pad making contact about 1/3 down from the brush handle top
+  - index finger curled gently along the front of the shaft
+  - middle finger supporting the back of the shaft
+  - ring finger and pinky relaxed, slightly curled, not clenched
+  - wrist visible up to about 2cm above the wrist bone, then fading softly into a warm-cream sleeve cuff (loose linen-style child's clothing, no pattern, no buttons)
+  - brush angled at about 75 degrees from horizontal, brush tip pointing toward the lower-left of the frame, ready to write
+The fingers are short and chubby with soft rounded fingertips, fingernails barely indicated as soft pink half-moons (not painted nails, just natural). Knuckles are soft dimples, not bony. Skin shows the gentle plumpness of a young child.
+
+Skin tone (strict): Warm Asian child skin, base #f0d4b4, with soft warmer shading #d8a878 at finger sides and shadow side, and a very faint pink warmth #f4c2a8 at the fingertip pads and knuckle dimples. NO orange tan, NO grayish skin, NO pale-white skin, NO photo-real pore detail. Painted as soft gouache shading, not airbrushed.
+
+Brush (strict object contract): Traditional Chinese calligraphy brush 毛笔. Specific:
+  - bamboo-yellow shaft #d4a574, slim cylindrical, about 8mm thick, length showing about 14cm visible above the hand
+  - shaft tapered slightly toward the top, with a subtle darker bamboo node ring #a8845a about 4cm above the hand grip area
+  - brush ferrule (metal or bone connector) shown as a thin warm-bronze band #8a6f48 about 5mm wide where the shaft meets the brush hair
+  - brush hair (笔毫) traditional wolf-hair shape: cone-shaped tuft, length about 3cm, color soft warm-brown #6b5238 darker at the base and lighter cream-tan #c4a878 at the tip, showing soft directional grain hinting at fine hairs but NOT painted as individual hairs
+  - brush tip is dry (no ink loaded), softly tapered to a fine point
+  - small dangling silk loop at the very top of the shaft (used to hang the brush) — color soft warm red #b85745, very small, optional accent
+
+Sleeve cuff: Soft loose linen-style cuff in cream-warm fabric color #ebd9b8 with subtle painterly fabric grain. The cuff edge is gently rolled or simply ends with a soft hem — no ribbing, no lace, no buttons, no pattern, no embroidery. Just a calm child's everyday sleeve. The cuff fades softly into the cream paper backdrop (no harsh edge).
+
+Backdrop: Bare warm-cream paper #f5ead0 filling the entire frame, with subtle xuan paper fiber texture matching the project's paper substrate reference. NO desk surface, NO grid, NO ink puddle, NO calligraphy artifacts in view — this is a pure character reference of the hand-and-brush combination only.
+
+Style/medium: Oil-on-paper painterly hand merged with sumi-e softness. The hand and brush are the warmest most-tactile area of the frame; everything else is calm cream paper. Reference: Tonko House "The Dam Keeper" character hands, Cartoon Saloon "Song of the Sea" hands, 宫崎骏 child hand close-ups, 熊亮《小石狮》child illustrations, 蔡皋 picture-book child hands. Hand should feel painted, not photo-traced.
+
+Color discipline (strict): Warm Asian skin tones only. Warm bamboo-yellow brush shaft. Warm-brown brush hair. Cream paper backdrop. NO blue, NO purple, NO green, NO neon, NO pure white, NO pure black. Saturation must stay below 50% throughout (skin can hit 50, everything else lower).
+
+Composition: Hand and brush occupying the center 55% of the frame. Brush shaft running diagonally from upper-right to lower-left at about 75 degrees from horizontal. Brush tip located in the lower-left third of the frame. Generous warm-cream paper space around the hand on all sides — at least 20% margin from the closest finger to any frame edge.
+
+Lighting: Soft warm daylight from the upper-left, gentle shadow on the right side of the hand and under the curled fingers. No harsh shadow, no specular highlight on skin, no rim light. Skin glows softly from being warm.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks, no UI, no face, no other body parts (no arm above wrist, no torso, no second hand), no animals, no toys, no other objects in frame, no ink stroke, no ink puddle, no inkstone, no chop seal, no decorative borders, no signature.
+
+Avoid: adult hand (this is a child), bony angular fingers, photorealistic skin pore detail, airbrushed plastic skin, polished fingernails, jewelry on the hand, rings, watches, bracelets, tattoo marks, dirt on the hand, modern brush pen or marker (this must be a traditional bamboo brush 毛笔), Western paintbrush flat-ferrule shape (this is a Chinese cone-tip brush), any held object other than the brush, anime-style chibi proportions, stiff posed mannequin look, hand floating disconnected from sleeve.

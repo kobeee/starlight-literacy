@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-v8",
+  "script": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3-v7 同一 Xiaoxiao 女老师声 + -10% 慢速；v8.1 4 段叙事每段 ≤12 字符合 3-6 岁认知上限；spoken body raw 9.744s 集中在 0-9.7s，让位 10.0-12.0s 独立 silent stroke-order tail 段（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0 + tail 占视频最后 10.0-12.0s 项目宪法）。"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "referenceProduct": "洪恩识字 一 字单页认字微课（公开 demo）",
+    "referenceDurationSeconds": {
+      "min": 25,
+      "max": 45,
+      "example": 32
+    },
+    "referenceEvidence": "洪恩 demo 25-45s 覆盖意义/字形/组词/笔顺；v8.2 仍是 P03 recognition 短片的 12s 切片，0-9.7s spoken body 4 段叙事承载意义→字形→收束、9.7-10.0s 桥接、10.0-12.0s 独立 silent stroke-order tail 段；与洪恩工业风的「字幕堆满」刻意拉开节奏，给 plate 视觉 + silent tail 各留专属窗口。",
+    "starlightTargetSeconds": 10,
+    "starlightDecision": "P03 recognition v8.2 总 12s = spoken body 0-10.0s + silent stroke-order tail 10.0-12.0s。targetDurationSeconds=10 表达 spoken cue body 上限（含 4 段叙事 9.694s + 0.306s 桥接 dwell），paddedTotalDurationSeconds=12 表达视频总长（含 silent tail 2.0s 严格符合 anchors.timing.totalDurationSeconds=2.0）。schema/validator 在 v8.2 落地时把 spoken body 上限从 8s 放宽到 12s，向后兼容 v3-v7 target=8 文件不动。"
+  },
+  "targetDurationSeconds": 10,
+  "paddedTotalDurationSeconds": 12,
+  "rawTtsAudioDurationSeconds": 9.744,
+  "bakedAudioDurationSeconds": 12.048,
+  "audioPaddingNotes": "edge-tts 直出 4 段旁白合成单 mp3 实测 raw=9.744s（measured-timings 实测，rawAudioEndSeconds=9.694），末端用 ffmpeg apad whole_dur=12.0 静音填充至 12.048s（ffprobe 实测）与视频 12s 等长 ≤0.05s 误差；t=9.694-12.0s 段为静默尾声 2.354s（含 9.7-10.0s 桥接 + 10.0-12.0s silent stroke-order tail），覆盖完整 silent tail 段保证 narrationPolicy='silent' 合规。apad 不剪视频，padded 与 brief.duration=12 对齐。",
+  "quietAfterLastCueSeconds": 2.354,
+  "cues": [
+    {
+      "id": "concrete-anchor",
+      "shotId": "dawn-mountain-plate",
+      "text": "一只小鸟，飞过山头。",
+      "audioStart": 0.1,
+      "audioEnd": 2.994,
+      "visualStart": 0.0,
+      "visualEnd": 3.0,
+      "narration": "spoken",
+      "rationale": "意义入场（concrete anchor）+ 目标字「一」首次音视同步锚定：旁白与 dawn-mountain-bird plate Ken Burns 缓推同步，「一只」量词在 0.1s 起就把目标字「一」绑到 plate 上的单只小鸟剪影。visualStart 比 audioStart 早 0.1s 让 plate 先稳定显示再入声；visualEnd 3.0s 比 audioEnd 2.994s 晚 0.006s 满足 syncRules「旁白结束后视觉至少持续 0.05s 不立即切换」（实质 dwell 由 cue2 重叠 50ms 提供）。10 字含标点符合 3-6 岁单段上限。measured-timings audioEnd 2.994s。"
+    },
+    {
+      "id": "phrase-bridge",
+      "shotId": "sunlight-ray-plate",
+      "text": "一道光，落在白纸。",
+      "audioStart": 2.944,
+      "audioEnd": 5.611,
+      "visualStart": 3.0,
+      "visualEnd": 5.7,
+      "narration": "spoken",
+      "rationale": "字形预备 + 量词「一道」绑画面单一光束。dawn-mountain plate 在 2.7-3.0s 渐隐，sunlight-ray plate 在 3.0-3.6s 渐显并保持到 5.7s。plate 上的光束是 45° 对角线（不是水平），与「一」字横笔形态刻意不重合避免 dual-render。9 字含标点。measured-timings audioEnd 5.611s。"
+    },
+    {
+      "id": "glyph-binding",
+      "shotId": "ink-bleed",
+      "text": "轻轻一笔，画过去。",
+      "audioStart": 5.611,
+      "audioEnd": 8.125,
+      "visualStart": 5.7,
+      "visualEnd": 8.125,
+      "narration": "spoken",
+      "rationale": "字形主体 + 量词「一笔」绑画面单一横画。sunlight-ray plate 在 5.4-5.7s 渐隐，纯宣纸背景显露；5.9-8.4s 楷体「一」字通过 CSS mask-image 从左到右 2.5s 渗墨成形（满足行业标准 ≥2s）。米字格 6.5-7.5s 缓入 0.18 识字态。9 字含标点。measured-timings audioEnd 8.125s。砍掉 v8 初版「从左画到右」的笔顺方向教学旁白——这条已由 stroke-order tail 段（10.0-12.0s）独立 silent 笔顺示范承担，spoken body 不再重复教学。"
+    },
+    {
+      "id": "glyph-naming",
+      "shotId": "glyph-naming",
+      "text": "这就是「一」。",
+      "audioStart": 8.125,
+      "audioEnd": 9.694,
+      "visualStart": 8.125,
+      "visualEnd": 10.0,
+      "narration": "spoken",
+      "rationale": "字-形-音三绑定收束。「一」字已稳定居中、米字格 0.18 识字态。8 字含标点。9.694s 旁白收尾后 9.694-10.0s 共 0.306s 桥接到 silent stroke-order tail 段（10.0s 起米字格切 0.30 写字态 + brush-pointer 入画）。measured-timings audioEnd 9.694s。glyph-naming shot 重新对齐到 8.125 与 audio 同步起步避免 visual 迟到。"
+    },
+    {
+      "id": "stroke-order-tail",
+      "shotId": "stroke-order-tail",
+      "text": "",
+      "audioStart": null,
+      "audioEnd": null,
+      "visualStart": 10.0,
+      "visualEnd": 12.0,
+      "narration": "silent",
+      "rationale": "silent stroke-order tail：t=10.0-12.0s 米字格 0.18→0.30 写字态切换 + brush-pointer 从 bottom-right 30° 入画 + 横笔 0.9s 渗墨写字 + 0.5s finalHold。严格符合 mizige-anchors.timing.totalDurationSeconds=2.0；narrationPolicy='silent' 让孩子专注看笔顺示范，audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s。受 tail-spec yi-v8.tail-spec.json + anchors/mizige-anchors.json 双重约束。"
+    }
+  ],
+  "syncRules": [
+    "每段旁白 audioStart 与对应 shotId visualStart 同帧或视觉早 ≤0.10s；4 段 spoken cue 一一对齐 dawn-mountain (0-3.0) / sunlight-ray (3.0-5.7) / ink-bleed (5.7-8.5) / glyph-naming (8.5-10.0)",
+    "spoken body 全部在 9.694s 前结束，9.694-10.0s 共 0.306s 桥接 + 10.0-12.0s 独立 silent stroke-order tail 段（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0 + tail 占视频最后 10.0-12.0s 项目宪法）",
+    "baked mp3 末端 apad whole_dur=12.0 至 paddedTotalDurationSeconds=12s，ffprobe 实测 12.048s 与 brief.duration=12s 对齐 ≤0.05s 误差",
+    "v8.1 关键约束：米字格 0-6.5s 完全 opacity 0、6.5-7.5s 缓入 0.18 识字态、10.0-10.6s 切 0.30 写字态；sunlight-ray plate 不显示水平光束（45° 对角线）；单容器 single-mizige-dual-state 不可能 dual-render 出「二」；stroke-order tail 段 narrationPolicy='silent' 严格符合 anchors 规范、孩子专注看 child-hand 笔顺示范"
+  ],
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.vtt"
+  }
+}

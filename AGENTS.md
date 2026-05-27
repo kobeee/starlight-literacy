@@ -18,6 +18,13 @@ HyperFrames is the final assembly/render layer. Upstream work must produce
 briefs, asset plans, sprite manifests, validated transparent frames, and audio
 plans before official rendering or H5 wiring.
 
+Every official recognition video must end with a silent stroke-order demo
+inside a single mizige (识字态→写字态 via CSS variables). The brief must
+declare `teachingContract.strokeOrderTail`; the spoken body and the silent
+tail together stay within 12s. See `tools/recognition-video/AGENTS.md` for the
+full Stroke-Order Tail Contract, H5 Wiring Contract, and HyperFrames Runtime
+Notes (including the 7.4s `MiniTimeline` shim trap).
+
 Useful commands:
 
 ```bash

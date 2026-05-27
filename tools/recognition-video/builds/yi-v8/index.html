@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - V8.2 Plate-Based + Silent Stroke-Order Tail (brush pointer)</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("assets/fonts/LXGWWenKai-Yi-subset.woff2") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #f5ead0;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #1f1a14;
+    }
+
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #f5ead0;
+      isolation: isolate;
+    }
+
+    .clip { position: absolute; }
+
+    /* Layer 0: 宣纸底色（始终可见，作 plate 退场后的真背景） */
+    #xuan-paper-bg {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 245, 215, 0.65), rgba(0,0,0,0) 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(220, 195, 145, 0.25), rgba(0,0,0,0) 65%),
+        #f5ead0;
+      box-shadow: inset 0 0 240px rgba(160, 130, 80, 0.18);
+    }
+
+    /* Layer 1: dawn-mountain plate (0-3.0s) — gpt-image-2 真实生图 */
+    #dawn-mountain-plate {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 40%;
+      transform: scale(1) translate(0, 0);
+      overflow: hidden;
+    }
+    #dawn-mountain-plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Layer 2: sunlight-ray plate (3.0-5.7s) — gpt-image-2 真实生图 */
+    #sunlight-ray-plate {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      transform: scale(1) translate(0, 0);
+      overflow: hidden;
+    }
+    #sunlight-ray-plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    /* Layer 3: mizige watermark — 6.5s 才出现 */
+    .mizige-watermark {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      --mizige-opacity: 0.18;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mizige-watermark svg {
+      width: 100%;
+      height: 100%;
+      opacity: var(--mizige-opacity);
+    }
+
+    /* Layer 4: ink-glyph bleed (cinematic body, softness=4 软边渗墨态) + kaiti glyph */
+    .glyph-base {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "STKaiti", "Kaiti SC", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, filter, mask-image;
+    }
+    #ink-glyph-bleed-layer {
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      filter: blur(2px);
+    }
+    #kaiti-glyph {
+      mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      filter: blur(0px);
+    }
+
+    /* Layer 5: empty clearingContract placeholders (compatibility with mizige-anchors) */
+    #light-band-layer,
+    #phrase-bridge-layer {
+      left: -10px;
+      top: -10px;
+      width: 2px;
+      height: 2px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Layer 6: stroke-order-tail (10.0-12.0s) — silent + child-hand */
+    #stroke-order-tail {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* tail-only 单笔横画写字 mask（softness=2 锐边写字态，与 cinematic body softness=4 区分） */
+    #tail-glyph-stroke {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "STKaiti", "Kaiti SC", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+    }
+
+    /* brush-pointer SVG container — 毛笔尖 + 暖光晕指针
+       替代 v8.1 童手 SVG（色块拼贴感重，与田园暖彩 + 卡蒂书法主题不融）
+       笔尖锚点 (215, 50) 与原食指尖锚点同坐标 → 容器定位、入画动画、Phase 2 跟随 mask 推进全部不动
+       毛笔从右下 30° 倾斜延伸到笔尖 → 满足 anchors entryEdge=bottom-right + entryAngleDeg=30 语义 */
+    #child-hand {
+      left: 588px;
+      top: 1177px;
+      width: 360px;
+      height: 540px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 215px 50px;
+      filter: drop-shadow(6px 10px 12px rgba(80, 50, 20, 0.32));
+    }
+    #child-hand svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    /* Layer 7: vignette */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0) 65%,
+        rgba(80, 50, 20, 0.10) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-v8"
+       class="stage"
+       data-composition-id="yi-v8"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="12">
+
+    <div id="xuan-paper-bg"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="0"
+         aria-hidden="true"></div>
+
+    <div id="dawn-mountain-plate"
+         class="clip"
+         data-start="0"
+         data-duration="3.0"
+         data-track-index="1"
+         aria-hidden="true">
+      <img src="assets/unit-01/yi-v8/plates/dawn-mountain-bird-A.png" alt="" />
+    </div>
+
+    <div id="sunlight-ray-plate"
+         class="clip"
+         data-start="3.0"
+         data-duration="2.7"
+         data-track-index="2"
+         aria-hidden="true">
+      <img src="assets/unit-01/yi-v8/plates/sunlight-ray-A.png" alt="" />
+    </div>
+
+    <div id="mizige-watermark"
+         class="clip mizige-watermark"
+         data-start="6.5"
+         data-duration="5.5"
+         data-track-index="3"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <svg viewBox="0 0 730 730" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="2" y="2" width="726" height="726" fill="none" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="365" x2="730" y2="365" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="365" y1="0"   x2="365" y2="730" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="0"   x2="730" y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+        <line x1="730" y1="0"   x2="0"   y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+      </svg>
+    </div>
+
+    <div id="ink-glyph-bleed-layer"
+         class="clip glyph-base"
+         data-start="5.7"
+         data-duration="2.8"
+         data-track-index="4"
+         aria-label="一 渗墨过渡">一</div>
+
+    <div id="kaiti-glyph"
+         class="clip glyph-base"
+         data-start="5.7"
+         data-duration="6.3"
+         data-track-index="5"
+         aria-label="一">一</div>
+
+    <div id="light-band-layer"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="6"
+         data-removed="true"
+         aria-hidden="true"></div>
+
+    <div id="phrase-bridge-layer"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="7"
+         data-removed="true"
+         aria-hidden="true"></div>
+
+    <div id="stroke-order-tail"
+         class="clip"
+         data-start="10.0"
+         data-duration="2.0"
+         data-track-index="8"
+         data-tail-state="recognition"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <div id="tail-glyph-stroke"
+           class="clip"
+           aria-label="一 笔顺写字">一</div>
+
+      <div id="child-hand" aria-hidden="true">
+        <!-- 毛笔指针（替代 v8.1 童手 SVG，色块拼贴感重） — 笔尖锚点 (215, 50) 同原坐标
+             从右下 30° 倾斜入画 → 满足 anchors entryEdge=bottom-right + entryAngleDeg=30 语义
+             黑墨笔头 + 竹色笔杆 + 暖光晕 → 与田园暖彩 + 卡蒂书法主题融合 -->
+        <svg viewBox="0 0 360 540" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <!-- 笔头墨色 gradient（笔尖深、笔根浅、有湿润感） -->
+            <linearGradient id="brush-tip-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0a0805"/>
+              <stop offset="45%" stop-color="#1f1a14"/>
+              <stop offset="100%" stop-color="#3a2f24"/>
+            </linearGradient>
+            <!-- 笔杆竹色 gradient（自然温暖的竹/木） -->
+            <linearGradient id="brush-shaft-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#9a7a4a"/>
+              <stop offset="40%" stop-color="#b89058"/>
+              <stop offset="70%" stop-color="#a07a3e"/>
+              <stop offset="100%" stop-color="#7a5a2e"/>
+            </linearGradient>
+            <!-- 笔金属箍 gradient -->
+            <linearGradient id="brush-ferrule-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#c8a458"/>
+              <stop offset="50%" stop-color="#e6c478"/>
+              <stop offset="100%" stop-color="#a08032"/>
+            </linearGradient>
+            <!-- 笔尖暖光晕（指尖光斑，标记教学焦点） -->
+            <radialGradient id="brush-glow" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0%" stop-color="#fde4a8" stop-opacity="0.85"/>
+              <stop offset="40%" stop-color="#f4b06a" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#f4b06a" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- 笔尖暖光晕（半径 70px，标记教学聚焦点，柔和不抢戏） -->
+          <circle cx="215" cy="50" r="70" fill="url(#brush-glow)"/>
+
+          <!-- 毛笔笔杆（从右下 30° 倾斜延伸到笔尖锚点）
+               几何：右下根部 (315, 510) → 笔尖端 (215, 50)
+               杆宽度从根部 36px 渐细到 22px（笔头侧）
+               入画方向矢量与 anchors entryAngleDeg=30 一致 -->
+          <path d="M 297 528
+                   L 333 492
+                   L 235 60
+                   L 199 50
+                   Z"
+                fill="url(#brush-shaft-grad)"
+                stroke="#5D4A36"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+
+          <!-- 笔杆中部高光（让笔杆有体积感） -->
+          <path d="M 252 482 L 268 472 L 224 78 L 214 78 Z"
+                fill="#e6c890"
+                opacity="0.35"/>
+
+          <!-- 金属笔箍（笔头与笔杆连接处） -->
+          <path d="M 215 70
+                   L 250 76
+                   L 252 100
+                   L 218 96
+                   Z"
+                fill="url(#brush-ferrule-grad)"
+                stroke="#5D4A36"
+                stroke-width="1.6"
+                stroke-linejoin="round"/>
+          <!-- 笔箍上的细横线（金属感） -->
+          <line x1="218" y1="82" x2="251" y2="86" stroke="#7a5a2e" stroke-width="1" opacity="0.7"/>
+          <line x1="218" y1="90" x2="251" y2="93" stroke="#7a5a2e" stroke-width="1" opacity="0.55"/>
+
+          <!-- 毛笔笔头（黑墨锥形，自然狼毫书法笔尖）
+               根部宽 ~36px，锥形收到笔尖 (215, 50)
+               形状刻意做出书法笔头特征：根粗、中间饱满、尖端聚锋 -->
+          <path d="M 218 96
+                   Q 210 88 215 50
+                   Q 220 88 252 100
+                   Q 245 105 235 102
+                   Q 226 99 218 96
+                   Z"
+                fill="url(#brush-tip-grad)"
+                stroke="#0a0805"
+                stroke-width="0.8"
+                stroke-linejoin="round"
+                stroke-linecap="round"/>
+
+          <!-- 笔尖聚锋细节（毛笔尖端会自然聚成一个尖，加几道细线增强笔锋质感） -->
+          <path d="M 215 50 L 217 65" stroke="#3a2f24" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
+          <path d="M 215 50 L 213 65" stroke="#3a2f24" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
+          <path d="M 215 50 L 219 75" stroke="#3a2f24" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>
+
+          <!-- 笔头侧反光（让墨色笔头不死黑，有湿润书写感） -->
+          <path d="M 222 70 Q 226 82 232 92"
+                fill="none"
+                stroke="#6a5340"
+                stroke-width="1.5"
+                opacity="0.45"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div id="vignette"
+         class="clip vignette"
+         data-start="0"
+         data-duration="12"
+         data-track-index="9"></div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="12"
+           data-track-index="10"
+           src="assets/audio/yi-v8-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+    const mix = (a, b, t) => a + (b - a) * clamp(t);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+    const setAttr = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.setAttribute(name, value);
+      });
+    };
+    const setVar = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.setProperty(name, value);
+      });
+    };
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const rot = parts.rot || 0;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "rotate(" + rot.toFixed(2) + "deg) " +
+          "scale(" + scale.toFixed(4) + ")";
+      });
+    };
+    const setMaskReveal = (selector, percent, softness) => {
+      const p = clamp(percent / 100) * 100;
+      const s = Math.max(0.5, softness);
+      const stop1 = Math.max(0, p - s).toFixed(2);
+      const stop2 = Math.min(100, p).toFixed(2);
+      const value =
+        "linear-gradient(90deg, #000 0%, #000 " + stop1 + "%, " +
+        "rgba(0,0,0,0) " + stop2 + "%, rgba(0,0,0,0) 100%)";
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.maskImage = value;
+        el.style.webkitMaskImage = value;
+      });
+    };
+
+    timeline.add((time) => {
+
+      // ============================================================
+      // SHOT 1 (0 - 3.0s) — dawn-mountain plate : concrete-anchor
+      // narration「一只小鸟，飞过山头」audio 0.1-2.994s
+      // gpt-image-2 plate Ken Burns scale 1.0→1.04 translateY 0→-12px
+      // ============================================================
+      const dawnIn = ease(range(time, 0.0, 0.4));
+      const dawnOut = easeInOut(range(time, 2.7, 0.3));
+      setOpacity("#dawn-mountain-plate", dawnIn * (1 - dawnOut));
+      const dawnT = ease(range(time, 0.0, 3.0));
+      setTransform("#dawn-mountain-plate", {
+        x: 0,
+        y: mix(0, -12, dawnT),
+        scale: mix(1.0, 1.04, dawnT),
+      });
+
+      // ============================================================
+      // SHOT 2 (3.0 - 5.7s) — sunlight-ray plate : phrase-bridge
+      // narration「一道光，落在白纸」audio 2.944-5.611s
+      // 45° 对角线暖金阳光 plate fade-in + subtle Ken Burns
+      // ============================================================
+      const sunIn = ease(range(time, 3.0, 0.6));
+      const sunOut = easeInOut(range(time, 5.4, 0.3));
+      setOpacity("#sunlight-ray-plate", sunIn * (1 - sunOut));
+      const sunT = ease(range(time, 3.0, 2.7));
+      setTransform("#sunlight-ray-plate", {
+        x: 0,
+        y: 0,
+        scale: mix(1.0, 1.025, sunT),
+      });
+
+      // ============================================================
+      // SHOT 3 (5.7 - 8.5s) — ink-bleed : glyph-binding
+      // narration「轻轻一笔，画过去」audio 5.611-8.125s
+      // 纯宣纸背景显露后 5.9-8.4s 楷体「一」字从左到右 2.5s 渗墨（softness=4 软边渗墨态）
+      // 米字格 6.5-7.5s 缓入到 0.18 识字态
+      // ============================================================
+
+      // ink-glyph-bleed-layer (渗墨过渡，blur 2→0, softness=4 软边)
+      const bleedIn = ease(range(time, 5.9, 0.3));
+      const bleedOut = easeInOut(range(time, 8.4, 0.4));
+      setOpacity("#ink-glyph-bleed-layer", bleedIn * (1 - bleedOut));
+      const bleedProgress = easeInOut(range(time, 5.9, 2.5));
+      const bleedSoftness = 4 + 8 * (1 - bleedProgress);
+      setMaskReveal("#ink-glyph-bleed-layer", bleedProgress * 100, bleedSoftness);
+      const bleedBlur = 2.0 * (1 - easeInOut(range(time, 5.9, 1.5)));
+      setStyle("#ink-glyph-bleed-layer", "filter", "blur(" + bleedBlur.toFixed(2) + "px)");
+
+      // kaiti-glyph (字-形唯一映射的唯一可见「一」)
+      // spoken body 段 5.7-10.0s 持续可见，10.0s 起 tail 启动时退场（让位 tail-glyph-stroke 重新做笔顺示范）
+      const kaitiIn = ease(range(time, 6.9, 0.6));
+      let kaitiOpacity = 1;
+      if (time < 6.9) kaitiOpacity = 0;
+      else if (time < 7.5) kaitiOpacity = kaitiIn;
+      else if (time < 10.0) kaitiOpacity = 1;
+      else kaitiOpacity = 0;  // tail 启动时隐藏，避免与 tail-glyph-stroke 双渲染
+      setOpacity("#kaiti-glyph", kaitiOpacity);
+
+      if (time < 6.9) {
+        setMaskReveal("#kaiti-glyph", 0, 3);
+      } else if (time < 8.4) {
+        const kT = easeInOut(range(time, 6.9, 1.5));
+        const sft = 3 + 5 * (1 - kT);
+        setMaskReveal("#kaiti-glyph", kT * 100, sft);
+      } else {
+        setMaskReveal("#kaiti-glyph", 100, 2);
+      }
+      const kaitiBlur = 0.6 * (1 - easeInOut(range(time, 6.9, 0.8)));
+      setStyle("#kaiti-glyph", "filter", "blur(" + kaitiBlur.toFixed(2) + "px)");
+
+      // mizige watermark — 6.5-7.5s 缓入到识字态 0.18
+      const mzFadeIn = easeInOut(range(time, 6.5, 1.0));
+      if (time < 6.5) {
+        setOpacity("#mizige-watermark", 0);
+      } else {
+        setOpacity("#mizige-watermark", mzFadeIn);
+      }
+
+      // ============================================================
+      // SHOT 4 (8.5 - 10.0s) — glyph-naming spoken body 收束
+      // narration「这就是一」audio 8.125-9.694s
+      // 米字格保持 0.18 识字态；9.694-10.0s 桥接静默
+      // ============================================================
+      // (no extra timeline ops — kaitiOpacity stays 1, mizige stays 0.18)
+
+      // ============================================================
+      // SHOT 5 (10.0 - 12.0s) — silent stroke-order tail (P03 poster)
+      // 严格符合 mizige-anchors.timing：totalDuration=2.0, transition=0.6, writing=0.9, finalHold=0.5
+      // narrationPolicy='silent'；mizige 0.18→0.30 切到写字态；child-hand 入画；五层 clearLayerIds 清空
+      // ============================================================
+
+      // Phase 1 (10.0-10.6s): mizige 0.18 → 0.30 写字态切换 + child-hand 从 bottom-right 入画
+      const phaseT = easeInOut(range(time, 10.0, 0.6));
+      const mzWritingT = easeInOut(range(time, 10.0, 0.6));
+      const mzOpacity = mix(0.18, 0.30, mzWritingT);
+      setVar("#mizige-watermark", "--mizige-opacity", mzOpacity.toFixed(3));
+
+      // stroke-order-tail container 显现
+      if (time >= 10.0) {
+        setOpacity("#stroke-order-tail", 1);
+        setAttr("#mizige-watermark", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-tail-state", "writing");
+      } else {
+        setOpacity("#stroke-order-tail", 0);
+        setAttr("#mizige-watermark", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-tail-state", "recognition");
+      }
+
+      // child-hand 从 bottom-right 入画：起点 (translateX +220, translateY +260, rotate -8°, scale 0.92)
+      // 终点：translate(0,0) rotate(0) scale(1) 食指尖落在「一」字右端 +18px
+      const handIn = easeInOut(range(time, 10.0, 0.6));
+      if (time < 10.0) {
+        setOpacity("#child-hand", 0);
+        setTransform("#child-hand", { x: 220, y: 260, rot: -8, scale: 0.92 });
+      } else if (time < 10.6) {
+        setOpacity("#child-hand", handIn);
+        setTransform("#child-hand", {
+          x: mix(220, 0, handIn),
+          y: mix(260, 0, handIn),
+          rot: mix(-8, 0, handIn),
+          scale: mix(0.92, 1.0, handIn),
+        });
+      } else if (time < 11.5) {
+        // Phase 2 (10.6-11.5s): 食指尖随 tail-glyph-stroke 写字 mask 推进同步移动
+        // 字横画 stage 长度 526px，指尖 finalHold 在字右端 +18px (translateX 0)
+        // 写字起点：指尖在字左端 +18px → translateX = -526
+        const writeT = easeInOut(range(time, 10.6, 0.9));
+        setOpacity("#child-hand", 1);
+        setTransform("#child-hand", {
+          x: mix(-526, 0, writeT),
+          y: 0,
+          rot: 0,
+          scale: 1.0,
+        });
+      } else {
+        // Phase 3 (11.5-12.0s): finalHold 食指尖悬停在「一」字右端 +18px，作 P03 poster
+        setOpacity("#child-hand", 1);
+        setTransform("#child-hand", { x: 0, y: 0, rot: 0, scale: 1.0 });
+      }
+
+      // tail-glyph-stroke 单笔横画写字（softness=2 锐边写字态）
+      // Phase 1 (10.0-10.6s): 不显示
+      // Phase 2 (10.6-11.5s): mask 0→100% 写字 0.9s（== anchors.writingDurationSeconds）
+      // Phase 3 (11.5-12.0s): 完整可见 finalHold
+      if (time < 10.6) {
+        setOpacity("#tail-glyph-stroke", 0);
+        setMaskReveal("#tail-glyph-stroke", 0, 2);
+      } else if (time < 11.5) {
+        const writeT = easeInOut(range(time, 10.6, 0.9));
+        setOpacity("#tail-glyph-stroke", 1);
+        setMaskReveal("#tail-glyph-stroke", writeT * 100, 2);
+      } else {
+        setOpacity("#tail-glyph-stroke", 1);
+        setMaskReveal("#tail-glyph-stroke", 100, 2);
+      }
+
+      // ============================================================
+      // clearingContract — 五层在 stroke-order tail 启动前必须清空
+      // mustClearLayerIds = [ink-glyph-bleed-layer, light-band-layer, phrase-bridge-layer]
+      // v8.1 扩展加上 sunlight-ray-plate / dawn-mountain-plate
+      // ============================================================
+      if (time >= 10.0) {
+        // ink-glyph-bleed-layer 完全移除（写字态由 tail-glyph-stroke 单独承担）
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "true");
+        setStyle("#ink-glyph-bleed-layer", "display", "none");
+        // 五层 clearLayerIds 全部清空
+        setStyle("#sunlight-ray-plate", "display", "none");
+        setStyle("#dawn-mountain-plate", "display", "none");
+      } else {
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "false");
+        setStyle("#ink-glyph-bleed-layer", "display", "flex");
+      }
+      // light-band-layer / phrase-bridge-layer 始终 data-removed=true（v8 没使用，纯 placeholder）
+
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-v8"] = timeline;
+  </script>
+</body>
+</html>

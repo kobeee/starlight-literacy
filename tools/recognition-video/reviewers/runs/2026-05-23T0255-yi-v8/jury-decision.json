@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi",
+  "candidateStatus": "official-candidate",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "teaching quality",
+      "asset readiness",
+      "official promotion"
+    ],
+    "genericHyperframesOwns": [
+      "composition assembly",
+      "render checks",
+      "media format"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v8.brief.json",
+    "assetPlan": "n/a",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v8.audio-plan.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/yi-v8.mp4",
+    "reviewSheet": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/renders/final-frames/yi-v8-review-sheet.png",
+    "poster": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-09-at-11.8s.png",
+    "finalFrame": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-09-at-11.8s.png"
+  },
+  "evidence": {
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-05-at-8.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-06-at-10.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-07-at-11.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-08-at-11.5s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v8/snapshots/frame-09-at-11.8s.png"
+    ],
+    "memoryMoment": {
+      "exists": false,
+      "description": "Both reviewers report the spoken-body and tail are spatially disconnected: the body shows a clean kaiti '一' in mizige at 8.5s but the tail's guide object (brush-pointer) is parked in the upper-left and never reaches the character's right end. No durable memory anchor lands on the poster frame."
+    },
+    "actionReadability": [
+      "Brush-pointer in frames 06-09 reads as a static prop in the wrong quadrant; the writing act has no visible implement following the stroke.",
+      "Body's CSS linear-gradient mask reveal looks like a wipe — no pen, no ink-front, no visible writing motion (claude)."
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "blocked",
+    "notes": [
+      "Spec contradiction between brief (child-hand fingertip at glyph right end +18px) and tail-spec (brush-pointer) — build followed tail-spec, violated brief poster contract.",
+      "Final-hold contract internally contradictory: brief.pacingRequirements.minimumFinalHoldSeconds=2.0 vs tail-spec phaseEndSeconds delivering only ~0.5s dwell (codex).",
+      "Body→tail handoff destroys the kaiti glyph at t=10.0s, so frame-06 (10.3s) shows an empty mizige before the tail re-writes the character (claude)."
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6.0,
+      "reason": "Arc exists (concrete-anchor → glyph-binding → glyph-naming → silent stroke-order tail) but the tail demonstration is detached from the body's written glyph — both reviewers agree the teach→demonstrate continuity breaks at the 10s handoff."
+    },
+    "glyphBinding": {
+      "score": 5.5,
+      "reason": "Quantifier phrasing (一只/一道/一笔) is on-script and the narration binds the idea of one, but visual binding is weak: bird is tiny in upper corner and the tail guide does not bind to the stroke it is supposed to demonstrate."
+    },
+    "glyphAnchor": {
+      "score": 4.0,
+      "reason": "Pessimistic-default: codex flagged that the final guide pointer is far from the glyph and creates a second visual focus (score 4.0). Claude scored 7.0 reasoning that the kaiti '一' itself reads cleanly in mizige — but the brief's anchor commitment is glyph + hand-at-right-end as one composition, which codex's framing captures better."
+    },
+    "pacing": {
+      "score": 5.0,
+      "reason": "Both reviewers agree first 5.7s is two near-static plates with imperceptible Ken Burns and the final hold is too short for a 3-6 year old to consolidate the poster."
+    },
+    "animationPerformance": {
+      "score": 4.0,
+      "reason": "Brush-pointer is clipped/offscreen during writing and never follows the stroke path; body's mask reveal has no visible implement. Two-reviewer agreement: writing motion is mathematically present but visually absent."
+    },
+    "visualQuality": {
+      "score": 6.0,
+      "reason": "Plates are clean (dawn-mountain is genuinely lovely) but the oversized upper-left brush breaks the final composition and poster readability; ray plate is a flat orange smear with no compositional structure (claude)."
+    },
+    "childAppeal": {
+      "score": 5.0,
+      "reason": "Both reviewers agree at 5.0: scene is quiet and legible but the final teaching action feels mechanical because the guide object never touches the writing, and the vanish-and-rewrite at 10.3s is confusing for the target age."
+    },
+    "audioFit": {
+      "score": 7.0,
+      "reason": "Narration repeats the target ≥4× with concrete quantifier anchors and lands on spec windows; both reviewers concur the verbal layer is sound even though the visual tail does not match the audio-plan promise."
+    },
+    "technicalCompliance": {
+      "score": 3.0,
+      "reason": "Pessimistic-default. Codex found a load-bearing contradiction: brief.finalFrame (child-hand) vs tail-spec.finalFrame (brush-pointer); brief.pacingRequirements.minimumFinalHoldSeconds=2.0 vs tail-spec phaseEndSeconds yielding 0.5s. Claude rated 8.0 on schema-validity grounds but missed the cross-file semantic conflict — codex is correct here."
+    },
+    "officialReadiness": {
+      "score": 2.0,
+      "reason": "Pessimistic-default. Both reviewers issued critical blockers on the P03 poster contract; codex correctly read this as blocked-for-official. The brush-pointer is in the opposite quadrant from where the brief commits."
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 4.0,
+      "reason": "Pessimistic-default. Narration meets the repeat requirement, but the final frame contains an extra brush layer that is not the specified child-hand anchor and the body's '一' is destroyed at the 10s boundary — the teaching contract fails on its load-bearing poster moment."
+    }
+  },
+  "overallScore": 4.7,
+  "decision": "blocked",
+  "blockers": [
+    "[claude+codex] critical · t=11.8s · Brush-pointer parked in upper-left of frame-09 instead of hovering at '一' right end +18px — P03 poster contract violated.",
+    "[claude+codex] critical/high · t=10.3-11.5s · Brush-pointer is static (claude) or clipped/offscreen (codex) during writing phase; pointer never follows the stroke the tail is supposed to demonstrate.",
+    "[claude] critical · t=10.3s · Mizige is empty at tail entry — the body's kaiti '一' is wiped at the body→tail handoff, producing an appear→vanish→rewrite sequence that is a teaching disaster for ages 3-6.",
+    "[codex] high · spec-wide · Final-hold contract internally contradictory: brief.pacingRequirements.minimumFinalHoldSeconds=2.0 vs tail-spec delivering only 0.5s dwell at the poster.",
+    "[codex] high · t=10.3s · Brush enters from upper-left/upper-third area, contradicting the brief's bottom-right 30° entry promise.",
+    "[claude] high · t=2.5s · Ken Burns deltas (scale 1.0→1.04, translateY 0→-12px) are imperceptible at child viewport; first 3s reads as a still photograph.",
+    "[claude] high · t=3.5s · Hard cut from mountain-with-bird plate to context-free orange ray plate breaks 'one bird, one ray, one stroke' continuity — plates share no palette, subject, or transitional element.",
+    "[claude] medium · t=7.0s · Body writing is a CSS linear-gradient mask reveal with no visible pen / ink-front / writing implement — the child sees a stroke partially appear then fully appear, not WRITING happen."
+  ],
+  "nextActions": [
+    "Resolve the spec contradiction: choose ONE guide-object policy across brief.finalFrame, brief.shotPlan[4], and tail-spec.finalFrame (child-hand vs brush-pointer). Until brief and tail-spec agree, no rebuild can be official.",
+    "Re-author the brush-pointer (or child-hand) animation so its anchor lives in the mizige coordinate space, enters from bottom-right at 30°, follows the mask-sweep x-position 1:1 during 10.6-11.5s, and lands at glyph_right_end + 18px for the 2.0s minimum poster hold.",
+    "Fix the body→tail handoff: tail-spec.transition.clearLayerIds must NOT clear the persistent kaiti glyph; preserve the body's '一' and only swap mizige-state opacity at t=10.0s. Frame-06 must show the completed '一' with the guide entering, not an empty mizige.",
+    "Reconcile final-hold timing: extend tail or shorten earlier phases so the actual visible poster dwell is ≥2.0s end-to-end, matching brief.pacingRequirements.minimumFinalHoldSeconds.",
+    "Address opening pacing: either compress the 0-5.7s landscape preamble to ≤3.5s, or add diegetic motion (bird flying across, ray sweeping) so the highest-attention window is not spent on near-static plates.",
+    "Bridge the mountain→ray cut with a shared visual element (carry the bird across, keep a faint mountain horizon in the ray plate) so the bird-then-ray sequence reads as one continuous world.",
+    "Re-render the body writing with a visible ink-front or pen-tip so the child sees the writing act, not just a wipe — at minimum a leading-edge ink bloom that moves with the mask front."
+  ],
+  "_jury": {
+    "divergence": "high",
+    "divergenceNotes": [
+      "glyphAnchor: claude 7.0 vs codex 4.0 (gap 3.0). Claude scored on whether the kaiti reads as '一'; codex scored on whether the anchor composition (glyph + hand-at-right-end) holds. Jury sides with codex's framing because the brief's anchor contract is the composition, not just the glyph.",
+      "technicalCompliance: claude 8.0 vs codex 3.0 (gap 5.0). Claude checked intra-document schema validity; codex checked cross-document semantic agreement and found the brief/tail-spec contradiction on pointerForm and on minimumFinalHoldSeconds vs phaseEndSeconds. Codex is correct — this is a real blocker.",
+      "Decision enums disagree: claude=needs-revision, codex=blocked. Per SKILL Step 4, either-blocked triggers blocked; per bias rule, pessimistic-default chooses blocked.",
+      "Unique to claude (codex did not flag): empty-mizige at 10.3s, static Ken Burns 0-3s, mountain→ray plate discontinuity, body CSS-mask reveal has no visible implement. These are real product defects, surfaced not lost.",
+      "Unique to codex (claude did not flag): cross-file final-hold contradiction (2.0s vs 0.5s), and the brief↔tail-spec pointerForm contradiction as a SPEC-level defect (claude only saw the rendered consequence). These are blockers at the contract layer."
+    ],
+    "mergedBlockers": [
+      {
+        "agreedBy": ["claude", "codex"],
+        "severity": "critical",
+        "issue": "Final poster frame shows brush-pointer in upper-left, not at glyph right end +18px as brief commits.",
+        "rootCause": "Brief and tail-spec disagree on guide-object form (child-hand vs brush-pointer), and the rendered build follows tail-spec while violating the brief's poster anchor coordinates. Animation entry transform leaves the pointer in the opposite quadrant from the declared bottom-right 30° entry.",
+        "atKeyframe": "frame-09-at-11.8s.png",
+        "atTime": 11.8
+      },
+      {
+        "agreedBy": ["claude", "codex"],
+        "severity": "critical",
+        "issue": "Brush-pointer does not follow the writing stroke during 10.6-11.5s — claude reports static identical x/y across frames 06/08/09; codex reports clipped/offscreen at far-left edge.",
+        "rootCause": "Tail Phase 2 pointer GSAP timeline is not bound to mask-sweep progress; pointer anchor lives outside the mizige coordinate space, so it cannot share x-position with the forming stroke.",
+        "atKeyframe": "frame-07-at-11.0s.png",
+        "atTime": 11.0
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "critical",
+        "issue": "Mizige is empty at tail entry (10.3s): the kaiti '一' rendered cleanly at 8.5s is wiped at the body→tail boundary, producing an appear-vanish-redraw sequence.",
+        "rootCause": "tail-spec.transition.clearLayerIds clears the body's persistent kaiti layer at handoff. Tail was authored as an independent composition rather than a continuation; the handoff should preserve the glyph and swap only mizige-state opacity.",
+        "atKeyframe": "frame-06-at-10.3s.png",
+        "atTime": 10.3
+      },
+      {
+        "agreedBy": ["codex"],
+        "severity": "high",
+        "issue": "Final-hold contract is internally contradictory: brief requires ≥2.0s minimumFinalHoldSeconds, tail-spec delivers only 0.5s dwell (11.5s→12.0s).",
+        "rootCause": "Tail authored as a 2.0s total segment with most time spent writing, leaving 0.5s for the poster moment. Cross-file timing contract was never reconciled. Claude missed this because it read each document's intra-validity rather than cross-document semantics.",
+        "atKeyframe": null,
+        "atTime": null
+      },
+      {
+        "agreedBy": ["codex"],
+        "severity": "high",
+        "issue": "Brush enters from upper-third area at tail entry instead of bottom-right 30° as brief specifies.",
+        "rootCause": "Pointer entry transform staged independently from the mizige container; declared entry vector contradicts rendered entry vector. Distinct from the static-pointer issue: this is about entry pose, not writing-phase tracking.",
+        "atKeyframe": "frame-06-at-10.3s.png",
+        "atTime": 10.3
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "high",
+        "issue": "Opening 0-3s Ken Burns is imperceptible: scale 1.0→1.04 + translateY 0→-12px at child viewport ≈ 14px of motion. Frames 00 and 01 are visually indistinguishable.",
+        "rootCause": "Ken Burns deltas tuned for adult cinematography aesthetics, not child engagement. Wastes the highest-attention window of a 12s teaching video on a still photograph. Need 5-8% scale + clear translation, OR diegetic motion, OR shorter plate.",
+        "atKeyframe": "frame-01-at-2.5s.png",
+        "atTime": 2.5
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "high",
+        "issue": "Hard cut from mountain-with-bird (frame-01) to context-free orange ray (frame-02) shares no palette, subject, or transitional element.",
+        "rootCause": "shotPlan treats each plate as an independent gpt-image-2 still with a cross-fade. For a child mid-binding ('one bird' just landed), the abrupt switch breaks the 'one bird, one ray, one stroke' world the brief claims to deliver.",
+        "atKeyframe": "frame-02-at-3.5s.png",
+        "atTime": 3.5
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "medium",
+        "issue": "Body writing (5.9s-8.4s) is a CSS linear-gradient mask reveal with no visible pen, ink-front, or writing implement.",
+        "rootCause": "Brief commits to '渗墨成形' but mask reveal looks visually identical to a wipe — mathematically writing, visually not writing. Need at minimum a leading-edge ink bloom that moves with the mask front so the child sees the writing act.",
+        "atKeyframe": "frame-04-at-7.0s.png",
+        "atTime": 7.0
+      }
+    ],
+    "reviewerFitness": {
+      "claude": {
+        "blockerCount": 6,
+        "lowQualityBlockers": 0,
+        "coherent": true,
+        "notes": "All blockers include concrete spec references and rootCause analyses. officialReadiness 4.0 coheres with 2 critical + 2 high blockers. Confidence=high coheres with the detailed frame-level rationale. Caught child-visible defects (empty mizige, static plates, plate discontinuity) that codex missed; missed the cross-file spec contradictions codex caught."
+      },
+      "codex": {
+        "blockerCount": 4,
+        "lowQualityBlockers": 0,
+        "coherent": true,
+        "notes": "Borderline blocker count (SKILL says <3 triggers re-spawn; 4 passes). All blockers have specRefs and concrete rootCauses. officialReadiness 2.0 + blocked decision + confidence=high all cohere. Caught spec-layer contradictions (brief vs tail-spec pointerForm, minimumFinalHoldSeconds vs phaseEndSeconds) that claude missed; missed child-perception defects in opening pacing and plate continuity."
+      }
+    },
+    "reviewerFitnessAction": "ok"
+  }
+}

@@ -1,4 +1,4 @@
-const VERSION = "v37";
+const VERSION = "v39";
 const STATIC_CACHE = `starlight-mobile-h5-static-${VERSION}`;
 const ASSET_CACHE = `starlight-mobile-h5-assets-${VERSION}`;
 const CACHE_NAME = `starlight-mobile-h5-${VERSION}`;
@@ -30,14 +30,14 @@ const IMAGE_SHELL = [
   "../../../images/p01-animal-edge-overlay-20260426.png",
   "../../../images/generated-daytime-fire-lesson.png",
   "../../../images/generated-daytime-result-celebration-clean.png",
-  "./assets/recognition/yi/yi-gpt-image-2-production-poster.png",
-  "./assets/recognition/yi/yi-gpt-image-2-production-final.png"
+  "./assets/recognition/yi/yi-gpt-image-2-production-v4-poster.png",
+  "./assets/recognition/yi/yi-gpt-image-2-production-v4-final.png"
 ];
 
 const RECOGNITION_SHELL = [
-  "./assets/recognition/yi/yi-gpt-image-2-production.mp4",
-  "./assets/recognition/yi/yi-gpt-image-2-production.webm",
-  "./assets/recognition/yi/yi-gpt-image-2-production-narration.mp3"
+  "./assets/recognition/yi/yi-gpt-image-2-production-v4.mp4",
+  "./assets/recognition/yi/yi-gpt-image-2-production-v4.webm",
+  "./assets/recognition/yi/yi-gpt-image-2-production-v4-narration.mp3"
 ];
 
 const CHAR_KEYS = [

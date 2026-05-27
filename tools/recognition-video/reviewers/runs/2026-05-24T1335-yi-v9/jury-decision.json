@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "starlight-product-video-review/v1",
+  "characterId": "yi",
+  "candidateStatus": "agent-pipeline-test",
+  "layerBoundary": {
+    "productAgentOwns": [
+      "teaching quality",
+      "asset readiness",
+      "official promotion"
+    ],
+    "genericHyperframesOwns": [
+      "composition assembly",
+      "render checks",
+      "media format"
+    ]
+  },
+  "sourceArtifacts": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v9.brief.json",
+    "assetPlan": "n/a",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v9.audio-plan.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/yi-v9-sun-tailvoice-check.mp4",
+    "reviewSheet": "n/a",
+    "poster": "n/a",
+    "finalFrame": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.55s.png"
+  },
+  "evidence": {
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-3.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-4.8s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-9.45s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.55s.png"
+    ],
+    "memoryMoment": {
+      "exists": false,
+      "description": "Final mizige + tail-completed '一' could anchor a memorable poster, but the writing demonstration that should produce that memory is functionally absent (stroke pre-drawn, bloom slides over it). Neither reviewer reports an emotional or surprise beat that would create the memory hook."
+    },
+    "actionReadability": [
+      "Tail write window (9.35-10.75s): unreadable as 'writing' — black stroke already 100% present by t=9.45 (0.1s in); orange bloom slides L→R over a finished line through 10.0 and 10.55. Both reviewers identify this as the dominant teaching failure.",
+      "Bird sprite at t=3.3s: 6-8px dark fleck against pale cream sky — both reviewers report bird is not visually dominant enough to function as the concrete '一只小鸟' count anchor.",
+      "Sunlight beam at t=4.8s: Codex reports no clearly countable single 45° beam for '一道光'; Claude reports the beam reads cleanly but the bridging bird has already exited (4.7s cutoff vs 5.7s segment end), so the cross-plate continuity dies for a full second.",
+      "Rendered tail glyph: Claude flags no Kaiti taper/serif (reads as marker stroke or '−' typographic glyph), suggesting font-fallback to non-Kaiti family or mask clipping the taper."
+    ]
+  },
+  "assetAssessment": {
+    "usesProgrammaticPlaceholderAssets": false,
+    "officialAssetReadiness": "blocked",
+    "notes": [
+      "This is the voiced-tail variant explicitly noted in input-pack as known-failing three validators by design; both reviewers correctly evaluated on-screen merits regardless.",
+      "brief.teachingContract.strokeOrderTail.narrationPolicy still declares silent while audioPlan/narrationSpec inject a tail-stroke voice cue — official silent-tail contract is violated (Codex catch).",
+      "tailSpec.transition.protectedLayerIds keeps kaiti-glyph-base persistent across the body→tail handoff, which structurally prevents any real mask-reveal during the 1.4s tail write window.",
+      "tailSpec.strokeOrder[0] timing (0.5-1.0s relative) appears desynced from brief/audio 9.35-10.75s absolute window — at least one of these is stale (Codex catch).",
+      "brief.finalFrame deliberately preserves ink-front-bloom guide-object at glyph_right_end_plus_18px, contradicting the official-poster requirement of glyph-only final hold (Codex catch)."
+    ]
+  },
+  "scores": {
+    "teachingStructure": {
+      "score": 6.0,
+      "reason": "Both reviewers: four-beat arc is present in brief but tail teaching action does not actually play out — demonstrate→practice loop breaks on screen."
+    },
+    "glyphBinding": {
+      "score": 6.0,
+      "reason": "Worse-of: brief promises countable single bird and single beam for '一只/一道', but bird is barely visible at 3.3s and the beam at 4.8s is not clearly singular and countable."
+    },
+    "glyphAnchor": {
+      "score": 5.0,
+      "reason": "Both reviewers agreed: mizige+glyph position is stable, but by 9.45s the fully-drawn black bar is already the anchor, so the writing front is not doing anchoring work."
+    },
+    "pacing": {
+      "score": 4.0,
+      "reason": "Worse-of (Claude 4.0 vs Codex 6.0): the 1.4s writing reveal collapses to <0.1s on screen — the most important teaching beat has no breathing room. Codex framed this as spec inconsistency rather than pacing; jury sides with Claude — observable pacing failure is the harder constraint."
+    },
+    "animationPerformance": {
+      "score": 3.5,
+      "reason": "Worse-of (Claude 3.5 vs Codex 5.0): there is no observable left-to-right writing motion — the bloom dot slides over an already-drawn stroke, which is a follow-spot, not writing animation."
+    },
+    "visualQuality": {
+      "score": 7.0,
+      "reason": "Both reviewers agreed: warm-paper/sun palette is coherent and on-brand; tail composition is clean. Earned, kept at 7.0."
+    },
+    "childAppeal": {
+      "score": 5.5,
+      "reason": "Both reviewers agreed: dawn plates are pretty but very subtle; tail action lacks the dynamism 3-6yo viewers need; nothing rewards a rewatch."
+    },
+    "audioFit": {
+      "score": 6.0,
+      "reason": "Both reviewers agreed: voice content covers target character density well, but the central premise (voice tracks the writing front) fails because the stroke is already drawn when '一' is spoken — audio-visual semantic bond does not hold."
+    },
+    "technicalCompliance": {
+      "score": 4.0,
+      "reason": "Worse-of (Claude 6.0 vs Codex 4.0): tailSpec.strokeOrder timing, brief.teachingContract.narrationPolicy=silent, and audioPlan tail voice cue mutually contradict; protectedLayerIds contradicts a real tail re-write. Codex's lower score reflects the cross-spec inconsistency more correctly."
+    },
+    "officialReadiness": {
+      "score": 3.0,
+      "reason": "Both reviewers agreed: not shippable as canonical '一'. Children would learn '一 is a line that exists before you say it' — opposite of stroke-order intent."
+    },
+    "teachingFunctionalIntegrity": {
+      "score": 4.5,
+      "reason": "Both reviewers agreed: target character does appear clearly and is named (safety floor non-zero), but the writing demonstration that this dimension is meant to protect is functionally absent."
+    }
+  },
+  "overallScore": 5.05,
+  "decision": "blocked",
+  "blockers": [
+    "[claude+codex] critical t=9.45s: full black '一' stroke is already 100% visible at 0.1s into the 9.35-10.75s tail write window — protectedLayerIds keeps the body kaiti-glyph-base on, so the tail mask has nothing left to reveal.",
+    "[claude+codex] critical t=10.0s: orange ink-front-bloom slides L→R across an already-drawn stroke (decorative follow-spot, not generative writing); root cause is the same protectedLayerIds contradiction plus stale tailSpec strokeOrder timing (0.5-1.0s relative vs 1.4s absolute).",
+    "[claude+codex] high t=3.3s: '一只小鸟' anchor bird is rendered ~6-8px against pale cream sky — not visually dominant enough to function as a countable concrete anchor for 3-6yo viewers.",
+    "[claude] high t=9.45s: rendered tail glyph has no Kaiti taper/entry-pressure/exit-hook — reads as a generic marker stroke or '−' typographic glyph; likely Yi Kaiti / STKaiti / KaiTi fallback to non-Kaiti family, or mask clipping the taper. (codex did not flag the typeface identity issue.)",
+    "[codex] high t=9.35s: voiced tail (final '一。' over the writing action) directly contradicts brief.teachingContract.strokeOrderTail.narrationPolicy=silent and tailSpec.narrationPolicy=silent — audioPlan.cues[3]/narrationSpec inject a cue that the official contract forbids. (claude touched this in audioFit reason but did not file as a blocker.)",
+    "[codex] high t=10.55s: brief.finalFrame intentionally preserves ink-front-bloom guideObject at glyph_right_end_plus_18px during the final hold — official-poster requirement is glyph-only. (claude did not file this as a blocker.)",
+    "[claude] medium t=4.8s: bird-cross-plate-bridge dies by 4.7s while sunlight-ray segment runs to 5.7s — 1s gap where the brief's named transitional element no longer exists.",
+    "[codex] medium t=4.8s: no clearly countable single 45° sunlight beam for '一道光' — the single-sun motif softened into broad mist and a weak light band, killing the visual count anchor."
+  ],
+  "nextActions": [
+    "Decide the v9 thesis structurally before any re-render: either (a) drop tailSpec.transition.protectedLayerIds=['kaiti-glyph-base'] and let the tail mask do real reveal of a fresh tail-only glyph layer, OR (b) drop the voiced-tail variant entirely and stay on the silent-tail official contract. The brief currently tries to have it both ways and proves on screen that it cannot.",
+    "If (a) — reconcile tailSpec.strokeOrder[0].phaseStart/End to the absolute 9.35-10.75s window, re-verify ink-front-bloom is rendered by the mask front (not a separate animated dot over a pre-drawn stroke), and verify the bloom does NOT persist into finalFrame.",
+    "If (b) — strip tail voice cue from audioPlan.cues[3] / narrationSpec, restore narrationPolicy=silent end-to-end, and remove the ink-front-bloom guideObject from brief.finalFrame.",
+    "Independently of (a)/(b): rescale v9-bird-flight-loop 2-3x and place against the mist band (higher contrast) so '一只小鸟' has a visually dominant count anchor; rescale and re-place sunlight beam to a single clean 45° ray for '一道光'.",
+    "Verify rendered glyph actually uses Yi Kaiti / STKaiti / KaiTi at render time (font present in the render environment, no fallback) and that the mask is not clipping the horizontal-stroke taper.",
+    "Extend bird sprite end-time from 4.7s to ≥5.5s so cross-plate-bridge survives the 4.8s probe."
+  ],
+  "_jury": {
+    "divergence": "medium",
+    "divergenceNotes": [
+      "pacing gap 2.0 (claude 4.0 vs codex 6.0): claude treated the <0.1s collapsed write as a pacing failure; codex treated it as a spec-inconsistency. Jury sides with claude — the on-screen reality is the harder constraint, pacing belongs at 4.0.",
+      "animationPerformance gap 1.5 (claude 3.5 vs codex 5.0): same root observable; claude's lower score better reflects 'no writing motion visible'.",
+      "technicalCompliance gap 2.0 (claude 6.0 vs codex 4.0): codex caught the audioPlan-vs-narrationPolicy contract conflict and the finalFrame.guideObject conflict that claude missed; codex's lower score is the correct one.",
+      "Claude uniquely caught: Kaiti typeface identity failure on the rendered glyph (high blocker).",
+      "Codex uniquely caught: voiced-tail violates silent-tail contract (high blocker); finalFrame intentionally preserves bloom guideObject (high blocker).",
+      "Both reviewers converged on decision=blocked, confidence=high, officialReadiness=3.0, teachingFunctionalIntegrity=4.5 — the verdict itself is not in dispute, only the relative weight of which dimension drives it."
+    ],
+    "mergedBlockers": [
+      {
+        "agreedBy": ["claude", "codex"],
+        "severity": "critical",
+        "issue": "At t=9.45s — 0.1s into the 9.35-10.75s tail write window — the full black '一' stroke is already 100% present inside the mizige; the orange ink-front-bloom sits at the LEFT start point of an already-completed line. The tail mask has nothing to reveal.",
+        "rootCause": "tailSpec.transition.protectedLayerIds keeps the body kaiti-glyph-base persistent across the body→tail handoff, so when the tail's 1.4s mask reveal starts it runs on a layer that is already opaque — or doesn't run at all. The brief contract ('1.4s writing渗墨 + ink-front-bloom 严格绑 mask front 1:1') and the protected-layer transition are mutually exclusive.",
+        "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+        "atTime": 9.45
+      },
+      {
+        "agreedBy": ["claude", "codex"],
+        "severity": "critical",
+        "issue": "At t=10.0s the bloom dot has slid from left end to mid-stroke but the stroke itself has not grown — the bloom is decorative, not generative. A child reads this as 'a glowing bead slides along a drawn line', not 'a brush writes a line'.",
+        "rootCause": "Two reinforcing causes: (1) the protected body glyph supplies the visible stroke so the bloom can only follow a phantom mask; (2) tailSpec.strokeOrder[0].phaseStart/End (relative 0.5-1.0s) is desynced from brief/audioPlan absolute 9.35-10.75s window. Position-binding without causal-binding does not teach writing.",
+        "atKeyframe": "yi-v9-tailvoice-10.0s.png",
+        "atTime": 10.0
+      },
+      {
+        "agreedBy": ["claude", "codex"],
+        "severity": "high",
+        "issue": "At t=3.3s the bird that anchors '一只小鸟' is a ~6-8px dark fleck in the upper-third of the frame against a very pale cream sky — reads as a blemish, not a bird a child would point at and count.",
+        "rootCause": "v9-bird-flight-loop is staged at near-background scale inside a mostly empty sky; v9's lighter sky plate further reduces effective contrast. Brief left bird size at 'follows v8 reuse' but never re-verified after the plate-brightness change.",
+        "atKeyframe": "yi-v9-tailvoice-3.3s.png",
+        "atTime": 3.3
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "high",
+        "issue": "Rendered tail glyph at t=9.45+ is a thick rounded-end black rectangle with no taper, no entry pressure, no exit hook — reads as a generic marker stroke or '−' typographic glyph, not Kaiti '一'.",
+        "rootCause": "Brief specifies font-family 'Yi Kaiti, STKaiti, KaiTi, serif' for html-kaiti-glyph but the rendered shape has none of those typefaces' characteristic horizontal-stroke taper. Likely the named fonts are absent in the render environment (system fallback to generic serif/sans), OR the mask is clipping the taper. Codex did not flag this; it is an additional teaching-identity failure on top of the writing-motion failure.",
+        "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+        "atTime": 9.45
+      },
+      {
+        "agreedBy": ["codex"],
+        "severity": "high",
+        "issue": "The stroke-order tail is a voiced segment from 9.35s to 10.70s, with the spoken final '一。' placed over the writing action instead of leaving the tail silent.",
+        "rootCause": "audioPlan.cues[3] and narrationSpec add a tail-stroke voice cue while brief.teachingContract.strokeOrderTail.narrationPolicy and tailSpec.narrationPolicy still declare official policy as silent — three artifacts mutually contradict. Claude touched this obliquely in the audioFit reason but did not file it as a blocker; codex's catch is the structural one.",
+        "atKeyframe": "yi-v9-tailvoice-9.45s.png",
+        "atTime": 9.35
+      },
+      {
+        "agreedBy": ["codex"],
+        "severity": "high",
+        "issue": "Final-hold frame at t=10.55s retains the orange ink-front-bloom guide object attached to the right end of the glyph — the official poster requirement is glyph-only.",
+        "rootCause": "brief.finalFrame intentionally preserves ink-front-bloom guideObject at glyph_right_end_plus_18px, which conflicts with the teaching-integrity requirement of an unambiguous '一' on the final card. Claude noted the final composition could 'work as a P03 poster' which suggests claude did not register the persistent bloom as a violation; codex did. Jury sides with codex.",
+        "atKeyframe": "yi-v9-tailvoice-10.55s.png",
+        "atTime": 10.55
+      },
+      {
+        "agreedBy": ["claude"],
+        "severity": "medium",
+        "issue": "At t=4.8s during the sunlight-ray segment there is no bird in frame, even though the brief names 'bird-cross-plate-bridge' as the transitional element carrying continuity across the cross-dissolve.",
+        "rootCause": "Bird sprite end-time (4.7s) is too tight against the 4.8s probe and against the segment end (5.7s) — there is a 1s gap where the named bridging element is dead but the segment still uses cross-dissolve language.",
+        "atKeyframe": "yi-v9-tailvoice-4.8s.png",
+        "atTime": 4.8
+      },
+      {
+        "agreedBy": ["codex"],
+        "severity": "medium",
+        "issue": "Sunlight shot at t=4.8s reads as pale paper with soft sun disk and haze — no clearly countable single 45° beam for '一道光'.",
+        "rootCause": "Single-sun-motif softened into broad mist and a weak light band, so the visual count anchor required by the phrase-bridge and quantifier usage is no longer legible. Same frame as claude's bird-bridge blocker but a different teaching failure.",
+        "atKeyframe": "yi-v9-tailvoice-4.8s.png",
+        "atTime": 4.8
+      }
+    ],
+    "reviewerFitness": {
+      "claude": {
+        "blockerCount": 5,
+        "lowQualityBlockers": 0,
+        "coherent": true,
+        "notes": "All 5 blockers carry concrete timestamps, atKeyframe, specRef, and observable rootCause. Scores (officialReadiness 3.0, teachingFunctionalIntegrity 4.5) and decision=blocked / confidence=high are mutually consistent. Strength: caught the Kaiti typeface identity failure codex missed. Miss: did not flag the voiced-tail-vs-silent-contract spec conflict as a blocker (only mentioned obliquely in audioFit reason); did not flag finalFrame.guideObject persistence."
+      },
+      "codex": {
+        "blockerCount": 6,
+        "lowQualityBlockers": 0,
+        "coherent": true,
+        "notes": "All 6 blockers carry timestamps, atKeyframe, specRef, and rootCause. Scores and decision are mutually consistent. Strengths: caught two spec-level contract violations claude missed (silent-tail policy, finalFrame guideObject). Miss: did not flag the Kaiti typeface identity failure. Slightly under-weights pacing and animationPerformance vs the observable failure."
+      }
+    },
+    "reviewerFitnessAction": "ok"
+  }
+}

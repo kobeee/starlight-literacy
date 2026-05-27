@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>Stroke-Order Tail · yi-v5-cinematic-fixed</title>
+<style>
+  :root {
+    --mizige-opacity: 0.18;
+    --tail-duration: 2s;
+    --transition-duration: 0.6s;
+    --writing-duration: 0.9s;
+    --final-hold: 0.5s;
+  }
+  html, body { margin: 0; padding: 0; background: #000; }
+  #stroke-order-tail {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    background: #f5ead0;
+    overflow: hidden;
+    font-family: STKaiti, Kaiti SC, serif;
+  }
+  #mizige {
+    position: absolute;
+    left: 460px;
+    top: 180px;
+    width: 360px;
+    height: 360px;
+    opacity: var(--mizige-opacity);
+    transition: opacity var(--transition-duration) ease;
+  }
+  #mizige svg { width: 100%; height: 100%; display: block; }
+  #glyph-kaiti {
+    position: absolute;
+    left: 640px;
+    top: 360px;
+    transform: translate(-50%, -50%);
+    color: #1f1a14;
+    font-size: 258px;
+    line-height: 1;
+    font-weight: 400;
+    user-select: none;
+    pointer-events: none;
+  }
+  #stroke-mask-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .stroke-mask {
+    position: absolute;
+    left: 640px;
+    top: 360px;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: #f5ead0;
+    opacity: 1;
+  }
+  .stroke-mask.cleared { opacity: 0; }
+  #hand {
+    position: absolute;
+    right: 60px;
+    bottom: 40px;
+    width: 320px;
+    height: 280px;
+    filter: drop-shadow(0 12px 12px rgba(40, 28, 12, 0.18));
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #hand.entered { opacity: 1; }
+  #lighting-tint {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 10%, #f4b06a33 0%, transparent 55%);
+    pointer-events: none;
+  }
+  /* Cinematic-body layers that MUST be cleared before the tail enters.
+     Rendered as empty placeholders here so the DOM probe can verify their absence. */
+  .cinematic-body-layer {
+    position: absolute;
+    inset: 0;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div id="stroke-order-tail"
+     data-character-id="yi-v5-cinematic-fixed"
+     data-target-character="一"
+     data-tail-state="recognition"
+     data-mizige-state="recognition">
+  <!-- Cinematic-body layer slots. The tail asserts these have been removed/marked. -->
+  <div id="ink-glyph-bleed-layer" class="cinematic-body-layer" data-removed="true"></div>
+  <div id="light-band-layer" class="cinematic-body-layer" data-removed="true"></div>
+  <div id="phrase-bridge-layer" class="cinematic-body-layer" data-removed="true"></div>
+
+  <div id="mizige">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <rect x="0.5" y="0.5" width="99" height="99" fill="none"
+            stroke="#5D4A36" stroke-width="1.4" />
+      <line x1="0" y1="50" x2="100" y2="50"
+            stroke="#5D4A36" stroke-width="1.4"
+            stroke-dasharray="2 2" />
+      <line x1="50" y1="0" x2="50" y2="100"
+            stroke="#5D4A36" stroke-width="1.4"
+            stroke-dasharray="2 2" />
+      <line x1="0" y1="0" x2="100" y2="100"
+            stroke="#5D4A36" stroke-width="1.4"
+            stroke-dasharray="2 2" />
+      <line x1="100" y1="0" x2="0" y2="100"
+            stroke="#5D4A36" stroke-width="1.4"
+            stroke-dasharray="2 2" />
+    </svg>
+  </div>
+
+  <div id="glyph-kaiti">一</div>
+
+  <div id="stroke-mask-layer">
+    <div class="stroke-mask" data-stroke-index="1" data-direction="h"></div>
+  </div>
+
+  <div id="lighting-tint"></div>
+
+  <div id="hand" aria-hidden="true">
+    <svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 250 C 80 200, 120 150, 180 110 L 220 90 L 240 100 C 250 130, 240 160, 210 180 L 160 220 C 130 240, 90 260, 40 250 Z"
+            fill="#f4c79a" stroke="#8a5a35" stroke-width="2" />
+    </svg>
+  </div>
+</div>
+
+<script>
+  const STROKES = [
+  {
+    "index": 1,
+    "directionCode": "h",
+    "phaseStartSeconds": 0.6,
+    "phaseEndSeconds": 1.5,
+    "notes": "Single horizontal stroke for 一."
+  }
+];
+  const ANCHORS = {
+  "mizige": {
+    "centerXPx": 640,
+    "centerYPx": 360,
+    "sizePx": 360,
+    "strokeColor": "#5D4A36",
+    "strokeWidthPx": 1.4,
+    "opacityStates": {
+      "recognition": 0.18,
+      "writing": 0.3
+    },
+    "diagonals": "dashed",
+    "description": "Single mizige centered on the frame. recognition (0.18) is the state during the cinematic body when the glyph is being READ; writing (0.30) is the state during stroke-order tail when the glyph is being WRITTEN. Container policy is single-mizige-dual-state — never two grids on screen."
+  },
+  "glyph": {
+    "boxCenterXPx": 640,
+    "boxCenterYPx": 360,
+    "boxSizePx": 300,
+    "color": "#1f1a14",
+    "fontFamily": "STKaiti, Kaiti SC, serif",
+    "description": "Kaiti glyph centers inside the mizige with ~30px breathing room. boxSize is the safe area for the character — strokes must not visually exceed this box even if the SVG viewBox is larger."
+  },
+  "hand": {
+    "entryEdge": "bottom-right",
+    "entryAngleDeg": 30,
+    "fingertipHoverOffsetPx": 18,
+    "fingertipTargetStrokeIndex": "last",
+    "description": "Child's right hand enters from bottom-right corner, index finger hovers ~18px above the LAST written stroke. Never replace this with a left-hand or top-down entry — the brand's P03 poster is locked to right-hand bottom-right entry."
+  },
+  "lighting": {
+    "sourceAngleDeg": 30,
+    "sourceCorner": "top-right",
+    "warmTint": "#f4b06a",
+    "shadowBlurPx": 12,
+    "description": "Warm 30° rim light from top-right casts a soft shadow under the hand toward bottom-left. Locks all stroke-order tail final frames to one consistent lighting setup so the P03 poster reads coherently across the whole Unit-01 set."
+  },
+  "supportedStrokeDirections": {
+    "horizontal": {
+      "code": "h",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "left-to-right"
+    },
+    "vertical": {
+      "code": "v",
+      "maskGradientAngleDeg": 180,
+      "writeDirection": "top-to-bottom"
+    },
+    "left-falling": {
+      "code": "p",
+      "maskGradientAngleDeg": 135,
+      "writeDirection": "top-right-to-bottom-left"
+    },
+    "right-falling": {
+      "code": "n",
+      "maskGradientAngleDeg": 45,
+      "writeDirection": "top-left-to-bottom-right"
+    },
+    "dot": {
+      "code": "d",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "press-and-release"
+    },
+    "hook": {
+      "code": "hk",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "stroke-then-hook",
+      "description": "Composite stroke — animator must split into a primary stroke + a short curve at the end."
+    },
+    "turning": {
+      "code": "z",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "primary-then-turn",
+      "description": "Composite stroke — animator must split into two linear phases joined at the turn."
+    }
+  },
+  "domProbe": {
+    "selector": "#stroke-order-tail",
+    "requiredAttributes": {
+      "data-tail-state": "writing",
+      "data-mizige-state": "writing"
+    },
+    "forbiddenSelectors": [
+      "#ink-glyph-bleed-layer:not([data-removed='true'])",
+      "#light-band-layer:not([data-removed='true'])",
+      ".phrase-bridge-active"
+    ],
+    "description": "render-stroke-order-tail.mjs runs a Playwright DOM probe on the final frame and asserts: (a) tail container has data-tail-state=writing, (b) cinematic-body layers are marked removed. This is the only way to catch the 'ghost ink under final stroke' bug from screenshot review alone."
+  },
+  "clearingContract": {
+    "mustClearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer"
+    ],
+    "description": "When the stroke-order tail starts (t = totalDurationSeconds_before_tail), these cinematic-body layers MUST be removed from the DOM or set to opacity:0 with display:none. Failing this contract is what produced the 'two horizontal strokes' bug in v5 — the ink-glyph layer was still painted underneath the fresh stroke-order mask."
+  }
+};
+  const CLEAR_LAYER_IDS = ["ink-glyph-bleed-layer","light-band-layer","phrase-bridge-layer"];
+  const RECOGNITION_OPACITY = 0.18;
+  const WRITING_OPACITY = 0.3;
+  const TRANSITION_DURATION = 0.6;
+  const WRITING_START = 0.6;
+  const WRITING_END = 1.5;
+  const TOTAL_DURATION = 2;
+
+  const root = document.getElementById("stroke-order-tail");
+
+  function setState(state) {
+    root.dataset.tailState = state;
+    root.dataset.mizigeState = state;
+    root.style.setProperty("--mizige-opacity", state === "writing" ? WRITING_OPACITY : RECOGNITION_OPACITY);
+  }
+
+  function clearLayer(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.dataset.removed = "true";
+    el.style.display = "none";
+  }
+
+  function clearStrokeMask(stroke) {
+    const mask = document.querySelector(`.stroke-mask[data-stroke-index="${stroke.index}"]`);
+    if (!mask) return;
+    const direction = ANCHORS.supportedStrokeDirections[directionName(stroke.directionCode)];
+    const angle = stroke.maskGradientOverrideDeg ?? direction?.maskGradientAngleDeg ?? 90;
+    const duration = Math.max(0.2, stroke.phaseEndSeconds - stroke.phaseStartSeconds);
+    mask.style.transition = `mask-position ${duration}s ease, opacity ${duration}s ease`;
+    mask.style.webkitMaskImage = mask.style.maskImage = `linear-gradient(${angle}deg, transparent 0%, #000 100%)`;
+    mask.style.webkitMaskSize = mask.style.maskSize = "200% 200%";
+    mask.style.webkitMaskPosition = mask.style.maskPosition = "100% 0%";
+    requestAnimationFrame(() => {
+      mask.style.webkitMaskPosition = mask.style.maskPosition = "0% 0%";
+      mask.classList.add("cleared");
+    });
+  }
+
+  function directionName(code) {
+    for (const [name, value] of Object.entries(ANCHORS.supportedStrokeDirections)) {
+      if (value.code === code) return name;
+    }
+    return null;
+  }
+
+  function start() {
+    setState("recognition");
+
+    CLEAR_LAYER_IDS.forEach(clearLayer);
+
+    setTimeout(() => setState("writing"), TRANSITION_DURATION * 1000);
+
+    STROKES.forEach((stroke) => {
+      setTimeout(() => clearStrokeMask(stroke), stroke.phaseStartSeconds * 1000);
+    });
+
+    const handEntryAt = WRITING_END - 0.3;
+    setTimeout(() => document.getElementById("hand").classList.add("entered"), Math.max(0, handEntryAt * 1000));
+  }
+
+  window.__starlightTail = {
+    spec: { characterId: "yi-v5-cinematic-fixed", totalDuration: TOTAL_DURATION },
+    forwardToFinalFrame() {
+      setState("writing");
+      CLEAR_LAYER_IDS.forEach(clearLayer);
+      STROKES.forEach(clearStrokeMask);
+      document.getElementById("hand").classList.add("entered");
+    },
+    probe() {
+      const probe = ANCHORS.domProbe;
+      const root = document.querySelector(probe.selector);
+      const requiredAttrsOk = Object.entries(probe.requiredAttributes).every(([attr, value]) => {
+        return root?.getAttribute(attr) === value;
+      });
+      const forbiddenHits = probe.forbiddenSelectors
+        .map((sel) => ({ sel, present: Boolean(document.querySelector(sel)) }))
+        .filter((entry) => entry.present);
+      return {
+        selector: probe.selector,
+        rootFound: Boolean(root),
+        requiredAttrsOk,
+        attrs: Object.fromEntries(Object.keys(probe.requiredAttributes).map((attr) => [attr, root?.getAttribute(attr) ?? null])),
+        forbiddenHits,
+        passed: Boolean(root) && requiredAttrsOk && forbiddenHits.length === 0,
+      };
+    },
+  };
+
+  if (!new URLSearchParams(location.search).has("freeze")) {
+    start();
+  } else {
+    window.__starlightTail.forwardToFinalFrame();
+  }
+</script>
+</body>
+</html>

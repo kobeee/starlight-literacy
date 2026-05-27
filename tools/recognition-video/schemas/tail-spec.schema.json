@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/tail-spec.schema.json",
+  "title": "Recognition Video Stroke-Order Tail Spec",
+  "description": "Sub-line C artifact. Owns the last ~2s stroke-order tail (米字格 writing demo + child hand pose). Independent of the cinematic body so that 换字 (character swap) cannot drift the final frame. Every field is a process constraint, not content design — content design lives in brief.shotPlan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "characterId",
+    "targetCharacter",
+    "anchorsRef",
+    "glyph",
+    "strokeOrder",
+    "container",
+    "narrationPolicy",
+    "transition",
+    "finalFrame",
+    "outputs"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "recognition-video-tail-spec/v1"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "targetCharacter": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2
+    },
+    "anchorsRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schemaVersion"],
+      "description": "Pointer to the system-level mizige-anchors.json. Validator asserts the referenced file matches schemaVersion so an outdated anchors copy cannot silently change layout.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schemaVersion": {
+          "type": "string",
+          "const": "recognition-video-mizige-anchors/v1"
+        }
+      }
+    },
+    "glyph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "boxOverride"],
+      "description": "How the kaiti glyph is rendered. source=html-kaiti uses CSS font-family fallback (STKaiti); source=svg uses an explicit path. boxOverride.allowed must be false in production — system anchor wins.",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["html-kaiti", "svg-path", "image"]
+        },
+        "svgPath": {
+          "type": "string",
+          "description": "Required when source=svg-path."
+        },
+        "imageAsset": {
+          "type": "string",
+          "description": "Required when source=image. Asset id resolved via asset-plan."
+        },
+        "boxOverride": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed"],
+          "properties": {
+            "allowed": { "type": "boolean" },
+            "centerXPx": { "type": "number" },
+            "centerYPx": { "type": "number" },
+            "sizePx": { "type": "number" }
+          },
+          "description": "Per-character override of glyph box. allowed must be false except for exceptional characters (validator gates this)."
+        }
+      }
+    },
+    "strokeOrder": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 24,
+      "description": "Ordered list of strokes the tail will animate. Each stroke references a supportedStrokeDirections code from mizige-anchors.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "directionCode", "phaseStartSeconds", "phaseEndSeconds"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "directionCode": {
+            "type": "string",
+            "enum": ["h", "v", "p", "n", "d", "hk", "z"]
+          },
+          "phaseStartSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "phaseEndSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "maskGradientOverrideDeg": {
+            "type": "number",
+            "description": "Optional: deviate from mizige-anchors.supportedStrokeDirections gradient angle. Must be justified in notes."
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "container": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "recognitionOpacity", "writingOpacity"],
+      "description": "Mizige container state policy. Only single-mizige-dual-state is allowed in production — never render two grids on screen, never swap to a fresh grid.",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": ["single-mizige-dual-state"]
+        },
+        "recognitionOpacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "writingOpacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "narrationPolicy": {
+      "type": "string",
+      "enum": ["silent"],
+      "description": "Stroke-order tail must be silent. Voice during writing demo distracts from the visual hand-tracing moment that primes P09 writing practice."
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromCinematicBody", "clearLayerIds"],
+      "description": "How the tail enters from the cinematic body. clearLayerIds names DOM elements that MUST be removed/hidden when the tail starts. protectedLayerIds names the persistent kaiti glyph layer(s) that MUST survive the handoff so the child never sees appear→vanish→rewrite.",
+      "properties": {
+        "fromCinematicBody": {
+          "type": "string",
+          "enum": ["cross-dissolve", "fade-to-paper", "instant"]
+        },
+        "durationSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1.2
+        },
+        "clearLayerIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "DOM element ids/classes from the cinematic body that MUST be removed or set to display:none when the tail enters. Failing this is the root cause of ghost-stroke bugs."
+        },
+        "protectedLayerIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "DOM element ids/classes from the cinematic body that MUST survive the body→tail handoff (e.g. the persistent kaiti glyph that the child just learned to read). Validator asserts clearLayerIds ∩ protectedLayerIds == ∅. Root cause of the v8 appear→vanish→rewrite blocker was the persistent kaiti layer being listed in clearLayerIds with no protection enforced."
+        }
+      }
+    },
+    "finalFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["posterReady", "handPosePresent", "mizigeStateAtEnd", "pointerForm"],
+      "description": "Hard requirements for the very last frame of the tail (used as P03 poster). pointerForm must match the rendered guide object so brief.finalFrame can be cross-checked against it.",
+      "properties": {
+        "posterReady": {
+          "type": "boolean",
+          "const": true,
+          "description": "Final frame MUST be poster-ready (no transition mid-flight)."
+        },
+        "handPosePresent": {
+          "type": "boolean",
+          "const": true,
+          "description": "Child's hand or brush pointer MUST be visible in the final frame — this is the brand-locked P03 poster moment."
+        },
+        "pointerForm": {
+          "type": "string",
+          "enum": ["child-hand", "brush-pointer", "ink-front-bloom"],
+          "description": "Which pointer form is rendered. Must equal an entry in mizige-anchors.hand.allowedPointerForms AND must equal brief.finalFrame.guideObject.form. Cross-file consistency validator gates this. v9 added ink-front-bloom — see anchors.hand.description for rationale."
+        },
+        "mizigeStateAtEnd": {
+          "type": "string",
+          "enum": ["writing"]
+        },
+        "completedStrokeIndices": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "description": "Which stroke indices must be fully visible in the final frame. Defaults to all when omitted."
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["composition", "finalFramePng", "domProbeJson"],
+      "description": "Paths produced by render-stroke-order-tail.mjs.",
+      "properties": {
+        "composition": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Standalone HTML composition file for the tail only (used for isolated rendering and screenshot)."
+        },
+        "finalFramePng": {
+          "type": "string",
+          "minLength": 1,
+          "description": "PNG of the very last frame. Used as P03 poster and as the screenshot product-review evaluates."
+        },
+        "domProbeJson": {
+          "type": "string",
+          "minLength": 1,
+          "description": "JSON dump of mizige-anchors.domProbe assertions (which layers present, which removed). Validator gates the tail against this so screenshots alone cannot lie."
+        }
+      }
+    }
+  }
+}

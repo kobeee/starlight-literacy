@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "starlight-double-blind-review/v1",
+  "characterId": "yi",
+  "buildId": "yi-v9",
+  "spawnedAt": "2026-05-24T13:35:00Z",
+  "notes": "user-selected: voiced-tail review variant (yi-v9-sun-tailvoice-check.mp4, 2026-05-24 20:37 rebake with same-source tail audio). keyframes from review-frames/ tailvoice-*.png 5 frames. No canonical yi-v9.mp4 / snapshots/frame-*.png exist for this build — this run reviews the latest voiced-tail variant, which is the artifact currently under user evaluation. Three validators (narration-bake / audio-sync-plan / teaching-harness) are known to fail by design for this voiced-tail variant vs the official-silent-tail contract — reviewers should evaluate the video as-shipped on its own teaching+aesthetic merits, not by validator status.",
+  "inputs": {
+    "brief": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/briefs/yi-v9.brief.json",
+    "audioPlan": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/audio-plans/yi-v9.audio-plan.json",
+    "tailSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/tail-specs/yi-v9.tail-spec.json",
+    "narrationSpec": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/narration-specs/yi-v9.narration-spec.json",
+    "video": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/yi-v9-sun-tailvoice-check.mp4",
+    "keyframes": [
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-3.3s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-4.8s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-9.45s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.0s.png",
+      "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/tools/recognition-video/builds/yi-v9/renders/review-frames/yi-v9-tailvoice-10.55s.png"
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-v9",
+  "style": {
+    "source": "v9 基于 v8.2 jury 4.7/blocked + HyperFrames 框架四洞修复后产物：保留 v8 plate-based + HTML kaiti 字-形唯一映射的 architectural 硬度（rasterImagesMayContainText=false strict、HTML kaiti「一」字仅一个 div），并按用户反馈补四点：(1) 底图静态鸟退场，只保留 v9-bird-flight-loop 动态鸟；(2) single-sun-motif 从硬光束改成自然晨日柔光（源头雾 + 宽光带 + 极弱细亮带轻微漂移/呼吸）；(3) 最后一声「一」从 7.82-8.94s 前置重复改到 9.35-10.70s，跟随 stroke-order tail 光标沿横笔移动；(4) tail 横笔书写从 0.5s 放慢到 1.4s。dawn-mountain 与 sunlight-ray 均指向 clean-A plate，底图原静态鸟已从画面资产中剔除；composition 的纸面光雾只做过渡柔化。",
+    "summary": "v9 plate-based + ink-front-bloom 短片：dawn-mountain-clean plate（0-3.0s 水墨晨景 + 远山 + single-sun-motif 太阳升起 + 动态小鸟 + Ken Burns scale 1.0→1.08）→ sunlight-ray-clean plate（3.0-5.7s 同一个太阳形成柔和晨光 + 动态小鸟飞出 + 微 Ken Burns）→ 纯宣纸 + ink-glyph 渗墨（5.7-9.0s 楷体「一」字 CSS mask 从左到右渗墨 + ink-front-bloom 暖墨晕严格绑 mask 前沿 1:1 + 米字格 6.5-7.5s 淡入 0.18 识字态）→ stroke-order tail（9.0-12.0s 米字格 0.30 写字态 + clearLayerIds + protectedLayerIds=['kaiti-glyph-base'] + ink-front-bloom 从 bottom-right 30° 入画 + 9.35-10.75s 跟随单笔横画 mask 前沿 + 9.35-10.70s 慢速单声「一」+ finalHold 悬停 glyph_right_end_plus_18px 作 P03 poster 锚帧）。色板严格继承 v5/v7/v8 田园暖彩：宣纸 #f5ead0 / 墨色 #1f1a14 / 暖棕 #5D4A36 米字格 / 暖金 #f4b06a 阳光 / 远山 #2a2535 / ink-front-bloom 红橙 #c9531a→transparent。"
+  },
+  "plates": [
+    {
+      "id": "v9-plate-dawn-mountain-bird-A",
+      "kind": "primary",
+      "purpose": "0-3.0s 意义入口（meaningAction）：水墨晨景 clean plate 含三层远山 + 宣纸暖底，不保留底图静态鸟，承担「一只小鸟，飞过山头」旁白对位。composition 新增 single-sun-motif，让一个太阳从山头升起；另叠加 v9-bird-flight-loop 6 帧透明 PNG sprite，让可数的 1 只小鸟真实扑翅飞过。v9 Ken Burns scale 1.0→1.08 + translateY 0→-32px 给 3-6 岁孩子可感知的破晓动态。",
+      "path": "tools/recognition-video/assets/unit-01/yi-v9/plates/dawn-mountain-clean-A.png",
+      "size": "1024x1536",
+      "containsCharacter": false,
+      "containsText": false,
+      "horizontalLineRisk": "none",
+      "notes": "gpt-image-2 真实生图（复用 v8 版后生成 clean plate），无任何汉字、文字、水平光带、几何水平条；远山是 organic 山线非锯齿。底图原静态鸟已剔除，动态小鸟由 sprite 独立承担。dual-render 风险：none。"
+    },
+    {
+      "id": "v9-plate-sunlight-ray-A",
+      "kind": "primary",
+      "purpose": "3.0-5.7s 字形预备（glyphBinding）：宣纸底 + single-sun-motif 中的一个太阳 + 一束 45° 对角线暖金阳光，承担「一道光，落在白纸上」旁白对位。「一道」量词绑画面单束阳光的视觉计数锚；阳光 45° 对角刻意不与「一」字横笔（90° 水平）重合避免 dual-render。动态小鸟由 sprite 而不是 plate 内静态剪影承担 continuity bridge；clean plate 不保留左上静态鸟，纸面光雾只做柔化过渡。",
+      "path": "tools/recognition-video/assets/unit-01/yi-v9/plates/sunlight-ray-clean-A.png",
+      "size": "1024x1536",
+      "containsCharacter": false,
+      "containsText": false,
+      "horizontalLineRisk": "low",
+      "notes": "gpt-image-2 真实生图（v9 重生，2026-05-23 06:00 后生成 clean plate），强制 prompt 约束 NO horizontal beam + 包含半透远山 25% opacity；clean plate 已剔除左上原静态小鸟，只保留 v9-bird-flight-loop 动态 sprite。single-sun-motif 提供可见太阳来源和一束光。阳光为 45° 对角，与「一」字 90° 横笔形态错开 45°。dual-render 风险：low。"
+    },
+    {
+      "id": "ref-style-anchor",
+      "kind": "reference",
+      "purpose": "style anchor reference：仅作 prompt 内文字说明，锁定 v5/v7/v8 已通过审核的田园暖彩色板与笔触语言以便 v9 plate 视觉与序列保持一致",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-style-anchor.png"
+    }
+  ],
+  "cutouts": [],
+  "sprites": [
+    {
+      "id": "yi-v9-bird-flight-loop",
+      "actor": "bird",
+      "action": "flight-loop",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-v9/sprites/bird/flight-loop/manifest.json",
+      "minFrames": 6,
+      "requiredMotionParts": [
+        "wings",
+        "body-translate"
+      ],
+      "motionCheckIntent": "6 帧透明 PNG 真实切换翅膀姿态，覆盖 wing-down → wing-flat → wing-up 的扑翅循环；HyperFrames 只负责位移路径和帧序列播放，不允许用整张 plate Ken Burns 或 CSS skew 假装小鸟在飞。",
+      "notes": "复用已通过 validate-sprite-assets 的 yi-v5-cinematic bird flight-loop 资产，迁移到 yi-v9 独立 manifest。v9 中 0.35-4.7s 叠在 dawn/sunlight plates 上方，作为 concrete-anchor 和 plate-continuity bridge。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "baked",
+    "script": "一只小鸟，飞过山头。一道光，落在白纸。这一笔，就是「一」。一。",
+    "path": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v9.audio-plan.json"
+  },
+  "qualityBars": [
+    "字-形唯一映射保留 v7/v8 architectural 硬度：HTML kaiti「一」字仅一个 div、rasterImagesMayContainText=false strict、2 张 plate 经 gpt-image-2 prompt 约束 0 字符 0 文字",
+    "v9 关键反 dual-render：sunlight-ray plate 阳光为 45° 对角线（不是水平），与「一」字 90° 横笔方向错开 45°；plate 在 5.7s 完全退场后 5.9s「一」字才开始 mask 渗墨成形，时间上也错开",
+    "笔顺横笔渗墨 ink-bleed 段 2.5s（CSS mask-image linear-gradient(90deg) softness 4 软边渗墨态）≥ 行业标准 2s；tail 段 1.4s 慢速短笔（softness=2 锐边写字态）+ finalHold dwell",
+    "米字格双态：0-6.5s 完全 opacity 0（不显示）→ 6.5-7.5s 缓入 --mizige-opacity:0.18 识字态 → 9.0-9.5s 切到 0.30 写字态。修复 v7「米字格 0-12s 全程暴露」用户判失",
+    "v9 第一原理改造：移除 v7 brush-tip + v7 child-hand SVG + v8 brush-pointer，引入 ink-front-bloom 跟随 mask 前沿的暖墨晕（径向渐变 #c9531a→transparent + 软光晕 12px + 小墨点）；pointer 本身就 IS ink 前沿，跟 mask 不分家修 jury blocker#1 + #2 + #8",
+    "tail-spec.transition 显式 protectedLayerIds: ['kaiti-glyph-base'] 保留已渗墨完成的 kaiti「一」字层，body→tail 切换不让字消失再重写（修 jury blocker#3 t=10.3s empty-mizige appear→vanish→rewrite）",
+    "tail duration 3.0s 比 anchors.totalDurationSeconds=2.0 多 1.0s extraDwellOutsideTail，让 finalHold visible dwell 端到端 ≥2.0s（修 jury blocker#4 minimumFinalHoldSeconds 不可达）",
+    "Ken Burns motion v9 升级到 dawn scale 1.0→1.08 (≥5%) + translateY 32px (≥24px)；同时新增 v9-bird-flight-loop 6 帧透明 PNG sprite 承担真正扑翅飞行动作，ray scale 1.0→1.06 + translateX 16px。修 jury blocker#6 imperceptible motion < 5%，并补齐多帧动画主线要求",
+    "plate-continuity bridge：sunlight-ray plate 重生包含半透远山轮廓，v9-bird-flight-loop sprite 从 dawn 延续到 sunlight-ray 做 sharedSubjectIds=['bird-silhouette','mountain-horizon'] bridge（修 jury blocker#7 mountain→ray hard cut 缺共享视觉，同时避免 plate 静态鸟与动态鸟重复）",
+    "single-sun-motif 负责「一轮太阳 → 一道光」的教学因果：太阳从 dawn 山头升起，2.25-5.7s 用源头雾、宽柔光带、极弱细亮带三层缓慢泛开形成自然晨光，避免硬光束/探照灯感；底图静态鸟被太阳/纸面光雾覆盖，只保留动态 sprite 小鸟",
+    "全片严禁出现 raster 上的中文/拼音/数字/拉丁/印章/水印标签/UI 元素；楷体「一」字是 HTML Yi Kaiti web font (LXGW Wenkai Yi subset .woff2)",
+    "颜色严格收敛在田园暖彩低饱和暖色温：plate 上的远山 + 阳光均在 v5 色板范围内 + ink-front-bloom 红橙 #c9531a (与暖金 #f4b06a 同色温)；禁止饱和度 > 60% 颜色、紫蓝/洋红/霓虹绿、pure #ffffff/pure #000000",
+    "final frame 必须 poster 化可读：宣纸 + 米字格 0.30 写字态 + 黑色楷体「一」字完全成形 + ink-front-bloom 暖墨晕悬停字右端 +18px + 无 plate 残留 + 无 brush + 无 hand。读起来像「一笔写完那一刻，墨水前沿停在字尾的纸上墨字」，作 P03 poster 锚帧 2.0s 完整可见 dwell"
+  ]
+}

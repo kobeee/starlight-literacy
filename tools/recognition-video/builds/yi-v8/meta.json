@@ -1,0 +1,30 @@
+{
+  "id": "yi-v8",
+  "name": "一 - V8 Plate-Based + Honest Refactor (12s, gpt-image-2 plates, mizige delayed, no brush/hand)",
+  "characterId": "yi-v8",
+  "char": "一",
+  "status": "draft",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 12,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-v8.brief.json",
+    "narrationSpec": "tools/recognition-video/narration-specs/yi-v8.narration-spec.json",
+    "tailSpec": "tools/recognition-video/tail-specs/yi-v8.tail-spec.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v8.audio-plan.json",
+    "manifests": []
+  },
+  "outputs": {
+    "video": "renders/yi-v8.mp4",
+    "webm": "renders/yi-v8.webm",
+    "poster": "renders/final-frames/yi-v8-poster.png",
+    "finalFrame": "renders/final-frames/yi-v8-final.png",
+    "reviewSheet": "renders/final-frames/yi-v8-review-sheet.png"
+  },
+  "prompt": "12s recognition short for 一. v8 fixes 6 user-flagged regressions from v7: (1) narration extended from 16ch/5.6s to 22ch/10.7s with 4 cues; (2) mizige hidden 0-7s, fades in to 0.18 at 7-8s, switches to 0.30 writing state at 9.5-9.9s — no longer exposed for the entire 12s; (3) abstract CSS horizontal light-band replaced by gpt-image-2 plate with 45° diagonal sunlight (deliberately NOT horizontal to avoid dual-render with 一 stroke); (4) sunlight plate exits at 6.1s before kaiti glyph appears at 6.5s — single-container architecture impossible to dual-render; (5) brush-tip + child-hand SVGs REMOVED entirely (judged amateur quality); (6) introduced gpt-image-2 real-painting plates (dawn-mountain-bird + sunlight-ray) replacing v7's all-HTML/SVG abstract collage. Audio: edge-tts XiaoxiaoNeural -10%, raw=10.680s, apad to 12.048s.",
+  "note": "v8 plate-based + honest refactor over v7. User's 6 critiques on v7 (this session): narration too short/abrupt, mizige visible entire 12s, CSS light-band too abstract, light→glyph visual overlap, brush+hand amateur, didn't use gpt-image-2. v8 addresses each: 4-cue 10.7s narration; mizige 7-8s fade-in; gpt-image-2 sunlight plate (45° diagonal not horizontal); plate exits before glyph (single-container architecture); brush+hand removed; 2 gpt-image-2 plates generated via aicodewith /v1/responses. Product-review must be HONEST this time — no over-confident 8.9 scoring, must look at every keyframe as a 3-year-old would."
+}

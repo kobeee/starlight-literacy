@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "recognition-video-narration-spec/v1",
+  "characterId": "yi-v9",
+  "targetCharacter": "一",
+  "targetCharSemantic": "number",
+  "script": "一只小鸟，飞过山头。一道光，落在白纸。这一笔，就是「一」。一。",
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "一只小鸟，飞过山头。",
+      "role": "concrete-anchor",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "dawn-mountain-plate",
+      "notes": "v9 复用 v8.1 第一段文本（jury audioFit 7.0 通过，无须改文本）。「一只」量词在 0.1s 起把目标字「一」绑到 plate 上的单只小鸟剪影。10 字含标点 ≤ 12 字单段上限。"
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "一道光，落在白纸。",
+      "role": "phrase-bridge",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "sunlight-ray-plate",
+      "notes": "v9 复用 v8.1 第二段文本。「一道」量词绑画面单束阳光的视觉计数锚。9 字含标点。v9 plate 重生含半透远山 + 小鸟从 dawn 飞入 ray 做共享元素 bridge（修 jury blocker#7 mountain→ray hard cut）。"
+    },
+    {
+      "id": "glyph-binding-naming",
+      "text": "这一笔，就是「一」。",
+      "role": "glyph-naming",
+      "targetCharOccurrences": 2,
+      "shotIdHint": "ink-bleed",
+      "notes": "v9 把 v8.1 第三段「轻轻一笔，画过去。」+ 第四段「这就是「一」。」合并为单段「这一笔，就是「一」。」共 10 字含标点。合并理由：旁白结尾 9.694s 与 spoken body target ≤ 9.35 + tail 3.0s 9.0-12.0 (满足 jury blocker#4 finalHold≥2.0s) 矛盾，只能砍尾。「这一笔」承担量词「一笔」绑画面单一横画 + 「就是「一」」承担字-形-音收束。3 段叙事 raw≈8.5s ≤ target 9.0s + tail 3.0s 9.0-12.0 严格符合 mizige-anchors。v9 在 mask reveal 同步加 ink-front-bloom（暖墨晕跟随 mask 前沿，修 jury blocker#8 'mask reveal = wipe not writing'）。"
+    },
+    {
+      "id": "tail-stroke-sound",
+      "text": "一。",
+      "role": "extension",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "stroke-order-tail",
+      "notes": "应用户反馈，最后一声「一」从原先 7.82-8.94s 前置重复改为 9.35-10.70s：与 stroke-order tail 中 ink-front-bloom 沿「一」字横笔移动同步，读成缓慢单声「一」。这是用户 review 版的 voiced-tail 需求。"
+    }
+  ],
+  "concreteAnchorPhrase": {
+    "segmentId": "concrete-anchor",
+    "phrase": "一只小鸟",
+    "anchorObject": "小鸟"
+  },
+  "quantifierUsage": [
+    {
+      "segmentId": "concrete-anchor",
+      "phrase": "一只",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "dawn-mountain-bird plate / 上方单只小鸟剪影"
+    },
+    {
+      "segmentId": "phrase-bridge",
+      "phrase": "一道",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "sunlight-ray-plate / 单束 45° 对角线暖金阳光（v9 含半透远山轮廓 + 小鸟飞越 bridge）"
+    },
+    {
+      "segmentId": "glyph-binding-naming",
+      "phrase": "这一笔",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "ink-bleed shot / 楷体「一」字单一横画 + ink-front-bloom 暖墨晕随写字前沿移动"
+    }
+  ],
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3-v8 同一 Xiaoxiao 女老师声 + -10% 慢速；v9 主体叙事每段 ≤10 字，最后一声「一」贴到 9.35-10.70s 的 stroke-order tail 写字动作上，与光标沿横笔移动同步，避免前置重复造成生硬感。"
+  },
+  "tts": {
+    "engine": "edge-tts",
+    "commandTemplate": "edge-tts --voice {{voice}} --rate={{rate}} --pitch={{pitch}} --text {{text}} --write-media {{audioOut}} --write-subtitles {{subtitleOut}}",
+    "postProcess": {
+      "apadToSeconds": 12
+    }
+  },
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.vtt",
+    "measuredTimings": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.measured-timings.json"
+  }
+}

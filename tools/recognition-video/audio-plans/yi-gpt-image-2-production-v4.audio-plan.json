@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-gpt-image-2-production-v4",
+  "script": "一个太阳。一条光线。平平一横。就是一。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "Mobile H5 baked audio 同款女老师声，慢 10% 帮助 3-6 岁孩子辨字辨义；Unit-01 全字主带读统一这把声音，避免老师切换；与 v37 (v3) 复用同一条 baked mp3，零口音偏差"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "referenceProduct": "洪恩识字 一 字单页认字微课（公开 demo）",
+    "referenceDurationSeconds": {
+      "min": 25,
+      "max": 45,
+      "example": 32
+    },
+    "referenceEvidence": "洪恩公开 demo 单字卡通常 25-45s，覆盖意义、字形、组词、笔顺、互动；P03 是 Starlight 认字流程中的 recognition 短片，承担其中的意义→字形→收束三段，剩余意群由 P05/P07/P09 分担",
+    "starlightTargetSeconds": 7.4,
+    "starlightDecision": "P03 recognition 视频旁白主体固定 7.4s（与 brief.duration 一致），4 段 一个太阳→一条光线→平平一横→就是一 闭环；视频总长 10s 含 7.4-10s 静默笔顺示范尾段，由 paddedTotalDurationSeconds 独立表达。整体仍在 3-6 岁注意力窗口内"
+  },
+  "targetDurationSeconds": 7.4,
+  "paddedTotalDurationSeconds": 10,
+  "rawTtsAudioDurationSeconds": 6.528,
+  "bakedAudioDurationSeconds": 10.056,
+  "audioPaddingNotes": "复用 v37 baked mp3（旁白 7.464s，xiaoxiao -10% 烘焙），末端 ffmpeg apad=whole_dur=10 -t 10 静音填充至 10.056s，使 audio 与 video 等长；t=7.464-10s 段静默尾声，覆盖米字格态变 (7.4-8.0s) + 笔顺示范 (8.0-9.4s) + 完成保持 (9.4-10s)",
+  "quietAfterLastCueSeconds": 0.942,
+  "cues": [
+    {
+      "id": "sun-meaning",
+      "shotId": "sun-meaning",
+      "text": "一个太阳",
+      "audioStart": 0.1,
+      "audioEnd": 1.688,
+      "visualStart": 0,
+      "visualEnd": 1.7,
+      "narration": "spoken"
+    },
+    {
+      "id": "light-binding",
+      "shotId": "light-binding",
+      "text": "一条光线",
+      "audioStart": 1.638,
+      "audioEnd": 3.305,
+      "visualStart": 1.638,
+      "visualEnd": 3.4,
+      "narration": "spoken"
+    },
+    {
+      "id": "flat-line",
+      "shotId": "flat-line",
+      "text": "平平一横",
+      "audioStart": 3.305,
+      "audioEnd": 5.041,
+      "visualStart": 3.305,
+      "visualEnd": 5.15,
+      "narration": "spoken"
+    },
+    {
+      "id": "glyph-close",
+      "shotId": "glyph-close",
+      "text": "就是一",
+      "audioStart": 5.041,
+      "audioEnd": 6.458,
+      "visualStart": 5.041,
+      "visualEnd": 7.4,
+      "narration": "spoken"
+    },
+    {
+      "id": "writing-demo",
+      "text": "",
+      "audioStart": null,
+      "audioEnd": null,
+      "visualStart": 7.4,
+      "visualEnd": 10,
+      "narration": "silent",
+      "rationale": "纯视觉笔顺示范段：7.4-8.0s 米字格由 识字态 (cream 0.42 / 外框 0.55) 平滑加重到 写字态 (cream 0.96 / 黑实线外框)，同时暖棕楷体一字淡出；8.0-9.4s 黑色楷体一字 clip-path 由左到右揭开模拟单笔横画书写；9.4-10s 完成姿态保持 0.6s 让大字稳定可读。整段无旁白让孩子专注看完整一笔横画"
+    }
+  ],
+  "syncRules": [
+    "每段旁白起始时刻 (audioStart) 与对应镜头视觉 cue 起始 (visualStart) 同帧或视觉早 ≤ 0.12s",
+    "每段旁白结束后视觉至少持续 0.08s 不立即切换，保证孩子语义闭合",
+    "末段 就是一 旁白结束后保留 ≥0.45s 安静让大字 一 稳定回看（实际 0.942s）",
+    "writing-demo 段 (7.4-10s) 为 narration=\"silent\" 静默 cue，不占 spoken target；visualEnd 10s 由 paddedTotalDurationSeconds 覆盖",
+    "baked mp3 实测 10.056s（旁白 7.464s + 静音填充 2.592s），与 paddedTotalDurationSeconds 10s 误差 0.056s ≤ 0.35s 容差"
+  ],
+  "outputs": {
+    "audio": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/assets/audio/yi-gpt-image-2-production-v4-narration.mp3",
+    "rawAudio": "/tmp/yi-narration-raw.mp3",
+    "subtitles": "tools/recognition-video/builds/yi-gpt-image-2-production-v4/assets/audio/yi-gpt-image-2-production-v4-narration.vtt"
+  }
+}

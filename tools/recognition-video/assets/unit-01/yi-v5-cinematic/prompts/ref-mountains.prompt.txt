@@ -1,0 +1,24 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic mountain-silhouette reference image (character reference). Used as `reference_image` input to BOTH `dawn-valley-plate` and `sun-rising-plate` so the same mountain ridge appears in both shots and a cross-dissolve reads as "same place, time passing" instead of "scene cut". 1024x1536 portrait.
+
+Primary request: A single layer of distant mountain silhouettes painted in soft sumi-e ink wash against a neutral warm-cream backdrop. The mountains are the ONLY subject — no sky color, no foreground, no light source, no village light, no birds — just the silhouette shape on its own so it can be used as a pure character reference.
+
+Subject (strict shape contract): A single horizontal silhouette layer of distant mountains occupying the LOWER 40% of the frame. The skyline shape should be a low gentle wave with these three landmarks, left to right:
+  - left third: a small subsidiary peak, soft rounded, about 22% of the layer's height above the baseline
+  - center third: ONE moderately prominent peak, slightly left of frame center, about 45% of the layer's height above the baseline — this is the visual anchor that sunrise will rise behind in the next shot
+  - right third: a long gentle downward slope descending to the right edge
+The silhouette must be continuous (no gap between peaks), painted as a single ink-wash shape with a soft top edge (slightly feathered, not razor sharp), darker at the base and slightly lighter at the upper edges as natural ink wash does.
+
+Color: Mountain silhouette painted in warm-gray #5d5366 wash with very subtle darker accumulation at the lowest part where the ink would naturally pool. Subtle inner texture from the brush wash but NO drawn trees, NO drawn buildings, NO ridge lines, NO snow caps — just a clean wash shape.
+
+Backdrop: The upper 60% of the frame and the area around the silhouette is a flat warm-cream paper backdrop #f5ead0, NOT a sky — this is a reference card, not a finished scene. Visible paper grain texture across the whole image.
+
+Style/medium: Traditional Chinese sumi-e ink-wash sensibility executed with oil-on-paper painterly grain. Reference: 追光《长安三万里》 distant-ridge sumi-e scenes, 熊亮《小石狮》 mountain treatment, Jon Klassen flat-silhouette restraint.
+
+Color discipline (strict): Only warm-gray #5d5366 ink wash and cream paper #f5ead0. No other colors. No saturated hues. No pure white. No pure black.
+
+Composition: Mountain layer centered horizontally, occupying frame-width edge to edge (full bleed). Lower 40% of frame contains the silhouette; upper 60% is clean cream paper space.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks, no UI, no human figures, no animals, no birds, no buildings, no trees, no clouds, no sun, no moon, no stars, no light beams, no rays, no village lights, no decorative borders, no signature, no chop seals, no chroma-key, no glossy 3D, no anime cuteness, no cartoon outlines.
+
+Avoid: too many peaks, jagged razor-sharp silhouettes, snow-capped mountains, evergreen tree dots scattered along the ridge, decorative cloud strokes above the ridge, ink splatters, painterly bravura strokes that compete with the calm shape, any framing border around the image.

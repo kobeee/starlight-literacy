@@ -38,10 +38,36 @@
     "unitId": {
       "type": "string"
     },
+    "narrationSpecRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schemaVersion"],
+      "description": "Pointer to a sub-line A narration-spec.json. When present, the spec is authoritative for narration text + TTS + measured timings, and brief.narration is treated as a non-authoritative cache that must be consistent with the spec.",
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "schemaVersion": {
+          "type": "string",
+          "const": "recognition-video-narration-spec/v1"
+        }
+      }
+    },
+    "tailSpecRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schemaVersion"],
+      "description": "Pointer to a sub-line C tail-spec.json. When present, the spec + its mizige-anchors are authoritative for the stroke-order tail rendering, and brief.teachingContract.strokeOrderTail is treated as a high-level description cache.",
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "schemaVersion": {
+          "type": "string",
+          "const": "recognition-video-tail-spec/v1"
+        }
+      }
+    },
     "duration": {
       "type": "number",
       "minimum": 3,
-      "maximum": 8
+      "maximum": 12
     },
     "fps": {
       "type": "integer",
@@ -118,6 +144,38 @@
             "items": {
               "type": "string"
             }
+          },
+          "continuityWithPrev": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "How this shot is visually continuous with the previous one. validate-plate-continuity.mjs requires at least one of sharedSubjectIds / sharedPaletteHueRange / transitionalElementId on every non-opening shot — root cause of v8 'mountain→ray hard cut' blocker (shotPlan treated each plate as independent gpt-image-2 still).",
+            "properties": {
+              "sharedSubjectIds": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Subjects/sprites that appear in BOTH this shot and the previous (e.g. ['bird', 'mountain-horizon'])."
+              },
+              "sharedPaletteHueRange": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["hueDegMin", "hueDegMax"],
+                "properties": {
+                  "hueDegMin": { "type": "number", "minimum": 0, "maximum": 360 },
+                  "hueDegMax": { "type": "number", "minimum": 0, "maximum": 360 }
+                },
+                "description": "Dominant hue range shared with prev shot. Adjacent shots' hue centers should be within 30° of each other."
+              },
+              "transitionalElementId": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Explicit transitional element (cross-dissolve overlay / shared particle / motion-bridge sprite) carrying meaning across the cut."
+              },
+              "transitionType": {
+                "type": "string",
+                "enum": ["cross-dissolve", "wipe", "match-cut", "hard-cut"],
+                "description": "Type of transition. hard-cut is only allowed when explicitly listed as a directorial choice with a strong sharedSubjectIds bridge."
+              }
+            }
           }
         }
       }
@@ -133,6 +191,7 @@
         "sentenceBridge",
         "recognitionPauses",
         "practiceOrRepeat",
+        "strokeOrderTail",
         "writingPosition",
         "mascotRole"
       ],
@@ -244,6 +303,45 @@
             "mode": {
               "type": "string",
               "minLength": 2
+            },
+            "description": {
+              "type": "string",
+              "minLength": 4
+            }
+          }
+        },
+        "strokeOrderTail": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shotId", "startSeconds", "minSeconds", "container", "containerStatePolicy", "narrationPolicy", "writingDirection", "description"],
+          "properties": {
+            "shotId": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "startSeconds": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minSeconds": {
+              "type": "number",
+              "minimum": 1.5
+            },
+            "container": {
+              "type": "string",
+              "const": "mizige"
+            },
+            "containerStatePolicy": {
+              "type": "string",
+              "enum": ["single-mizige-dual-state"]
+            },
+            "narrationPolicy": {
+              "type": "string",
+              "enum": ["silent"]
+            },
+            "writingDirection": {
+              "type": "string",
+              "enum": ["left-to-right", "top-to-bottom", "stroke-order-table"]
             },
             "description": {
               "type": "string",
@@ -377,6 +475,74 @@
           "items": {
             "type": "string"
           }
+        },
+        "shotMotion": {
+          "type": "array",
+          "description": "Per-shot effective motion declaration. validate-motion-readability.mjs reads these to enforce that the rendered viewport actually moves enough for children to perceive (root cause of v8 'Ken Burns 14px etc = no motion' blocker). Each entry MUST cover one shotPlan id that has no diegetic sprite motion — if the only motion is camera Ken Burns or a CSS reveal, the declared delta is what the validator checks. Shots driven by sprite frames are exempted via animationDriver=sprite-only.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["shotId", "animationDriver"],
+            "properties": {
+              "shotId": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "animationDriver": {
+                "type": "string",
+                "enum": ["ken-burns", "sprite-only", "css-mask-reveal", "gsap-transform", "static-with-overlay"],
+                "description": "Primary motion source. ken-burns / gsap-transform / css-mask-reveal need declared effective delta; sprite-only is exempt; static-with-overlay must declare overlayMotion."
+              },
+              "effectiveScaleDeltaPercent": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Absolute scale change over the shot in percent (e.g. 6 for 1.00→1.06). Required when animationDriver=ken-burns or gsap-transform."
+              },
+              "effectiveTranslatePx": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Largest translate delta in CSS px at composition resolution. Required when animationDriver=ken-burns or gsap-transform."
+              },
+              "diegeticOverlayId": {
+                "type": "string",
+                "description": "Sprite or layer id that adds in-world motion (e.g. bird-flight, sun-rise-halo). When present, scale/translate minimums are relaxed."
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 4,
+                "description": "Why this driver/delta combination is enough for 3-6 year olds to perceive."
+              }
+            }
+          }
+        },
+        "writingImplements": {
+          "type": "array",
+          "description": "Declares the visible writing implement for any shot that animates a stroke being written (e.g. ink-glyph mask reveal). Root cause of v8 'mask reveal = wipe, not writing' blocker was that no shot was required to expose a leading-edge ink-front / pen-tip. Each writing shot MUST list one implement.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["shotId", "implementForm", "tracksMaskFront"],
+            "properties": {
+              "shotId": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "implementForm": {
+                "type": "string",
+                "enum": ["ink-front-bloom", "brush-tip-sprite", "pen-nib-sprite", "child-finger-sprite"],
+                "description": "What the child sees moving with the writing. ink-front-bloom = leading-edge ink halo bound to the mask front; *-sprite = an explicit animated sprite that follows mask progress."
+              },
+              "tracksMaskFront": {
+                "type": "boolean",
+                "const": true,
+                "description": "Implement MUST track the writing mask front 1:1. A static prop in the corner does NOT count (v8 blocker)."
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 4
+              }
+            }
+          }
         }
       }
     },
@@ -384,6 +550,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["description", "mustBeReadableAsPoster"],
+      "description": "Brief's view of the very last frame (P03 poster). When tailSpecRef is present, guideObject.form / guideObject.entryDirection / posterHoldSeconds MUST be filled and MUST match tail-spec.finalFrame.pointerForm, mizige-anchors.hand.entryEdge+entryAngleDeg, and pacingRequirements.minimumFinalHoldSeconds respectively. Cross-file consistency validator gates these.",
       "properties": {
         "description": {
           "type": "string",
@@ -392,6 +559,34 @@
         "mustBeReadableAsPoster": {
           "type": "boolean",
           "const": true
+        },
+        "guideObject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["form", "anchor", "entryDirection"],
+          "description": "Structured contract for the guide object in the poster frame. Required when tailSpecRef is present. Mirrors tail-spec.finalFrame.pointerForm and mizige-anchors.hand.* so brief and spec cannot drift apart silently.",
+          "properties": {
+            "form": {
+              "type": "string",
+              "enum": ["child-hand", "brush-pointer", "ink-front-bloom"],
+              "description": "Must equal tail-spec.finalFrame.pointerForm AND must be in mizige-anchors.hand.allowedPointerForms. v9 added ink-front-bloom — see mizige-anchors.hand.description for rationale."
+            },
+            "anchor": {
+              "type": "string",
+              "enum": ["glyph_right_end_plus_18px", "glyph_center", "last_stroke_endpoint_plus_18px"],
+              "description": "Where the pointer tip lands. glyph_right_end_plus_18px is the brand default for single-horizontal characters."
+            },
+            "entryDirection": {
+              "type": "string",
+              "enum": ["bottom-right-30deg", "bottom-left-30deg", "right-horizontal"],
+              "description": "Pointer entry vector. Must match anchors.hand.entryEdge + entryAngleDeg."
+            }
+          }
+        },
+        "posterHoldSeconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "How long the poster frame must be held visibly. Should equal pacingRequirements.minimumFinalHoldSeconds and be <= tail-spec finalHold window (anchors.timing.finalHoldSeconds + any extra dwell shotPlan provides outside the tail)."
         }
       }
     }

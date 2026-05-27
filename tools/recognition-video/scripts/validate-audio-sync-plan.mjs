@@ -5,7 +5,8 @@ import { basename, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const MIN_DURATION_SECONDS = 3;
-const MAX_DURATION_SECONDS = 8;
+const MAX_DURATION_SECONDS = 12;
+const MAX_PADDED_TOTAL_DURATION_SECONDS = 12;
 const MIN_MULTI_CUE_DURATION_SECONDS = 5.8;
 const MIN_FINAL_QUIET_SECONDS = 0.45;
 const MAX_VISUAL_LATE_SECONDS = 0.12;
@@ -112,22 +113,58 @@ function validateTargetDuration({ brief, audioPlan, errors, label }) {
     target >= MIN_DURATION_SECONDS && target <= MAX_DURATION_SECONDS,
     errors,
     label,
-    `targetDurationSeconds must stay within ${MIN_DURATION_SECONDS}-${MAX_DURATION_SECONDS}s for P03 recognition clips.`,
-  );
-  check(
-    Math.abs(target - brief.duration) <= 0.1,
-    errors,
-    label,
-    "targetDurationSeconds must match brief.duration within 0.1s.",
+    `targetDurationSeconds must stay within ${MIN_DURATION_SECONDS}-${MAX_DURATION_SECONDS}s for the spoken cue body of a P03 recognition clip. Use paddedTotalDurationSeconds for the silent stroke-order tail.`,
   );
 
-  const cueCount = Array.isArray(audioPlan.cues) ? audioPlan.cues.length : 0;
-  if (cueCount >= 3) {
+  const padded = isNumber(audioPlan.paddedTotalDurationSeconds)
+    ? audioPlan.paddedTotalDurationSeconds
+    : null;
+  if (padded === null) {
+    check(
+      Math.abs(target - brief.duration) <= 0.1,
+      errors,
+      label,
+      "targetDurationSeconds must match brief.duration within 0.1s when no paddedTotalDurationSeconds is declared.",
+    );
+  } else {
+    check(
+      Math.abs(padded - brief.duration) <= 0.1,
+      errors,
+      label,
+      "paddedTotalDurationSeconds must match brief.duration within 0.1s (brief.duration is the final video length including the silent stroke-order tail).",
+    );
+    check(
+      target <= brief.duration + 0.05,
+      errors,
+      label,
+      "targetDurationSeconds (spoken body) cannot exceed brief.duration.",
+    );
+  }
+
+  const spokenCueCount = Array.isArray(audioPlan.cues)
+    ? audioPlan.cues.filter((cue) => isSpokenCue(cue)).length
+    : 0;
+  if (spokenCueCount >= 3) {
     check(
       target >= MIN_MULTI_CUE_DURATION_SECONDS,
       errors,
       label,
       `multi-cue clips need at least ${MIN_MULTI_CUE_DURATION_SECONDS}s so children can hear and look back.`,
+    );
+  }
+
+  if (padded !== null) {
+    check(
+      padded >= target - 0.001,
+      errors,
+      label,
+      "paddedTotalDurationSeconds must be greater than or equal to targetDurationSeconds.",
+    );
+    check(
+      padded <= MAX_PADDED_TOTAL_DURATION_SECONDS,
+      errors,
+      label,
+      `paddedTotalDurationSeconds cannot exceed ${MAX_PADDED_TOTAL_DURATION_SECONDS}s.`,
     );
   }
 }
@@ -197,11 +234,59 @@ function validateCues({ brief, audioPlan, errors, label }) {
   const shotById = new Map((brief.shotPlan || []).map((shot) => [shot.id, shot]));
   const minCueHold = brief.pacingRequirements?.minimumCueHoldSeconds ?? 1.2;
   const target = audioPlan.targetDurationSeconds;
-  let previousCue = null;
+  const padded = isNumber(audioPlan.paddedTotalDurationSeconds)
+    ? audioPlan.paddedTotalDurationSeconds
+    : target;
+  let previousSpokenCue = null;
+  let lastSpokenCue = null;
 
   for (const cue of cues) {
     const cueLabel = cue.id || cue.text || "unnamed cue";
     check(typeof cue.id === "string" && cue.id.length > 0, errors, label, "each audio cue needs an id.");
+
+    const silent = isSilentCue(cue);
+
+    if (silent) {
+      for (const key of ["visualStart", "visualEnd"]) {
+        check(isNumber(cue[key]), errors, label, `silent cue "${cueLabel}" must have numeric ${key}.`);
+      }
+      if (!isNumber(cue.visualStart) || !isNumber(cue.visualEnd)) continue;
+
+      check(cue.visualEnd > cue.visualStart, errors, label, `silent cue "${cueLabel}" visualEnd must be after visualStart.`);
+      check(
+        cue.visualEnd <= padded + MAX_TARGET_MEDIA_DELTA_SECONDS,
+        errors,
+        label,
+        `silent cue "${cueLabel}" visual window extends past paddedTotalDurationSeconds (${padded}).`,
+      );
+      check(
+        cue.visualStart >= target - MAX_TARGET_MEDIA_DELTA_SECONDS,
+        errors,
+        label,
+        `silent cue "${cueLabel}" should start at or after the spoken target duration; silent tails must follow the narration body.`,
+      );
+      check(
+        typeof cue.rationale === "string" && cue.rationale.trim().length >= 4,
+        errors,
+        label,
+        `silent cue "${cueLabel}" must explain its purpose in "rationale".`,
+      );
+
+      if (cue.shotId) {
+        const shot = shotById.get(cue.shotId);
+        if (shot) {
+          check(
+            cue.visualStart >= shot.start - MAX_VISUAL_LATE_SECONDS &&
+              cue.visualEnd <= shot.start + shot.duration + MAX_TARGET_MEDIA_DELTA_SECONDS,
+            errors,
+            label,
+            `silent cue "${cueLabel}" visual window should fit inside shot "${cue.shotId}".`,
+          );
+        }
+      }
+      continue;
+    }
+
     check(typeof cue.text === "string" && cue.text.length > 0, errors, label, `cue "${cueLabel}" needs text.`);
 
     for (const key of ["audioStart", "audioEnd", "visualStart", "visualEnd"]) {
@@ -243,28 +328,33 @@ function validateCues({ brief, audioPlan, errors, label }) {
       }
     }
 
-    if (previousCue) {
+    if (previousSpokenCue) {
       check(
-        cue.audioStart >= previousCue.audioStart,
+        cue.audioStart >= previousSpokenCue.audioStart,
         errors,
         label,
         `cue "${cueLabel}" starts before the previous cue.`,
       );
       check(
-        cue.audioStart - previousCue.audioStart >= minCueHold,
+        cue.audioStart - previousSpokenCue.audioStart >= minCueHold,
         errors,
         label,
-        `cue "${cueLabel}" starts only ${(cue.audioStart - previousCue.audioStart).toFixed(2)}s after the previous cue.`,
+        `cue "${cueLabel}" starts only ${(cue.audioStart - previousSpokenCue.audioStart).toFixed(2)}s after the previous cue.`,
       );
     }
 
-    previousCue = cue;
+    previousSpokenCue = cue;
+    lastSpokenCue = cue;
   }
 
-  const lastCue = cues.at(-1);
+  if (!lastSpokenCue) {
+    errors.push(`${label}: audioPlan must contain at least one spoken cue.`);
+    return;
+  }
+
   const quietAfterLastCue = isNumber(audioPlan.quietAfterLastCueSeconds)
     ? audioPlan.quietAfterLastCueSeconds
-    : target - lastCue.audioEnd;
+    : target - lastSpokenCue.audioEnd;
 
   check(
     quietAfterLastCue >= MIN_FINAL_QUIET_SECONDS,
@@ -273,11 +363,42 @@ function validateCues({ brief, audioPlan, errors, label }) {
     `clip needs at least ${MIN_FINAL_QUIET_SECONDS}s of quiet final glyph review after the last spoken cue.`,
   );
   check(
-    lastCue.visualEnd >= target - MAX_TARGET_MEDIA_DELTA_SECONDS,
+    lastSpokenCue.visualEnd >= target - MAX_TARGET_MEDIA_DELTA_SECONDS,
     errors,
     label,
-    "final cue visual should hold through the end of the clip.",
+    "final cue visual should hold through the end of the spoken target window.",
   );
+
+  if (isNumber(audioPlan.paddedTotalDurationSeconds)) {
+    const tailCue = cues.find((cue) => isSilentCue(cue));
+    check(
+      Boolean(tailCue),
+      errors,
+      label,
+      "paddedTotalDurationSeconds implies a silent tail cue (narration=\"silent\") must be present in cues.",
+    );
+    if (tailCue && isNumber(tailCue.visualEnd)) {
+      check(
+        Math.abs(tailCue.visualEnd - audioPlan.paddedTotalDurationSeconds) <= MAX_TARGET_MEDIA_DELTA_SECONDS,
+        errors,
+        label,
+        "the silent tail cue visualEnd must hold to paddedTotalDurationSeconds.",
+      );
+    }
+  }
+}
+
+function isSilentCue(cue) {
+  if (!cue || typeof cue !== "object") return false;
+  if (cue.narration === "silent") return true;
+  if (cue.narration === "spoken") return false;
+  // legacy: spoken cues always have numeric audioStart/audioEnd
+  if (cue.audioStart === null && cue.audioEnd === null) return true;
+  return false;
+}
+
+function isSpokenCue(cue) {
+  return !isSilentCue(cue);
 }
 
 function validateOutputs({ audioPlan, errors, label }) {
@@ -300,11 +421,17 @@ function validateOutputs({ audioPlan, errors, label }) {
   if (outputs.audio && existsSync(resolve(outputs.audio))) {
     const mediaDuration = probeDuration(outputs.audio);
     if (mediaDuration !== null) {
+      const expectedDuration = isNumber(audioPlan.paddedTotalDurationSeconds)
+        ? audioPlan.paddedTotalDurationSeconds
+        : audioPlan.targetDurationSeconds;
+      const expectedLabel = isNumber(audioPlan.paddedTotalDurationSeconds)
+        ? `paddedTotalDurationSeconds ${expectedDuration}s`
+        : `target ${expectedDuration}s`;
       check(
-        Math.abs(mediaDuration - audioPlan.targetDurationSeconds) <= MAX_TARGET_MEDIA_DELTA_SECONDS,
+        Math.abs(mediaDuration - expectedDuration) <= MAX_TARGET_MEDIA_DELTA_SECONDS,
         errors,
         label,
-        `outputs.audio duration ${mediaDuration.toFixed(3)}s does not match target ${audioPlan.targetDurationSeconds}s.`,
+        `outputs.audio duration ${mediaDuration.toFixed(3)}s does not match ${expectedLabel}.`,
       );
       if (isNumber(audioPlan.bakedAudioDurationSeconds)) {
         check(

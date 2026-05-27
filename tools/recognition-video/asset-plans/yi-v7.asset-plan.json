@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "recognition-video-asset-plan/v1",
+  "characterId": "yi-v7",
+  "style": {
+    "source": "v7 极简主义重构：抛弃所有 v5/v6 AI 生图 plate（dual-render 根源），全屏只一个视觉容器=宣纸 + 米字格 + 远山剪影，贯穿 0-12s 不切镜头；所有字相关层 HTML/SVG/CSS 可控；仅保留 v5 cinematic 已生产的 bird-flight-loop sprite。",
+    "summary": "极简主义识字短片：宣纸 #f5ead0 纯色底 + 米字格水印（始终居中）+ 下 1/3 远山剪影 SVG，三者构成「一张永远不切的画」。动画层（bird sprite → CSS 光带 → HTML kaiti「一」字 → 笔顺 mask + 毛笔尖 SVG）在同一张画上从无到有变形。色板严格收敛在 v5 田园暖彩：宣纸 #f5ead0 / 墨色 #1f1a14 / 暖棕 #5D4A36 / 晨光 #f4b06a / 远山 #2a2535。明确反对：洪恩 / 巧虎 / Pinkfong 的高饱和卡通；明确反对：v5/v6 的多张 AI 生图 plate cross-dissolve 风格。"
+  },
+  "plates": [
+    {
+      "id": "ref-style-anchor",
+      "kind": "reference",
+      "purpose": "style anchor reference：仅用作 prompt 内文字说明，v7 不生产任何 raster plate；v7 全片视觉 = HTML + SVG + CSS；ref-style-anchor 锁定 v5 已通过审核的色板与笔触语言以便日后字符扩展时仍能保持视觉一致",
+      "path": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/refs/ref-style-anchor.png"
+    }
+  ],
+  "cutouts": [],
+  "sprites": [
+    {
+      "id": "yi-v5-cinematic-bird-flight-loop",
+      "actor": "bird",
+      "action": "flight-loop",
+      "manifest": "tools/recognition-video/assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/manifest.json",
+      "minFrames": 6,
+      "requiredMotionParts": [
+        "wing-up",
+        "wing-down",
+        "body-translate"
+      ],
+      "motionCheckIntent": "6 帧依序展示翅膀从 down stroke 起点 → down stroke 中段 → 极底 → up stroke 起点 → up stroke 中段 → 极顶 的完整扑翅循环；任两帧不可像素完全一致；frame 0 与 frame 5 几何接近但相位略异以避免视觉冻结；body 在 6 帧间需有微小 ±2px 上下浮动",
+      "notes": "v7 唯一复用的 v5 cinematic 资产（6 帧 256×256 透明 PNG，transparentPixelRatio 0.9446）；v7 把 sprite 显示时长固定在 0-3.0s（v6 是 0-2.2s），让 bird 飞过米字格上方的视觉旅程更完整、与 concrete-anchor 旁白「看，一只小鸟」全程同框。"
+    }
+  ],
+  "textRendering": {
+    "rasterImagesMayContainText": false,
+    "renderer": "html-css"
+  },
+  "audio": {
+    "status": "planned",
+    "script": "看，一只小鸟。飞过一道光。这就是一。",
+    "path": "src/clients/mobile-h5/assets/recognition/yi/yi-v7-narration.mp3",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v7.audio-plan.json"
+  },
+  "qualityBars": [
+    "全片 0 张 AI 生图 plate — v5/v6 的 dual-render bug（plate 自带「一」字 + HTML kaiti「一」字上下错位 = 视觉「二」）从根上消除",
+    "「一」字在全片任意时刻只能有 1 个可见 element（米字格中心的 HTML kaiti div），从光带变形而来；任何时候画面上不能同时存在两个「一」字（无论 raster 或 HTML）",
+    "笔顺横笔渗墨 ≥ 2.0s — 满足行业标准（洪恩 / 巧虎单笔 ≥2s），P1 修复 v6 笔顺 0.9s 过短的硬伤",
+    "米字格水印贯穿 0-12s 始终居中可见，由 --mizige-opacity 在 9s 时从 0.18 缓动到 0.30 切换识字态 → 写字态；不切镜头、不切容器",
+    "全片严禁出现 raster 上的中文 / 拼音 / 数字 / 拉丁字符 / 印章 / 水印标签 / UI 元素；楷体「一」字是 HTML CSS Yi Kaiti 渲染、笔顺 mask 是 CSS linear-gradient",
+    "颜色严格收敛在 v5 田园暖彩低饱和暖色温滤镜：禁止饱和度 > 60% 的颜色、紫蓝/洋红/霓虹绿/薄荷蓝、pure #ffffff 或 pure #000000",
+    "bird-flight-loop sprite 6 帧（复用 v5）必须有 wing-down → wing-up 的连续梯度，相邻帧不可像素完全一致",
+    "final frame 必须 poster 化可读：宣纸 + 米字格写字态 + 黑色楷体「一」字完全成形 + 毛笔尖与孩子手指悬停在字尾、右上 30° 暖光柔影，无任何叠加 UI"
+  ]
+}

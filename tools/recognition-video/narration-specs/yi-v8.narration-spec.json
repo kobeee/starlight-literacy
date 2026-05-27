@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "recognition-video-narration-spec/v1",
+  "characterId": "yi-v8",
+  "targetCharacter": "一",
+  "targetCharSemantic": "number",
+  "script": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "一只小鸟，飞过山头。",
+      "role": "concrete-anchor",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "dawn-mountain-plate",
+      "notes": "v8.1 第一段：dawn-mountain-bird plate（gpt-image-2 水墨晨景：宣纸 + 三层远山 + 上方一只小鸟剪影）作底。「一只」量词在 0.1s 起把目标字「一」绑到 plate 上的单只小鸟剪影 — 这是 12s 短片中目标字「一」的首次音视同步锚定。10 字含标点，≤12 字单段上限。砍掉 v8 初版「天刚亮」前缀（13 字超限）+ 砍掉 v8 初版去掉「一只」的失误，恢复 v3-v7「concrete-anchor 段必须含目标字」的项目宪法纪律。"
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "一道光，落在白纸。",
+      "role": "phrase-bridge",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "sunlight-ray-plate",
+      "notes": "v8.1 第二段：dawn-mountain plate 渐隐 / sunlight-ray plate（gpt-image-2 生图，宣纸底 + 45° 对角线暖金阳光）渐显。「一道」量词绑画面单束阳光的视觉计数锚。9 字含标点。「落在白纸」自然过渡到下段——光落的纸就是即将写「一」的那张。plate 光 45° 对角与「一」字 90° 横笔方向错开避免 dual-render。"
+    },
+    {
+      "id": "glyph-binding",
+      "text": "轻轻一笔，画过去。",
+      "role": "glyph-binding",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "ink-bleed",
+      "notes": "v8.1 第三段：sunlight 退场后纯宣纸 + HTML kaiti「一」字 div 通过 CSS mask-image linear-gradient(90deg) 从左到右渗墨成形。「一笔」量词绑画面单一横画。9 字含标点。砍掉 v8 初版「从左画到右」（笔顺方向教学）— 这条已由 stroke-order tail 段（9.5-12s）独立 silent 笔顺示范承担，spoken body 不该重复。米字格 7-8s 缓入 0.18 识字态。"
+    },
+    {
+      "id": "glyph-naming",
+      "text": "这就是「一」。",
+      "role": "glyph-naming",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "glyph-naming",
+      "notes": "v8.1 第四段：字-形-音收束。「一」字已稳定居中、米字格 0.18→0.30 切到写字态。8 字含标点。9.5s 后切独立 stroke-order-tail 段（silent）让孩子专注看 child-hand 笔顺示范，旁白本段在 9.5s 前讲完。"
+    }
+  ],
+  "concreteAnchorPhrase": {
+    "segmentId": "concrete-anchor",
+    "phrase": "一只小鸟",
+    "anchorObject": "小鸟"
+  },
+  "quantifierUsage": [
+    {
+      "segmentId": "concrete-anchor",
+      "phrase": "一只",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "dawn-mountain-bird plate / 上方单只小鸟剪影（画面就 1 只，可数 1 只）"
+    },
+    {
+      "segmentId": "phrase-bridge",
+      "phrase": "一道",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "sunlight-ray-plate / 单束 45° 对角线暖金阳光（画面就 1 道光，可数 1 道）"
+    },
+    {
+      "segmentId": "glyph-binding",
+      "phrase": "一笔",
+      "kind": "number-as-quantifier",
+      "boundToVisualCount": true,
+      "visualReference": "ink-bleed shot / 楷体「一」字单一横画从左到右渗墨成形（画面就 1 笔，可数 1 笔）"
+    }
+  ],
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3-v7 同一 Xiaoxiao 女老师声 + -10% 慢速；v8.1 4 段叙事每段 ≤12 字（≤3-6 岁认知上限），spoken body 集中在 0-9.5s，9.5-12s 让位独立 silent stroke-order tail。"
+  },
+  "tts": {
+    "engine": "edge-tts",
+    "commandTemplate": "edge-tts --voice {{voice}} --rate={{rate}} --pitch={{pitch}} --text {{text}} --write-media {{audioOut}} --write-subtitles {{subtitleOut}}",
+    "postProcess": {
+      "apadToSeconds": 12
+    }
+  },
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.vtt",
+    "measuredTimings": "src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.measured-timings.json"
+  }
+}

@@ -21,27 +21,27 @@ export const unit01 = {
       scene: "一轮月光落在水面，安静地拉出一条亮亮的线。",
       recognitionVideo: {
         status: "official",
-        src: "./assets/recognition/yi/yi-gpt-image-2-production.mp4",
-        webm: "./assets/recognition/yi/yi-gpt-image-2-production.webm",
+        src: "./assets/recognition/yi/yi-v5-cinematic.mp4",
+        webm: "./assets/recognition/yi/yi-v5-cinematic.webm",
         sources: [
-          { src: "./assets/recognition/yi/yi-gpt-image-2-production.webm", type: "video/webm" },
-          { src: "./assets/recognition/yi/yi-gpt-image-2-production.mp4", type: "video/mp4" }
+          { src: "./assets/recognition/yi/yi-v5-cinematic.webm", type: "video/webm" },
+          { src: "./assets/recognition/yi/yi-v5-cinematic.mp4", type: "video/mp4" }
         ],
-        poster: "./assets/recognition/yi/yi-gpt-image-2-production-poster.png",
-        finalFrame: "./assets/recognition/yi/yi-gpt-image-2-production-final.png",
+        poster: "./assets/recognition/yi/yi-v5-cinematic-poster.png",
+        finalFrame: "./assets/recognition/yi/yi-v5-cinematic-final.png",
         width: 1080,
         height: 1920,
-        duration: 10,
+        duration: 12,
         fps: 24,
-        version: "yi-gpt-image-2-production",
-        teachingCue: "一个太阳、一条光线、平平一横，就是一。",
+        version: "yi-v5-cinematic",
+        teachingCue: "天亮了，山那边升起一道光，平平的一横，就是「一」。",
         audioTrack: {
           status: "baked",
-          src: "./assets/recognition/yi/yi-gpt-image-2-production-narration.mp3",
+          src: "./assets/recognition/yi/yi-v5-cinematic-narration.mp3",
           voice: "zh-CN-XiaoxiaoNeural",
           rate: "-10%",
           pitch: "+0Hz",
-          duration: 10.056
+          duration: 12.0
         }
       },
       legacyRecognitionVideo: {

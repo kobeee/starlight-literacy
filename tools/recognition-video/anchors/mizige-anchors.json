@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "recognition-video-mizige-anchors/v1",
+  "description": "System-level canonical layout for the stroke-order tail. Every character's tail-spec MUST reference this anchor table — the mizige (米字格) position, size, and child-hand entry direction are NOT content design, they are process constraints. Without this table, every character drifts and the final frame stops being a coherent product surface (P03 poster).",
+  "frame": {
+    "widthPx": 1280,
+    "heightPx": 720,
+    "description": "Recognition-video composition canvas. All anchor coordinates below are in this coordinate space."
+  },
+  "background": {
+    "color": "#f5ead0",
+    "description": "Xuan paper warm cream. Same value used in cinematic body's ink-glyph plate so the cross-over into the tail does not flash."
+  },
+  "mizige": {
+    "centerXPx": 640,
+    "centerYPx": 360,
+    "sizePx": 360,
+    "strokeColor": "#5D4A36",
+    "strokeWidthPx": 1.4,
+    "opacityStates": {
+      "recognition": 0.18,
+      "writing": 0.30
+    },
+    "diagonals": "dashed",
+    "description": "Single mizige centered on the frame. recognition (0.18) is the state during the cinematic body when the glyph is being READ; writing (0.30) is the state during stroke-order tail when the glyph is being WRITTEN. Container policy is single-mizige-dual-state — never two grids on screen."
+  },
+  "glyph": {
+    "boxCenterXPx": 640,
+    "boxCenterYPx": 360,
+    "boxSizePx": 300,
+    "color": "#1f1a14",
+    "fontFamily": "STKaiti, Kaiti SC, serif",
+    "description": "Kaiti glyph centers inside the mizige with ~30px breathing room. boxSize is the safe area for the character — strokes must not visually exceed this box even if the SVG viewBox is larger."
+  },
+  "hand": {
+    "entryEdge": "bottom-right",
+    "entryAngleDeg": 30,
+    "fingertipHoverOffsetPx": 18,
+    "fingertipTargetStrokeIndex": "last",
+    "allowedPointerForms": ["child-hand", "brush-pointer", "ink-front-bloom"],
+    "description": "A pointer enters from the bottom-right corner at 30°, its tip hovering ~18px above the LAST written stroke. The pointer form is allowed to be a child's right hand, a calligraphy brush, OR an ink-front bloom (a warm radial bloom that visually IS the ink advancing front) — the constraint is the entry direction, the tip position, and the 'guide-toward-stroke' semantic, NOT a specific anatomical depiction. v8.2 added brush-pointer after the cartoon hand SVG read as 'color blocks'. v9 added ink-front-bloom after jury found that even brush-pointer felt like a static prop disconnected from the writing act — ink-front-bloom collapses the pointer and the ink itself into one entity, so the bloom moves WITH the mask front by construction. Brand's P03 poster is still locked to bottom-right 30° entry and tip at glyph-right-end +18px."
+  },
+  "lighting": {
+    "sourceAngleDeg": 30,
+    "sourceCorner": "top-right",
+    "warmTint": "#f4b06a",
+    "shadowBlurPx": 12,
+    "description": "Warm 30° rim light from top-right casts a soft shadow under the hand toward bottom-left. Locks all stroke-order tail final frames to one consistent lighting setup so the P03 poster reads coherently across the whole Unit-01 set."
+  },
+  "timing": {
+    "totalDurationSeconds": 2.0,
+    "recognitionToWritingTransitionSeconds": 0.6,
+    "writingDurationSeconds": 0.9,
+    "finalHoldSeconds": 0.5,
+    "description": "Stroke-order tail occupies the last 10.0-12.0s of a 12s recognition video. 0.0-0.6s: mizige opacity 0.18→0.30 and ink-glyph layer from the cinematic body MUST be cleared in this window (otherwise the previous renge ink leaks into the writing demo and the final frame shows ghost strokes). 0.6-1.5s: writing the strokes. 1.5-2.0s: final hold = poster moment."
+  },
+  "clearingContract": {
+    "mustClearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer"
+    ],
+    "description": "When the stroke-order tail starts (t = totalDurationSeconds_before_tail), these cinematic-body layers MUST be removed from the DOM or set to opacity:0 with display:none. Failing this contract is what produced the 'two horizontal strokes' bug in v5 — the ink-glyph layer was still painted underneath the fresh stroke-order mask."
+  },
+  "supportedStrokeDirections": {
+    "horizontal": {
+      "code": "h",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "left-to-right"
+    },
+    "vertical": {
+      "code": "v",
+      "maskGradientAngleDeg": 180,
+      "writeDirection": "top-to-bottom"
+    },
+    "left-falling": {
+      "code": "p",
+      "maskGradientAngleDeg": 135,
+      "writeDirection": "top-right-to-bottom-left"
+    },
+    "right-falling": {
+      "code": "n",
+      "maskGradientAngleDeg": 45,
+      "writeDirection": "top-left-to-bottom-right"
+    },
+    "dot": {
+      "code": "d",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "press-and-release"
+    },
+    "hook": {
+      "code": "hk",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "stroke-then-hook",
+      "description": "Composite stroke — animator must split into a primary stroke + a short curve at the end."
+    },
+    "turning": {
+      "code": "z",
+      "maskGradientAngleDeg": 90,
+      "writeDirection": "primary-then-turn",
+      "description": "Composite stroke — animator must split into two linear phases joined at the turn."
+    }
+  },
+  "domProbe": {
+    "selector": "#stroke-order-tail",
+    "requiredAttributes": {
+      "data-tail-state": "writing",
+      "data-mizige-state": "writing"
+    },
+    "forbiddenSelectors": [
+      "#ink-glyph-bleed-layer:not([data-removed='true'])",
+      "#light-band-layer:not([data-removed='true'])",
+      ".phrase-bridge-active"
+    ],
+    "description": "render-stroke-order-tail.mjs runs a Playwright DOM probe on the final frame and asserts: (a) tail container has data-tail-state=writing, (b) cinematic-body layers are marked removed. This is the only way to catch the 'ghost ink under final stroke' bug from screenshot review alone."
+  }
+}

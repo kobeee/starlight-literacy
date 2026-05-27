@@ -1,0 +1,27 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic 米字格 (mizige) grid reference image (character reference). Used as `reference_image` input to `light-to-ink-plate`, `ink-glyph-plate`, and `hand-tracing-plate` so the same grid shape, placement, and watermark weight appear in all three shots. 1024x1536 portrait.
+
+Primary request: A single 米字格 (mizige) writing-practice grid painted as a soft warm-cream watermark on traditional Chinese xuan paper. The grid is the ONLY subject — no ink stroke inside the grid, no character, no labels, no chop seal, no decoration. Treat this as a faint guide layer that downstream plates will paint a horizontal calligraphy stroke on top of.
+
+Subject (strict geometry contract): One single mizige grid, perfectly square, centered horizontally in the frame and vertically centered approximately at 55% of the frame height (slightly above the geometric center). The grid is composed of these eight line segments forming the 米 pattern inside a square:
+  - 4 outer edge lines forming the square boundary
+  - 1 horizontal line bisecting the square top-to-bottom at its vertical midpoint
+  - 1 vertical line bisecting the square left-to-right at its horizontal midpoint
+  - 2 diagonal lines connecting opposite corners (top-left to bottom-right, top-right to bottom-left)
+The square outer dimension should occupy approximately 62% of the frame width (about 635px on a 1024-wide frame). The square is geometrically perfect — equal sides, true right angles at corners. The inner crossing point (where the horizontal, vertical, and both diagonals meet) sits exactly at the grid center.
+
+Line treatment (strict): All grid lines painted as faded warm-watermark lines in color #c9b48a (warm tan, low saturation). Line thickness about 2px, NOT bold, NOT decorative. The lines should look like a barely-printed watercolor watermark — present enough to guide the eye but quiet enough that an ink stroke on top will fully dominate. No double lines, no decorative end caps, no shadows.
+
+Background: Bare warm-cream xuan paper #f5ead0 filling the entire frame, with subtle vertical handmade-paper fiber texture (1-2px lines, very faint), and slight warm-gray corner aging fading inward — matching the paper substrate already established in the project's xuan-paper reference. No tea stain in this image (the grid is the focal element here). Visible painterly grain throughout.
+
+Style/medium: Oil-on-paper painterly hand. The grid lines themselves should have the slightest hint of brushed-edge softness — not razor-sharp vector lines, but soft watermark print. Reference: traditional Chinese 习字本 (practice copybook) grid pages, but painted not printed; 蔡皋 picture-book paper textures; museum-grade Chinese calligraphy training sheets.
+
+Color discipline (strict): Only warm-tan grid lines #c9b48a on warm-cream paper #f5ead0. NO red grid (this is NOT a 田字格 red-line workbook page). NO blue, NO green, NO purple, NO black, NO pure white. Saturation must stay below 25% throughout.
+
+Composition: Grid centered horizontally and placed at 55% vertical position. Generous breathing room of warm-cream paper above, below, and to both sides of the grid. No matting, no frame, no border, no decorative corner elements. Full-bleed paper edge to edge.
+
+Lighting: Soft even warm daylight, matching the xuan-paper substrate reference. No directional shadow, no specular highlight.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks (other than the grid itself), no UI, no human figures, no animals, no ink strokes inside or outside the grid, no brush, no chop seal, no signature line, no decorative border around the grid, no double-line or shadow-line effect on the grid, no red lines, no dashed lines, no grid numbering, no row/column markings, no axis arrows.
+
+Avoid: heavy bold dark grid lines that compete with future ink strokes, red-line 田字格 workbook style, lined notebook paper background, modern digital printed-grid look, vector-perfect razor edges, decorative corner flourishes, gold-foil treatment, any character or symbol shape hinted at by the line crossings beyond the simple 米 pattern, grid lines extending beyond the square boundary, any visible diagonal beyond the two specified, any extra inner subdivision (this is mizige 米字格 not jiugongge 九宫格 or huigongge 回宫格).

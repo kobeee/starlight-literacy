@@ -109,7 +109,7 @@
         "starlightTargetSeconds": {
           "type": "number",
           "minimum": 3,
-          "maximum": 8
+          "maximum": 12
         },
         "starlightDecision": {
           "type": "string",
@@ -120,7 +120,7 @@
     "targetDurationSeconds": {
       "type": "number",
       "minimum": 3,
-      "maximum": 8
+      "maximum": 12
     },
     "rawTtsAudioDurationSeconds": {
       "type": "number",
@@ -129,6 +129,16 @@
     "bakedAudioDurationSeconds": {
       "type": "number",
       "minimum": 0
+    },
+    "paddedTotalDurationSeconds": {
+      "type": "number",
+      "minimum": 3,
+      "maximum": 12,
+      "description": "Total length of the video and the apad-extended audio track when the clip carries a silent tail (e.g. stroke-order demo). Must be >= targetDurationSeconds."
+    },
+    "audioPaddingNotes": {
+      "type": "string",
+      "minLength": 4
     },
     "quietAfterLastCueSeconds": {
       "type": "number",
@@ -151,15 +161,14 @@
             "pattern": "^[a-z0-9-]+$"
           },
           "text": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "audioStart": {
-            "type": "number",
+            "type": ["number", "null"],
             "minimum": 0
           },
           "audioEnd": {
-            "type": "number",
+            "type": ["number", "null"],
             "minimum": 0
           },
           "visualStart": {
@@ -169,6 +178,14 @@
           "visualEnd": {
             "type": "number",
             "minimum": 0
+          },
+          "narration": {
+            "type": "string",
+            "enum": ["spoken", "silent"]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 4
           }
         }
       }

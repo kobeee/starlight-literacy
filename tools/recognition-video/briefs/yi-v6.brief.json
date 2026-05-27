@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-v6",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "narrationSpecRef": {
+    "path": "../narration-specs/yi-v6.narration-spec.json",
+    "schemaVersion": "recognition-video-narration-spec/v1"
+  },
+  "tailSpecRef": {
+    "path": "../tail-specs/yi-v6.tail-spec.json",
+    "schemaVersion": "recognition-video-tail-spec/v1"
+  },
+  "duration": 12,
+  "fps": 24,
+  "teachingHook": "黎明山坳里一只小鸟掠过；晨光横贯成一道直直的金带；金光在宣纸上化作墨色横笔，楷体「一」字渗墨而成；最后由孩子的手指轻触摹字。v6 在 v5 cinematic 美学骨架上重构叙事层：旁白 4 段—「看，一只小鸟。」（concrete anchor 把数量绑到 1 只小鸟）→「晨光直直的。」（phrase bridge 把光带形态绑到字形）→「念，一。」（glyph naming 字-音绑定）→「这就是一。」（extension 第三次重复）；spoken body ≤8s，silent prologue 0-0.1s + silent stroke-order tail 10-12s 共同承担两层呼吸。v6 修了 v5 cinematic 的 3 处叙事硬伤：「一」从 2 次 → 3 次重复达标，「一道光」无视觉锚的量词换成「一只小鸟」绑 bird sprite，「就是「一」」的句尾抽象指代换成「这就是一」更直接。",
+  "narration": {
+    "script": "看，一只小鸟。晨光直直的。念，一。这就是一。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      { "at": 0.1, "text": "看，一只小鸟。" },
+      { "at": 2.28, "text": "晨光直直的。" },
+      { "at": 4.28, "text": "念，一。" },
+      { "at": 5.83, "text": "这就是一。" }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "dawn-valley",
+      "start": 0,
+      "duration": 2.28,
+      "purpose": "电影开场 + 意义入口 (meaningAction)：5:30 AM 山坳全景 + 远景小鸟掠入；silent prologue 0-0.1s 极短呼吸后旁白「看，一只小鸟」对位 bird sprite，给「一」的数量意义一个可数 1 只的具象锚点",
+      "description": "全屏 dawn-valley-plate（深紫天空 #3a3550 + 远山墨色剪影 + 左下村庄一盏暖橙小光点 + 右下飞鸟剪影掠入）；bird-flight-loop 6 帧 sprite 在 0-2.2s 内从画面右下沿对角线掠向左上，复用 v5 cinematic 已生产的 96px sprite（transparentPixelRatio 0.9446）；GSAP 仅做 0.5% Ken Burns 缓推；无 CSS 几何叠加；旁白「看，一只小鸟」在 t=0.1s 起、随 bird sprite 入场同步落点；本段是 v6 区别 v5 最强的叙事修复——v5 这里全静默无旁白、v6 让 concrete anchor 落在画面上看到的 1 只小鸟而非抽象「一道光」",
+      "requiredAssets": [
+        "dawn-valley-plate",
+        "yi-v5-cinematic-bird-flight-loop"
+      ]
+    },
+    {
+      "id": "light-band",
+      "start": 2.28,
+      "duration": 2.0,
+      "purpose": "字形绑定 (glyphBinding)：晨光凝固成一道横贯画面的金色光带；旁白「晨光直直的」用「直直的」点出光带的字形特征，让 light-band → 一横的视觉过渡承担字形语义",
+      "description": "全屏 cross-dissolve 到 light-band-plate（横贯画面的暖金光带、两端柔光晕染、中心 #fff3c8、外缘 #f4b06a；背景虚化为暖金雾、远山虚焦保留同一山谷体感）；GSAP 仅做 0.3% scale 呼吸、不平移；plate 之外无任何 CSS linear-gradient 假光带；旁白「晨光直直的」在 t=2.28s 起持续 ~1.93s。v6 改名「一道光」(v5) → 「晨光直直的」是为了规避 number-as-quantifier 量词在画面无视觉计数锚的硬伤——直接用形容词锁定字形",
+      "requiredAssets": [
+        "light-band-plate"
+      ]
+    },
+    {
+      "id": "ink-glyph",
+      "start": 4.28,
+      "duration": 5.72,
+      "purpose": "字形闭合 (phraseBridge)：光带在宣纸上化作墨色横笔，楷体「一」字渗墨而成；旁白「念，一」(glyph naming) + 「这就是一」(extension) 在 ink-glyph 段先后落点完成字-音绑定与第 3 次重复",
+      "description": "0-0.5s 用 light-to-ink-plate 做光化为墨的中间态 dissolve（左侧仍是金光、右侧已收为暖棕墨色 #5D4A36 with wet ink bleed、米字格水印 18% opacity 浮现）；0.5-3.0s 切到 ink-glyph-plate（宣纸 #f5ead0 + 黑色楷体 一 字 #1f1a14 收笔完成 + 米字格水印 18% opacity），叠加 CSS 字形渗墨动画（html-glyph-ink-bleed：mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→blur(0) + opacity 0→1，由 GSAP 在 0.5-1.8s 推进）；旁白「念，一」在 t=4.28s 起 ~1.55s 同步 mask 渗墨中后段，旁白「这就是一」在 t=5.83s 起 ~1.57s 覆盖 ink-glyph 收笔完成态；3.12-5.72s 保持 hold（包含 quiet final ≥0.45s）让宣纸上的墨字稳定回看，是整片节奏最关键的呼吸点；无 CSS 几何，米字格仅以水印形式存在",
+      "requiredAssets": [
+        "light-to-ink-plate",
+        "ink-glyph-plate",
+        "html-glyph-ink-bleed",
+        "html-mizige-watermark"
+      ]
+    },
+    {
+      "id": "stroke-order-tail",
+      "start": 10.0,
+      "duration": 2.0,
+      "purpose": "笔顺尾段 (strokeOrderTail)：米字格水印由识字态平滑切到写字态，黑色楷体「一」字按笔顺由左到右渗墨写出，孩子的手指悬入摹字；整段静默、纯视觉",
+      "description": "全屏切到 hand-tracing-plate（宣纸 + 黑色楷体「一」字 + 米字格水印 + 一只孩子右手从右下入画、食指指腹悬在横笔上方约 5mm、阳光从右上 30° 斜入打出温柔暖光与柔影）；同步通过 CSS 变量 (--mizige-opacity: 0.18→0.30) 把米字格水印从识字态半透切到写字态稍实（仍是水印感，不变成实色作业本）；楷体「一」字保持完全可见；笔顺示范用 CSS mask-image linear-gradient 由左到右二次渗墨（与 ink-glyph 段不同的笔触相位，强化「这是写字、不是认字」的语义）；末 0.5s 完成姿态保持作为 P03 poster；整段无任何旁白 cue；audio-plan 用 ffmpeg apad 把 narration mp3 补到 12s 与视频等长。受 tools/recognition-video/tail-specs/yi-v6.tail-spec.json 与 anchors/mizige-anchors.json 双重约束",
+      "requiredAssets": [
+        "hand-tracing-plate",
+        "ink-glyph-plate",
+        "html-mizige-watermark",
+        "html-stroke-order-mask"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "dawn-valley",
+      "description": "远景一只小鸟从画面右下沿对角线掠向左上（bird-flight-loop 6 帧 sprite），旁白「看，一只小鸟」对位 bird sprite 入场，把「一」的数量意义从抽象落到画面上可数的 1 只小鸟具象物象——v6 区别 v5 最重要的叙事修复，规避了 v5「一道光」量词无视觉计数锚的硬伤",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-band",
+      "description": "晨光凝固成一道横贯画面的金色光带，旁白「晨光直直的」用「直直的」点出光带的水平形态特征，与未来宣纸上楷体「一」横笔的形状一一对应，建立物-形绑定；这是整片视觉中枢",
+      "boundElements": [
+        "horizontal warm-gold beam across the visual midline in light-band-plate",
+        "horizontal kaiti stroke of the character 一 ultimately rendered on xuan paper in ink-glyph plate"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "ink-glyph",
+      "phrase": "这就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "看，一只小鸟。晨光直直的。念，一。这就是一。",
+      "source": "Starlight Literacy Unit-01 一字 cinematic recognition short v6；4 段叙事覆盖 concrete-anchor（数量锚定）→ phrase-bridge（形态锚定）→ glyph-naming（字音绑定）→ extension（第三次重复达标）；区别于 v5 的 3 段诗化叙事「天亮了 / 山那边升起一道光 / 就是「一」」，v6 用更紧凑的 4 段补足了 v5 在 teachingFunctionalIntegrity 维度（5.5/10）暴露的硬伤——「一」从 2 次升到 3 次重复、量词换成有视觉锚的「一只小鸟」、句尾换成更直接的「这就是一」"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "dawn-valley",
+        "target": "远景小鸟掠入画面被旁白「看，一只小鸟」点名的瞬间",
+        "seconds": 2.28
+      },
+      {
+        "shotId": "light-band",
+        "target": "横贯画面的金色光带被旁白「晨光直直的」点出字形特征的整段",
+        "seconds": 2.0
+      },
+      {
+        "shotId": "ink-glyph",
+        "target": "宣纸上墨字「一」渗墨收笔后稳定回看（含 glyph-naming + extension 双段旁白 + 末 ≥0.45s 干净 dwell）",
+        "seconds": 5.72
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-stroke-order-tail-with-hand-tracing",
+      "description": "P03 提供 replay 按钮支持点击复看；视频末帧（hand-tracing-plate + 米字格水印 + 孩子手指悬在字上）作 poster；10-12s 静默尾段提供米字格水印识字→写字切换 + 二次渗墨笔顺示范 + 孩子的手悬入摹字，三层视觉为 P09 写字练习做认知铺垫；P05/P07 提供找字与点字练习再次复现"
+    },
+    "strokeOrderTail": {
+      "shotId": "stroke-order-tail",
+      "startSeconds": 10.0,
+      "minSeconds": 2.0,
+      "container": "mizige",
+      "containerStatePolicy": "single-mizige-dual-state",
+      "narrationPolicy": "silent",
+      "writingDirection": "left-to-right",
+      "description": "同一米字格水印从识字态 (--mizige-opacity: 0.18) 平滑切到写字态 (0.30)；楷体「一」字按汉字第一笔横画 left-to-right 用 CSS mask-image linear-gradient 二次渗墨写出（相位与 ink-glyph 段不同，强化「这是写字、不是认字」的语义）；孩子的手指悬入摹字；整段静默；audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s 与视频等长；末帧 hand-tracing-plate 作为 P03 poster；受 tail-spec yi-v6.tail-spec.json + anchors/mizige-anchors.json 双重约束"
+    },
+    "writingPosition": "late",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.2,
+    "minimumFinalHoldSeconds": 2.0,
+    "maximumSceneChangesPerSecond": 0.6,
+    "productSurface": "P03 认字页正式 official 视频，Starlight Literacy Unit-01 一 的 recognition 视频 v6 在 v5 cinematic 美学骨架上重构叙事层，product-review 阈值 overallScore ≥ 9.0 + teachingFunctionalIntegrity ≥ 9.0"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "bird",
+        "action": "flight-loop",
+        "reason": "dawn-valley 远景一只小鸟剪影从画面右下沿对角线飞向左上；位移由 GSAP translateX/Y 完成，但扑翅必须有真实的 frame 切换不能用 CSS transform skew 假装扑翅。6 帧覆盖一个完整 wing-down → wing-up → wing-down 循环。v6 复用 v5 cinematic 已生产的 256×256 透明 PNG sprite，sprite 在画面出现时长 0-2.2s 内对位 concrete-anchor 旁白「看，一只小鸟」，让 number-as-numeral 量词在画面上有可数 1 只的视觉计数锚",
+        "minFrames": 6,
+        "requiredMotionParts": [
+          "wing-up",
+          "wing-down",
+          "body-translate"
+        ],
+        "poseContract": [
+          { "frame": 0, "pose": "wing 起始 down stroke 开始", "body": "翅膀刚开始下扑、身体微抬", "limbs": ["双翼尖端在身体水平线下方约 30%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀正向下扑、即将获得升力" },
+          { "frame": 1, "pose": "wing down stroke 中段", "body": "翅膀继续下扑约 60%、身体被推升", "limbs": ["双翼尖端落到身体水平线下方约 60%", "尾羽轻张"], "contact": "整体悬空、略上抬", "mustReadAs": "翅膀大幅下扑、获得最大升力" },
+          { "frame": 2, "pose": "wing 极底 + 身体顶峰", "body": "翅膀几乎收至身体下方极底、身体到达顶峰", "limbs": ["双翼尖端贴近身体下方", "尾羽完全张开"], "contact": "整体悬空", "mustReadAs": "扑翅完成、身体在循环顶峰" },
+          { "frame": 3, "pose": "wing up stroke 开始", "body": "翅膀开始向上回收、身体微沉", "limbs": ["双翼尖端回到身体水平线下方约 40%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀开始向上抬回" },
+          { "frame": 4, "pose": "wing up stroke 中段", "body": "翅膀继续上抬约 60%、身体下沉", "limbs": ["双翼尖端到达身体水平线上方约 30%", "尾羽轻张"], "contact": "整体悬空、略下沉", "mustReadAs": "翅膀大幅向上抬回、准备下一个下扑" },
+          { "frame": 5, "pose": "wing 极顶 + 循环回归", "body": "翅膀几乎收至身体上方极顶、身体在循环底端、准备下一轮 down stroke", "limbs": ["双翼尖端贴近身体上方", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "扑翅循环回到起点、与 frame 0 几何相近但相位略异以避免视觉冻结" }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "html-glyph-ink-bleed: 楷体「一」字渗墨动画 mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→blur(0) + opacity 0→1，GSAP 在 ink-glyph 段 0.5-1.8s 推进",
+      "html-mizige-watermark: 单一米字格水印 SVG，CSS 变量 --mizige-opacity 在 stroke-order-tail 段 10.0-10.6s 从 0.18 缓动到 0.30；不切换两种格子",
+      "html-stroke-order-mask: 笔顺示范用 CSS mask-image linear-gradient 二次渗墨，与 ink-glyph 段不同相位（强化写字语义），在 stroke-order-tail 10.6-11.5s 推进"
+    ]
+  },
+  "finalFrame": {
+    "description": "宣纸 #f5ead0 全屏 + 居中黑色楷体「一」字 (#1f1a14) 完全成形 + 米字格水印 (--mizige-opacity: 0.30) 框住字形 + 孩子右手从右下入画食指指腹悬在横笔上方 + 阳光从右上 30° 斜入打暖光与柔影。读起来像「一支电影短片定格在孩子摹字的瞬间」，而不是练字本截图，是 P03 poster",
+    "mustBeReadableAsPoster": true
+  }
+}

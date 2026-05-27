@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "recognition-video-narration-measured/v1",
+  "characterId": "yi-v8",
+  "sourceVtt": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/src/clients/mobile-h5/assets/recognition/yi/yi-v8-narration.vtt",
+  "concatenatedTtsText": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+  "rawScriptNormalized": "一只小鸟，飞过山头。一道光，落在白纸。轻轻一笔，画过去。这就是「一」。",
+  "totalCharCount": 36,
+  "rawAudioEndSeconds": 9.694,
+  "apadToSeconds": 12,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz",
+  "rawAudioFile": "yi-v8-narration-raw.mp3",
+  "rawAudioDurationSeconds": 9.744,
+  "paddedAudioFile": "yi-v8-narration.mp3",
+  "paddedAudioDurationSeconds": 12.048,
+  "subtitleFile": "yi-v8-narration.vtt",
+  "quietAfterLastCueSeconds": 2.354,
+  "segments": [
+    { "id": "concrete-anchor", "text": "一只小鸟，飞过山头。", "audioStart": 0.1, "audioEnd": 2.944 },
+    { "id": "phrase-bridge", "text": "一道光，落在白纸。", "audioStart": 2.944, "audioEnd": 5.611 },
+    { "id": "glyph-binding", "text": "轻轻一笔，画过去。", "audioStart": 5.611, "audioEnd": 8.125 },
+    { "id": "glyph-naming", "text": "这就是「一」。", "audioStart": 8.125, "audioEnd": 9.694 }
+  ],
+  "notes": "v8.2 4 段叙事 raw 9.744s（rawAudioEndSeconds=9.694），spoken body 在 10.0s 前完整收尾让位 silent stroke-order tail 10.0-12.0s（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0）。apad 至 12.048s drift 48ms ≤0.05s。末段「这就是「一」」8.125-9.694s 后留 2.354s 静默 dwell（覆盖 9.694-12.0s = stroke-order tail 期间不再有旁白，narrationPolicy='silent'）。"
+}

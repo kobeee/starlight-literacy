@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-gpt-image-2-production-v4",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "duration": 10,
+  "fps": 24,
+  "teachingHook": "晨光中一颗暖橙太阳缓缓升起、光晕呼吸；中线打开一道金色晨光带；晨光带凝固成暖棕一横，落进米字格成为大字 一。",
+  "narration": {
+    "script": "一个太阳。一条光线。平平一横。就是一。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      { "at": 0.1, "text": "一个太阳。" },
+      { "at": 1.638, "text": "一条光线。" },
+      { "at": 3.305, "text": "平平一横。" },
+      { "at": 5.041, "text": "就是一。" }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "sun-meaning",
+      "start": 0,
+      "duration": 1.638,
+      "purpose": "唤起 一 的意义入口：一颗暖橙太阳从田园地平线下方升起到上 1/3 位置；同时光晕开始呼吸",
+      "description": "1080x1920 暖橙田园 plate 满屏铺底，plate 上没有任何太阳或光带（全部由前景元素绘制）。CSS 太阳圆盘（直径约 180px，radial-gradient 暖橙 #ffe9b0→#f5b85a→#e08a35，叠加双层 box-shadow 暖光晕）以 translateY 从 +120px 升到 0 + opacity 0→1，约 1.0s 内升起到 plate 上方 1/3 稳定位置；sprite sun-glow-breathe 6 帧呼吸光晕从 0.05s 开始循环播放（440x440 透明 PNG）叠在圆盘后方做柔和暖光呼吸。Sprite 任何 chroma-key 残留都被圆盘本体遮挡。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v4-sun-glow-breathe",
+        "html-sun-disk"
+      ]
+    },
+    {
+      "id": "light-binding",
+      "start": 1.638,
+      "duration": 1.667,
+      "purpose": "字形绑定：从太阳所在的视觉中线打开一条暖金色 CSS 渐变晨光带，左右徐徐展开",
+      "description": "保持 plate 与稳定的太阳；在 plate 视觉中线（约 57% 高度）放一段 CSS div 渐变光带：宽度 0% → 92%，高度 22px，圆头圆尾，background 为 linear-gradient(90deg, transparent, rgba(255,223,150,0.85) 8%, #f5b85a 50%, rgba(255,223,150,0.85) 92%, transparent)，外加 box-shadow 24px 暖金柔光；展开 1.1s 后做 ±1.5% 轻微脉冲到 SHOT 3。光带与背景同色温，不再用 SVG path，避免锐利边缘与 AI 感金色光带。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v4-sun-glow-breathe",
+        "html-sun-disk",
+        "html-light-band"
+      ]
+    },
+    {
+      "id": "flat-line",
+      "start": 3.305,
+      "duration": 1.736,
+      "purpose": "光线收束成一横，米字格 识字态 淡入做字形舞台；建立字形与意义的最终连接",
+      "description": "晨光带 0.45s 内收束为一根暖棕 (#5D4A36) 圆头圆尾横画，宽 560px、高 38px，居中于 plate 中线；同时米字格 识字态 在 3.3s 起 0.7s 内淡入：cream 半透容器 #faf3e3 / opacity 0.42、外框 3px #5D4A36 / opacity 0.55、内部 # 与 X 虚线 stroke-dasharray 10 6 / opacity 0.4，几何盒子 560x560 居中。米字格半透不挡背景的草原远山。plate 不加白纱叠层。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "yi-gpt-image-2-production-v4-sun-glow-breathe",
+        "html-sun-disk",
+        "html-flat-stroke-warm",
+        "html-mizige"
+      ]
+    },
+    {
+      "id": "glyph-close",
+      "start": 5.041,
+      "duration": 2.359,
+      "purpose": "字形收束：暖棕 楷体 一 大字在米字格中央稳定 ≥2s 供回看",
+      "description": "暖棕 LXGW WenKai 楷体 一（color #5D4A36，font-size 480px，居中于米字格几何中心）在 0.55s 内 opacity 0→1 + scale 0.94→1.0；横笔与米字格横中虚线对齐。上方拼音 yī（LXGW WenKai 96px #8c7853），下方完整句子条 一个太阳 一条光线 平平一横 就是一（28px #7a6750 opacity 0.85）依次入场。米字格仍保持 识字态 半透。视觉中心始终是大字 一。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "html-mizige",
+        "html-glyph-yi-warm",
+        "html-pinyin-yi",
+        "html-sentence-strip"
+      ]
+    },
+    {
+      "id": "stroke-order-tail",
+      "start": 7.4,
+      "duration": 2.6,
+      "purpose": "笔顺示范尾段：同一米字格由 识字态 平滑切到 写字态，黑色楷体 一 按笔顺由左到右写出；纯视觉无旁白",
+      "description": "7.4-8.0s 通过 CSS 变量 (--bg-opacity, --border-strength, --border-color) 把单一米字格从 识字态 半透 cream 暖棕半透外框过渡到 写字态 实色 cream 黑色 4px 外框 + 虚线辅助线全显；楷体 一 同步从 #5D4A36 暖棕渐变到 #1f1a14 黑色。8.2-9.4s 通过 clip-path inset(0 100% 0 0)→inset(0) 由左到右揭开横画，对应汉字第一笔横画的正确起笔→走笔→收笔。9.4-10s 完成姿态保持，作为 P03 poster。整段静默无旁白；audio-plan 末段 silent cue 用 ffmpeg apad 把 narration mp3 补齐到视频总长。",
+      "requiredAssets": [
+        "morning-field-plate",
+        "html-mizige",
+        "html-glyph-write-black",
+        "html-pinyin-yi",
+        "html-sentence-strip"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "sun-meaning",
+      "description": "一颗暖橙太阳从田园地平线升起并保持光晕呼吸，把 一 的数量意义从抽象落到具体可看的物象",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-binding",
+      "description": "从太阳所在中线打开一条暖金色晨光带，光带的横向形态与汉字 一 的横笔一一对应，建立物-形绑定",
+      "boundElements": [
+        "warm golden CSS light band along the visual center line",
+        "flat horizontal stroke of the character 一"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "glyph-close",
+      "phrase": "就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "一个太阳。一条光线。平平一横。就是一。",
+      "source": "Starlight Literacy Unit-01 一字儿童画风认字课，按一物一象一字一句结构串联；与 P05 找字 / P07 点字练习共享同一句式"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "sun-meaning",
+        "target": "一颗太阳 + 暖光晕呼吸的物象",
+        "seconds": 1.638
+      },
+      {
+        "shotId": "flat-line",
+        "target": "晨光带收束成 平平一横 落进米字格的瞬间",
+        "seconds": 1.736
+      },
+      {
+        "shotId": "glyph-close",
+        "target": "米字格内大字 一 + 拼音 + 完整句子条回看",
+        "seconds": 2.359
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-large-glyph-hold-plus-stroke-order-tail",
+      "description": "P03 提供 replay 按钮支持点击复看；视频最后一帧作 poster（米字格 + 楷体大字）；7.4-10s 静默尾段提供笔顺示范让 一 字在同一个米字格内由左到右写出，为 P09 写字练习做铺垫；P05/P07 提供找字与点字练习再次复现"
+    },
+    "strokeOrderTail": {
+      "shotId": "stroke-order-tail",
+      "startSeconds": 7.4,
+      "minSeconds": 2.5,
+      "container": "mizige",
+      "containerStatePolicy": "single-mizige-dual-state",
+      "narrationPolicy": "silent",
+      "writingDirection": "left-to-right",
+      "description": "同一米字格 识字态→写字态 双状态切换（CSS 变量驱动），黑色楷体 一 按汉字第一笔横画从左到右 clip-path 揭开；整段静默，audio-plan 用 apad 把 narration 补齐到视频总长；视频末帧为稳定的米字格 + 黑字 poster。"
+    },
+    "writingPosition": "late-or-omitted",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.45,
+    "minimumFinalHoldSeconds": 2.2,
+    "maximumSceneChangesPerSecond": 0.6,
+    "productSurface": "P03 认字页正式 official 视频，Starlight Literacy Unit-01 一 的 recognition 视频标杆 v4，替代 v37（v3）"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "sun",
+        "action": "glow-breathe",
+        "reason": "唤起意义阶段太阳必须有 真的在呼吸 的光晕脉动，纯 CSS box-shadow 的静态光不够生动；sprite 提供 6 帧暖光晕由内向外、由柔到亮的循环呼吸。注意：CSS 圆盘负责位置与主体颜色（不依赖 chroma-key），sprite 只做光晕辅助层，任何抠绿幕残留都被圆盘本体遮挡，不影响主视觉。sprite 不再承担 升起 动作（升起交给 CSS translateY，更精确）",
+        "minFrames": 6,
+        "requiredMotionParts": [
+          "halo inner ring",
+          "halo outer ring",
+          "warm light intensity"
+        ],
+        "poseContract": [
+          { "frame": 0, "pose": "halo 收敛起点", "body": "光晕收敛到最小直径，亮度较柔", "limbs": ["inner ring tight", "outer ring faint"], "contact": "halo 中心与 CSS 圆盘几何中心对齐", "mustReadAs": "光晕刚开始扩散" },
+          { "frame": 1, "pose": "halo 渐扩 1", "body": "光晕开始向外扩散约 20%", "limbs": ["inner ring 微亮", "outer ring 微现"], "contact": "halo 居中", "mustReadAs": "光晕在张开" },
+          { "frame": 2, "pose": "halo 渐扩 2", "body": "光晕扩散约 50%，暖光开始明显", "limbs": ["inner ring 暖亮", "outer ring 柔暖"], "contact": "halo 居中", "mustReadAs": "光晕中段张开" },
+          { "frame": 3, "pose": "halo 极盛", "body": "光晕扩散到最大直径，暖光最强但不刺眼", "limbs": ["inner ring 明亮", "outer ring 完整"], "contact": "halo 居中", "mustReadAs": "光晕已经完全张开" },
+          { "frame": 4, "pose": "halo 收回 1", "body": "光晕开始向内收敛约 30%，强度减弱", "limbs": ["inner ring 仍亮", "outer ring 渐淡"], "contact": "halo 居中", "mustReadAs": "光晕在轻轻收回" },
+          { "frame": 5, "pose": "halo 收回 2 / 回归起点", "body": "光晕收敛回近起点状态，准备下一轮呼吸", "limbs": ["inner ring 柔", "outer ring 几乎消失"], "contact": "halo 居中", "mustReadAs": "光晕收回，回到呼吸起点" }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "html-sun-disk: CSS 圆盘 radial-gradient + 双层 box-shadow 暖光晕；GSAP 控制 translateY 升起与 scale 微呼吸",
+      "html-light-band: 中线晨光带 div + linear-gradient + GSAP scaleX 由 0→1 展开 + 轻微脉冲",
+      "html-flat-stroke-warm: 暖棕圆头横画 div + GSAP scaleX/opacity 从晨光带凝固",
+      "html-mizige: 单一米字格 cream 容器 + CSS variable --bg-opacity / --border-strength 实现 识字态 与 写字态 态变；不切换两种格子",
+      "html-glyph-yi-warm: 暖棕 LXGW WenKai 楷体 一 字 + GSAP opacity/scale；font-family 走 base64 inline @font-face subset",
+      "html-glyph-write-black: 黑色 LXGW WenKai 楷体 一 字 + clip-path inset 由左到右揭开（笔顺示范段，在 audio-plan 静默尾 cue 内）",
+      "html-pinyin-yi: 拼音 yī HTML 文本",
+      "html-sentence-strip: 完整四句话 HTML 文本条"
+    ]
+  },
+  "finalFrame": {
+    "description": "暖橙太阳静悬于 plate 上方 1/3；米字格居中（写字态，黑实线外框 + 虚线辅助）；米字格内一笔黑色楷体 一 大字完整写出；上方拼音 yī；下方完整四句话条。米字格内大字读起来像练字本字帖，是 P03 poster",
+    "mustBeReadableAsPoster": true
+  }
+}

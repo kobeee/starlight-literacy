@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://starlight-literacy.local/schemas/recognition-video/narration-spec.schema.json",
+  "title": "Recognition Video Narration Spec",
+  "description": "Sub-line A artifact. Owns narration text design + TTS configuration before audio-plan / composition. Enforces target-character frequency, concrete anchor phrase, quantifier-vs-numeral separation, and child-readable sentence complexity so the spoken body cannot drift into poetic narration that loses recognition signal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "characterId",
+    "targetCharacter",
+    "targetCharSemantic",
+    "script",
+    "segments",
+    "concreteAnchorPhrase",
+    "voice",
+    "tts",
+    "outputs"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "recognition-video-narration-spec/v1"
+    },
+    "characterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "targetCharacter": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2,
+      "description": "The Chinese character the child must learn (e.g. \"一\", \"二\", \"山\"). Must appear inside script and concreteAnchorPhrase.phrase."
+    },
+    "targetCharSemantic": {
+      "type": "string",
+      "enum": ["number", "object", "action", "nature", "abstract"],
+      "description": "Category of the target character. \"number\" (一/二/三/十) triggers the strictest quantifier-vs-numeral check because 一道光 is a quantifier, not a count."
+    },
+    "script": {
+      "type": "string",
+      "minLength": 4,
+      "description": "Full narration text the TTS engine will speak. Must be the concatenation of segments[].text in order (no extra characters)."
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 6,
+      "description": "Script split into ordered sentence segments. Each segment must stay short enough for a 3-6 year old to follow.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "text", "role", "targetCharOccurrences"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12,
+            "description": "Single sentence. Hard cap 12 characters because longer lines lose 3-6 year olds. Trailing 。/？/！ counts toward the cap."
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "scene-setup",
+              "concrete-anchor",
+              "phrase-bridge",
+              "glyph-naming",
+              "extension"
+            ],
+            "description": "Functional role. concrete-anchor binds the target character to a tangible object (\"一根木棒\"). glyph-naming explicitly names the character (\"就念一\"). At least one of each role is required by the validator."
+          },
+          "targetCharOccurrences": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Self-reported count of how many times targetCharacter appears in this segment.text. Validator cross-checks against the actual string."
+          },
+          "shotIdHint": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Optional. Which brief.shotPlan beat this segment is intended to land on. audio-plan will reconcile actual timing after TTS bake."
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "concreteAnchorPhrase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["segmentId", "phrase", "anchorObject"],
+      "description": "Mandatory functional sentence binding target character to a tangible object. Poetic framing is allowed elsewhere, but this anchor sentence must exist so that recognition can attach to a concrete referent.",
+      "properties": {
+        "segmentId": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Must match one segment whose role is \"concrete-anchor\"."
+        },
+        "phrase": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 12,
+          "description": "The exact concrete-anchor phrase (\"一根木棒\", \"一只小船\"). Must contain targetCharacter and a concrete noun."
+        },
+        "anchorObject": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The concrete noun the child should picture (e.g. \"木棒\", \"小船\")."
+        }
+      }
+    },
+    "quantifierUsage": {
+      "type": "array",
+      "description": "Inventory of every place the target character appears in a quantifier construction (\"一道/一只/一根/一条/...\"). When targetCharSemantic=\"number\", every quantifier use must be backed by a visible count of the noun in the composition so that 一道光 still teaches \"one\" rather than the bare measure word.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["segmentId", "phrase", "kind", "boundToVisualCount"],
+        "properties": {
+          "segmentId": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "phrase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "number-as-numeral",
+              "number-as-quantifier",
+              "non-numeral-use"
+            ],
+            "description": "number-as-numeral: 一个/一根 + count visible. number-as-quantifier: 一道/一束 used purely as measure word without count anchor. non-numeral-use: target char appears in another word (e.g. 一定)."
+          },
+          "boundToVisualCount": {
+            "type": "boolean",
+            "description": "True only when the composition explicitly shows exactly one of the anchored noun. False is allowed only for non-numeral-use; for number-as-quantifier it must be true or the spec fails."
+          },
+          "visualReference": {
+            "type": "string",
+            "description": "Where in the composition the count is shown (shotId / plate id / sprite id)."
+          }
+        }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "voice", "rate", "pitch", "rationale"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 2
+        },
+        "voice": {
+          "type": "string",
+          "minLength": 2
+        },
+        "rate": {
+          "type": "string",
+          "pattern": "^[+-]?[0-9]+(\\.[0-9]+)?%$",
+          "description": "Edge-TTS rate offset, e.g. \"-10%\". Validator enforces -15%..0% for child-facing narration."
+        },
+        "pitch": {
+          "type": "string",
+          "minLength": 2
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 8
+        }
+      }
+    },
+    "tts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine", "commandTemplate"],
+      "description": "How bake-narration.mjs invokes the TTS engine. Recorded so the bake step is reproducible across characters.",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": ["edge-tts"]
+        },
+        "commandTemplate": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Shell template used by bake-narration.mjs. Must reference {{voice}}, {{rate}}, {{pitch}}, {{text}}, {{audioOut}}, {{subtitleOut}}."
+        },
+        "postProcess": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "apadToSeconds": {
+              "type": "number",
+              "minimum": 3,
+              "maximum": 12,
+              "description": "When set, bake-narration.mjs runs ffmpeg apad to extend the mp3 to this total duration. Used when the clip has a silent stroke-order tail."
+            },
+            "ffmpegArgs": {
+              "type": "string",
+              "minLength": 4
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audio", "subtitles", "measuredTimings"],
+      "description": "Paths produced by bake-narration.mjs. validate-narration-bake.mjs checks these exist and match the spec.",
+      "properties": {
+        "audio": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rawAudio": {
+          "type": "string"
+        },
+        "subtitles": {
+          "type": "string",
+          "minLength": 1
+        },
+        "measuredTimings": {
+          "type": "string",
+          "minLength": 1,
+          "description": "JSON file produced by bake-narration.mjs with per-segment audioStart/audioEnd measured from the actual VTT, ready to be referenced by audio-plan."
+        }
+      }
+    }
+  }
+}

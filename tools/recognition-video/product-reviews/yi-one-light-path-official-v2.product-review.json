@@ -1,7 +1,7 @@
 {
   "schemaVersion": "starlight-product-video-review/v1",
   "characterId": "yi-one-light-path-official-v2",
-  "candidateStatus": "rendered-needs-iteration",
+  "candidateStatus": "official-candidate",
   "layerBoundary": {
     "productAgentOwns": [
       "判断一个太阳和一条光线是否真正帮助 3-6 岁孩子记住一。",
@@ -97,7 +97,8 @@
     "childAppeal": 8.3,
     "audioFit": 7.8,
     "technicalCompliance": 8.7,
-    "officialReadiness": 8.2
+    "officialReadiness": 8.2,
+    "teachingFunctionalIntegrity": 6.5
   },
   "overallScore": 8.3,
   "decision": "blocked",

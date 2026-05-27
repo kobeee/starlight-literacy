@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "recognition-video-sprite/v1",
+  "id": "yi-v9-bird-flight-loop",
+  "characterId": "yi-v9",
+  "actor": "bird",
+  "action": "flight-loop",
+  "fps": 12,
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "playback": {
+    "loop": false,
+    "holdLastFrame": true
+  },
+  "alphaRequired": true,
+  "generationMode": "transparent",
+  "sourceTransparency": {
+    "transparentPixelRatio": 0.9446,
+    "edgeTransparentRatio": 1,
+    "hasUsableAlpha": true
+  },
+  "chromaKey": {
+    "enabled": false,
+    "color": "#000000"
+  },
+  "minFrames": 6,
+  "frames": [
+    "frame-000.png",
+    "frame-001.png",
+    "frame-002.png",
+    "frame-003.png",
+    "frame-004.png",
+    "frame-005.png"
+  ],
+  "poseContract": {
+    "requiredMotionParts": [
+      "wings"
+    ],
+    "frames": [
+      {
+        "frame": 0,
+        "pose": "bird flight-loop spritesheet pose 1",
+        "contact": "transparent frame normalized from generated spritesheet"
+      },
+      {
+        "frame": 1,
+        "pose": "bird flight-loop spritesheet pose 2",
+        "contact": "transparent frame normalized from generated spritesheet"
+      },
+      {
+        "frame": 2,
+        "pose": "bird flight-loop spritesheet pose 3",
+        "contact": "transparent frame normalized from generated spritesheet"
+      },
+      {
+        "frame": 3,
+        "pose": "bird flight-loop spritesheet pose 4",
+        "contact": "transparent frame normalized from generated spritesheet"
+      },
+      {
+        "frame": 4,
+        "pose": "bird flight-loop spritesheet pose 5",
+        "contact": "transparent frame normalized from generated spritesheet"
+      },
+      {
+        "frame": 5,
+        "pose": "bird flight-loop spritesheet pose 6",
+        "contact": "transparent frame normalized from generated spritesheet"
+      }
+    ]
+  },
+  "notes": "Reused from the validated yi-v5-cinematic bird flight-loop spritesheet for yi-v9. Six transparent PNG frames are used as a real wing-flap sprite over the dawn/sunlight plates; review action readability before official use.",
+  "motionChecks": [
+    {
+      "id": "auto-frame-diff",
+      "label": "frame-to-frame sprite change",
+      "region": {
+        "x": 0,
+        "y": 0,
+        "width": 256,
+        "height": 256
+      },
+      "minChangedFramePairs": 1,
+      "minChangedPixels": 98,
+      "minMeanDelta": 0.15,
+      "notes": "Coarse guardrail against a static spritesheet. Product review still owns semantic action readability."
+    }
+  ]
+}

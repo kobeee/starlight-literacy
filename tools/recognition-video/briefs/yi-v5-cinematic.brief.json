@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-v5-cinematic",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "duration": 12,
+  "fps": 24,
+  "teachingHook": "黎明前的山坳在 silence 中等待；地平线后一束晨光破云而出；丁达尔光柱凝固成一道横笔；横笔溶进宣纸化作墨色；楷体 一 字在米字格水印里渗墨成形；最后由孩子的手指轻触摹字。一支关于「一」的 12 秒电影短片，里面嵌着一个汉字，而不是装饰了配景的教学动画。",
+  "narration": {
+    "script": "天亮了。山那边升起一道光。就是「一」。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      { "at": 1.0, "text": "天亮了。" },
+      { "at": 2.4, "text": "山那边升起一道光。" },
+      { "at": 5.9, "text": "就是「一」。" }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "dawn-valley",
+      "start": 0,
+      "duration": 1.0,
+      "purpose": "电影开场：黎明前 5:30 AM 山坳全景；silent prologue 让 3-6 岁孩子先感受到 一切将要发生 的呼吸感",
+      "description": "全屏 cinematic plate dawn-valley-plate（油画质感 + 水墨意境，深紫天空 #3a3550 占上 2/3、远山墨色剪影 #5d5366、左下村庄一盏暖橙小光点 #f4b06a、右下角远景飞鸟剪影从画面外掠入）；前景草坡微微倾斜暗示晨风；GSAP 仅做 0.5% Ken Burns 缓推；无 CSS 几何元素加叠；bird-flight-loop sprite 6 帧覆盖飞鸟扑翅；本段无旁白",
+      "requiredAssets": [
+        "dawn-valley-plate",
+        "yi-v5-cinematic-bird-flight-loop"
+      ]
+    },
+    {
+      "id": "sun-rising",
+      "start": 1.0,
+      "duration": 1.4,
+      "purpose": "唤起意义入口 (meaningAction)：地平线后金色光团破云、丁达尔光柱可见有粒子；旁白 天亮了 同步落点",
+      "description": "全屏切换到 sun-rising-plate（与 dawn-valley-plate 同一山形 + 同一构图但晨光刚破云：地平线后金团 #f4b06a→#ffd071、丁达尔光柱、远山上缘暖金 rim-light、雾带被晨光打亮）；plate 间用 cross-dissolve 0.4s 完成、不硬切；GSAP 做 6% Ken Burns 缓推近、模拟相机轻倾向光；无 CSS 太阳圆盘、无 box-shadow 假光晕——晨光全部由 plate 承担；旁白 天亮了 在 t=1.0s 起、与镜头切换同步；本段不放任何 CSS 几何元素",
+      "requiredAssets": [
+        "sun-rising-plate"
+      ]
+    },
+    {
+      "id": "light-band",
+      "start": 2.4,
+      "duration": 3.5,
+      "purpose": "字形绑定 (glyphBinding)：晨光凝固成一道横贯画面的金色光带，建立 物-形 绑定；旁白 山那边升起一道光 同步落点",
+      "description": "全屏 cross-dissolve 到 light-band-plate（横贯画面的暖金光带、两端柔光晕染、中心 #fff3c8、外缘 #f4b06a；背景虚化为暖金雾、远山虚焦保留同一山谷的体感）；GSAP 仅做 0.3% scale 呼吸、不平移；plate 之外无任何 CSS linear-gradient 假光带；旁白 山那边升起一道光 在 t=2.4s 起持续 ~3.4s",
+      "requiredAssets": [
+        "light-band-plate"
+      ]
+    },
+    {
+      "id": "ink-glyph",
+      "start": 5.9,
+      "duration": 4.1,
+      "purpose": "字形闭合 (phraseBridge)：光带在宣纸上化作墨色横笔，楷体 一 字渗墨而成；旁白 就是「一」 在最后一刻落点，留 ~2.5s silent dwell 给孩子回看",
+      "description": "0-0.5s 用 light-to-ink-plate 做光化为墨的中间态 dissolve（左侧仍是金光、右侧已收为暖棕墨色 #5D4A36 with wet ink bleed、米字格水印 18% opacity 浮现）；0.5-3.0s 切到 ink-glyph-plate（宣纸 #f5ead0 + 黑色楷体 一 字 #1f1a14 收笔完成 + 米字格水印 18% opacity），叠加 CSS 字形渗墨动画（html-glyph-ink-bleed：mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→blur(0) + opacity 0→1，由 GSAP 在 0.5-1.8s 推进，呈现毛笔从左往右渗墨的工艺感）；3.0-4.1s 保持 hold，期间 t=5.9s 起旁白 就是「一」 ~1.5s 落点（衔接最后回看节拍）；末 ~0.7s 完全静默供眼睛回到字形；无 CSS 几何，米字格仅以水印形式存在",
+      "requiredAssets": [
+        "light-to-ink-plate",
+        "ink-glyph-plate",
+        "html-glyph-ink-bleed",
+        "html-mizige-watermark"
+      ]
+    },
+    {
+      "id": "stroke-order-tail",
+      "start": 10.0,
+      "duration": 2.0,
+      "purpose": "笔顺尾段 (strokeOrderTail)：米字格水印由 识字态 平滑切到 写字态，黑色楷体 一 字按笔顺由左到右渗墨写出，孩子的手指悬入摹字；整段静默、纯视觉",
+      "description": "全屏切到 hand-tracing-plate（宣纸 + 黑色楷体 一 字 + 米字格水印 + 一只孩子右手从右下入画、食指指腹悬在横笔上方约 5mm、阳光从右上 30° 斜入打出温柔暖光与柔影）；同步通过 CSS 变量 (--mizige-opacity: 0.18→0.30) 把米字格水印从 识字态 半透切到 写字态 稍实（仍是水印感，不变成实色作业本）；楷体 一 字保持完全可见；笔顺示范用 CSS mask-image linear-gradient 由左到右二次渗墨（与 ink-glyph 段不同的笔触相位，强化 这是写字、不是认字 的语义）；末 0.5s 完成姿态保持作为 P03 poster；整段无任何旁白 cue；audio-plan 用 ffmpeg apad 把 narration mp3 补到 12s 与视频等长",
+      "requiredAssets": [
+        "hand-tracing-plate",
+        "ink-glyph-plate",
+        "html-mizige-watermark",
+        "html-stroke-order-mask"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "sun-rising",
+      "description": "地平线后金色光团破云而出、丁达尔光柱可见，把 一 的数量意义从抽象落到 一道光 的具体物象；旁白 天亮了 同步落点完成 时间入场 + 意义启动",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-band",
+      "description": "晨光凝固成一道横贯画面的金色光带，光带的横向形态与汉字 一 的横笔一一对应，建立物-形绑定；这是整片的视觉中枢，每一帧都是导向或承接这一画面",
+      "boundElements": [
+        "horizontal warm-gold beam across the visual midline in light-band-plate",
+        "horizontal kaiti stroke of the character 一 ultimately rendered on xuan paper"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "ink-glyph",
+      "phrase": "就是「一」"
+    },
+    "sentenceBridge": {
+      "sentence": "天亮了。山那边升起一道光。就是「一」。",
+      "source": "Starlight Literacy Unit-01 一字 cinematic recognition short v5；3 段诗化叙事：时间入场→空间展开→字形点题；区别于 v4 一个太阳/一条光线/平平一横/就是一 的工业说明书风；与 P05 找字 / P07 点字共享 一 的认读，但旁白脚本独立"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "sun-rising",
+        "target": "金色光团从山后破云、丁达尔光柱可见的瞬间",
+        "seconds": 1.4
+      },
+      {
+        "shotId": "light-band",
+        "target": "横贯画面的金色光带凝固成一道有形的横笔",
+        "seconds": 3.5
+      },
+      {
+        "shotId": "ink-glyph",
+        "target": "宣纸上墨字 一 渗墨收笔后稳定回看（含旁白后 dwell）",
+        "seconds": 4.1
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-stroke-order-tail-with-hand-tracing",
+      "description": "P03 提供 replay 按钮支持点击复看；视频末帧（hand-tracing-plate + 米字格水印 + 孩子手指悬在字上）作 poster；10-12s 静默尾段提供米字格水印 识字→写字 切换 + 二次渗墨笔顺示范 + 孩子的手悬入摹字，三层视觉为 P09 写字练习做认知铺垫；P05/P07 提供找字与点字练习再次复现"
+    },
+    "strokeOrderTail": {
+      "shotId": "stroke-order-tail",
+      "startSeconds": 10.0,
+      "minSeconds": 2.0,
+      "container": "mizige",
+      "containerStatePolicy": "single-mizige-dual-state",
+      "narrationPolicy": "silent",
+      "writingDirection": "left-to-right",
+      "description": "同一米字格水印从 识字态 (--mizige-opacity: 0.18) 平滑切到 写字态 (0.30)；楷体 一 字按汉字第一笔横画 left-to-right 用 CSS mask-image linear-gradient 二次渗墨写出（相位与 ink-glyph 段不同，强化 这是写字、不是认字 的语义）；孩子的手指悬入摹字；整段静默；audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s 与视频等长；末帧 hand-tracing-plate 作为 P03 poster"
+    },
+    "writingPosition": "late",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.2,
+    "minimumFinalHoldSeconds": 2.0,
+    "maximumSceneChangesPerSecond": 0.6,
+    "productSurface": "P03 认字页正式 official 视频，Starlight Literacy Unit-01 一 的 recognition 视频 cinematic 重做 v5，product-review 阈值 ≥ 9.0，替代 v4"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "bird",
+        "action": "flight-loop",
+        "reason": "dawn-valley 远景一只 ~12px 飞鸟剪影从画面右下飞向左上；位移由 GSAP translateX/Y 完成，但扑翅必须有真实的 frame 切换不能用 CSS transform skew 假装扑翅。6 帧覆盖一个完整 wing-down → wing-up → wing-down 循环，保证 silhouette 在小尺寸下仍读得出 真的在飞 而不是静止剪影",
+        "minFrames": 6,
+        "requiredMotionParts": [
+          "wing-up",
+          "wing-down",
+          "body-translate"
+        ],
+        "poseContract": [
+          { "frame": 0, "pose": "wing 起始 down stroke 开始", "body": "翅膀刚开始下扑、身体微抬", "limbs": ["双翼尖端在身体水平线下方约 30%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀正向下扑、即将获得升力" },
+          { "frame": 1, "pose": "wing down stroke 中段", "body": "翅膀继续下扑约 60%、身体被推升", "limbs": ["双翼尖端落到身体水平线下方约 60%", "尾羽轻张"], "contact": "整体悬空、略上抬", "mustReadAs": "翅膀大幅下扑、获得最大升力" },
+          { "frame": 2, "pose": "wing 极底 + 身体顶峰", "body": "翅膀几乎收至身体下方极底、身体到达顶峰", "limbs": ["双翼尖端贴近身体下方", "尾羽完全张开"], "contact": "整体悬空", "mustReadAs": "扑翅完成、身体在循环顶峰" },
+          { "frame": 3, "pose": "wing up stroke 开始", "body": "翅膀开始向上回收、身体微沉", "limbs": ["双翼尖端回到身体水平线下方约 40%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀开始向上抬回" },
+          { "frame": 4, "pose": "wing up stroke 中段", "body": "翅膀继续上抬约 60%、身体下沉", "limbs": ["双翼尖端到达身体水平线上方约 30%", "尾羽轻张"], "contact": "整体悬空、略下沉", "mustReadAs": "翅膀大幅向上抬回、准备下一个下扑" },
+          { "frame": 5, "pose": "wing 极顶 + 循环回归", "body": "翅膀几乎收至身体上方极顶、身体在循环底端、准备下一轮 down stroke", "limbs": ["双翼尖端贴近身体上方", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "扑翅循环回到起点、与 frame 0 几何相近但相位略异以避免视觉冻结" }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "html-glyph-ink-bleed: 楷体 一 字渗墨动画 mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→blur(0) + opacity 0→1，GSAP 在 ink-glyph 段 0.5-1.8s 推进",
+      "html-mizige-watermark: 单一米字格水印 SVG，CSS 变量 --mizige-opacity 在 stroke-order-tail 段 10.0-10.6s 从 0.18 缓动到 0.30；不切换两种格子",
+      "html-stroke-order-mask: 笔顺示范用 CSS mask-image linear-gradient 二次渗墨，与 ink-glyph 段不同相位（强化 写字 语义），在 stroke-order-tail 10.6-11.5s 推进"
+    ]
+  },
+  "finalFrame": {
+    "description": "宣纸 #f5ead0 全屏 + 居中黑色楷体 一 字 (#1f1a14) 完全成形 + 米字格水印 (--mizige-opacity: 0.30) 框住字形 + 孩子右手从右下入画食指指腹悬在横笔上方 + 阳光从右上 30° 斜入打暖光与柔影。读起来像 一支电影短片定格在孩子摹字的瞬间，而不是练字本截图，是 P03 poster",
+    "mustBeReadableAsPoster": true
+  }
+}

@@ -1,0 +1,34 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic plate 1 of 6 — `dawn-valley-plate`. Pre-dawn valley wide shot, used as the opening hero plate covering brief shot id `dawn-valley` from 0.0s to ~2.3s. Cross-dissolves into `sun-rising-plate` at 2.4s. 1024x1536 portrait. Will be referenced by HyperFrames as a still plate with subtle Ken Burns push-in; no parts of the image are animated separately.
+
+Primary request: A serene pre-dawn valley wide shot painted in the cinematic style of Tonko House's "The Dam Keeper" opening and 追光《长安三万里》distant-mountain scenes. The moment is "the last few minutes of night before sunrise — the world is asleep, the sky is starting to warm at the horizon." Painted oil-on-paper with sumi-e ink-wash mountains, restrained palette, no characters, no sun yet.
+
+Reference image usage: This plate uses two reference images: (1) the v5 style-anchor mood board for palette/brush/paper lockdown, and (2) the v5 mountain-silhouette reference for the EXACT same ridge shape that `sun-rising-plate` will use. The mountain ridge in this plate MUST match the mountain reference's three-landmark shape (left subsidiary peak, center moderate peak slightly left of center, right gentle slope) so a cross-dissolve into the sunrise shot reads as "same place, time passing" not "scene cut".
+
+Subject (strict layered contract): A single horizontal landscape composition, painted as 4 quiet stacked layers from back to front:
+  Layer 1 — Sky (upper 60% of frame): A gentle warm-dawn gradient on cream xuan paper. Top of frame: dawn violet #3a3550, transitioning soft and slow downward through dawn warm-gray #5d5366, and warming into a low pre-dawn glow at the horizon line — a soft band of muted sunrise gold #f4b06a at maybe 18% opacity bleeding upward from the ridge silhouette. The sky should feel like it has not committed to sunrise yet; it is anticipation, not arrival. Visible paper grain throughout the sky — this is painted sky on paper, not photographic gradient.
+  Layer 2 — Distant mountain silhouette (lower 40% of frame): The mountain ridge from the reference image, painted in warm-gray #5d5366 sumi-e ink wash. Three landmarks: left third small subsidiary peak (~22% layer height), center third moderately prominent peak slightly left of frame center (~45% layer height, this will be the anchor that sunrise rises behind in the next shot), right third long gentle downward slope. Soft feathered top edge, darker ink accumulation at the base. NO drawn trees, NO drawn buildings, NO ridge lines, NO snow caps.
+  Layer 3 — Mid-distance mist (between sky and mountain): A very subtle horizontal band of soft cream-warm mist #ebdfc4 at maybe 25% opacity, sitting just above the ridge line, fading upward into the dawn-warm-gray sky and downward fading into the ridge. This mist sells "dawn valley air" and softens the sky/mountain transition.
+  Layer 4 — Foreground valley floor (lower 12% of frame): A soft warm-deep ground band in muted earth-warm #4a3f3a fading down into shadow at the bottom of the frame. Suggestion of valley floor — maybe a faint hint of grass texture through painterly grain, but NO drawn grass blades, NO drawn rocks, NO drawn houses, NO drawn village, NO drawn lights, NO drawn trees.
+
+Single hero accent (optional, very subtle): A single faint warm-gold pinprick of village light #ffd071 at maybe 15% opacity, placed at approximately (x: 38% of frame width, y: 78% of frame height) — barely a dot, the suggestion of one farmhouse window still lit. This is the only "warmth marker" allowed in the frame. NO other lights, NO other points of interest. If in doubt, omit this dot entirely; the plate must feel calm.
+
+Style/medium: Oil-on-paper painterly hand merged with sumi-e ink-wash softness for the mountain silhouette. Reference standards: Tonko House "The Dam Keeper" opening valley, Cartoon Saloon "Song of the Sea" night-to-dawn transitions, Miyazaki "The Wind Rises" countryside dawn, 追光《长安三万里》remote-ridge scenes, 熊亮《小石狮》night sky, Jon Klassen restraint in foreground silhouettes.
+
+Color discipline (strict): Strict warm-dawn palette only:
+  - dawn violet #3a3550 (sky top)
+  - dawn warm-gray #5d5366 (sky mid and mountain wash)
+  - low sunrise gold #f4b06a at low opacity (horizon glow only)
+  - cream paper #f5ead0 (paper backing, visible through brush grain)
+  - mist cream #ebdfc4 (mid mist band)
+  - earth warm-deep #4a3f3a (valley floor)
+  - optional village light pinprick #ffd071 at ~15% opacity
+NO blue sky, NO purple-blue dawn (the violet should read warm not cold), NO neon, NO pure white, NO pure black, NO saturated cyan, NO teal. Saturation must stay below 40% throughout.
+
+Composition: Horizon line at the 60% vertical mark (ridge base sits there). Center anchor peak slightly left of frame center to leave breathing space on the right where sunrise will rise in the next shot. Generous calm sky above the ridge. Soft vignette is acceptable but very subtle. No frame border, no matting, no signature, no chop seal.
+
+Lighting/mood: Pre-dawn. The world is one minute before the sun decides to rise. The cinematic feeling is: held breath, patience, the gentle warmth of an early-morning room. Quiet, expectant, painterly. Like the first 8 seconds of a Tonko House short.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks, no UI, no human figures, no animals, no birds, no buildings beyond the optional single light pinprick, no drawn trees, no drawn grass blades, no decorative clouds, no sun, no moon, no stars, no light beams, no rays, no chop seals, no signature, no decorative borders, no framing, no chroma-key green/blue, no glossy 3D, no anime style.
+
+Avoid: too many peaks, jagged razor-sharp silhouettes, snow-capped mountains, evergreen tree dots scattered along the ridge, decorative cloud strokes above the ridge, ink splatters, painterly bravura strokes that compete with the calm shape, modern photographic HDR look, neon dawn pink/magenta, candy pastel sky, sky that looks like a Pinkfong/CoComelon backdrop, drama lighting, cinematic lens flare, photo bokeh, depth-of-field blur effects, vignette-as-filter, oversaturated golden-hour fake look, paper crumple texture, fake fold marks.

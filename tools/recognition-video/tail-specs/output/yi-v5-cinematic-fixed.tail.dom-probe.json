@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "recognition-video-tail-dom-probe/v1",
+  "characterId": "yi-v5-cinematic-fixed",
+  "status": "passed",
+  "selector": "#stroke-order-tail",
+  "rootFound": true,
+  "requiredAttrsOk": true,
+  "actualAttrs": {
+    "data-tail-state": "writing",
+    "data-mizige-state": "writing"
+  },
+  "forbiddenHits": [],
+  "expectedClearLayerIds": [
+    "ink-glyph-bleed-layer",
+    "light-band-layer",
+    "phrase-bridge-layer"
+  ]
+}

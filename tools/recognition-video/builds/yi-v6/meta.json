@@ -1,0 +1,32 @@
+{
+  "id": "yi-v6",
+  "name": "一 - V6 Narrative Reframe (12s 4-shot)",
+  "characterId": "yi-v6",
+  "char": "一",
+  "status": "draft",
+  "dimensions": {
+    "width": 1080,
+    "height": 1920
+  },
+  "duration": 12,
+  "fps": 24,
+  "sourceModel": "hongen-micro-lesson/v1",
+  "sourceArtifacts": {
+    "brief": "tools/recognition-video/briefs/yi-v6.brief.json",
+    "narrationSpec": "tools/recognition-video/narration-specs/yi-v6.narration-spec.json",
+    "tailSpec": "tools/recognition-video/tail-specs/yi-v6.tail-spec.json",
+    "audioPlan": "tools/recognition-video/audio-plans/yi-v6.audio-plan.json",
+    "manifests": [
+      "tools/recognition-video/assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/manifest.json"
+    ]
+  },
+  "outputs": {
+    "video": "renders/yi-v6.mp4",
+    "webm": "renders/yi-v6.webm",
+    "poster": "renders/final-frames/yi-v6-poster.png",
+    "finalFrame": "renders/final-frames/yi-v6-final.png",
+    "reviewSheet": "renders/final-frames/yi-v6-review-sheet.png"
+  },
+  "prompt": "12s Tonko-House / Cartoon-Saloon / 追光长安三万里 cinematic short for 一, narrative-reframed from v5. 4 cross-dissolved shots (cut sun-rising): dawn-valley (0-2.28s, bird-flight-loop sprite holds full duration with concrete-anchor narration 看，一只小鸟) → light-band (2.28-4.28s, phrase-bridge 晨光直直的 — adjective replaces v5's quantifier 一道光) → ink-glyph (4.28-10.0s, glyph-naming 念，一 + extension 这就是一, html-glyph-ink-bleed mask 4.5-5.85s aligned to glyph-naming audio) → hand-tracing (10.0-12.0s, mizige dual-state 0.18→0.30 + html-stroke-order-mask second-pass). Audio: edge-tts XiaoxiaoNeural -10% four cues at 0.1/2.28/4.28/5.85s + ffmpeg apad to 12s.",
+  "note": "v6 narrative reframe over v5 cinematic visual baseline. Fixes v5's 3 teaching-functional-integrity defects: (1) target char 一 now repeats 3 times via narration script (v5 only 2); (2) quantifier 一只 now binds to a concrete countable bird sprite (v5's 一道光 had no visual count anchor); (3) mizige single-state-dual-policy 0.18→0.30 transition keeps writing-state visible (v5 evaluator docked 0.3 for low contrast). Visual assets fully reuse v5 cinematic (5 plates instead of 6 — cut sun-rising since its anchoring narration 天亮了 was cut to fit 8s spoken body cap). Product-review forward-validation target: overallScore ≥ 9.0 + teachingFunctionalIntegrity ≥ 9.0."
+}

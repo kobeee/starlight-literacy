@@ -1,6 +1,6 @@
-import { teaserUnit, unit01 } from "../../shared/unit-01.js?v=37";
-import { unit01BakedAudio } from "../../shared/unit-01-baked-audio.js?v=37";
-import { unit01VisualAssets } from "../../shared/unit-01-visual-assets.js?v=37";
+import { teaserUnit, unit01 } from "../../shared/unit-01.js?v=39";
+import { unit01BakedAudio } from "../../shared/unit-01-baked-audio.js?v=39";
+import { unit01VisualAssets } from "../../shared/unit-01-visual-assets.js?v=39";
 
 const GLOBAL_TOAST_COOLDOWN_MS = 5000;
 let lastGlobalToastAt = 0;

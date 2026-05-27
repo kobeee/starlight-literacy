@@ -1,0 +1,31 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic mood-board reference image (character reference / style anchor). Used as `reference_image` input to all 6 plates and 1 sprite generation calls so style, brush, and color stay locked. 1024x1536 portrait.
+
+Primary request: A single visual style-bible plate that contains all 6 v5 palette swatches, both stroke languages (warm-gold ribbon stroke + warm-brown ink stroke), the xuan-paper substrate, and an oil-on-paper brush sample. Treat this image as the source-of-truth for "what every other plate must look and feel like." This image will NOT appear in the final video; it exists only to anchor downstream generations.
+
+Composition (strict): A vertical mood-board laid out as 4 calm horizontal bands inside a single warm-cream canvas, no grid lines, no labels, no captions, no text of any kind. Generous breathing room between bands; everything painted with the same painterly hand.
+
+Band 1 (top, ~25% height): A horizontal row of 6 hand-painted color swatches, soft rounded corners, each ~140x180px, placed center-aligned with ~24px gaps. From left to right:
+  - dawn violet #3a3550
+  - dawn warm-gray #5d5366
+  - sunrise gold #f4b06a
+  - full sunrise gold #ffd071
+  - cream paper #f5ead0
+  - ink #1f1a14
+Swatches are painted gouache rectangles with soft brushed edges, not vector solid fills. No swatch labels, no hex codes, no text.
+
+Band 2 (~25% height): A single warm-golden horizontal ribbon-of-light stroke painted in mid-air mist, edges fading softly into cream backdrop, brightest core #fff3c8 fading to #ffd071 fading to #f4b06a at the outer halo, both stroke ends taper into mist. About 65% of frame width, painted as if drawn by one confident horizontal sweep of luminous paint. No hard outline.
+
+Band 3 (~25% height): A single warm-deep ink kaiti-style horizontal calligraphy stroke (#1f1a14) on bare cream xuan paper. Subtle thickening at the start (起笔), even body, subtle pressure release at the end (收笔). About 60% of frame width. The ink shows the finest hint of feathering into paper fibers but the stroke body is opaque and confident. NO 米字格 grid behind it, NO character context — this is just the stroke shown as a brush sample.
+
+Band 4 (bottom, ~25% height): A bare close-up of traditional Chinese xuan paper texture — handmade fiber lines, subtle vertical screen marks, faint warm-gray aging at the corners, a soft warm cream #f5ead0 base. No stroke, no grid, no marks — just the paper as a material reference. Visible paint grain.
+
+Style/medium: Oil-on-paper painterly hand merged with sumi-e ink-wash softness. Same low-saturation warm palette across all four bands. Reference standards: Tonko House "The Dam Keeper", Cartoon Saloon "Song of the Sea", Miyazaki "The Wind Rises" opening, 追光《长安三万里》宣纸场景, 熊亮 / 蔡皋 / 九儿 children's picture books, Jon Klassen restraint.
+
+Color discipline (strict): Strictly low-saturation warm palette only. No saturation > 60%. No purple-blue, no neon green, no mint, no magenta, no candy-bright pastels. No pure white #ffffff (cream-paper is #f5ead0). No pure black #000000 (ink is #1f1a14, warm-leaning).
+
+Lighting/mood: Even soft warm daylight across the whole plate. Like opening a museum-grade picture book on a wooden table by a window at 7am.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no hex code captions, no swatch labels, no logos, no watermarks, no UI elements, no human figures, no animals, no mascots, no plastic 3D rendering, no glossy surfaces, no chroma-key backdrops, no faux text glyphs, no hard graphic vector look.
+
+Avoid: cartoonish brush, anime style, sticker style, flat vector design, neon, dark fantasy, busy patterns, decorative borders, frame elements, signature, chop seals, vignettes that read as photo filters.

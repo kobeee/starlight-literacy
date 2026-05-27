@@ -1,0 +1,53 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic plate 6 of 6 — `hand-tracing-plate`. The child-tracing hero plate showing a 4-5 year old child's right hand holding a calligraphy brush in mid-tracing posture over a partially-traced 一 inside a 米字格 grid on traditional xuan paper. Used for the brief shot id `hand-tracing` from ~9.6s to ~12.0s (tail of the video). 1024x1536 portrait. Held as a still plate in HyperFrames; the actual stroke-order reveal animation is achieved via CSS clip-path inset over a separate 楷体 SVG glyph layered on top — this plate's "partial stroke" is just the artwork backdrop showing brush-meets-paper at the moment the silent strokeOrderTail starts.
+
+Primary request: A single hero composition: traditional Chinese xuan paper substrate with a 米字格 grid watermark, AND a child's right hand entering from the upper-right of the frame holding a calligraphy brush whose tip is touching the paper at the start position of the 一 stroke (left side of the grid's horizontal mid-line). The character 一 is shown in mid-stroke — about 30% revealed from left to right — as if the child is actively writing it right now. The remaining 70% of the stroke is NOT yet drawn. This is the "child takes over from the metaphor" frame.
+
+Reference image usage: This plate uses four reference images: (1) the v5 style-anchor mood board for palette/brush/paper lockdown, (2) the v5 xuan-paper substrate reference for the EXACT same paper texture matching `light-to-ink-plate` and `ink-glyph-plate`, (3) the v5 mizige-watermark grid reference for the EXACT same grid shape, position, line weight, and tan watermark color #c9b48a, and (4) the v5 child-hand reference for the EXACT same hand pose, skin tone, brush model, and sleeve style. The hand-and-brush element MUST match the reference's pose precisely — beginner pencil-like grip, chubby 4-5 year old fingers, warm Asian skin, traditional Chinese calligraphy brush with bamboo-yellow shaft and warm-brown wolf-hair tip.
+
+Subject (strict layered contract): A single composition painted as 4 stacked layers from back to front:
+  Layer 1 — Xuan paper substrate (full bleed): Identical to `ink-glyph-plate`. Warm-cream xuan paper #f5ead0, subtle vertical handmade-paper fiber lines, very faint horizontal screen lines, soft warm-gray corner aging fading inward (corners ~12% darker), one very subtle tea-stain ring near the upper-right (about 80px wide, opacity ~8%, warm-brown #c9b48a). The center 60% of the frame remains visually quiet so the grid + character + hand can dominate.
+  Layer 2 — 米字格 (mizige) grid watermark: Identical to `ink-glyph-plate`. One single mizige, perfectly square, centered horizontally, vertically centered at 55% of frame height, outer dimension ~62% of frame width. 4 outer edges + 1 horizontal mid + 1 vertical mid + 2 diagonals. All grid lines warm-tan watermark #c9b48a, ~2px thick.
+  Layer 3 — The partially-traced 一 stroke: A single horizontal warm-deep ink stroke laid across the horizontal mid-line of the mizige grid, but ONLY the LEFT 30% of the full stroke is drawn (so the visible ink starts ~10% inside the left edge of the grid and ends at approximately 30% of the way across the grid's interior width). The visible portion has:
+    - 起笔 (left start): subtle thickening at the left end with soft rounded edge, identical in style to `ink-glyph-plate`'s start
+    - 行笔 (visible body): even, confident, opaque ink #1f1a14, body thickness ~22-28px, subtle thickness variation suggesting brush pressure
+    - rightmost edge of visible ink: NOT a clean cut — instead a soft slightly-feathered painterly edge where the ink meets the brush tip (the brush tip is touching the page exactly at this edge, in mid-motion). Very subtle warm-brown feathering #6b5238 at the leading edge where the brush is currently depositing ink
+    - the remaining 70% of the stroke (from ~30% to ~90% of grid width) is BLANK paper — the child has not written that part yet; do NOT pre-draw it as a faded ghost, do NOT show a guide line, do NOT show a dotted preview. Just bare paper showing through the grid watermark
+  Layer 4 — Child hand and brush (the hero element): A child's right hand holding a traditional Chinese calligraphy brush, positioned with the brush tip touching the paper at the rightmost edge of the visible ink (~30% across the grid's interior). The hand enters from the upper-right of the frame, with the brush angled at approximately 75 degrees from horizontal, brush tip pointing toward the lower-left (in the direction of writing motion — left-to-right writing means the brush tip is at the rightmost point of completed work, leaning back-right toward the hand which is on the right). Specific:
+    - hand pose: matches the v5 child-hand reference exactly — chubby 4-5 year old right hand, warm Asian skin (base #f0d4b4, sides #d8a878, fingertip warmth #f4c2a8), beginner pencil-like grip (thumb wrap, index curl, middle support, ring/pinky relaxed)
+    - brush: matches the v5 child-hand reference exactly — bamboo-yellow shaft #d4a574 with darker bamboo node ring #a8845a, warm-bronze ferrule #8a6f48, warm-brown wolf-hair tip (base #6b5238 to tip #c4a878), small warm-red silk loop #b85745 at the very top
+    - sleeve: cream-warm linen cuff #ebd9b8 fading softly into the upper-right corner of the frame (the arm/torso is OFF-FRAME — only hand + wrist + ~3cm of sleeve cuff visible)
+    - hand position: hand center sits at approximately (x: 78% of frame width, y: 28% of frame height). Brush shaft runs diagonally from this hand center down-and-left to the brush tip at approximately (x: 38% of frame width, y: 55% of frame height — the rightmost edge of the visible ink stroke on the grid's horizontal mid-line)
+    - subtle soft cast shadow under the hand: warm-gray #5d5366 at maybe 15% opacity, offset down-and-left by ~12px, blurred at the edges. NO hard shadow. Sells "hand resting just above paper, not floating."
+    - subtle warm-amber after-glow at the brush tip: a very faint #f4b06a at ~12% opacity in a tiny ~8px halo right at the brush hair tip, suggesting "the previous frame's light-to-ink magic is still echoing as the child writes." This is the ONLY magical hint in this frame; everything else is grounded reality.
+
+Style/medium: Oil-on-paper painterly hand. The hand and brush are the warmest most-tactile area of the frame; everything else (paper, grid, ink, brush tip after-glow) is calm. Reference standards: Tonko House "The Dam Keeper" character hands with objects, Cartoon Saloon "Song of the Sea" hand close-ups, 宫崎骏 child-with-tool close-ups, Pixar "Bao" hand-with-food close-ups, 蔡皋 picture-book child-hand frames, 熊亮《小石狮》child illustrations, museum-grade Chinese calligraphy training photography but painted not photographed.
+
+Color discipline (strict): Strict palette:
+  - cream paper #f5ead0 (substrate)
+  - paper aging shifted toward #e8d8b8 (corners)
+  - tea stain warm-brown #c9b48a low opacity (upper-right paper marker)
+  - grid watermark warm-tan #c9b48a (mizige grid)
+  - warm-deep ink #1f1a14 (visible portion of 一 stroke)
+  - ink feathering edge warm-brown #6b5238 (subtle stroke edge bleed)
+  - skin base #f0d4b4 (child hand)
+  - skin shading #d8a878 (finger sides, shadow side)
+  - skin warmth #f4c2a8 (fingertips, knuckles)
+  - bamboo shaft #d4a574 (brush body)
+  - bamboo node #a8845a (brush shaft node ring)
+  - ferrule #8a6f48 (brush metal band)
+  - brush hair base #6b5238
+  - brush hair tip #c4a878
+  - silk loop accent #b85745 (very small)
+  - sleeve cream #ebd9b8 (cuff)
+  - soft hand shadow warm-gray #5d5366 at ~15% opacity (under hand)
+  - brush-tip after-glow #f4b06a at ~12% opacity (tiny ~8px halo at brush tip)
+NO blue, NO purple, NO green, NO neon, NO pure white, NO pure black (ink is #1f1a14 warm-leaning), NO bright red beyond the small silk loop accent. Saturation must stay below 50% throughout (skin can hit 50, silk loop can hit 55, everything else lower).
+
+Composition: Mizige grid centered horizontally, at 55% vertical. Horizontal stroke partially drawn (left 30%) along the grid's horizontal mid-line. Hand entering from upper-right corner with brush tip touching the rightmost edge of the partial stroke. Generous warm-cream paper space on the left and bottom of the frame. No frame border, no matting, no decorative corner, no signature, no chop seal.
+
+Lighting: Soft warm daylight from the upper-left (consistent with the v5 child-hand reference). Gentle shadow on the right side of the hand and under the curled fingers. Soft cast shadow under the hand on the paper. NO harsh shadow, NO specular highlight on skin.
+
+Strict constraints: No Chinese characters drawn beyond the partial 一 stroke described above (the visible ink is ONLY the left 30% of one horizontal stroke; do NOT pre-draw the rest, do NOT show a faded guide, do NOT show stroke-order numbering, do NOT show pinyin), no Latin letters, no numbers, no labels, no logos, no watermarks (other than the grid and the tea-stain ring), no UI, no other body parts (no face, no torso, no second hand, no arm above ~3cm of sleeve cuff), no animals, no other objects in frame (no inkstone, no extra brushes, no scrolls, no cup of water, no rolled-up paper, no chop seal, no toys), no decorative border, no red 田字格 grid (this is mizige), no chroma-key green/blue, no glossy 3D, no anime style.
+
+Avoid: adult hand (this MUST be a 4-5 year old child's hand matching the reference), bony angular fingers, photorealistic skin pore detail, polished fingernails, jewelry, modern brush pen or marker (must be traditional bamboo brush 毛笔), Western flat-ferrule paintbrush, hard vector-sharp edges on the ink, drawn brush hair marks visible inside the ink stroke, ghosted/faded preview of the rest of the stroke (the right 70% must be bare paper), drawn stroke-order number "1" in the corner, drawn pinyin "yi" anywhere, drawn arrow indicating writing direction, drawn dotted-line guide for the rest of the stroke, hand floating disconnected from sleeve, ink dripping from the brush tip (the brush is depositing ink calmly, not splattering), any second stroke, any other character, any 田字格 red grid, hand entering from any direction other than upper-right (the writing hand for a right-handed child must come from the right side), brush angled away from the writing direction (the brush MUST tilt back toward the hand which is up-right, so the shaft runs from upper-right to lower-left).

@@ -1,7 +1,7 @@
 ---
 tags: [技术方案, HyperFrames, 认字动画, Agent, 多帧动画]
 created: 2026-05-10
-updated: 2026-05-16
+updated: 2026-05-18
 ---
 
 # HyperFrames 多帧动画 Agent 流水线方案
@@ -533,3 +533,287 @@ window.gsap = {
 1. **音视频不等长用 ffmpeg apad 静音填充**：`ffmpeg -y -i in.mp3 -af "apad=whole_dur=N" -t N -codec:a libmp3lame -b:a 192k out.mp3`。视频含静默尾段（如笔顺示范）时这一步必做，否则 H5 端 `video.ended` 早于 `audio.ended` 会断教学节奏。
 2. **clip-path inset 揭字法**：写笔顺示范不需要 SVG path stroke-dashoffset，在带顿笔特征的楷体字上叠 `clip-path: inset(0 100% 0 0)` → `inset(0 0 0 0)` 即可，字形对齐零误差，适合横/竖等单笔画字。
 3. **guardrail duration 上限提升到 12s**：`scripts/check-mobile-h5-guardrails.mjs` 原硬约束 ≤ 8s 是为了挡 runaway 视频；增加笔顺示范段后必然超 8s，放宽到 12s 既保留语义又留余量。
+
+## 2026-05-18 流程约束沉淀（笔顺尾段进规范）
+
+v37/v3 三轮迭代和 v4 重构跑出来的"末段必须有米字格 + 笔顺"已经是事实标准，但前面只活在单字日志里，schema/validator/AGENTS 三层都没卡。这一节把它们正式落到流水线规则上。落地要点是**"涉及内容设计的（怎么画太阳、光带颜色）不进 Agent 文档；流程约束级的（必须有什么、不能有什么、必须按什么顺序）才进"**。
+
+### 1. brief schema 新增 `teachingContract.strokeOrderTail`（必选）
+
+`tools/recognition-video/schemas/brief.schema.json` 给 `teachingContract.required` 列表追加 `strokeOrderTail`，对象形状：
+
+```jsonc
+{
+  "shotId":               "<tail shot id, must exist in shotPlan>",
+  "startSeconds":         7.4,                    // 必须等于 tail shot 的 start
+  "minSeconds":           2.5,                    // ≥ 1.5
+  "container":            "mizige",               // const
+  "containerStatePolicy": "single-mizige-dual-state",
+  "narrationPolicy":      "silent",               // const
+  "writingDirection":     "left-to-right" | "top-to-bottom" | "stroke-order-table",
+  "description":          "..."
+}
+```
+
+附加：`brief.duration` 上限从 8s 放宽到 **12s**（spoken body ≤ 8s + silent tail ≤ 4s），与 H5 guardrail 已经放宽的 12s 对齐。
+
+### 2. `validate-teaching-harness.mjs` 校验逻辑
+
+新增 `validateStrokeOrderTail`：
+
+- `strokeOrderTail.shotId` 必须出现在 `shotPlan` 里。
+- `startSeconds` 与 shot 的 `start` 误差 ≤ 0.05s。
+- shot.duration ≥ `minSeconds`。
+- shot.start ≥ `phraseBridge.shot.start + duration - 0.05`（必须排在意义/字形/收束之后）。
+- shot 末端 ≤ `brief.duration + 0.05`。
+- **任何 narration cue 都不能落在 tail 窗口内**（保证 narrationPolicy=silent 不只是写字面）。
+
+duration 上限同步放宽到 12s。
+
+### 3. `validate-audio-sync-plan.mjs` 双时长对齐改写
+
+原约束：`targetDurationSeconds === brief.duration`（误差 0.1s）。
+
+问题：v4 之后 brief.duration 是含静默尾段的总长，target 是 spoken body，二者本就该不等。
+
+改写后规则：
+
+- 若 audio-plan 没有 `paddedTotalDurationSeconds`：保留旧约束 `target ≈ brief.duration`。
+- 若 audio-plan 有 `paddedTotalDurationSeconds`：用 padded 对齐 `brief.duration`（误差 0.1s），同时 `target ≤ brief.duration`。
+
+这样：(1) 不带尾段的字用旧规则（向后兼容）；(2) 带尾段的字用新规则。两条路径都不放水。
+
+### 4. AGENTS / SKILL 文档级硬约束
+
+机器侧只能卡机器能验的事。下列不易机器化的，写进 `tools/recognition-video/AGENTS.md`（Stroke-Order Tail Contract / H5 Wiring Contract / HyperFrames Runtime Notes 三节）和 `codex-skill/starlight-video-agent/SKILL.md` 的 Hard Rules：
+
+- 单一米字格双状态（识字态↔写字态 走 CSS 变量），**禁止前段 tianzige + 后段 mizige cross-fade** 这种两套并列的写法。
+- 多笔画字必须按笔顺逐笔揭开，单笔画字才允许 `clip-path inset` 一次揭完。
+- `hyperframes render` 必须显式 `-f 24`（HyperFrames 默认 30fps，guardrail 拒非 24）。
+- 长于 7.4s 的合成必须给根容器写 `data-composition-id` + `data-duration`，否则被 MiniTimeline shim 静默 clamp。
+- 音频比视频短时**必须 apad 补齐音频，禁止剪短视频**（视频末帧是 P03 poster，剪掉等于丢 poster）。
+- H5 资产命名禁用 `/v3|legacy|sample/i`；版本号一律走 `node scripts/bump-h5-version.mjs` 一次性同步 sw.js / index.html / app.js / styles.css 四处。
+- official baked 视频禁止同时声明 `voiceCues`（Web Speech 与 baked 互斥）。
+
+主 `AGENTS.md` 加一段指向。
+
+### 5. 为什么这些是流程约束而不是内容设计
+
+界限：
+
+| 内容设计（不进文档） | 流程约束（进文档/schema） |
+|---|---|
+| 太阳 halo 用 sprite 还是 CSS 实心 disk | 视频末段必须有米字格 + 笔顺示范 |
+| 光带是暖金还是暖棕 | 米字格只用一格双状态，不准两套并列 |
+| 楷体用 LXGW 还是其他开源字体 | 笔顺示范段必须静默无旁白 |
+| 米字格虚线 stroke-dasharray 数值 | 笔顺方向必须是 canonical 的（横从左到右、竖从上到下） |
+
+判断方法：**这条规则换一个字（人/木/水/火）还成立吗？** 成立则是流程约束，不成立则是内容设计。
+
+### 6. 回归
+
+四条 validator + `npm run check:h5` 在 v4（含尾段）和旧 v3 brief（被新约束按预期挡下）上的输出符合预期：
+
+```
+Recognition teaching harness ok: 1 pair(s).
+Recognition audio sync plan ok: 1 triplet(s).
+Recognition sprite validation ok: 1 manifest.
+Starlight product video gate ok: 1 review(s).
+Mobile H5 guardrails ok: v38 resources, legacy gate, visual audit hook, official video policy.
+```
+
+旧 v3 brief 跑 teaching-harness 时报：
+
+```
+- yi-gpt-image-2-production-v3: teachingContract.strokeOrderTail is required: every recognition video must end with a stroke-order demo inside a mizige.
+```
+
+这是预期行为：v3 已被 v4 取代，不需回填，新约束自然把它从"可入 official"路径上挡下。
+
+### 7. 后续每个新字必须做的事
+
+走流水线生成新字时（如下一个 二、三、人 字），brief 必填 `strokeOrderTail`，shotPlan 末尾必有一个 stroke-order-tail 镜头，audio-plan 末尾必有一个 `narration: "silent"` cue 覆盖整个 tail 窗口。这套规则与具体字无关，跟单字内容（光带怎么画、太阳什么颜色）解耦。
+
+## 2026-05-19 cinematic 模式与单字成本边界
+
+详见 [[../03-开发日志/2026-05-19-一字v5-cinematic正式版生产]]。
+
+v4 → v5 把一字 official 视频 product-review 从 8.6 推到 **9.12**，方法是把 12s 从 4 段重排成 6 plate × 5 段叙事 + 双静默呼吸 + light-to-ink 0.9s 相变桥 + 双相 mask 区分笔感。这一节记录的是**叙事编排层面的复用边界**，不是单字内容设计。
+
+### 1. cinematic 模式的可复用元素（任何字都成立）
+
+- **N+1 镜头交叉溶解替代 N 段硬切**：每段间留 0.4-1.2s overlap，软切去掉"教学动画"的味道
+- **双静默呼吸**：开场 0.5-1.0s 不旁白让色温构图先落地，收势 0.5s 静态停留作 poster 锚点
+- **显式相变桥**：两个相邻语义段之间（如"光"→"墨"）插一张过渡 plate，0.6-1.0s 即可
+- **米字格单 SVG + 单 CSS 变量双态**：识字态 0.18 → 写字态 0.30，GSAP 0.6s 插值；整片只一个米字格不切换不换形
+- **双相 mask 区分笔感**：同一字 mask 两次但 softness 14→6 vs 2.5 恒定，前者读"渗"后者读"写"。多笔画字按笔顺逐笔重复此手法即可
+
+### 2. cinematic 模式的不可复用部分（单字内容）
+
+- 6 张 plate 的具体题材（晨雾山谷 / 暖金日轮 / 横向光带 / 光转墨 / 宣纸渗墨 / 握笔示范）是 `一` 字限定。其他字必须从字义重新设计 plate 题材，不能直接套用。
+- 旁白 3 段诗化叙事（"天亮了" / "山那边升起一道光" / "就是「一」"）是 `一` 字限定。
+- bird sprite 是 `一` 字 silentPrologue 的限定动态钩子；其他字 silentPrologue 该用什么钩子需重新设计。
+
+### 3. 单字成本边界
+
+v5 单字成本相比 v4 大幅上升：
+
+| 项 | v4 | v5 |
+|---|---|---|
+| plate 数量 | 1 张主 plate + sprite halo | 6 张 plate + 1 组 sprite |
+| brief shotPlan | 4 段 | 6 段（含 silent prologue / stroke-order tail） |
+| asset-plan | 1 plate + 1 sprite | 6 plates + 1 sprite + 1 web font |
+| audio-plan cues | 4 spoken | 3 spoken + 1 silent |
+| 渲染时长 | 10s | 12s |
+| GSAP 调度复杂度 | 单段 fade + sprite 帧 | 多 plate cross-dissolve + 双相 mask + CSS 变量插值 |
+
+这意味着**不能盲目把 v5 模板铺给 unit-01 全部 20 字**。v5 是"标杆"证明 9.0+ 可达，不是"模板"。下一步应先用 v5 同方法做 1-2 个代表字（建议 `山` 或 `水`，笔画更多能更充分测试 strokeOrderTail 多笔画），验证哪些环节能模板化（如 mask softness 双相 / 米字格 CSS 变量 / 双静默呼吸 timing），哪些必须每字重做（plate 题材 / 旁白文本 / 钩子动画），再决定批量策略。
+
+### 4. cinematic 模式与教学严谨性的张力
+
+cinematic 模式偏向"短片"美学，节奏比"教学动画"慢。v5 对 4-6 岁孩子是甜蜜区，但对 3 岁低龄段静默序曲可能略沉。这是**美学风险**，不是**工艺缺陷**——product-review `childAppeal` 维度给 v5 8.9（v4 是 9.x），明确扣这 0.1 是承认这套美学比 Pinkfong 慢，年龄段偏 4-6 岁会更受用。
+
+后续如果要做 3 岁专享变体，可以：
+
+- 缩短 silentPrologue 到 0.3-0.5s（保留色温建立但不让孩子等太久）
+- 增加 bird sprite 可见时长（从 1.0s 拉到 2.0s，给低龄段更多动态钩子）
+- 可考虑加一段非教学性的"小动物路过"sprite 在 ink-glyph dwell 段（6.4-9.6s），但要严格不抢字形
+
+这些都是**针对年龄段的调谐**，不属于 schema/validator 卡的硬约束。
+
+## 2026-05-23 框架四洞修复
+
+详见 [[../03-开发日志/2026-05-23-HyperFrames框架四洞修复]]。
+
+[[../03-开发日志/2026-05-23-双盲框架yi-v8烟测与SKILL修复|双盲框架 yi-v8 烟测]]给出 jury overall **4.7 / blocked / 8 merged blockers**。这 8 条 blocker 是 v8 在 brief / tail-spec / audio-plan **每份单跑校验都过**的情况下偷渡出去的，意味着结构性矛盾不在 schema 视野里。这次把 8 条 blocker 折叠成 4 个洞补上，以便下一次 brief 阶段就拦下。
+
+### 1. 4 个洞 → 4 个补丁
+
+| 洞 | 漏过路径 | 补丁 |
+|---|---|---|
+| **Hole 1** brief ↔ tail-spec ↔ anchors 之间无 cross-file 一致性 | brief.finalFrame.description 是自由文本，跨文件无机器对照 | brief.schema 加结构化 `finalFrame.guideObject {form, anchor, entryDirection}` + `posterHoldSeconds`；tail-spec.schema 加 `finalFrame.pointerForm` 必填 enum；新增 [validate-cross-file-consistency.mjs](../../tools/recognition-video/scripts/validate-cross-file-consistency.mjs) 串 brief ↔ tail-spec ↔ anchors 三方对照 |
+| **Hole 2** "看不出动画"挡不下 | brief 不要求声明运动幅度下限，也不要求声明 writing implement | brief.schema 加 `animationRequirements.shotMotion[]`（animationDriver enum + effectiveScaleDeltaPercent + effectiveTranslatePx + diegeticOverlayId）+ `writingImplements[]`（implementForm enum + tracksMaskFront=true）；新增 [validate-motion-readability.mjs](../../tools/recognition-video/scripts/validate-motion-readability.mjs) 卡 ken-burns ≥5% 或 ≥24px、写字段 shot 必须有跟随笔具 |
+| **Hole 3** tail-spec 把"持久字层"误清 | clearLayerIds 没有反向"保留层"声明位 | tail-spec.schema 加 `transition.protectedLayerIds[]`；validate-tail-spec.mjs 加 overlap 检查（同一层不能同时被 clear 和 protect） |
+| **Hole 4** 相邻 plate 之间无 continuity 契约 | shotPlan 各段独立、没字段表达"跟上段哪里挂上钩" | brief.schema 的 shotPlan[] 加 `continuityWithPrev`（sharedSubjectIds / sharedPaletteHueRange / transitionalElementId / transitionType）；新增 [validate-plate-continuity.mjs](../../tools/recognition-video/scripts/validate-plate-continuity.mjs) 默认 warn、`--strict` 报 error |
+
+### 2. 反向回归测试已落地
+
+`tools/recognition-video/briefs/regression/yi-v8-form-mismatch.brief.json` 与 `tools/recognition-video/tail-specs/regression/yi-v8-protected-overlap.tail-spec.json` 是**故意构造**的反向 fixture，跑两遍自检 fail-fast 触发：
+
+```bash
+npm run video:check-cross-file-regression  # 期望 fail，"|| echo expected-fail-ok" 兜
+node tools/recognition-video/scripts/validate-tail-spec.mjs tools/recognition-video/tail-specs/regression/yi-v8-protected-overlap.tail-spec.json  # 期望 fail
+```
+
+jury 8 blockers 全部能在 brief 阶段被新框架结构性拦截，不再依赖跑到 render 后用双盲 review 兜底。
+
+### 3. 新字 brief 必填字段（约束清单）
+
+任何新字 brief（"一" v9 / 二 / 三 / 人 / 山 / 火）从今起必须声明：
+
+1. `brief.finalFrame.guideObject.{form, anchor, entryDirection}`
+2. `brief.finalFrame.posterHoldSeconds`
+3. `brief.animationRequirements.shotMotion[]`，每个非 stroke-order-tail shot 一条
+4. 写字段 shot 必须配 `brief.animationRequirements.writingImplements[].tracksMaskFront=true`
+5. `brief.shotPlan[].continuityWithPrev` 每段对前段
+6. tail-spec 必须有 `finalFrame.pointerForm` enum
+7. tail-spec.transition `clearLayerIds` 与 `protectedLayerIds` 不能 overlap
+
+### 4. 8 道闸（render 前必跑）
+
+```bash
+npm run video:check-narration-spec
+npm run video:check-tail-spec
+npm run video:check-cross-file        # 新
+npm run video:check-motion-readability # 新
+npm run video:check-plate-continuity  # 新（新字必须 --strict）
+npm run video:check-audio-sync
+npm run video:check-teaching-harness
+npm run video:check-product-gate
+```
+
+8 道闸全过才进 render；render 完跑双盲 review。**双盲 review 现在只兜 schema 抓不到的纯审美问题**（plate 题材是否符合儿童偏好、旁白文本质感、bird sprite 抢不抢字形），不再兜 schema 本该兜的结构性矛盾。
+
+### 5. 跟 [[../../memory/feedback_validator_pass_not_product_pass]] 的关系
+
+memory 那条说"validator 全过 ≠ 产品合格"，这次不是要否定它，是补充：**v8 那次 validator 全过是因为 schema 没覆盖结构性矛盾，能补的就要补到 schema**。schema 永远拦不住"plate 题材是不是儿童会喜欢"这类纯审美问题，那部分仍需要双盲 review + 人眼。
+
+## 2026-05-24 yi-v9 评审版：voiced-tail 与柔光教训
+
+详见 [[../03-开发日志/2026-05-24-一字v9评审版太阳尾音优化]]。
+
+yi-v9 用户评审时暴露了一个新的边界问题：**用户想看的评审版体验**和**official tail contract**不一定一致。本轮用户明确要求最后一声"一"在 stroke-order tail 里跟着光标沿横笔移动播放；而现有 official contract 明确要求 tail 静音。结论不是改 validator 放行，而是把两种产物分轨。
+
+### 1. voiced-tail review 不能伪装 official
+
+当尾段需要发声时，产物状态必须写清楚：
+
+```text
+candidateStatus: user-review-voiced-tail
+officialStatus: blocked-by-silent-tail-contract
+```
+
+对应门禁失败是预期信号：
+
+- `validate-narration-bake.mjs` 会报 tail cue 前的大静音 gap。
+- `validate-audio-sync-plan.mjs` 会报 silent cue 与 spoken targetDuration 关系不成立。
+- `validate-teaching-harness.mjs` 会报 narration cue 落入 strokeOrderTail。
+
+这三个失败说明当前合同还没升级，不说明 MP4 渲染坏了。后续如果产品拍板"写字尾段要跟读"，必须升级 `Stroke-Order Tail Contract`、schema 和 validator，而不是给某个字开特例。
+
+### 2. 太阳光束的可复用参数边界
+
+用户对 yi-v9 第一版太阳光束的判断是正确的：硬三角、硬白柱、局部高亮都容易读成探照灯，不像太阳的自然光。
+
+后续做"一轮太阳 / 一道光"这类画面时，优先使用多层低对比柔光：
+
+| 层 | 用途 | 建议 |
+|---|---|---|
+| `sun-disc` | 太阳本体 | opacity 不宜高，边缘 blur 1-3px |
+| `sun-corona` | 圆形大光晕 | 大尺寸、blur 30px+，不要硬边 |
+| `sun-haze` | 源头雾化 | 宽、淡、低饱和 |
+| `sun-ray` | 主光带 | opacity 约 0.12-0.18，blur 48-80px，mask 顶部慢进 |
+| `sun-ray-thread` | "一道"的细读法 | 极弱，opacity 约 0.04-0.07，不能成为白色硬线 |
+
+避免：
+
+- `clip-path` 三角光束。
+- 高 opacity 白色锥形。
+- 太阳和光束不同源、不同方向。
+- 光束突然亮起，缺少 `2s+` 的慢泛开。
+
+### 3. 尾音同步看实际可听窗口
+
+VTT 时间不是听感时间。TTS 源文件头尾常有静音，拉长后静音也会被拉长。要确认"最后一声一跟着光标走"，至少看四个点：
+
+1. 光标到达横笔起点时间。
+2. 光标到达横笔终点时间。
+3. `silencedetect` 下最后一声实际可听起点。
+4. `silencedetect` 下最后一声实际可听终点。
+
+yi-v9 本轮最终状态：
+
+```text
+tail writing window: 9.35s - 10.75s
+VTT cue: 9.350s - 10.700s
+silencedetect -35dB audible window in rendered mp4: about 9.40s - 10.67s
+```
+
+这才算"贴住光标"。只把 VTT 写成 `9.35-10.70` 但不查实际可听窗口，仍可能出现孩子听到的声音滞后半秒。
+
+### 4. 抽帧复看是硬流程
+
+HyperFrames `lint / inspect / render` 证明"能渲染"，不证明"看起来正常"。太阳是否像太阳、光束是否突兀、光标是否真的沿横笔走，必须抽帧或看视频。
+
+最低复看帧建议：
+
+```text
+sun onset: 3.3s
+sun full / fade: 4.8s
+tail start: 9.35s
+tail middle: 10.0s
+tail end: 10.75s
+final hold: 11.8s
+```
+
+未来当用户追问"你自己看过吗"时，必须先有这些证据再回答。

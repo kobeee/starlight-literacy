@@ -1,0 +1,37 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic plate 5 of 6 — `ink-glyph-plate`. The settled-character hero plate showing the completed warm-deep ink character 一 inside a 米字格 grid on traditional xuan paper. Used for the main body of the `ink-glyph` shot from ~7.4s to ~9.6s (after the 0.5s light-to-ink cross-dissolve opening). 1024x1536 portrait. Held as a still plate in HyperFrames; no parts of the image are animated.
+
+Primary request: A single hero composition: traditional Chinese xuan paper substrate with a 米字格 grid watermark, AND a fully-settled warm-deep ink horizontal stroke (the character 一) sitting calmly on the grid's horizontal mid-line. This is the "character has arrived" frame — the visual destination of the entire light-to-ink metaphor. Painted oil-on-paper, painterly soft, calm and confident.
+
+Reference image usage: This plate uses three reference images: (1) the v5 style-anchor mood board for palette/brush/paper lockdown, especially band 3's warm-deep ink calligraphy stroke sample — the ink stroke in this plate MUST match that mood-board stroke's color, weight, and feathering profile. (2) The v5 xuan-paper substrate reference for the EXACT same paper texture (fiber lines, screen marks, corner aging, tea-stain ring placement) — the paper here MUST match the paper of `light-to-ink-plate` and `hand-tracing-plate`. (3) The v5 mizige-watermark grid reference for the EXACT same grid shape, position, line weight, and tan watermark color #c9b48a.
+
+Subject (strict layered contract): A single composition painted as 3 stacked layers from back to front:
+  Layer 1 — Xuan paper substrate (full bleed): Identical to `light-to-ink-plate`. Warm-cream xuan paper #f5ead0, subtle vertical handmade-paper fiber lines, very faint horizontal screen lines, soft warm-gray corner aging fading inward (corners ~12% darker), one very subtle tea-stain ring near the upper-right (about 80px wide, opacity ~8%, warm-brown #c9b48a). The center 60% of the frame remains visually quiet so the grid + character can dominate.
+  Layer 2 — 米字格 (mizige) grid watermark: Identical to `light-to-ink-plate`. One single mizige, perfectly square, centered horizontally, vertically centered at 55% of frame height, outer dimension ~62% of frame width. 4 outer edges + 1 horizontal mid + 1 vertical mid + 2 diagonals. All grid lines warm-tan watermark #c9b48a, ~2px thick, painterly soft watermark print.
+  Layer 3 — The completed ink character 一 (the hero element): A single horizontal warm-deep ink stroke laid across the horizontal mid-line of the mizige grid, occupying about 80% of the grid's interior width (so the stroke starts ~10% inside the left edge of the grid and ends ~10% inside the right edge of the grid). The stroke is fully settled as warm-deep ink #1f1a14 along its entire length (no light glow remaining anywhere). Specific qualities:
+    - 起笔 (left start): subtle thickening at the left end, painted as a soft "tap" of the brush — the stroke is slightly heavier here than in the body, with a soft rounded left edge that has a tiny suggestion of ink pooling (a faint extra darkness at the very left, ~2-3px deeper into the page than the rest)
+    - 行笔 (body): even, confident, opaque ink along the body of the stroke. Stroke body thickness about 22-28px (matches the mood-board ink stroke sample). Subtle thickness variation along the body (maybe ±3px) suggesting human brush pressure, NOT a vector rectangle
+    - 收笔 (right end): subtle pressure release at the right end, painted as a soft taper — the stroke gradually thins over the last ~8% of its length, ending in a soft point that fades into paper. The taper is warm and natural, not razor-sharp
+    - feathering: along the top and bottom edges of the entire stroke, the ink shows the finest hint of warm-brown feathering #6b5238 into paper fibers — visible only at high zoom, NOT a decorative effect. This sells "ink sat on paper for a few seconds and started to bleed"
+    - opacity: the stroke body is fully opaque (no transparency, no light glow), but the very edges show ~5% paper-color bleed-through where the ink met the paper texture
+  Subtle additional detail: A single very faint warm-amber after-glow #f4b06a at maybe 8% opacity along the immediate edge of the stroke (within 4-6px of the stroke), suggesting "the light just finished settling" — this is the ONLY remnant of the previous frame's light energy. NO sparkle, NO halo beyond this 4-6px after-glow, NO drawn rays.
+
+Style/medium: Oil-on-paper painterly hand. The paper, grid, and ink are all calm and matte. The composition reads like an opened museum-grade calligraphy practice page mid-morning. Reference standards: 追光《长安三万里》ink-on-paper close-ups, 蔡皋 picture-book calligraphy frames, museum-grade Chinese calligraphy macro photography, 熊亮 picture-book character treatments, Tonko House calm-still-life frames.
+
+Color discipline (strict): Strict palette:
+  - cream paper #f5ead0 (substrate)
+  - paper aging shifted toward #e8d8b8 (corners)
+  - tea stain warm-brown #c9b48a low opacity (upper-right paper marker)
+  - grid watermark warm-tan #c9b48a (mizige grid)
+  - warm-deep ink #1f1a14 (character body)
+  - ink feathering edge warm-brown #6b5238 (very subtle stroke edge bleed)
+  - after-glow warm-amber #f4b06a at ~8% opacity (immediate stroke perimeter only)
+NO blue, NO purple, NO green, NO neon, NO pure white, NO pure black (ink is #1f1a14 warm-leaning, not #000000), NO red, NO magenta. Saturation must stay below 30% throughout (after-glow can hit 40 at low opacity, everything else lower).
+
+Composition: Mizige grid centered horizontally, at 55% vertical. Horizontal stroke laid across the grid's horizontal mid-line. Generous warm-cream paper space above, below, and to both sides of the grid. No frame border, no matting, no decorative corner, no signature, no chop seal.
+
+Lighting: Soft even warm daylight on the paper substrate (no directional shadow on paper). The ink is matte and does not glow.
+
+Strict constraints: No Chinese characters other than the one stroke that forms 一 inside the grid (one horizontal stroke = the character 一; do NOT add a second stroke, do NOT add 二 or 三 or any other character, do NOT add pinyin "yi" anywhere), no Latin letters, no numbers, no labels, no logos, no watermarks (other than the grid itself and the tea-stain ring), no UI, no human figures, no animals, no brush in frame (the brush is in the next plate, not this one), no chop seal, no signature line, no decorative border, no red lines, no dashed lines, no grid numbering, no extra ink dots or splatter, no calligraphy splash, no chroma-key green/blue, no glossy 3D, no anime style, no light glow on the stroke (all light has settled — this is the "after" frame).
+
+Avoid: hard vector-sharp edges on the ink (must show subtle painterly variation), pure-black ink #000000 (must be warm-leaning #1f1a14), bold heavy stroke that fills more than ~40% of the grid's vertical interior (the stroke should sit calmly on the horizontal mid-line, not dominate vertical space), drawn brush hair marks visible inside the ink stroke (the stroke is opaque, not textured with hair marks), photo-realistic ink wetness (this is painted ink, not 4K macro photography), drawn ink splatter, any second stroke, any character beyond 一, any tianzige red 田字格 grid (this is mizige 米字格 only), heavy bold dark grid lines that compete with the stroke, drawn sparkles, light rays, halo, glow, magical-effect particles, decorative amplification of the stroke.

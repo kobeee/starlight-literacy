@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "recognition-video-narration-measured/v1",
+  "characterId": "yi-v7",
+  "sourceVtt": "/Users/elvis/Documents/codes/challenges/2026/Apr/starlight-literacy/src/clients/mobile-h5/assets/recognition/yi/yi-v7-narration.vtt",
+  "concatenatedTtsText": "看，一只小鸟。飞过一道光。这就是一。",
+  "rawScriptNormalized": "看，一只小鸟。飞过一道光。这就是一。",
+  "totalCharCount": 18,
+  "rawAudioEndSeconds": 5.652,
+  "apadToSeconds": 12,
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "看，一只小鸟。",
+      "audioStart": 0.1,
+      "audioEnd": 2.327
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "飞过一道光。",
+      "audioStart": 2.277,
+      "audioEnd": 4.083
+    },
+    {
+      "id": "glyph-naming",
+      "text": "这就是一。",
+      "audioStart": 4.083,
+      "audioEnd": 5.652
+    }
+  ]
+}

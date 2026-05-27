@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "recognition-video-tail-spec/v1",
+  "characterId": "yi-v5-cinematic-as-shipped",
+  "targetCharacter": "一",
+  "anchorsRef": {
+    "path": "../anchors/mizige-anchors.json",
+    "schemaVersion": "recognition-video-mizige-anchors/v1"
+  },
+  "glyph": {
+    "source": "html-kaiti",
+    "boxOverride": { "allowed": false }
+  },
+  "strokeOrder": [
+    {
+      "index": 1,
+      "directionCode": "h",
+      "phaseStartSeconds": 0.6,
+      "phaseEndSeconds": 1.5,
+      "notes": "Single horizontal stroke for 一."
+    }
+  ],
+  "container": {
+    "policy": "single-mizige-dual-state",
+    "recognitionOpacity": 0.18,
+    "writingOpacity": 0.30
+  },
+  "narrationPolicy": "silent",
+  "transition": {
+    "fromCinematicBody": "cross-dissolve",
+    "durationSeconds": 0.6,
+    "clearLayerIds": [
+      "phrase-bridge-layer"
+    ]
+  },
+  "finalFrame": {
+    "posterReady": true,
+    "handPosePresent": true,
+    "pointerForm": "child-hand",
+    "mizigeStateAtEnd": "writing"
+  },
+  "outputs": {
+    "composition": "../tail-specs/output/yi-v5-cinematic-as-shipped.tail.html",
+    "finalFramePng": "../tail-specs/output/yi-v5-cinematic-as-shipped.tail.final-frame.png",
+    "domProbeJson": "../tail-specs/output/yi-v5-cinematic-as-shipped.tail.dom-probe.json"
+  }
+}

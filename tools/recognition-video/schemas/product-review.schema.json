@@ -196,7 +196,8 @@
         "childAppeal",
         "audioFit",
         "technicalCompliance",
-        "officialReadiness"
+        "officialReadiness",
+        "teachingFunctionalIntegrity"
       ],
       "properties": {
         "teachingStructure": { "$ref": "#/$defs/score" },
@@ -208,8 +209,10 @@
         "childAppeal": { "$ref": "#/$defs/score" },
         "audioFit": { "$ref": "#/$defs/score" },
         "technicalCompliance": { "$ref": "#/$defs/score" },
-        "officialReadiness": { "$ref": "#/$defs/score" }
-      }
+        "officialReadiness": { "$ref": "#/$defs/score" },
+        "teachingFunctionalIntegrity": { "$ref": "#/$defs/score" }
+      },
+      "description": "10-dimension score. teachingFunctionalIntegrity is the safety net added 2026-05-19 after v5 cinematic shipped at 9.12 despite a ghost-stroke final frame and a no-anchor narration. It scores whether the narration text repeats the target character ≥3 times with a concrete-anchor phrase, AND whether the stroke-order tail's final frame contains exactly the target character (no ghost strokes, no extra layers). Either failure caps officialReadiness regardless of cinematic polish."
     },
     "overallScore": {
       "$ref": "#/$defs/score"

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "recognition-video-brief/v1",
+  "characterId": "yi-v7",
+  "character": "一",
+  "pinyin": "yī",
+  "unitId": "unit-01",
+  "narrationSpecRef": {
+    "path": "../narration-specs/yi-v7.narration-spec.json",
+    "schemaVersion": "recognition-video-narration-spec/v1"
+  },
+  "tailSpecRef": {
+    "path": "../tail-specs/yi-v7.tail-spec.json",
+    "schemaVersion": "recognition-video-tail-spec/v1"
+  },
+  "duration": 12,
+  "fps": 24,
+  "teachingHook": "v7 极简主义重构：抛弃 v5/v6 的多张 AI 生图 plate cross-dissolve（dual-render 根源），全片只有一张永远不切的画 = 宣纸 + 米字格 + 远山剪影。动画层在同一张画上从无到有变形：一只小鸟掠过 → 鸟迹凝固成一道横向暖金光带 → 光带下沉到米字格正中、慢慢变成黑色楷体「一」字 → 毛笔从左到右用 2.2s 写出一笔横画、孩子的手指悬停摹字。旁白 3 段配合视觉：「看，一只小鸟。」（concrete-anchor，绑 bird sprite）→「飞过一道光。」（phrase-bridge，绑单条光带）→「这就是一。」（glyph-naming，配合字音延长建立字-形-音三绑定）。spoken body ≤8s，silent stroke-order tail 9-12s。v7 区别 v5/v6 三处硬伤修复：(1) 全片字-形唯一映射不可能 dual-render；(2) 笔顺 2.2s 满足行业标准；(3) 旁白 3-6 岁能听懂的自然口语，砍掉 v6「念，一」指令式不自然口吻。",
+  "narration": {
+    "script": "看，一只小鸟。飞过一道光。这就是一。",
+    "voice": "edge-tts zh-CN-XiaoxiaoNeural rate -10% pitch +0Hz",
+    "cues": [
+      { "at": 0.1, "text": "看，一只小鸟。" },
+      { "at": 2.277, "text": "飞过一道光。" },
+      { "at": 4.083, "text": "这就是一。" }
+    ]
+  },
+  "shotPlan": [
+    {
+      "id": "bird-pass",
+      "start": 0,
+      "duration": 2.4,
+      "purpose": "意义入口 (meaningAction)：silent prologue 0-0.1s 极短呼吸后旁白「看，一只小鸟」对位 bird-flight-loop sprite；让 number-as-numeral「一只」绑到画面上可数 1 只小鸟具象物象",
+      "description": "全屏视觉容器（宣纸 #f5ead0 底 + 远山剪影 SVG + 米字格 watermark 0.18 opacity 居中）已稳定显示；bird-flight-loop 6 帧 sprite 在 0-2.4s 内从画面右下沿对角线掠向左上、刚好掠过米字格上方区域（不进入米字格内）；GSAP 仅做 translateX/translateY 平移 + 0.5% Ken Burns 缓推；旁白「看，一只小鸟」在 t=0.1s 起 audio 持续到 2.327s 与 bird sprite 入场同步落点；本段全程米字格、宣纸、远山保持可见、不切镜头",
+      "requiredAssets": [
+        "yi-v5-cinematic-bird-flight-loop",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg",
+        "html-mountain-silhouette"
+      ]
+    },
+    {
+      "id": "light-band",
+      "start": 2.4,
+      "duration": 1.8,
+      "purpose": "字形绑定 (glyphBinding)：鸟掠过的轨迹凝固成一道横向暖金光带；旁白「飞过一道光」用「一道」（number-as-quantifier）绑画面单一光带的视觉计数锚；光带的水平形态本身就是「一」字横笔的预演",
+      "description": "bird sprite 在 t=2.4s 时已飞出画面左上角；同时在画面上「鸟刚刚飞过的弧线」位置（米字格上方约 200px、横贯全屏）淡入一道纯 CSS linear-gradient 横向暖金光带（高度 36px、长度 100vw、中心 #fff3c8、外缘 #f4b06a、两端柔光晕染）；GSAP 在 2.4-3.3s 内把光带的 opacity 0→1、scale 0.7→1.0；3.3-4.2s 光带在原位 dwell；旁白「飞过一道光」在 audio 时刻 2.277-4.083s 与光带的出现 + dwell 同步；本段米字格、宣纸、远山仍保持可见、不切镜头",
+      "requiredAssets": [
+        "html-light-band",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg",
+        "html-mountain-silhouette"
+      ]
+    },
+    {
+      "id": "ink-glyph",
+      "start": 4.2,
+      "duration": 4.8,
+      "purpose": "字形闭合 (phraseBridge / glyph-naming)：光带从米字格上方 200px 下沉到米字格正中横位、同时颜色从暖金渐变到墨黑、形态从条状光带变成楷体「一」字（带起笔/收笔顿笔特征）；旁白「这就是一」对位完成态、配合字音延长建立字-形-音三绑定；audio 在 5.652s 收完后留 3.348s 静音 dwell 让宣纸上的墨字稳定回看",
+      "description": "4.2-5.7s：GSAP 把光带 element 的 translateY 从 -200px 推到 0、color 从 #fff3c8 渐变到 #1f1a14、scale 从 1.0 收到 0.83（变成米字格中横线长度）、blur 2px → 0；同时启动一个 HTML kaiti「一」字 div（position absolute 居中米字格、font-family Yi Kaiti、color #1f1a14、初始 opacity 0）通过 CSS mask-image linear-gradient(90deg, #000 0%→100%) 在 5.0-6.5s 内从左到右渗墨成形、收笔顿笔；5.7s 时光带 element 已变形且 opacity 0→0 退出、HTML kaiti「一」字成为画面上唯一可见的「一」（字-形唯一映射）；旁白「这就是一」audio 时刻 4.083-5.652s 与光带下沉 + 渗墨中段同步；6.5-9.0s 完整态 dwell 让宣纸上的墨字稳定回看（2.5s 干净 dwell，远超 ≥0.45s syncRule）；本段米字格、宣纸、远山仍保持可见、不切镜头",
+      "requiredAssets": [
+        "html-ink-glyph-bleed-layer",
+        "html-kaiti-glyph",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg",
+        "html-mountain-silhouette"
+      ]
+    },
+    {
+      "id": "stroke-order-tail",
+      "start": 9.0,
+      "duration": 3.0,
+      "purpose": "笔顺尾段 (strokeOrderTail)：米字格水印由识字态平滑切到写字态、黑色楷体「一」字按笔顺由左到右用 2.2s 二次渗墨、毛笔尖 SVG 跟随渗墨前沿移动、孩子的手指 SVG 悬停在毛笔后方；整段静默、纯视觉",
+      "description": "9.0-9.4s：mizige-opacity 0.18→0.30 (识字态 → 写字态) + ink-glyph-bleed-layer / light-band-layer / phrase-bridge-layer 全部 set data-removed='true' + display:none（满足 mizige-anchors clearingContract）；9.4-11.6s：黑色楷体「一」字通过 CSS mask-image linear-gradient(90deg) 由左到右 2.2s 渗墨写出（相位与 ink-glyph 段不同、强化「这是写字、不是认字」语义）、毛笔尖 SVG（黑色椭圆 + 笔毛簇）跟随 mask 前沿在米字格中横线上从左到右移动、孩子的食指 SVG（简化轮廓）从右下入画悬停在毛笔后方约 20px；11.6-12.0s 完整态 dwell 作 P03 poster；整段无任何旁白 cue；audio-plan 用 ffmpeg apad 把 narration mp3 补到 12s 与视频等长。受 tools/recognition-video/tail-specs/yi-v7.tail-spec.json 与 anchors/mizige-anchors.json 双重约束",
+      "requiredAssets": [
+        "html-kaiti-glyph",
+        "html-stroke-order-mask",
+        "html-brush-tip",
+        "html-child-hand",
+        "html-mizige-watermark",
+        "html-xuan-paper-bg",
+        "html-mountain-silhouette"
+      ]
+    }
+  ],
+  "teachingContract": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "meaningAction": {
+      "shotId": "bird-pass",
+      "description": "全屏一张永远不切的画上（宣纸 + 米字格 + 远山剪影），bird-flight-loop 6 帧 sprite 在 0-2.4s 内从画面右下沿对角线飞向左上、掠过米字格上方区域；旁白「看，一只小鸟」对位 bird sprite 入场，把「一」的数量意义从抽象落到画面上可数的 1 只小鸟具象物象——v7 复用 v5 cinematic 已生产的 256×256 6 帧透明 PNG sprite",
+      "mustPrecedeGlyphClosure": true
+    },
+    "glyphBinding": {
+      "shotId": "light-band",
+      "description": "鸟刚刚飞过的弧线位置淡入一道纯 CSS 横向暖金光带（高度 36px、长度 100vw）作为「一」字横笔的预演；旁白「飞过一道光」用「一道」复用同一个量词模式（与「一只」并列），且画面就只一道光带，boundToVisualCount=true；光带的水平形态与即将出现的楷体「一」字横笔一一对应",
+      "boundElements": [
+        "horizontal warm-gold CSS linear-gradient beam at mizige-top-offset position",
+        "horizontal kaiti stroke of the character 一 ultimately rendered as HTML kaiti div centered in mizige"
+      ]
+    },
+    "phraseBridge": {
+      "shotId": "ink-glyph",
+      "phrase": "这就是一"
+    },
+    "sentenceBridge": {
+      "sentence": "看，一只小鸟。飞过一道光。这就是一。",
+      "source": "Starlight Literacy Unit-01 一字 recognition 短片 v7；3 段紧凑叙事覆盖 concrete-anchor（数量锚定）→ phrase-bridge（形态锚定 + 第二次量词重复）→ glyph-naming（字-形-音三绑定 + 字音延长强调）；相对 v6 砍掉「念，一」指令式不自然口吻，相对 v5/v6 把「一」从 2-3 次提到 3 次、把视觉从多张 AI plate 切镜头改为单容器变形"
+    },
+    "recognitionPauses": [
+      {
+        "shotId": "bird-pass",
+        "target": "远景小鸟掠过米字格上方时被旁白「看，一只小鸟」点名的整段",
+        "seconds": 2.4
+      },
+      {
+        "shotId": "ink-glyph",
+        "target": "米字格中黑色楷体「一」字渗墨成形 + 旁白「这就是一」收音后保留 2.5s 干净 dwell（让宣纸上的墨字稳定回看）",
+        "seconds": 4.8
+      }
+    ],
+    "practiceOrRepeat": {
+      "mode": "p03-replay-and-stroke-order-tail-with-hand-tracing",
+      "description": "P03 提供 replay 按钮支持点击复看；视频末帧（米字格写字态 + 黑色楷体「一」字 + 毛笔尖 + 孩子手指）作 poster；9-12s 静默尾段提供米字格识字→写字切换 + 笔顺二次渗墨 + 毛笔尖 + 孩子手指四层视觉为 P09 写字练习做认知铺垫；P05/P07 提供找字与点字练习再次复现"
+    },
+    "strokeOrderTail": {
+      "shotId": "stroke-order-tail",
+      "startSeconds": 9.0,
+      "minSeconds": 3.0,
+      "container": "mizige",
+      "containerStatePolicy": "single-mizige-dual-state",
+      "narrationPolicy": "silent",
+      "writingDirection": "left-to-right",
+      "description": "同一米字格水印从识字态 (--mizige-opacity: 0.18) 平滑切到写字态 (0.30)；黑色楷体「一」字按汉字第一笔横画 left-to-right 用 CSS mask-image linear-gradient 二次渗墨写出（2.2s 渗墨时长满足行业标准，远超 v6 的 0.9s 硬伤）；毛笔尖 SVG 跟随渗墨前沿移动、孩子的食指 SVG 悬停在毛笔后方；整段静默；audio-plan 用 ffmpeg apad 把 narration mp3 补到 paddedTotalDurationSeconds=12s 与视频等长；末帧作为 P03 poster；受 tail-spec yi-v7.tail-spec.json + anchors/mizige-anchors.json 双重约束"
+    },
+    "writingPosition": "late",
+    "mascotRole": "none"
+  },
+  "pacingRequirements": {
+    "audienceAgeRange": "3-6 岁认字启蒙",
+    "minimumCueHoldSeconds": 1.5,
+    "minimumFinalHoldSeconds": 2.0,
+    "maximumSceneChangesPerSecond": 0.3,
+    "productSurface": "P03 认字页正式 official 视频，Starlight Literacy Unit-01 一 的 recognition 短片 v7 极简主义重构（全片单容器、0 张 AI 生图 plate、字-形唯一映射不可能 dual-render、笔顺 2.2s 行业标准）；product-review 阈值 overallScore ≥ 9.0 + teachingFunctionalIntegrity ≥ 9.0 + 用户人眼审「这是一不是二」必须通过"
+  },
+  "animationRequirements": {
+    "spriteRequired": [
+      {
+        "actor": "bird",
+        "action": "flight-loop",
+        "reason": "bird-pass 段一只小鸟剪影从画面右下沿对角线飞向左上、掠过米字格上方；位移由 GSAP translateX/Y 完成，但扑翅必须有真实的 frame 切换不能用 CSS transform skew 假装扑翅。6 帧覆盖一个完整 wing-down → wing-up → wing-down 循环。v7 复用 v5 cinematic 已生产的 256×256 透明 PNG sprite，sprite 在画面出现时长 0-3.0s 对位 concrete-anchor 旁白「看，一只小鸟」，让 number-as-numeral 量词「一只」在画面有可数 1 只的视觉计数锚",
+        "minFrames": 6,
+        "requiredMotionParts": [
+          "wing-up",
+          "wing-down",
+          "body-translate"
+        ],
+        "poseContract": [
+          { "frame": 0, "pose": "wing 起始 down stroke 开始", "body": "翅膀刚开始下扑、身体微抬", "limbs": ["双翼尖端在身体水平线下方约 30%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀正向下扑、即将获得升力" },
+          { "frame": 1, "pose": "wing down stroke 中段", "body": "翅膀继续下扑约 60%、身体被推升", "limbs": ["双翼尖端落到身体水平线下方约 60%", "尾羽轻张"], "contact": "整体悬空、略上抬", "mustReadAs": "翅膀大幅下扑、获得最大升力" },
+          { "frame": 2, "pose": "wing 极底 + 身体顶峰", "body": "翅膀几乎收至身体下方极底、身体到达顶峰", "limbs": ["双翼尖端贴近身体下方", "尾羽完全张开"], "contact": "整体悬空", "mustReadAs": "扑翅完成、身体在循环顶峰" },
+          { "frame": 3, "pose": "wing up stroke 开始", "body": "翅膀开始向上回收、身体微沉", "limbs": ["双翼尖端回到身体水平线下方约 40%", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "翅膀开始向上抬回" },
+          { "frame": 4, "pose": "wing up stroke 中段", "body": "翅膀继续上抬约 60%、身体下沉", "limbs": ["双翼尖端到达身体水平线上方约 30%", "尾羽轻张"], "contact": "整体悬空、略下沉", "mustReadAs": "翅膀大幅向上抬回、准备下一个下扑" },
+          { "frame": 5, "pose": "wing 极顶 + 循环回归", "body": "翅膀几乎收至身体上方极顶、身体在循环底端、准备下一轮 down stroke", "limbs": ["双翼尖端贴近身体上方", "尾羽中性"], "contact": "整体悬空", "mustReadAs": "扑翅循环回到起点、与 frame 0 几何相近但相位略异以避免视觉冻结" }
+        ]
+      }
+    ],
+    "timelineOnly": [
+      "html-xuan-paper-bg: 宣纸 #f5ead0 纯色背景 + subtle CSS box-shadow inset 给纸面纹理感、贯穿 0-12s",
+      "html-mountain-silhouette: 远山墨色剪影 SVG polygon 在画面下 1/3、color #2a2535 暗紫剪影、贯穿 0-12s",
+      "html-mizige-watermark: 单一米字格水印 SVG（米字格田字格双线 + 对角虚线）居中固定，CSS 变量 --mizige-opacity 在 stroke-order-tail 段 9.0-9.4s 从 0.18 缓动到 0.30；贯穿 0-12s 始终可见，不切换两种格子",
+      "html-light-band: 一道横向暖金光带 div、CSS linear-gradient(90deg, #fff3c8 0%, #f4b06a 50%, #fff3c8 100%) + box-shadow 柔光晕染、在 light-band 段 3.0-4.5s opacity 0→1 + scale 0.7→1.0、4.5-6.0s dwell；在 ink-glyph 段 6.0-7.5s 由 GSAP 推 translateY -200px→0 + color 暖金→墨黑 + scale 1.0→0.83 同时 ink-glyph-bleed-layer 接管渗墨笔触；7.5s 后 light-band-layer opacity 0",
+      "html-ink-glyph-bleed-layer: 楷体「一」字渗墨过渡层、与 html-kaiti-glyph 重叠定位、CSS mask-image: linear-gradient(90deg, #000 0%→100%) + filter: blur(2px)→blur(0) + opacity 0→1，GSAP 在 ink-glyph 段 6.0-7.5s 推进；9.0-9.4s set data-removed='true' + display:none 满足 clearingContract",
+      "html-kaiti-glyph: 黑色楷体「一」字、font-family 'Yi Kaiti, STKaiti, KaiTi, serif'、color #1f1a14、position absolute 居中米字格、font-size 与 mizige boxSize 等比、字-形唯一映射元素；初始 opacity 0、在 ink-glyph 段 7.0-8.5s 通过 mask-image 渗墨成形、8.5s 起持续可见到 12.0s",
+      "html-stroke-order-mask: 笔顺示范用 CSS mask-image linear-gradient 二次渗墨、与 ink-glyph 段不同相位（强化写字语义）、在 stroke-order-tail 9.4-11.6s 推进 2.2s",
+      "html-brush-tip: 简化毛笔尖 SVG（黑色椭圆 + 笔毛簇 + 短笔杆），跟随 stroke-order-mask 渗墨前沿在 9.4-11.6s 从米字格左边界移动到右边界",
+      "html-child-hand: 简化孩子右手食指 SVG（食指弯曲指向毛笔尖、4-5 岁手型），在 9.4s 从画面右下入画、跟随毛笔尖移动、悬停在毛笔后方约 20px",
+      "phrase-bridge-layer: 空 placeholder div（id=phrase-bridge-layer），9.0-9.4s set data-removed='true' + display:none 满足 mizige-anchors clearingContract 的形式要求"
+    ]
+  },
+  "finalFrame": {
+    "description": "全屏一张永远不切的画：宣纸 #f5ead0 全屏 + 下 1/3 远山墨色剪影 + 米字格水印写字态 (--mizige-opacity: 0.30) 居中 + 居中黑色楷体「一」字 (#1f1a14) 完全成形 + 简化毛笔尖 SVG 悬停在米字格右边界 + 孩子右手食指 SVG 悬停在毛笔后方约 20px + 阳光从右上 30° 斜入暖光与柔影。读起来像「一幅永远不切镜头的极简识字画定格在孩子摹字的瞬间」，作 P03 poster",
+    "mustBeReadableAsPoster": true
+  }
+}

@@ -1,0 +1,40 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic plate 3 of 6 — `light-band-plate`. Cinematic close-up on a horizontal warm-gold ribbon of light suspended in mid-air mist, used as the bridging hero plate covering brief shot id `light-band` from 5.9s to ~7.4s. Cross-dissolves out of `sun-rising-plate` at 5.9s and into `light-to-ink-plate` at ~7.4s. 1024x1536 portrait.
+
+Primary request: A cinematic close-up frame: the camera has zoomed in from the wide sunrise valley and is now holding on a single horizontal ribbon-of-light floating in soft warm mist. This light ribbon is the visual seed of the character 一 — it is light shaped exactly like the horizontal stroke of 一, suspended in air. This is the metaphysical crossover frame where "sunrise light" becomes "the character." Painted oil-on-paper, painterly soft, no characters drawn yet.
+
+Reference image usage: This plate uses two reference images: (1) the v5 style-anchor mood board for palette/brush/paper lockdown, especially the warm-golden ribbon-of-light stroke shown in band 2 of the mood board — the light ribbon in this plate MUST match that mood-board ribbon's color profile (#fff3c8 core → #ffd071 → #f4b06a outer halo, both ends taper into mist). (2) The v5 xuan-paper substrate reference is NOT used here because this plate is a soft-mist atmospheric shot, not a paper-substrate shot.
+
+Subject (strict shape contract): A single horizontal ribbon of warm-golden light suspended in mid-air, centered horizontally and vertically in the frame. Specific:
+  - ribbon length about 65% of frame width (~665px on 1024-wide frame)
+  - ribbon thickness varies along its length: thinnest at the two tapered ends (~8px), thickest in the middle third (~28px), like a confident horizontal sweep of luminous paint
+  - ribbon vertical position centered at 50% frame height
+  - subtle natural curve: the ribbon is not perfectly straight — it has a very gentle organic wave (like calligraphy 一 with subtle character), with maybe 6-8px of vertical variation along its length
+  - both ends taper softly into nothingness (fade to transparent) — NO hard end caps, NO arrowheads, NO sparkle starbursts, NO solid round dots at the ends
+  - color profile: brightest core #fff3c8 along the centerline of the ribbon, fading outward through #ffd071 in the middle band, fading to soft halo #f4b06a at the outer edge of the glow, fading to transparent
+  - the ribbon itself does NOT have a hard outer edge — it is light, not a painted shape. The transition from ribbon to mist is soft and gradient
+
+Subject (strict atmosphere contract): The space around the ribbon is NOT bare paper — it is soft warm dawn-mist atmosphere:
+  - whole-frame ambient base: warm-cream mist #ebdfc4 with painterly grain
+  - subtle mid-frame warm-gold tint: a soft radial glow centered on the ribbon, fading outward — at the ribbon's vertical midline the mist warms toward #f4b06a at maybe 20% opacity, fading to neutral cream at the top and bottom edges of the frame
+  - subtle drifting mist particles (very faint, painterly, NOT drawn dots): hint of upward-drifting soft cream-warm mist wisps in the lower 30% of the frame and upper 25% of the frame, painted as soft brushed shapes at maybe 12% opacity, suggesting "the air itself is moving slowly upward"
+  - top of frame and bottom of frame fade slightly darker (like cinematic letterboxing through atmosphere not actual bars) — top fades toward dawn warm-gray #5d5366 at maybe 10% opacity, bottom fades toward earth warm-deep #4a3f3a at maybe 8% opacity. This is very subtle — just enough to draw the eye toward the ribbon
+
+Style/medium: Oil-on-paper painterly hand with strong sumi-e atmospheric softness. Reference standards: Tonko House "The Dam Keeper" interior light beams, Cartoon Saloon "Song of the Sea" magical-light moments, 宫崎骏 light-ray shots, Pixar "Bao" warm interior light, 追光《长安三万里》sunlight-through-mist scenes, 熊亮 picture-book magical-light treatment.
+
+Color discipline (strict): Strict warm-luminous palette only:
+  - ribbon brightest core #fff3c8
+  - ribbon mid #ffd071
+  - ribbon halo #f4b06a
+  - mist base #ebdfc4
+  - very subtle frame-edge dawn warm-gray #5d5366 (top edge only, low opacity)
+  - very subtle frame-edge earth warm-deep #4a3f3a (bottom edge only, low opacity)
+NO blue light, NO purple light, NO green light, NO neon, NO pure white anywhere except the ribbon's brightest core (and even there it's #fff3c8 not #ffffff), NO pure black, NO sparkle stars, NO lens flares. Saturation must stay below 60% (ribbon core can hit 60, everything else much lower).
+
+Composition: Ribbon dead-center horizontally and vertically. Generous breathing space of warm mist on all sides. The composition should feel like a held breath — a single luminous element in a warm cloud. No frame border, no matting, no decorative corner, no signature, no chop seal.
+
+Lighting/mood: The sunrise has condensed into a single horizontal idea. The cinematic feeling is: discovery, recognition, the moment before naming. Like the held shot in a Tonko House short where the protagonist sees something for the first time. Quiet, magical, painterly. This is the frame where the audience starts to understand: "oh — that shape IS the character."
+
+Strict constraints: No Chinese characters drawn anywhere, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks, no UI, no human figures, no animals, no birds, no buildings, no mountains, no sun disc visible, no drawn rays, no drawn sparkles, no drawn stars, no lens flare, no chop seals, no signature, no decorative borders, no framing, no chroma-key green/blue, no glossy 3D, no anime style, no drawn ink stroke (the ribbon is LIGHT not ink — light has soft edges and warm color; ink would have hard edges and warm-deep color, which is wrong for this plate).
+
+Avoid: hard outer edge on the ribbon (it's light, not a painted shape), arrowhead ends, sparkle starbursts at the ribbon ends, drawn dots/glitter floating around, neon-yellow/lemon ribbon (it must be warm-gold not cool-yellow), lens flare, optical aberration, JJ Abrams lens flare, photo bokeh balls, depth-of-field blur, drawn cloud puffs in the mist (the mist is soft atmosphere not drawn cloud shapes), chroma-key green spill, anime speed lines, sticker-style ribbon, modern graphic-design vector ribbon shape with hard edges, gradient banding, posterized gradient steps, paper grain that competes with the ribbon glow (paper grain in this plate should be quieter than in the substrate plates because this is an atmospheric shot, not a paper shot).

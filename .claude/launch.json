@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "yi-v9-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "tools/recognition-video/builds/yi-v9"],
+      "port": 8765
+    },
+    {
+      "name": "mobile-h5",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:h5"],
+      "port": 4173
+    }
+  ]
+}

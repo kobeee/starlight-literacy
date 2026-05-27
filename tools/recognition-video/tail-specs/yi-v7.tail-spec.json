@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "recognition-video-tail-spec/v1",
+  "characterId": "yi-v7",
+  "targetCharacter": "一",
+  "anchorsRef": {
+    "path": "../anchors/mizige-anchors.json",
+    "schemaVersion": "recognition-video-mizige-anchors/v1"
+  },
+  "glyph": {
+    "source": "html-kaiti",
+    "boxOverride": { "allowed": false }
+  },
+  "strokeOrder": [
+    {
+      "index": 1,
+      "directionCode": "h",
+      "phaseStartSeconds": 0.4,
+      "phaseEndSeconds": 2.4,
+      "notes": "v7 把笔顺横笔的渗墨时长从 v5/v6 的 0.9s 拉到 2.0s — 行业标准（洪恩 / 巧虎单笔笔顺 ≥ 2s）。phaseStart 0.4s 让 mizige 由识字态切到写字态先稳定（同时 clearing v5/v6 残留 layers），phaseEnd 2.4s 命中 tail validator 上限 2.4s；brief.shotPlan.stroke-order-tail 段 9.0-12.0s 总 3s 中末 0.6s（11.4-12.0）由 tail 之外的 GSAP dwell 提供完整态 poster hold。"
+    }
+  ],
+  "container": {
+    "policy": "single-mizige-dual-state",
+    "recognitionOpacity": 0.18,
+    "writingOpacity": 0.30
+  },
+  "narrationPolicy": "silent",
+  "transition": {
+    "fromCinematicBody": "cross-dissolve",
+    "durationSeconds": 0.4,
+    "clearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer"
+    ]
+  },
+  "finalFrame": {
+    "posterReady": true,
+    "handPosePresent": true,
+    "pointerForm": "child-hand",
+    "mizigeStateAtEnd": "writing"
+  },
+  "outputs": {
+    "composition": "output/yi-v7.tail.html",
+    "finalFramePng": "output/yi-v7.tail.final-frame.png",
+    "domProbeJson": "output/yi-v7.tail.dom-probe.json"
+  }
+}

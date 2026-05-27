@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "recognition-video-tail-spec/v1",
+  "characterId": "yi-v8",
+  "targetCharacter": "一",
+  "anchorsRef": {
+    "path": "../anchors/mizige-anchors.json",
+    "schemaVersion": "recognition-video-mizige-anchors/v1"
+  },
+  "glyph": {
+    "source": "html-kaiti",
+    "boxOverride": { "allowed": false }
+  },
+  "strokeOrder": [
+    {
+      "index": 1,
+      "directionCode": "h",
+      "phaseStartSeconds": 0.6,
+      "phaseEndSeconds": 1.5,
+      "notes": "v8.2 stroke-order tail 占据视频最后 10.0-12.0s 共 2.0s（严格符合 mizige-anchors.timing.totalDurationSeconds=2.0）。本 tail 段内时间轴：0.0-0.6s 米字格 0.18→0.30 + 五层 clearLayerIds 清理（ink-glyph-bleed-layer/light-band-layer/phrase-bridge-layer/sunlight-ray-plate/dawn-mountain-plate）+ brush-pointer 从 bottom-right 30° 入画到悬停姿态；0.6-1.5s 横笔写字渗墨 0.9s（≥ MIN 0.2s 单笔最低 + 严格 == anchors writingDurationSeconds=0.9），mask softness=2 锐边写字态区分 cinematic body 渗墨态 softness=4；1.5-2.0s 完整 dwell 0.5s（== anchors finalHoldSeconds=0.5）+ 笔尖悬停在「一」字右端 +18px 作 P03 poster 锚帧。本段 narrationPolicy='silent' 严格满足 anchors 规范，孩子不被旁白干扰专注看笔顺示范。v8.2 关键变更（相对 v8.1）：child-hand SVG 渲染呈现'色块拼贴'感与项目田园暖彩 + 卡蒂书法主题不融，按第一原理'引导物体不必是人手'换为 brush-pointer（黑墨笔尖 + 竹色笔杆 + 暖光晕），笔尖锚点 (215, 50) 与原食指尖同坐标 → 容器定位、入画动画、Phase 2 跟随写字 mask 全部零修改。anchors.hand.allowedPointerForms 已新增 'brush-pointer' 允许此实现，brand P03 poster 仍锁 bottom-right 30° 入画与笔尖 +18px 悬停语义不变。"
+    }
+  ],
+  "container": {
+    "policy": "single-mizige-dual-state",
+    "recognitionOpacity": 0.18,
+    "writingOpacity": 0.30
+  },
+  "narrationPolicy": "silent",
+  "transition": {
+    "fromCinematicBody": "cross-dissolve",
+    "durationSeconds": 0.4,
+    "clearLayerIds": [
+      "ink-glyph-bleed-layer",
+      "light-band-layer",
+      "phrase-bridge-layer",
+      "sunlight-ray-plate",
+      "dawn-mountain-plate"
+    ]
+  },
+  "finalFrame": {
+    "posterReady": true,
+    "handPosePresent": true,
+    "pointerForm": "brush-pointer",
+    "mizigeStateAtEnd": "writing"
+  },
+  "outputs": {
+    "composition": "output/yi-v8.tail.html",
+    "finalFramePng": "output/yi-v8.tail.final-frame.png",
+    "domProbeJson": "output/yi-v8.tail.dom-probe.json"
+  }
+}

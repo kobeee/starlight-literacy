@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "recognition-video-audio-plan/v1",
+  "characterId": "yi-v9",
+  "script": "一只小鸟，飞过山头。一道光，落在白纸。这一笔，就是「一」。一。",
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3-v8 同一 Xiaoxiao 女老师声 + -10% 慢速；按用户反馈，把最后一声「一」从前置重复改到 9.35-10.70s stroke-order tail 写字段，让声音跟随 ink-front-bloom 沿横笔移动。"
+  },
+  "durationBenchmark": {
+    "sourceModel": "hongen-micro-lesson/v1",
+    "referenceProduct": "洪恩识字 一 字单页认字微课（公开 demo）",
+    "referenceDurationSeconds": {
+      "min": 25,
+      "max": 45,
+      "example": 32
+    },
+    "referenceEvidence": "洪恩 demo 25-45s 覆盖意义/字形/组词/笔顺；v9 仍是 P03 recognition 短片的 12s 切片，0-7.805s spoken body 3 段叙事承载意义→字形，9.35-10.70s 在 stroke-order tail 写字动作上同步一声慢速「一」强化音形；与洪恩工业风的「字幕堆满」刻意拉开节奏。",
+    "starlightTargetSeconds": 10.7,
+    "starlightDecision": "P03 recognition v9 用户 review 版总 12s = spoken body 0-7.805s + tail writing voice 9.35-10.70s + final dwell 10.75-12.0s。最后一声「一」与 tail 中 ink-front-bloom 沿「一」横笔移动同步。"
+  },
+  "targetDurationSeconds": 10.7,
+  "paddedTotalDurationSeconds": 12,
+  "rawTtsAudioDurationSeconds": 10.704,
+  "bakedAudioDurationSeconds": 12.024,
+  "audioPaddingNotes": "raw narration（edge-tts XiaoxiaoNeural -10% 一次性合 `script` 全文）自带尾音「一。」段 9.359-10.704s（silencedetect -35dB 实测），与前 4 次「一」100% 同源同 voice 同 rate。baked 直接用 raw 不做任何异源注入 / atempo / volume 调整，只 `ffmpeg -af apad=whole_dur=12.0` 静音填充至 12.024s（ffprobe 实测）与视频 12s 等长 ≤0.05s 误差。final mp4 中尾音可听窗 9.402-10.667s（+52ms 起音 / -83ms 收音于 9.35-10.75s 光标移动窗）。历史路线（char.mp3 截取 + atempo=0.5,0.5,0.9 + volume=1.35 + adelay=9350）已废弃，因异源 + 极端拉伸导致听感断裂，详见 [[../../knowledge-base/03-开发日志/2026-05-24-一字v9尾音同源化修复]]。",
+  "quietAfterLastCueSeconds": 1.3,
+  "cues": [
+    {
+      "id": "concrete-anchor",
+      "shotId": "dawn-mountain-plate",
+      "text": "一只小鸟，飞过山头。",
+      "audioStart": 0.1,
+      "audioEnd": 2.994,
+      "visualStart": 0.0,
+      "visualEnd": 3.0,
+      "narration": "spoken",
+      "rationale": "意义入场（concrete anchor）+ 目标字「一」首次音视同步锚定：旁白与 dawn-mountain-bird plate Ken Burns（scale 1.0→1.08 ≥5%）同步，「一只」量词在 0.1s 起就把目标字「一」绑到 plate 上的单只小鸟剪影。visualStart 0 比 audioStart 0.1 早 0.1s 让 plate 先稳定显示再入声。10 字含标点符合 3-6 岁单段上限。measured-timings audioEnd 2.994s。"
+    },
+    {
+      "id": "phrase-bridge",
+      "shotId": "sunlight-ray-plate",
+      "text": "一道光，落在白纸。",
+      "audioStart": 2.995,
+      "audioEnd": 5.611,
+      "visualStart": 3.0,
+      "visualEnd": 5.7,
+      "narration": "spoken",
+      "rationale": "字形预备 + 量词「一道」绑画面单一光束。dawn-mountain plate 在 2.7-3.0s 渐隐，sunlight-ray plate 在 3.0-3.6s 渐显并保持到 5.7s。single-sun-motif 让一个太阳先升起，再投下一束 45° 对角光，避免光束凭空出现；composition 同时遮掉 plate 静态鸟，只保留动态 bird sprite。"
+    },
+    {
+      "id": "glyph-binding-naming",
+      "shotId": "ink-bleed",
+      "text": "这一笔，就是「一」。",
+      "audioStart": 5.611,
+      "audioEnd": 7.805,
+      "visualStart": 5.7,
+      "visualEnd": 8.9,
+      "narration": "spoken",
+      "rationale": "字形主体 + 字-形-音收束（合并 v8 末段）。sunlight-ray plate 在 5.4-5.7s 渐隐，纯宣纸背景显露；5.9-7.9s 楷体「一」字通过 CSS mask-image 从左到右 2.0s 渗墨成形 + ink-front-bloom 暖墨晕严格绑 mask 前沿 1:1（修 jury blocker#8 mask reveal=wipe→writing）。米字格 6.5-7.5s 缓入 0.18 识字态。「这一笔」承担量词绑画面单一横画 + 「就是「一」」承担字-形-音收束；末声「一」移到 tail 写字段，不再在 ink-bleed dwell 前置重复。"
+    },
+    {
+      "id": "tail-stroke-sound",
+      "shotId": "stroke-order-tail",
+      "text": "一。",
+      "audioStart": 9.35,
+      "audioEnd": 10.7,
+      "visualStart": 9.35,
+      "visualEnd": 10.75,
+      "narration": "spoken",
+      "rationale": "用户明确要求最后一声「一」跟随 stroke-order tail 中光标沿「一」横笔移动，而不是放在 tail 前。9.35-10.75s ink-front-bloom 从左到右写横笔，声音从 9.35s 起慢速读「一」，尾音自然延续到约 10.70s。"
+    },
+    {
+      "id": "stroke-order-tail",
+      "shotId": "stroke-order-tail",
+      "text": "",
+      "audioStart": null,
+      "audioEnd": null,
+      "visualStart": 9.0,
+      "visualEnd": 12.0,
+      "narration": "silent",
+      "rationale": "stroke-order tail：t=9.0-12.0s 共 3.0s。9.0-9.35s mizige 0.18→0.30 写字态切换 + clearLayerIds 清辅助层 + protectedLayerIds 保护 kaiti-glyph-base 持久可见 + ink-front-bloom 从 bottom-right 30° 入画到「一」字横笔起笔点；9.35-10.75s 横笔 1.4s 写字渗墨（softness=2 锐边写字态）+ ink-front-bloom 严格绑 mask front x-position 1:1，并同步 9.35-10.70s 慢速单声「一」；10.75-12.0s finalHold ink-front-bloom 悬停 +18px 作 P03 poster 锚帧。"
+    }
+  ],
+  "syncRules": [
+    "每段旁白 audioStart 与对应 shotId visualStart 同帧或视觉早 ≤0.10s 或视觉晚 ≤0.12s；4 段 spoken cue 对齐 dawn-mountain (0-3.0) / sunlight-ray (3.0-5.7) / ink-bleed (5.7-9.0) / stroke-order-tail writing (9.35-10.70)",
+    "用户 review 版把最后一声「一」放进 9.35-10.70s stroke-order tail 写字段，与 ink-front-bloom 沿横笔移动同步；这会改变原先 official silent-tail 合同，official 发布前需同步更新 tail contract 或另存非 official 变体",
+    "baked mp3 末端 apad whole_dur=12.0 至 paddedTotalDurationSeconds=12s，ffprobe 实测 12.048s 与 brief.duration=12s 对齐 ≤0.05s 误差",
+    "v9 关键约束：米字格 0-6.5s 完全 opacity 0、6.5-7.5s 缓入 0.18 识字态、9.0-9.35s 切 0.30 写字态；sunlight-ray plate 不显示水平光束；单容器 single-mizige-dual-state 不可能 dual-render；ink-front-bloom 严格绑 mask front 不再有具象 brush/hand"
+  ],
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v9-narration.vtt"
+  }
+}

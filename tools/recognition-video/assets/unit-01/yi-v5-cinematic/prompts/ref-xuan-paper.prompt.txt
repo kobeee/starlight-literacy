@@ -1,0 +1,25 @@
+Use case: illustration-story
+Asset type: Starlight Literacy v5 cinematic xuan-paper substrate reference image (character reference). Used as `reference_image` input to `light-to-ink-plate`, `ink-glyph-plate`, and `hand-tracing-plate` so the same paper texture, fiber grain, and edge aging appear in all three shots. 1024x1536 portrait.
+
+Primary request: A single full-bleed plate of traditional Chinese xuan paper (rice paper) painted as a painterly material reference. No ink stroke, no characters, no grid, no marks — just the paper itself, painted with maximum tactile material honesty so downstream plates can paint on top of "the same sheet of paper."
+
+Subject (strict material contract): The entire frame is one continuous sheet of cream-warm xuan paper, base color #f5ead0, with the following visible material qualities:
+  - subtle vertical handmade-paper fiber lines running top-to-bottom, faint and slightly irregular, about 1-2px wide, slightly darker than the base by maybe 4-6%
+  - very faint horizontal "screen lines" from the papermaking screen, slightly more spaced than the fibers (every 30-50px), barely visible
+  - soft warm-gray paper-aging stains pooling at all four corners, fading inward — corners about 12% darker (warm-brown shifted) than the center
+  - one very subtle tea-stain ring near the upper-right area (about 80px wide, opacity ~8%), painted as a softly-feathered warm-brown irregular oval — this is a handmade quality marker, NOT a focal element
+  - subtle hand-feel texture from oil-on-paper painterly grain throughout
+
+Center area: The center 60% of the frame should be the cleanest, lightest part of the paper — this is the working area where downstream plates will paint the ink stroke and the mizige grid. Keep this area visually quiet and uncluttered.
+
+Style/medium: Painterly oil-on-paper rendering of traditional xuan paper. Reference: 追光《长安三万里》 paper close-ups, 蔡皋 picture-book paper substrates, museum-grade Asian paper photography but painted, not photographed.
+
+Color discipline (strict): Strictly warm-cream paper tones only. Base #f5ead0. Corner aging warmer-brown shifted toward #e8d8b8. Tea stain warm-brown shifted toward #c9b48a at low opacity. NO blue, NO purple, NO green, NO neon, NO pure white, NO pure black. Saturation must stay below 30% throughout.
+
+Composition: Full-bleed paper edge to edge of the frame. No matting, no shadow on the paper edge, no implied paper-on-table — this is the paper as material, not paper as object. The paper IS the canvas.
+
+Lighting: Soft even warm daylight, no directional shadow, no specular highlight. The paper glows gently from being warm cream.
+
+Strict constraints: No Chinese characters, no pinyin, no Latin letters, no numbers, no labels, no logos, no watermarks, no UI, no human figures, no animals, no ink strokes, no 米字格 grid (the grid is a separate reference image), no chop seals, no signature lines, no decorative borders, no framing.
+
+Avoid: photo-real paper that looks scanned, pure-white paper that looks like printer paper, glossy paper finish, lined notebook paper feel, modern watercolor paper texture, paper edges that look torn or distressed in a decorative way, ink splatter, fingerprint marks, scrumpled crease lines, any character or symbol shape suggested by the texture.

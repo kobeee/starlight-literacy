@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - V7 Minimalist Refactor</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("assets/fonts/LXGWWenKai-Yi-subset.woff2") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #f5ead0;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #1f1a14;
+    }
+
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #f5ead0;
+      isolation: isolate;
+    }
+
+    .clip { position: absolute; }
+
+    /* Layer 0: 永远不切的画 — xuan paper + mountain + mizige */
+
+    #xuan-paper-bg {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 245, 215, 0.65), rgba(0,0,0,0) 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(220, 195, 145, 0.25), rgba(0,0,0,0) 65%),
+        #f5ead0;
+      box-shadow: inset 0 0 240px rgba(160, 130, 80, 0.18);
+    }
+
+    #mountain-silhouette {
+      left: 0;
+      top: 1500px;
+      width: 1080px;
+      height: 420px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    #mountain-silhouette svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .mizige-watermark {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      --mizige-opacity: 0.18;
+      pointer-events: none;
+    }
+    .mizige-watermark svg {
+      width: 100%;
+      height: 100%;
+      opacity: var(--mizige-opacity);
+    }
+
+    /* Layer 1: bird sprite — 0-2.4s */
+
+    .bird {
+      width: 220px;
+      height: 220px;
+      left: 820px;
+      top: 760px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      transform: translate(0, 0) scale(1);
+    }
+    .bird .sprite-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+    }
+
+    /* Layer 2: horizontal warm-gold light band — 2.4-9.0s */
+
+    #light-band-layer {
+      left: 175px;
+      top: 1080px;
+      width: 730px;
+      height: 36px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      transform: translate(0, 0) scale(1);
+      background: linear-gradient(90deg,
+        rgba(255, 243, 200, 0) 0%,
+        rgba(255, 243, 200, 0.95) 10%,
+        rgba(244, 176, 106, 1) 50%,
+        rgba(255, 243, 200, 0.95) 90%,
+        rgba(255, 243, 200, 0) 100%);
+      box-shadow:
+        0 0 20px rgba(244, 176, 106, 0.55),
+        0 0 60px rgba(244, 176, 106, 0.30);
+      border-radius: 18px;
+      filter: blur(0px);
+    }
+
+    /* Layer 3: ink-glyph bleed layer (transition) + kaiti glyph (persistent) */
+
+    .glyph-base {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "STKaiti", "Kaiti SC", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, filter, mask-image;
+    }
+    #ink-glyph-bleed-layer {
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      filter: blur(2px);
+    }
+    #kaiti-glyph {
+      mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      filter: blur(0px);
+    }
+
+    /* Layer 4: stroke-order-tail container (9.0-12.0s) — brush + hand */
+
+    #stroke-order-tail {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      pointer-events: none;
+      opacity: 1;
+    }
+
+    #brush-tip {
+      position: absolute;
+      left: 0;
+      top: 1135px;
+      width: 90px;
+      height: 140px;
+      opacity: 0;
+      transform: translate(325px, 0);
+      transform-origin: 50% 14%;
+      pointer-events: none;
+    }
+    #brush-tip svg { width: 100%; height: 100%; overflow: visible; }
+
+    #child-hand {
+      position: absolute;
+      left: 0;
+      top: 1220px;
+      width: 260px;
+      height: 320px;
+      opacity: 0;
+      transform: translate(380px, 240px) rotate(-18deg);
+      transform-origin: 50% 80%;
+      pointer-events: none;
+    }
+    #child-hand svg { width: 100%; height: 100%; overflow: visible; }
+
+    /* Layer 5: empty phrase-bridge-layer placeholder for clearingContract */
+
+    #phrase-bridge-layer {
+      left: -10px;
+      top: -10px;
+      width: 2px;
+      height: 2px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Layer 6: vignette */
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0) 65%,
+        rgba(80, 50, 20, 0.10) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-v7"
+       class="stage"
+       data-composition-id="yi-v7"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="12">
+
+    <div id="xuan-paper-bg"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="0"
+         aria-hidden="true"></div>
+
+    <div id="mountain-silhouette"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="1"
+         aria-hidden="true">
+      <svg viewBox="0 0 1080 420" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="mtnFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a3c5c" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#2a2538" stop-opacity="0.75"/>
+          </linearGradient>
+          <linearGradient id="mtnNear" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#322c40" stop-opacity="0.82"/>
+            <stop offset="100%" stop-color="#1a1525" stop-opacity="0.92"/>
+          </linearGradient>
+        </defs>
+        <path d="M 0 280
+                 C 100 240, 200 260, 280 230
+                 S 460 200, 540 220
+                 S 720 240, 820 210
+                 S 980 220, 1080 200
+                 L 1080 420 L 0 420 Z"
+              fill="url(#mtnFade)"/>
+        <path d="M 0 360
+                 C 120 320, 240 350, 360 320
+                 S 540 300, 660 330
+                 S 840 320, 960 310
+                 S 1060 320, 1080 315
+                 L 1080 420 L 0 420 Z"
+              fill="url(#mtnNear)"/>
+      </svg>
+    </div>
+
+    <div id="mizige-watermark"
+         class="clip mizige-watermark"
+         data-start="0"
+         data-duration="12"
+         data-track-index="2"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <svg viewBox="0 0 730 730" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="2" y="2" width="726" height="726" fill="none" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="365" x2="730" y2="365" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="365" y1="0"   x2="365" y2="730" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="0"   x2="730" y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+        <line x1="730" y1="0"   x2="0"   y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+      </svg>
+    </div>
+
+    <div id="bird"
+         class="clip bird"
+         data-start="0"
+         data-duration="2.4"
+         data-track-index="3"
+         aria-hidden="true">
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-000.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-001.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-002.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-003.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-004.png" alt="" />
+      <img class="sprite-frame" src="assets/unit-01/yi-v5-cinematic/sprites/bird/flight-loop/frame-005.png" alt="" />
+    </div>
+
+    <div id="light-band-layer"
+         class="clip"
+         data-start="2.4"
+         data-duration="6.6"
+         data-track-index="4"
+         aria-hidden="true"></div>
+
+    <div id="ink-glyph-bleed-layer"
+         class="clip glyph-base"
+         data-start="4.2"
+         data-duration="4.8"
+         data-track-index="5"
+         aria-label="一 渗墨过渡">一</div>
+
+    <div id="kaiti-glyph"
+         class="clip glyph-base"
+         data-start="7.0"
+         data-duration="5.0"
+         data-track-index="6"
+         aria-label="一">一</div>
+
+    <div id="phrase-bridge-layer"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="7"
+         aria-hidden="true"></div>
+
+    <div id="stroke-order-tail"
+         class="clip"
+         data-start="9.0"
+         data-duration="3.0"
+         data-track-index="8"
+         data-tail-state="recognition"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <div id="brush-tip" aria-hidden="true">
+        <svg viewBox="0 0 90 140" aria-hidden="true">
+          <rect x="38" y="0" width="14" height="60" rx="3" fill="#7a4a1a"/>
+          <rect x="36" y="58" width="18" height="14" rx="3" fill="#3d2410"/>
+          <path d="M 32 72 Q 45 76 58 72 L 56 96 Q 45 138 34 96 Z" fill="#1a0e08"/>
+          <path d="M 40 96 Q 45 130 50 96" fill="#0a0604" opacity="0.7"/>
+        </svg>
+      </div>
+      <div id="child-hand" aria-hidden="true">
+        <svg viewBox="0 0 260 320" aria-hidden="true">
+          <defs>
+            <linearGradient id="handSkin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f6d6b3"/>
+              <stop offset="100%" stop-color="#e0b08a"/>
+            </linearGradient>
+          </defs>
+          <path d="M 120 30 Q 95 25 90 60 L 88 110 Q 70 130 60 170 Q 50 230 90 280 Q 150 320 220 290 Q 240 270 230 240 L 215 180 Q 230 140 220 100 L 215 75 Q 205 60 195 70 L 195 110 L 180 110 L 180 60 Q 175 45 165 50 L 165 110 L 150 110 L 150 50 Q 145 35 135 40 L 135 115 L 122 115 L 122 35 Z"
+                fill="url(#handSkin)" stroke="#a87650" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M 122 35 Q 118 28 122 35 L 122 115" stroke="#a87650" stroke-width="1.6" fill="none" opacity="0.55"/>
+        </svg>
+      </div>
+    </div>
+
+    <div id="vignette"
+         class="clip vignette"
+         data-start="0"
+         data-duration="12"
+         data-track-index="9"></div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="12"
+           data-track-index="10"
+           src="assets/audio/yi-v7-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+    const mix = (a, b, t) => a + (b - a) * clamp(t);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+    const setAttr = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.setAttribute(name, value);
+      });
+    };
+    const setVar = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.setProperty(name, value);
+      });
+    };
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const rot = parts.rotate == null ? null : parts.rotate;
+      const rotStr = rot == null ? "" : (" rotate(" + rot.toFixed(2) + "deg)");
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "scale(" + scale.toFixed(4) + ")" + rotStr;
+      });
+    };
+    const showSpriteCyclic = (selector, time, start, cycleSeconds, frameCount) => {
+      const frames = gsap.utils.toArray(selector + " .sprite-frame");
+      if (time < start) {
+        frames.forEach((f) => { f.style.opacity = "0"; });
+        return;
+      }
+      const elapsed = (time - start) / cycleSeconds;
+      const cyclic = elapsed - Math.floor(elapsed);
+      const idx = Math.min(frameCount - 1, Math.floor(cyclic * frameCount));
+      frames.forEach((frame, frameIndex) => {
+        frame.style.opacity = frameIndex === idx ? "1" : "0";
+      });
+    };
+    const setMaskReveal = (selector, percent, softness) => {
+      const p = clamp(percent / 100) * 100;
+      const s = Math.max(0.5, softness);
+      const stop1 = Math.max(0, p - s).toFixed(2);
+      const stop2 = Math.min(100, p).toFixed(2);
+      const value =
+        "linear-gradient(90deg, #000 0%, #000 " + stop1 + "%, " +
+        "rgba(0,0,0,0) " + stop2 + "%, rgba(0,0,0,0) 100%)";
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.maskImage = value;
+        el.style.webkitMaskImage = value;
+      });
+    };
+    const setMaskFull = (selector) => {
+      const value = "linear-gradient(90deg, #000 0%, #000 100%, rgba(0,0,0,0) 100%)";
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.maskImage = value;
+        el.style.webkitMaskImage = value;
+      });
+    };
+
+    timeline.add((time) => {
+
+      // ============================================================
+      // Layer 0 (永远不切的画) — xuan paper + mountain + mizige
+      // visible 0-12s, mizige state shifts at 9.0-9.4s
+      // ============================================================
+      const mzStateT = easeInOut(range(time, 9.0, 0.4));
+      const mzOpacity = mix(0.18, 0.30, mzStateT);
+      setVar("#mizige-watermark", "--mizige-opacity", mzOpacity.toFixed(3));
+      if (time >= 9.0) {
+        setAttr("#mizige-watermark", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-tail-state", "writing");
+      } else {
+        setAttr("#mizige-watermark", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-tail-state", "recognition");
+      }
+
+      // ============================================================
+      // SHOT 1 (0 - 2.4s) — bird-pass : concrete-anchor
+      // narration「看，一只小鸟」audio 0.1-2.327s
+      // bird sprite 从画面右下 (760, 1200) 飞到左上 (-40, 480)
+      // ============================================================
+      const birdIn = ease(range(time, 0.05, 0.35));
+      const birdOut = easeInOut(range(time, 2.05, 0.35));
+      setOpacity("#bird", birdIn * (1 - birdOut));
+      const birdT = clamp(range(time, 0.05, 2.0));
+      const birdDx = (-220 - 820) * birdT;
+      const birdDy = (380 - 760) * birdT;
+      setTransform("#bird", {
+        x: birdDx,
+        y: birdDy,
+        scale: 1.0 - 0.10 * birdT,
+      });
+      showSpriteCyclic("#bird", time, 0.05, 0.55, 6);
+
+      // ============================================================
+      // SHOT 2 (2.4 - 4.2s) — light-band : phrase-bridge
+      // narration「飞过一道光」audio 2.277-4.083s
+      // 光带在米字格上方 1080px 位置淡入 + 微 scale，hold 到 4.2s
+      // ============================================================
+      const bandIn = easeInOut(range(time, 2.4, 0.9));
+      const bandFadeOut = easeInOut(range(time, 7.5, 1.2));
+      const bandOpacity = bandIn * (1 - bandFadeOut);
+
+      // 4.2-6.0s: 光带下沉 + 颜色暖金→墨黑 + scale 1.0→0.83 + 退出位置
+      const descendT = easeInOut(range(time, 4.2, 1.8));
+      const bandTransY = -200 * (1 - descendT) + 165 * descendT;  // 上方 -200px → 下沉到 mizige 中线 (1080 → 1245)
+      const bandScale = mix(1.0, 0.83, descendT) * mix(0.7, 1.0, easeInOut(range(time, 2.4, 0.9)));
+
+      setOpacity("#light-band-layer", bandOpacity);
+      setTransform("#light-band-layer", {
+        x: 0,
+        y: bandTransY,
+        scale: bandScale,
+      });
+
+      // 光带颜色（CSS variable not available — animate background via inline style）
+      const colorMix = easeInOut(range(time, 4.5, 1.5));
+      const bandR = Math.round(mix(244, 31, colorMix));
+      const bandG = Math.round(mix(176, 26, colorMix));
+      const bandB = Math.round(mix(106, 20, colorMix));
+      const bandCore = "rgb(" + bandR + "," + bandG + "," + bandB + ")";
+      const bandEdge = "rgba(" + bandR + "," + bandG + "," + bandB + ", 0.0)";
+      const bandSoft = "rgba(" + bandR + "," + bandG + "," + bandB + ", 0.95)";
+      setStyle("#light-band-layer", "background",
+        "linear-gradient(90deg, " + bandEdge + " 0%, " + bandSoft + " 10%, " +
+        bandCore + " 50%, " + bandSoft + " 90%, " + bandEdge + " 100%)");
+
+      // ============================================================
+      // SHOT 3 (4.2 - 9.0s) — ink-glyph : glyph-naming + dwell
+      // narration「这就是一」audio 4.083-5.652s
+      // ink-glyph-bleed-layer 5.0-6.5s 渗墨成形（softness 8 大、blur 2→0），8.5-9.0s 退场
+      // kaiti-glyph 6.5s 接管、7.0-8.0s 完全可见（softness 4 中），8.0-9.4s dwell
+      // ============================================================
+
+      // ink-glyph-bleed-layer (渗墨过渡)
+      const bleedIn = ease(range(time, 5.0, 0.4));
+      const bleedOut = easeInOut(range(time, 8.5, 0.5));
+      setOpacity("#ink-glyph-bleed-layer", bleedIn * (1 - bleedOut));
+      const bleedProgress = easeInOut(range(time, 5.0, 1.5));
+      const bleedSoftness = 6 + 10 * (1 - bleedProgress);
+      setMaskReveal("#ink-glyph-bleed-layer", bleedProgress * 100, bleedSoftness);
+      const bleedBlur = 2.0 * (1 - easeInOut(range(time, 5.0, 1.5)));
+      setStyle("#ink-glyph-bleed-layer", "filter", "blur(" + bleedBlur.toFixed(2) + "px)");
+
+      // kaiti-glyph (字-形唯一映射的唯一可见「一」)
+      const kaitiIn = ease(range(time, 6.5, 0.6));
+      const kaitiPhase1Out = easeInOut(range(time, 9.3, 0.1));  // 短暂退出到 mask 0% 准备笔顺示范
+      const kaitiPhase2In = ease(range(time, 9.4, 0.15));  // 笔顺前刻露出
+      // 在 9.3-9.4s 之间 kaiti-glyph opacity 不变（仍 1），但 mask 从 100% 收回到 0%
+      let kaitiOpacity = 1;
+      if (time < 6.5) kaitiOpacity = 0;
+      else if (time < 7.1) kaitiOpacity = kaitiIn;
+      else kaitiOpacity = 1;
+      setOpacity("#kaiti-glyph", kaitiOpacity);
+
+      if (time < 6.5) {
+        // 未启
+        setMaskReveal("#kaiti-glyph", 0, 4);
+      } else if (time < 9.3) {
+        // 渗墨成形阶段 (6.5-7.5s mask 0→100, softness 4)
+        const k1 = easeInOut(range(time, 6.5, 1.0));
+        const sft1 = 4 + 6 * (1 - k1);
+        setMaskReveal("#kaiti-glyph", k1 * 100, sft1);
+      } else if (time < 9.4) {
+        // 9.3-9.4s mask 100→0 快速收回（笔顺示范准备）
+        const k2 = easeInOut(range(time, 9.3, 0.1));
+        const collapse = 100 * (1 - k2);
+        setMaskReveal("#kaiti-glyph", collapse, 3);
+      } else if (time < 11.4) {
+        // 9.4-11.4s 笔顺示范 mask 0→100 (2.0s)，softness 2.5 sharper brush quality
+        const k3 = easeInOut(range(time, 9.4, 2.0));
+        setMaskReveal("#kaiti-glyph", k3 * 100, 2.5);
+      } else {
+        // 11.4-12.0s 完整态 dwell
+        setMaskReveal("#kaiti-glyph", 100, 2.5);
+      }
+
+      const kaitiBlur = 0.6 * (1 - easeInOut(range(time, 6.5, 0.8)));
+      setStyle("#kaiti-glyph", "filter", "blur(" + kaitiBlur.toFixed(2) + "px)");
+
+      // ============================================================
+      // 9.0-9.4s: clearingContract — remove ink-glyph-bleed-layer / light-band-layer / phrase-bridge-layer
+      // ============================================================
+      if (time >= 9.0) {
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "true");
+        setAttr("#light-band-layer", "data-removed", "true");
+        setAttr("#phrase-bridge-layer", "data-removed", "true");
+        setStyle("#ink-glyph-bleed-layer", "display", time >= 9.4 ? "none" : "flex");
+        setStyle("#light-band-layer", "display", time >= 9.4 ? "none" : "block");
+        setStyle("#phrase-bridge-layer", "display", time >= 9.4 ? "none" : "block");
+      } else {
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "false");
+        setAttr("#light-band-layer", "data-removed", "false");
+        setAttr("#phrase-bridge-layer", "data-removed", "false");
+        setStyle("#ink-glyph-bleed-layer", "display", "flex");
+        setStyle("#light-band-layer", "display", "block");
+        setStyle("#phrase-bridge-layer", "display", "block");
+      }
+
+      // ============================================================
+      // SHOT 4 (9.0 - 12.0s) — stroke-order-tail : 笔顺示范
+      // 9.4-11.4s brush-tip 从米字格左 (x=325) → 右 (x=755) 沿横笔移动
+      // child-hand 从画面右下入画 + 跟随 brush-tip 后方 ~80px
+      // ============================================================
+      const brushIn = ease(range(time, 9.4, 0.25));
+      const brushOut = easeInOut(range(time, 11.4, 0.6));
+      setOpacity("#brush-tip", brushIn * (1 - 0.3 * brushOut));
+      const brushT = easeInOut(range(time, 9.4, 2.0));
+      const brushX = mix(325, 755, brushT);
+      const brushBob = Math.sin((time - 9.4) * Math.PI * 4) * 1.5;
+      setTransform("#brush-tip", {
+        x: brushX,
+        y: brushBob,
+        scale: 1,
+        rotate: -8 + 4 * Math.sin((time - 9.4) * Math.PI * 2),
+      });
+
+      const handIn = ease(range(time, 9.35, 0.5));
+      setOpacity("#child-hand", handIn);
+      const handX = mix(380, 720, easeInOut(range(time, 9.4, 2.0)));
+      const handY = mix(240, 60, ease(range(time, 9.35, 0.7)));
+      setTransform("#child-hand", {
+        x: handX,
+        y: handY,
+        scale: 1,
+        rotate: -18 + 4 * easeInOut(range(time, 9.4, 2.0)),
+      });
+
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-v7"] = timeline;
+  </script>
+</body>
+</html>

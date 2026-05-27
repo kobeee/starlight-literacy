@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>一 - V9 Plate-Based + ink-front-bloom + protectedLayer kaiti-glyph-base</title>
+  <script src="assets/runtime/gsap.min.js"></script>
+  <style>
+    @font-face {
+      font-family: "Yi Kaiti";
+      font-style: normal;
+      font-weight: 500;
+      font-display: block;
+      src: url("assets/fonts/LXGWWenKai-Yi-subset.woff2") format("woff2");
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      background: #f5ead0;
+      font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+      color: #1f1a14;
+      width: 100%;
+      height: 100%;
+    }
+    html { height: 100%; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* stage 固定 1080×1920 像素尺寸（HyperFrames render 时 viewport 1080×1920 自然 1:1）
+       preview-fit 脚本在视口不等于 1080×1920 时用 transform: scale 缩到视口可见 */
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #f5ead0;
+      isolation: isolate;
+      transform-origin: center center;
+      flex-shrink: 0;
+    }
+
+    .clip { position: absolute; }
+
+    /* Layer 0: 宣纸底色（始终可见，作 plate 退场后的真背景） */
+    #xuan-paper-bg {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 245, 215, 0.65), rgba(0,0,0,0) 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(220, 195, 145, 0.25), rgba(0,0,0,0) 65%),
+        #f5ead0;
+      box-shadow: inset 0 0 240px rgba(160, 130, 80, 0.18);
+    }
+
+    /* Layer 1: dawn-mountain plate (0-3.0s) — gpt-image-2 真实生图 */
+    #dawn-mountain-plate {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 40%;
+      transform: scale(1) translate(0, 0);
+      overflow: hidden;
+    }
+    #dawn-mountain-plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Layer 2: sunlight-ray plate (3.0-5.7s) — gpt-image-2 真实生图 v9 重生 */
+    #sunlight-ray-plate {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      transform: scale(1) translate(0, 0);
+      overflow: hidden;
+    }
+    #sunlight-ray-plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      opacity: 0.62;
+      filter: saturate(0.52) brightness(1.07) contrast(0.88);
+    }
+    #sunlight-ray-plate::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 38% 36%,
+          rgba(245, 234, 208, 0.26) 0%,
+          rgba(245, 234, 208, 0.18) 42%,
+          rgba(245, 234, 208, 0.00) 72%),
+        linear-gradient(90deg,
+          rgba(245, 234, 208, 0.22) 0%,
+          rgba(245, 234, 208, 0.08) 45%,
+          rgba(245, 234, 208, 0.00) 100%);
+    }
+    .plate-bird-cleanup {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 999px;
+      filter: blur(1.5px);
+    }
+    #dawn-bird-cleanup {
+      left: 760px;
+      top: 58px;
+      width: 304px;
+      height: 312px;
+      background: radial-gradient(ellipse at center,
+        rgba(247, 226, 183, 1.00) 0%,
+        rgba(247, 226, 183, 0.98) 34%,
+        rgba(247, 226, 183, 0.54) 62%,
+        rgba(247, 226, 183, 0.00) 84%);
+    }
+    #sunlight-bird-cleanup {
+      left: 52px;
+      top: 250px;
+      width: 278px;
+      height: 236px;
+      background: radial-gradient(ellipse at center,
+        rgba(247, 225, 181, 0.98) 0%,
+        rgba(248, 225, 181, 0.90) 36%,
+        rgba(248, 225, 181, 0.34) 64%,
+        rgba(248, 225, 181, 0.00) 82%);
+      mix-blend-mode: lighten;
+    }
+
+    /* Layer 2.2: one sun + one ray. Keep it watercolor-soft, not spotlight-like. */
+    #single-sun-motif {
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #single-sun-motif .sun-corona {
+      position: absolute;
+      left: 684px;
+      top: 236px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255, 245, 190, 0.30) 0%,
+        rgba(255, 222, 140, 0.16) 36%,
+        rgba(245, 178, 96, 0.06) 64%,
+        rgba(255, 188, 84, 0.00) 100%);
+      filter: blur(34px);
+      transform-origin: 50% 50%;
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+    #single-sun-motif .sun-disc {
+      position: absolute;
+      left: 848px;
+      top: 414px;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 35%,
+        rgba(255, 250, 210, 0.74) 0%,
+        rgba(255, 226, 138, 0.48) 48%,
+        rgba(236, 160, 78, 0.18) 100%);
+      box-shadow:
+        0 0 34px rgba(255, 226, 146, 0.20),
+        0 0 118px rgba(255, 196, 108, 0.10);
+      filter: blur(2.0px);
+      transform-origin: 50% 50%;
+      opacity: 0;
+    }
+    #single-sun-motif .sun-haze {
+      position: absolute;
+      left: 628px;
+      top: 326px;
+      width: 520px;
+      height: 460px;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 54% 38%,
+          rgba(255, 244, 190, 0.18) 0%,
+          rgba(255, 225, 148, 0.11) 42%,
+          rgba(243, 185, 104, 0.035) 72%,
+          rgba(243, 185, 104, 0.00) 100%);
+      filter: blur(42px);
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+    #single-sun-motif .sun-ray {
+      position: absolute;
+      left: 132px;
+      top: 354px;
+      width: 1120px;
+      height: 1440px;
+      transform-origin: 70% 0%;
+      transform: translate(0, 0) rotate(32deg) scale(0.96, 0.62);
+      background:
+        linear-gradient(90deg,
+          rgba(255, 245, 188, 0.00) 0%,
+          rgba(255, 245, 188, 0.00) 20%,
+          rgba(255, 245, 188, 0.045) 38%,
+          rgba(255, 249, 214, 0.13) 52%,
+          rgba(247, 204, 125, 0.055) 68%,
+          rgba(247, 204, 125, 0.00) 88%,
+          rgba(247, 204, 125, 0.00) 100%);
+      -webkit-mask-image: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.00) 0%,
+        rgba(0, 0, 0, 0.25) 10%,
+        rgba(0, 0, 0, 0.72) 24%,
+        rgba(0, 0, 0, 0.86) 58%,
+        rgba(0, 0, 0, 0.00) 100%);
+      mask-image: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.00) 0%,
+        rgba(0, 0, 0, 0.25) 10%,
+        rgba(0, 0, 0, 0.72) 24%,
+        rgba(0, 0, 0, 0.86) 58%,
+        rgba(0, 0, 0, 0.00) 100%);
+      filter: blur(78px);
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+    #single-sun-motif .sun-ray-thread {
+      position: absolute;
+      left: 430px;
+      top: 404px;
+      width: 540px;
+      height: 1200px;
+      transform-origin: 60% 0%;
+      transform: translate(0, 0) rotate(32deg) scale(0.92, 0.56);
+      background:
+        linear-gradient(90deg,
+          rgba(255, 249, 215, 0.00) 0%,
+          rgba(255, 249, 215, 0.00) 26%,
+          rgba(255, 250, 225, 0.045) 44%,
+          rgba(255, 250, 225, 0.10) 54%,
+          rgba(247, 213, 139, 0.04) 68%,
+          rgba(247, 213, 139, 0.00) 84%,
+          rgba(247, 213, 139, 0.00) 100%);
+      -webkit-mask-image: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.00) 0%,
+        rgba(0, 0, 0, 0.30) 16%,
+        rgba(0, 0, 0, 0.72) 50%,
+        rgba(0, 0, 0, 0.00) 100%);
+      mask-image: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.00) 0%,
+        rgba(0, 0, 0, 0.30) 16%,
+        rgba(0, 0, 0, 0.72) 50%,
+        rgba(0, 0, 0, 0.00) 100%);
+      filter: blur(48px);
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+
+    /* Layer 2.5: true multi-frame bird sprite (0.35-4.7s) */
+    #bird-flight-sprite {
+      left: 0;
+      top: 0;
+      width: 160px;
+      height: 160px;
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 4px 5px rgba(48, 36, 31, 0.12));
+      mix-blend-mode: multiply;
+    }
+    #bird-flight-sprite .bird-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      opacity: 0;
+    }
+
+    /* Layer 3: mizige watermark — 6.5s 才出现 */
+    .mizige-watermark {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      --mizige-opacity: 0.18;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mizige-watermark svg {
+      width: 100%;
+      height: 100%;
+      opacity: var(--mizige-opacity);
+    }
+
+    /* Layer 4: ink-glyph bleed (cinematic body, softness=4 软边渗墨态) + kaiti glyph */
+    .glyph-base {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "STKaiti", "Kaiti SC", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, filter, mask-image;
+    }
+    #ink-glyph-bleed-layer {
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      filter: blur(2px);
+    }
+    /* kaiti-glyph-base: 字-形唯一映射的唯一可见「一」
+       v9 tail-spec.transition.protectedLayerIds=['kaiti-glyph-base'] 显式保护
+       7.5-12.0s 持续可见，body→tail 切换不让字消失再重写
+       （修 jury blocker#3 t=10.3s empty-mizige appear→vanish→rewrite） */
+    #kaiti-glyph {
+      mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 100%, transparent 100%);
+      filter: blur(0px);
+    }
+
+    /* Layer 5: empty clearingContract placeholders (compatibility with mizige-anchors) */
+    #light-band-layer,
+    #phrase-bridge-layer {
+      left: -10px;
+      top: -10px;
+      width: 2px;
+      height: 2px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Layer 6: stroke-order-tail (9.0-12.0s) — silent + ink-front-bloom */
+    #stroke-order-tail {
+      left: 0; top: 0;
+      width: 1080px; height: 1920px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* tail-only 单笔横画写字 mask（softness=2 锐边写字态，与 cinematic body softness=4 区分） */
+    #tail-glyph-stroke {
+      left: 175px;
+      top: 880px;
+      width: 730px;
+      height: 730px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yi Kaiti", "STKaiti", "Kaiti SC", "Noto Serif SC", serif;
+      font-weight: 500;
+      font-size: 620px;
+      line-height: 1;
+      color: #1f1a14;
+      opacity: 0;
+      pointer-events: none;
+      mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 0%);
+    }
+
+    /* ink-front-bloom: v9 第一性原理改造（替代 v8 brush-pointer/child-hand SVG）
+       一个跟随 mask 前沿的暖墨晕（径向渐变 #c9531a→transparent 直径 28px + 软光晕 box-shadow 14px + 4px 小墨点 #4a1e0c）
+       既消除 child-hand/brush-pointer 的色块/道具感，又把 jury blocker#2（pointer 不跟笔）
+       与 blocker#8（mask reveal=wipe）合并修复 — pointer 本身就 IS ink 前沿，跟 mask 不分家。
+       tracksMaskFront=true，x-position 1:1 绑 mask-reveal 进度。 */
+    #ink-front-bloom {
+      left: 0;
+      top: 0;
+      width: 56px;
+      height: 56px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(0px, 0px);
+      will-change: transform, opacity;
+    }
+    #ink-front-bloom .bloom-halo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 56px;
+      height: 56px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle,
+        rgba(201, 83, 26, 0.85) 0%,
+        rgba(201, 83, 26, 0.55) 25%,
+        rgba(201, 83, 26, 0.20) 55%,
+        rgba(201, 83, 26, 0.00) 100%);
+      box-shadow:
+        0 0 14px rgba(201, 83, 26, 0.55),
+        0 0 28px rgba(244, 176, 106, 0.30);
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+    }
+    #ink-front-bloom .bloom-dot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      transform: translate(-50%, -50%);
+      background: #4a1e0c;
+      border-radius: 50%;
+      opacity: 0.85;
+    }
+
+    /* Layer 7: vignette */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0) 65%,
+        rgba(80, 50, 20, 0.10) 100%);
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div id="yi-v9"
+       class="stage"
+       data-composition-id="yi-v9"
+       data-start="0"
+       data-width="1080"
+       data-height="1920"
+       data-duration="12">
+
+    <div id="xuan-paper-bg"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="0"
+         aria-hidden="true"></div>
+
+    <div id="dawn-mountain-plate"
+         class="clip"
+         data-start="0"
+         data-duration="3.0"
+         data-track-index="1"
+         aria-hidden="true">
+      <img src="assets/unit-01/yi-v9/plates/dawn-mountain-clean-A.png" alt="" />
+      <div id="dawn-bird-cleanup" class="plate-bird-cleanup"></div>
+    </div>
+
+    <div id="sunlight-ray-plate"
+         class="clip"
+         data-start="3.0"
+         data-duration="2.7"
+         data-track-index="2"
+         aria-hidden="true">
+      <img src="assets/unit-01/yi-v9/plates/sunlight-ray-clean-A.png" alt="" />
+      <div id="sunlight-bird-cleanup" class="plate-bird-cleanup"></div>
+    </div>
+
+    <div id="single-sun-motif"
+         class="clip"
+         data-start="0"
+         data-duration="5.7"
+         data-track-index="13"
+         aria-hidden="true">
+      <div class="sun-corona" data-layout-allow-overflow="true"></div>
+      <div class="sun-disc"></div>
+      <div class="sun-haze" data-layout-allow-overflow="true"></div>
+      <div class="sun-ray" data-layout-allow-overflow="true"></div>
+      <div class="sun-ray-thread" data-layout-allow-overflow="true"></div>
+    </div>
+
+    <div id="bird-flight-sprite"
+         class="clip"
+         data-start="0.35"
+         data-duration="4.35"
+         data-track-index="12"
+         data-sprite-manifest="assets/unit-01/yi-v9/sprites/bird/flight-loop/manifest.json"
+         aria-hidden="true">
+      <img class="bird-frame" data-frame-index="0" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-000.png" alt="" />
+      <img class="bird-frame" data-frame-index="1" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-001.png" alt="" />
+      <img class="bird-frame" data-frame-index="2" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-002.png" alt="" />
+      <img class="bird-frame" data-frame-index="3" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-003.png" alt="" />
+      <img class="bird-frame" data-frame-index="4" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-004.png" alt="" />
+      <img class="bird-frame" data-frame-index="5" src="assets/unit-01/yi-v9/sprites/bird/flight-loop/frame-005.png" alt="" />
+    </div>
+
+    <div id="mizige-watermark"
+         class="clip mizige-watermark"
+         data-start="6.5"
+         data-duration="5.5"
+         data-track-index="3"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <svg viewBox="0 0 730 730" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="2" y="2" width="726" height="726" fill="none" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="365" x2="730" y2="365" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="365" y1="0"   x2="365" y2="730" stroke="#5D4A36" stroke-width="2.4"/>
+        <line x1="0"   y1="0"   x2="730" y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+        <line x1="730" y1="0"   x2="0"   y2="730" stroke="#5D4A36" stroke-width="1.6" stroke-dasharray="10 8"/>
+      </svg>
+    </div>
+
+    <div id="ink-glyph-bleed-layer"
+         class="clip glyph-base"
+         data-start="5.7"
+         data-duration="2.2"
+         data-track-index="4"
+         aria-label="一 渗墨过渡">一</div>
+
+    <div id="kaiti-glyph"
+         class="clip glyph-base"
+         data-start="5.7"
+         data-duration="6.3"
+         data-track-index="5"
+         data-layer-id="kaiti-glyph-base"
+         data-protected-layer="true"
+         aria-label="一">一</div>
+
+    <div id="light-band-layer"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="6"
+         data-removed="true"
+         aria-hidden="true"></div>
+
+    <div id="phrase-bridge-layer"
+         class="clip"
+         data-start="0"
+         data-duration="12"
+         data-track-index="7"
+         data-removed="true"
+         aria-hidden="true"></div>
+
+    <div id="stroke-order-tail"
+         class="clip"
+         data-start="9.0"
+         data-duration="3.0"
+         data-track-index="8"
+         data-tail-state="recognition"
+         data-mizige-state="recognition"
+         aria-hidden="true">
+      <div id="tail-glyph-stroke"
+           class="clip"
+           aria-label="一 笔顺写字">一</div>
+    </div>
+
+    <div id="ink-front-bloom"
+         class="clip"
+         data-start="5.9"
+         data-duration="6.1"
+         data-track-index="9"
+         data-pointer-form="ink-front-bloom"
+         data-tracks-mask-front="true"
+         aria-hidden="true">
+      <div class="bloom-halo"></div>
+      <div class="bloom-dot"></div>
+    </div>
+
+    <div id="vignette"
+         class="clip vignette"
+         data-start="0"
+         data-duration="12"
+         data-track-index="10"></div>
+
+    <audio id="narration-audio"
+           class="clip"
+           data-start="0"
+           data-duration="12"
+           data-track-index="11"
+           src="assets/audio/yi-v9-narration.mp3"
+           preload="auto"></audio>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const timeline = gsap.timeline({ paused: true });
+
+    const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+    const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
+    const easeInOut = (value) => {
+      const t = clamp(value);
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    };
+    const range = (time, start, length) => clamp((time - start) / length);
+    const mix = (a, b, t) => a + (b - a) * clamp(t);
+
+    const setOpacity = (selector, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.opacity = String(clamp(value));
+      });
+    };
+    const setStyle = (selector, prop, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style[prop] = value;
+      });
+    };
+    const setAttr = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.setAttribute(name, value);
+      });
+    };
+    const setVar = (selector, name, value) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.setProperty(name, value);
+      });
+    };
+    const setTransform = (selector, parts) => {
+      const x = parts.x || 0;
+      const y = parts.y || 0;
+      const scale = parts.scale == null ? 1 : parts.scale;
+      const rot = parts.rot || 0;
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.transform =
+          "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) " +
+          "rotate(" + rot.toFixed(2) + "deg) " +
+          "scale(" + scale.toFixed(4) + ")";
+      });
+    };
+    const setSpriteFrame = (selector, frameIndex) => {
+      document.querySelectorAll(selector + " .bird-frame").forEach((el, index) => {
+        el.style.opacity = index === frameIndex ? "1" : "0";
+      });
+    };
+    const setMaskReveal = (selector, percent, softness) => {
+      const p = clamp(percent / 100) * 100;
+      const s = Math.max(0.5, softness);
+      const stop1 = Math.max(0, p - s).toFixed(2);
+      const stop2 = Math.min(100, p).toFixed(2);
+      const value =
+        "linear-gradient(90deg, #000 0%, #000 " + stop1 + "%, " +
+        "rgba(0,0,0,0) " + stop2 + "%, rgba(0,0,0,0) 100%)";
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.maskImage = value;
+        el.style.webkitMaskImage = value;
+      });
+    };
+
+    // ============================================================
+    // ink-front-bloom 位置常量
+    // 「一」字横笔可见范围（stage 坐标，参考 v8 child-hand 笔尖轨迹）：
+    //   stroke 左端 ≈ x=277，右端 ≈ x=803，长度 526px
+    //   字横笔中心 y ≈ 1245（米字格 top 880 + height 730 的纵向中心）
+    // ink-front-bloom 是 56x56 的 div，几何中心定位需偏移 -28
+    // ============================================================
+    const STROKE_LEFT_X = 277;
+    const STROKE_RIGHT_X = 803;
+    const STROKE_CENTER_Y = 1245;
+    const BLOOM_HALF = 28;
+    const bloomX = (centerX) => centerX - BLOOM_HALF;
+    const bloomY = (centerY) => centerY - BLOOM_HALF;
+
+    timeline.add((time) => {
+
+      // ============================================================
+      // SHOT 1 (0 - 3.0s) — dawn-mountain plate : concrete-anchor
+      // narration「一只小鸟，飞过山头」audio 0.1-2.994s
+      // v9 Ken Burns scale 1.0→1.08 (≥5% 满足 motion-readability 下限修 blocker#6)
+      // translateY 0→-32px (≥24px 下限) 给 3-6 岁可感知动态
+      // ============================================================
+      const dawnIn = ease(range(time, 0.0, 0.4));
+      const dawnOut = easeInOut(range(time, 2.7, 0.3));
+      setOpacity("#dawn-mountain-plate", dawnIn * (1 - dawnOut));
+      const dawnT = ease(range(time, 0.0, 3.0));
+      setTransform("#dawn-mountain-plate", {
+        x: 0,
+        y: mix(0, -32, dawnT),
+        scale: mix(1.0, 1.08, dawnT),
+      });
+
+      // ============================================================
+      // SHOT 2 (3.0 - 5.7s) — sunlight-ray plate : phrase-bridge
+      // narration「一道光，落在白纸」audio 2.944-5.611s
+      // v9 plate 重生含半透远山 + 小鸟剪影做 sharedSubjectIds bridge（修 blocker#7 hard-cut）
+      // Ken Burns scale 1.0→1.06 + translateX 0→16px
+      // ============================================================
+      const sunIn = ease(range(time, 3.0, 0.6));
+      const sunOut = easeInOut(range(time, 5.4, 0.3));
+      setOpacity("#sunlight-ray-plate", sunIn * (1 - sunOut));
+      const sunT = ease(range(time, 3.0, 2.7));
+      setTransform("#sunlight-ray-plate", {
+        x: mix(0, 16, sunT),
+        y: 0,
+        scale: mix(1.0, 1.06, sunT),
+      });
+
+      // ============================================================
+      // ONE SUN + ONE RAY (0 - 5.7s)
+      // 先让一个淡晨日从山雾后升起，再由同一个太阳形成一束柔光。
+      // 光束必须像水墨晨光的低透明光带，不能读成舞台追光或手电筒。
+      // ============================================================
+      const motifIn = ease(range(time, 0.0, 0.45));
+      const motifOut = easeInOut(range(time, 5.42, 0.28));
+      setOpacity("#single-sun-motif", motifIn * (1 - motifOut));
+
+      const sunRiseT = easeInOut(range(time, 0.35, 2.55));
+      const sunDwellT = easeInOut(range(time, 2.9, 2.2));
+      setOpacity("#single-sun-motif .sun-disc", 0.48 * motifIn * (1 - motifOut));
+      setOpacity("#single-sun-motif .sun-corona", 0.42 * motifIn * (1 - motifOut));
+      setTransform("#single-sun-motif .sun-disc", {
+        x: mix(0, -14, sunDwellT),
+        y: mix(86, -46, sunRiseT),
+        scale: mix(0.82, 1.0, sunRiseT),
+      });
+      setTransform("#single-sun-motif .sun-corona", {
+        x: mix(0, -18, sunDwellT),
+        y: mix(78, -54, sunRiseT),
+        scale: mix(0.88, 1.06, sunRiseT),
+      });
+      const rayT = easeInOut(range(time, 2.25, 2.95));
+      const rayBreath = 0.96 + Math.sin(clamp(range(time, 3.0, 2.6)) * Math.PI) * 0.04;
+      const rayDrift = easeInOut(range(time, 2.55, 2.65));
+      const rayScaleY = mix(0.46, 1.02, rayT).toFixed(4);
+      const threadScaleY = mix(0.38, 0.86, rayT).toFixed(4);
+      setOpacity("#single-sun-motif .sun-haze", 0.30 * rayT * (1 - motifOut));
+      setOpacity("#single-sun-motif .sun-ray", 0.15 * rayT * rayBreath * (1 - motifOut));
+      setOpacity("#single-sun-motif .sun-ray-thread", 0.055 * rayT * (1 - motifOut));
+      setStyle(
+        "#single-sun-motif .sun-haze",
+        "transform",
+        "translate(" + mix(10, -5, rayDrift).toFixed(2) + "px, " + mix(24, -4, rayDrift).toFixed(2) + "px) scale(" + mix(0.90, 1.05, rayT).toFixed(4) + ")",
+      );
+      setStyle(
+        "#single-sun-motif .sun-ray",
+        "transform",
+        "translate(" + mix(16, -6, rayDrift).toFixed(2) + "px, " + mix(34, -2, rayDrift).toFixed(2) + "px) rotate(" + mix(31.7, 32.3, rayT).toFixed(3) + "deg) scale(0.98, " + rayScaleY + ")",
+      );
+      setStyle(
+        "#single-sun-motif .sun-ray-thread",
+        "transform",
+        "translate(" + mix(12, -4, rayDrift).toFixed(2) + "px, " + mix(28, 1, rayDrift).toFixed(2) + "px) rotate(" + mix(31.9, 32.2, rayT).toFixed(3) + "deg) scale(0.94, " + threadScaleY + ")",
+      );
+
+      // ============================================================
+      // TRUE MULTI-FRAME BIRD SPRITE (0.35 - 4.7s)
+      // 6 transparent PNG frames switch at ~10fps while the sprite flies
+      // across both dawn and sunlight plates. This is the concrete "一只"
+      // visual anchor; plate Ken Burns is no longer pretending the bird flies.
+      // ============================================================
+      if (time < 0.35 || time > 4.7) {
+        setOpacity("#bird-flight-sprite", 0);
+        setSpriteFrame("#bird-flight-sprite", 0);
+      } else {
+        const birdT = easeInOut(range(time, 0.35, 4.35));
+        const birdIn = ease(range(time, 0.35, 0.25));
+        const birdOut = easeInOut(range(time, 4.25, 0.45));
+        const wingFrame = Math.floor((time - 0.35) * 10) % 6;
+        const arcLift = Math.sin(birdT * Math.PI * 2.15) * -18;
+        setOpacity("#bird-flight-sprite", 0.82 * birdIn * (1 - birdOut));
+        setSpriteFrame("#bird-flight-sprite", wingFrame);
+        setTransform("#bird-flight-sprite", {
+          x: mix(840, 116, birdT),
+          y: mix(430, 328, birdT) + arcLift,
+          rot: mix(-10, -4, birdT),
+          scale: mix(0.50, 0.42, birdT),
+        });
+      }
+
+      // ============================================================
+      // SHOT 3 (5.7 - 9.0s) — ink-bleed : glyph-binding + glyph-naming 合并
+      // narration「这一笔，就是「一」」audio 5.611-7.805s
+      // 5.7-5.9s 纯宣纸背景显露
+      // 5.9-7.9s 楷体「一」字 mask 从左到右 2.0s 渗墨成形 + ink-front-bloom 绑 mask 前沿
+      // 7.9-9.0s 字稳定 dwell 1.1s + ink-front-bloom 渐隐至 0
+      // 米字格 6.5-7.5s 缓入到 0.18 识字态
+      // ============================================================
+
+      // ink-glyph-bleed-layer (渗墨过渡，blur 2→0, softness=4 软边)
+      const bleedIn = ease(range(time, 5.9, 0.3));
+      const bleedOut = easeInOut(range(time, 7.8, 0.3));
+      setOpacity("#ink-glyph-bleed-layer", bleedIn * (1 - bleedOut));
+      const bleedProgress = easeInOut(range(time, 5.9, 2.0));
+      const bleedSoftness = 4 + 8 * (1 - bleedProgress);
+      setMaskReveal("#ink-glyph-bleed-layer", bleedProgress * 100, bleedSoftness);
+      const bleedBlur = 2.0 * (1 - easeInOut(range(time, 5.9, 1.3)));
+      setStyle("#ink-glyph-bleed-layer", "filter", "blur(" + bleedBlur.toFixed(2) + "px)");
+
+      // kaiti-glyph (字-形唯一映射的唯一可见「一」)
+      // v9 protectedLayer：7.5s 成形后持续可见到 12.0s（不在 tail 启动时隐藏，避免 empty-mizige flicker）
+      // 修 jury blocker#3 t=10.3s empty-mizige appear→vanish→rewrite
+      const kaitiIn = ease(range(time, 6.5, 1.0));
+      let kaitiOpacity = 1;
+      if (time < 6.5) kaitiOpacity = 0;
+      else if (time < 7.5) kaitiOpacity = kaitiIn;
+      else kaitiOpacity = 1;  // 7.5-12.0s 持续可见（protectedLayer，跨 tail 不隐藏）
+      setOpacity("#kaiti-glyph", kaitiOpacity);
+
+      if (time < 6.5) {
+        setMaskReveal("#kaiti-glyph", 0, 3);
+      } else if (time < 7.9) {
+        const kT = easeInOut(range(time, 6.5, 1.4));
+        const sft = 3 + 5 * (1 - kT);
+        setMaskReveal("#kaiti-glyph", kT * 100, sft);
+      } else {
+        setMaskReveal("#kaiti-glyph", 100, 2);
+      }
+      const kaitiBlur = 0.6 * (1 - easeInOut(range(time, 6.5, 0.8)));
+      setStyle("#kaiti-glyph", "filter", "blur(" + kaitiBlur.toFixed(2) + "px)");
+
+      // mizige watermark — 6.5-7.5s 缓入到识字态 0.18
+      const mzFadeIn = easeInOut(range(time, 6.5, 1.0));
+      if (time < 6.5) {
+        setOpacity("#mizige-watermark", 0);
+      } else {
+        setOpacity("#mizige-watermark", mzFadeIn);
+      }
+
+      // ============================================================
+      // ink-front-bloom 时间轴（贯穿 ink-bleed + tail 两个阶段）
+      // Phase A (5.9-7.9s)  body-writing：绑 mask front x = mix(stroke_left, stroke_right, bleedProgress)
+      // Phase B (7.9-9.0s)  body-dwell：停在 stroke_right +18px，缓慢淡出至 0
+      // Phase C (9.0-9.35s)  tail-entry：从 bottom-right 30° 入画到 stroke_left（横笔起笔点）
+      // Phase D (9.35-10.75s) tail-writing：绑 tail mask front x = mix(stroke_left, stroke_right, tailWriteT)
+      // Phase E (10.75-12.0s) finalHold：悬停在 stroke_right +18px（P03 poster 锚帧）
+      // ============================================================
+      const STROKE_END_PLUS_18 = STROKE_RIGHT_X + 18;
+      if (time < 5.9) {
+        // 5.9s 前 bloom 完全不显示
+        setOpacity("#ink-front-bloom", 0);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(STROKE_LEFT_X),
+          y: bloomY(STROKE_CENTER_Y),
+          scale: 1.0,
+        });
+      } else if (time < 7.9) {
+        // Phase A: body-writing 绑 mask front
+        const fadeIn = ease(range(time, 5.9, 0.2));
+        setOpacity("#ink-front-bloom", fadeIn);
+        const xPos = mix(STROKE_LEFT_X, STROKE_RIGHT_X, bleedProgress);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(xPos),
+          y: bloomY(STROKE_CENTER_Y),
+          scale: 1.0,
+        });
+      } else if (time < 9.0) {
+        // Phase B: body-dwell，停在 right +18px，opacity 1→0
+        const dwellOut = easeInOut(range(time, 7.9, 1.0));
+        setOpacity("#ink-front-bloom", 1 - dwellOut);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(STROKE_END_PLUS_18),
+          y: bloomY(STROKE_CENTER_Y),
+          scale: 1.0,
+        });
+      } else if (time < 9.35) {
+        // Phase C: tail-entry 从 bottom-right 30° 入画到 stroke_left
+        // 起点（9.0s）：x = STROKE_LEFT + 220, y = STROKE_CENTER + 260, rot -8, scale 0.92
+        // 终点（9.35s）：x = STROKE_LEFT, y = STROKE_CENTER, rot 0, scale 1.0
+        const entryT = easeInOut(range(time, 9.0, 0.35));
+        setOpacity("#ink-front-bloom", entryT);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(mix(STROKE_LEFT_X + 220, STROKE_LEFT_X, entryT)),
+          y: bloomY(mix(STROKE_CENTER_Y + 260, STROKE_CENTER_Y, entryT)),
+          rot: mix(-8, 0, entryT),
+          scale: mix(0.92, 1.0, entryT),
+        });
+      } else if (time < 10.75) {
+        // Phase D: tail-writing 1.4s 绑 tail mask front，给最后一声「一」留出慢速同步空间
+        const tailWriteT = easeInOut(range(time, 9.35, 1.40));
+        setOpacity("#ink-front-bloom", 1);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(mix(STROKE_LEFT_X, STROKE_RIGHT_X, tailWriteT)),
+          y: bloomY(STROKE_CENTER_Y),
+          scale: 1.0,
+        });
+      } else {
+        // Phase E: finalHold 2.0s 悬停在 right +18px，作 P03 poster 锚帧
+        setOpacity("#ink-front-bloom", 1);
+        setTransform("#ink-front-bloom", {
+          x: bloomX(STROKE_END_PLUS_18),
+          y: bloomY(STROKE_CENTER_Y),
+          scale: 1.0,
+        });
+      }
+
+      // ============================================================
+      // SHOT 4 (9.0 - 12.0s) — silent stroke-order tail (P03 poster)
+      // anchors.timing.totalDuration=2.0 + 1.0s extraDwellOutsideTail = 3.0s
+      // 修 jury blocker#4 minimumFinalHoldSeconds=2.0 实测可达
+      // narrationPolicy='silent'，container='mizige' single-mizige-dual-state
+      // ============================================================
+
+      // Phase 1 (9.0-9.35s): mizige 0.18 → 0.30 写字态切换 + clearLayerIds 清空
+      const mzWritingT = easeInOut(range(time, 9.0, 0.5));
+      const mzOpacity = mix(0.18, 0.30, mzWritingT);
+      setVar("#mizige-watermark", "--mizige-opacity", mzOpacity.toFixed(3));
+
+      // stroke-order-tail container 显现
+      if (time >= 9.0) {
+        setOpacity("#stroke-order-tail", 1);
+        setAttr("#mizige-watermark", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-mizige-state", "writing");
+        setAttr("#stroke-order-tail", "data-tail-state", "writing");
+      } else {
+        setOpacity("#stroke-order-tail", 0);
+        setAttr("#mizige-watermark", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-mizige-state", "recognition");
+        setAttr("#stroke-order-tail", "data-tail-state", "recognition");
+      }
+
+      // tail-glyph-stroke 单笔横画写字（softness=2 锐边写字态）
+      // Phase 1 (9.0-9.35s): 不显示
+      // Phase 2 (9.35-10.75s): mask 0→100% 写字 1.4s
+      // Phase 3 (10.75-12.0s): 完整可见 finalHold
+      if (time < 9.35) {
+        setOpacity("#tail-glyph-stroke", 0);
+        setMaskReveal("#tail-glyph-stroke", 0, 2);
+      } else if (time < 10.75) {
+        const writeT = easeInOut(range(time, 9.35, 1.40));
+        setOpacity("#tail-glyph-stroke", 1);
+        setMaskReveal("#tail-glyph-stroke", writeT * 100, 2);
+      } else {
+        setOpacity("#tail-glyph-stroke", 1);
+        setMaskReveal("#tail-glyph-stroke", 100, 2);
+      }
+
+      // ============================================================
+      // clearingContract — 五层在 stroke-order tail 启动前必须清空
+      // mustClearLayerIds = [ink-glyph-bleed-layer, light-band-layer, phrase-bridge-layer,
+      //                      sunlight-ray-plate, dawn-mountain-plate]
+      // protectedLayerIds = [kaiti-glyph-base] — 不在此清单内，保留可见
+      // ============================================================
+      if (time >= 9.0) {
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "true");
+        setStyle("#ink-glyph-bleed-layer", "display", "none");
+        setStyle("#sunlight-ray-plate", "display", "none");
+        setStyle("#dawn-mountain-plate", "display", "none");
+      } else {
+        setAttr("#ink-glyph-bleed-layer", "data-removed", "false");
+        setStyle("#ink-glyph-bleed-layer", "display", "flex");
+        // 关键：preview 循环回 0 时必须恢复 plate 的 display（render 只前进无影响）
+        setStyle("#sunlight-ray-plate", "display", "block");
+        setStyle("#dawn-mountain-plate", "display", "block");
+      }
+
+    });
+
+    timeline.seek(0);
+    window.__timelines["yi-v9"] = timeline;
+
+    // ============================================================
+    // Preview-only fit-to-viewport：HyperFrames render 时 viewport=1080×1920，
+    // ratio=1 自然不缩放；preview 视口任意尺寸都自动等比缩放显示完整 stage。
+    // ============================================================
+    (function fitToViewport() {
+      const stage = document.querySelector(".stage");
+      if (!stage) return;
+      function apply() {
+        const sx = window.innerWidth / 1080;
+        const sy = window.innerHeight / 1920;
+        const s = Math.min(sx, sy);
+        stage.style.transform = "scale(" + s.toFixed(4) + ")";
+      }
+      apply();
+      window.addEventListener("resize", apply);
+    })();
+
+    // ============================================================
+    // Preview-only 自动播放循环
+    // HyperFrames render 时会接管 RAF 按帧 seek，不会被此 loop 影响。
+    // 仅在浏览器直接打开 / Launch preview 面板里让动画可见。
+    // 音频仍由 HyperFrames / 浏览器媒体层接管，避免 composition 内部直接 play/seek。
+    // ============================================================
+    (function previewLoop() {
+      if (window.__hyperframesRendering) return;  // 渲染器接管时跳过
+
+      const DURATION = 12;
+      let startMs = null;
+
+      function tick(nowMs) {
+        if (startMs == null) startMs = nowMs;
+        const elapsed = ((nowMs - startMs) / 1000) % DURATION;
+        timeline.seek(elapsed);
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

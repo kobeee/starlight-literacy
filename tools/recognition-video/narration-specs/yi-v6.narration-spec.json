@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "recognition-video-narration-spec/v1",
+  "characterId": "yi-v6",
+  "targetCharacter": "一",
+  "targetCharSemantic": "number",
+  "script": "看，一只小鸟。晨光直直的。念，一。这就是一。",
+  "segments": [
+    {
+      "id": "concrete-anchor",
+      "text": "看，一只小鸟。",
+      "role": "concrete-anchor",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "dawn-valley",
+      "notes": "silent prologue 后第一句旁白，直接邀请孩子去看。复用 v5 cinematic 已有的远景小鸟 6 帧 sprite（transparentPixelRatio 0.9446），bird sprite 在 dawn-valley 段持续出现以与「一只小鸟」音画同框。一只 = 可数 1 个，给 number-as-numeral 一个具象锚点，规避 v5 一道光量词无视觉锚的硬伤。v6 砍 scene-setup「天亮了」是为了让 spoken body ≤8s 上限（audio-plan validator 硬约束）；删掉解说式开场反而强化 cinematic silent-prologue 美学。"
+    },
+    {
+      "id": "phrase-bridge",
+      "text": "晨光直直的。",
+      "role": "phrase-bridge",
+      "targetCharOccurrences": 0,
+      "shotIdHint": "light-band",
+      "notes": "把 light-band 横光的字形特征用「直直的」点出来，不再用「一道光」量词蹭次数，让 light-band → 一横的视觉过渡承担字形语义。"
+    },
+    {
+      "id": "glyph-naming",
+      "text": "念，一。",
+      "role": "glyph-naming",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "ink-glyph",
+      "notes": "ink-glyph 渗墨到 ~50% 时口播读出字音；明确 glyph-naming 角色，给孩子字-音绑定钩。"
+    },
+    {
+      "id": "extension",
+      "text": "这就是一。",
+      "role": "extension",
+      "targetCharOccurrences": 1,
+      "shotIdHint": "ink-glyph-dwell",
+      "notes": "ink-glyph 完整态 dwell 时收束，第 3 次读出「一」让重复达标。后接静默笔顺尾段（米字格 writing 态）。"
+    }
+  ],
+  "concreteAnchorPhrase": {
+    "segmentId": "concrete-anchor",
+    "phrase": "一只小鸟",
+    "anchorObject": "小鸟"
+  },
+  "quantifierUsage": [
+    {
+      "segmentId": "concrete-anchor",
+      "phrase": "一只",
+      "kind": "number-as-numeral",
+      "boundToVisualCount": true,
+      "visualReference": "shot-silent-prologue / bird-flight-loop sprite (1 个剪影斜飞)"
+    }
+  ],
+  "voice": {
+    "provider": "edge-tts",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "rate": "-10%",
+    "pitch": "+0Hz",
+    "rationale": "继承 v3/v4/v5 同一 Xiaoxiao 女老师声 + -10% 慢速，Unit-01 一字识字课声线连续；不动 voice/rate 避免引入新变量。"
+  },
+  "tts": {
+    "engine": "edge-tts",
+    "commandTemplate": "edge-tts --voice {{voice}} --rate={{rate}} --pitch={{pitch}} --text {{text}} --write-media {{audioOut}} --write-subtitles {{subtitleOut}}",
+    "postProcess": {
+      "apadToSeconds": 12
+    }
+  },
+  "outputs": {
+    "audio": "src/clients/mobile-h5/assets/recognition/yi/yi-v6-narration.mp3",
+    "rawAudio": "src/clients/mobile-h5/assets/recognition/yi/yi-v6-narration-raw.mp3",
+    "subtitles": "src/clients/mobile-h5/assets/recognition/yi/yi-v6-narration.vtt",
+    "measuredTimings": "src/clients/mobile-h5/assets/recognition/yi/yi-v6-narration.measured-timings.json"
+  }
+}

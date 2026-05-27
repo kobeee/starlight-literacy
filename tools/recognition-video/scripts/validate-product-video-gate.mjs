@@ -14,6 +14,7 @@ const REQUIRED_SCORES = [
   "audioFit",
   "technicalCompliance",
   "officialReadiness",
+  "teachingFunctionalIntegrity",
 ];
 
 const DECISIONS = new Set([
@@ -35,6 +36,7 @@ const OFFICIAL_THRESHOLDS = {
   audioFit: 7,
   technicalCompliance: 8,
   officialReadiness: 8,
+  teachingFunctionalIntegrity: 9,
 };
 
 const args = process.argv.slice(2);
