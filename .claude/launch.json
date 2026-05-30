@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:h5"],
       "port": 4173
+    },
+    {
+      "name": "mobile-h5-v2",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../starlight-mh5v2/src/clients/mobile-h5-v2/server.mjs"],
+      "port": 4174
     }
   ]
 }

@@ -38,5 +38,6 @@ project.private.config.json
 *.temp
 .codex-temp/
 tmp/imagegen/
+tmp/ios-image-sources/
 export*/
 exports*/

@@ -108,6 +108,92 @@ tools/unit-01-assets/unit01-style-board-v1-source.png
 
 H5 接入注意：`--unit-scene` 是 inline style 变量，URL 必须写成 `url(${scene.src})`，不能写 `url("${scene.src}")`，否则会被 HTML 属性双引号截断。该规则已写入 `scripts/check-unit-01-visual-assets.mjs`。
 
+## 已落地资产（2026-05-30 · iOS scene-assets 实物图卡）
+
+iOS / Unit-01 认读绑定与看图认字所需的实物图卡已补齐 20/20。当前只确认素材库存，不代表已经接入 iOS `Assets.xcassets`。
+
+```text
+tools/recognition-video/assets/unit-01/scene-assets/
+  yi.png
+  er.png
+  san.png
+  ren.png
+  kou.png
+  shou.png
+  ri.png
+  yue.png
+  shan.png
+  shui.png
+  huo.png
+  mu.png
+  mu-eye.png
+  er-ear.png
+  tian.png
+  da.png
+  xiao.png
+  shang.png
+  xia.png
+  tu.png
+  _overview.png
+  raw/
+    <same 20 ids>.png
+```
+
+验收记录：
+
+- 正图 20/20，raw 源图 20/20。
+- 正图全部为 `1024x1024 RGBA` 透明 PNG。
+- `_overview.png` 为总览图，`1500x1200 RGB`，仅用于 review。
+- 画面中不得出现中文、拼音、数字、箭头、UI、标签、水印。
+
+生成路径：
+
+```bash
+node tools/recognition-video/scripts/build-scene-assets.mjs \
+  --only yi,er,san,xiao,shang,xia \
+  --concurrency 2
+
+node tools/recognition-video/scripts/build-scene-assets.mjs \
+  --only yi,shang \
+  --force \
+  --concurrency 2
+```
+
+当前环境不要再假设 `codex exec` 有可用 image-generation tool。可靠路径是 `aicodewith proxy + Responses API image_generation + gpt-image-2`，先生成品红 `#ff00ff` chroma-key 图，再由 `tools/recognition-video/scripts/chroma-key-to-alpha.py` 抠为透明 PNG。
+
+## 已落地资产（2026-05-30 · iOS App 资产目录接入）
+
+iOS 原生 App 已生成并接入 `Assets.xcassets`：
+
+```text
+src/clients/iOS/StarlightLiteracy/Assets.xcassets/
+  scene_<id>.imageset/        # Unit-01 20/20 实物 / 看图认字图
+  oracle_<id>.imageset/       # 14 个字源彩蛋模板图
+  AppIcon.appiconset/
+  LaunchBrand.imageset/
+  ShareCard.imageset/
+```
+
+复用脚本与字源 SVG 源：
+
+```text
+tools/ios-assets/generate-ios-image-assets.mjs
+tools/ios-assets/oracle-svg/
+```
+
+接入范围：
+
+- `P03RecognizeView` / `P05ImageCardView` / `P01MapView` 已使用 `scene_*`。
+- `P03EtymologyView` 已使用 `实物图 -> 甲骨模板图 -> 今字`。
+- 字源彩蛋显式清单：`ren kou shou ri yue shan shui huo mu mu-eye er-ear tian da tu`。
+- 指事字 `yi er san xiao shang xia` 不做字源彩蛋，只使用实物承载图做认读 / 看图认字。
+- `shou` 当前用本地手形线稿源兜底，后续找到可验证甲骨 SVG 时替换 `tools/ios-assets/oracle-svg/shou-oracle.svg` 后重跑脚本。
+
+仍未完成：
+
+- P11 家长中心尚未把 `ShareCard` 图片接入 UI。
+- `shou` 仍需更权威的甲骨源替换本地兜底。
+
 ## Prompt 基准
 
 ### 通用风格段
