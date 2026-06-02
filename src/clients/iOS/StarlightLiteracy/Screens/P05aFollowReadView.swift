@@ -80,10 +80,9 @@ struct P05aFollowReadView: View {
                         .multilineTextAlignment(.center)
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(
                 title: rec.hasRecorded ? "去写一写 →" : "先跟读一遍",
                 enabled: rec.hasRecorded
@@ -100,8 +99,9 @@ struct P05aFollowReadView: View {
         }
     }
 
+    // encourage（最低档）用鼓励向图标 + 暖色，去掉 arrow.clockwise 的「重来」感（零挫败：不羞辱）。
     private func tierIcon(_ t: String) -> String {
-        switch t { case "great": "star.fill"; case "ok": "hand.thumbsup.fill"; default: "arrow.clockwise.circle.fill" }
+        switch t { case "great": "star.fill"; case "ok": "hand.thumbsup.fill"; default: "sparkles" }
     }
     private func tierColor(_ t: String) -> Color {
         switch t { case "great": Theme.honeyGold; case "ok": Theme.successDeep; default: Theme.skyDeep }

@@ -71,10 +71,9 @@ struct P10TreasuryView: View {
                         .font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: "去家长中心生成分享卡 →") { model.go(.parentCenter) }
         }
         .background(Theme.paperCream.ignoresSafeArea())

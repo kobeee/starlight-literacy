@@ -43,10 +43,9 @@ struct P06GroupView: View {
                         .foregroundStyle(groupDone ? Theme.successDeep : Theme.textSecondary)
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: ctaTitle, enabled: groupDone) { advanceGroup() }
         }
         .background(Theme.paperCream.ignoresSafeArea())

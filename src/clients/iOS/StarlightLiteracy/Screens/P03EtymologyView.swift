@@ -22,7 +22,7 @@ struct P03EtymologyView: View {
                     HStack(alignment: .center, spacing: Theme.S.s2) {
                         morphCell(imageName: SceneAsset.imageName(charId), label: "真实的它", color: char.color.deep, active: stage >= 0)
                         arrow(active: stage >= 1)
-                        morphCell(imageName: SceneAsset.oracleName(charId), glyph: char.char, label: "甲骨文", color: Theme.goldBrown, active: stage >= 1, template: true)
+                        morphCell(imageName: SceneAsset.oracleName(charId), glyph: char.char, label: char.etymology.source.rawValue, color: Theme.goldBrown, active: stage >= 1, template: true)
                         arrow(active: stage >= 2)
                         morphCell(glyph: char.char, label: "今天的字", color: Theme.textPrimary, active: stage >= 2)
                     }
@@ -47,10 +47,9 @@ struct P03EtymologyView: View {
 
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: "去认一认 →") {
                 model.go(model.routeAfterEtymology(charId))
             }

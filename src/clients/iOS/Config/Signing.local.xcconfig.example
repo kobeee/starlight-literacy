@@ -1,0 +1,4 @@
+// 模板：复制为同目录 Signing.local.xcconfig（已 gitignore），填你自己的 Apple 团队 ID。
+// 团队 ID 挖法：defaults read com.apple.dt.Xcode | grep -i team
+// 或在 Xcode → Settings → Accounts 登录 Apple ID 后，Signing & Capabilities 里看 Team。
+DEVELOPMENT_TEAM =

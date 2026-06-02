@@ -75,10 +75,9 @@ struct P04WriteView: View {
                     .warmCard()
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(
                 title: done ? writtenCTATitle : "先把字描完",
                 enabled: done

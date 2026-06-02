@@ -46,10 +46,9 @@ struct P08ResultView: View {
                     .padding(Theme.S.s4).frame(maxWidth: .infinity).warmCard(fill: Theme.infoSoft)
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 120)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: "解锁后续单元（¥199 一期买断）",
                       secondaryTitle: "小星宝库", onSecondary: { model.go(.treasury) }) {
                 model.go(.purchase)

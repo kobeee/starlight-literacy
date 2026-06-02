@@ -370,12 +370,15 @@ export const unit01 = {
     },
     {
       id: "tian",
-      char: "天",
+      char: "田",
       pinyin: "tian",
       tone: "tian",
-      phrase: "天空的天",
-      words: ["天空", "今天", "蓝天"],
+      phrase: "田地的田",
+      words: ["田地", "稻田", "花田"],
       group: 4,
+      // TODO(田·mh5): 以下 strokes/image/color 仍为「天」残留——田为 5 笔(口+十)，
+      // 需补正确田字格笔顺坐标与田字配图、色值（iOS 田为 grass 绿）。
+      // 当前不影响 iOS（iOS 笔顺/配图在 Swift 端，已是田）。
       strokes: [
         { x1: 28, y1: 28, x2: 72, y2: 28 },
         { x1: 24, y1: 48, x2: 76, y2: 48 },
@@ -384,7 +387,7 @@ export const unit01 = {
       ],
       color: "#8FBED4",
       image: "../../../images/generated-1776749248335.png",
-      scene: "抬头看见蓝天和软软的云。",
+      scene: "一块方方的田，被田埂分成四小块。",
       ...lessonDetails.tian
     },
     {

@@ -15,6 +15,11 @@ targets:
   StarlightLiteracy:
     type: application
     platform: iOS
+    # DEVELOPMENT_TEAM 不写死在共享仓：由 Config/Signing.xcconfig 可选引入本地
+    # Config/Signing.local.xcconfig（已 gitignore）提供，各开发者用自己的团队凭证。
+    configFiles:
+      Debug: Config/Signing.xcconfig
+      Release: Config/Signing.xcconfig
     sources:
       - path: StarlightLiteracy
         excludes:

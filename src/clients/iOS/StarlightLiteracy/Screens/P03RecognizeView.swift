@@ -13,13 +13,11 @@ struct P03RecognizeView: View {
         VStack(spacing: 0) {
             StageTopBar(title: "看一看 听一听", step: 1, char: char) { model.go(.unit) }
 
-            // 满屏认读场景：实物图 + 大字浮现叠加 + 拼音
-            Button { replay() } label: {
-                ZStack {
-                    RoundedRectangle(cornerRadius: Theme.R.lg, style: .continuous)
-                        .fill(LinearGradient(colors: [char.color.soft, Theme.cardWarm],
-                                             startPoint: .top, endPoint: .bottom))
-
+            // 认读场景卡：放进 ScrollView（与其余页一致，safeAreaInset 才会正确给 CTA 预留空间，
+            // 不会像 maxHeight:.infinity 那样铺到 CTA 后面）。containerRelativeFrame 让卡片在可视区
+            // 垂直居中保持 hero 感；喇叭挂卡片真实底边、永远不被 CTA 切。
+            ScrollView {
+                Button { replay() } label: {
                     VStack(spacing: Theme.S.s5) {
                         SceneAssetImage(id: charId, maxSide: 260)
                             .scaleEffect(pulse ? 1.04 : 1)
@@ -35,28 +33,29 @@ struct P03RecognizeView: View {
                             .foregroundStyle(char.color.deep)
                     }
                     .padding(Theme.S.s6)
-
-                    // 自动播 + 可点重播的喇叭提示（右下角脉冲）
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Image(systemName: "speaker.wave.3.fill")
-                                .font(.system(size: 26))
-                                .foregroundStyle(Theme.honeyGold)
-                                .padding(16)
-                                .background(Circle().fill(Color.white.opacity(0.85)))
-                                .scaleEffect(pulse ? 1.12 : 1)
-                                .shadow(color: Theme.honeyGold.opacity(0.4), radius: pulse ? 14 : 6)
-                        }
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        RoundedRectangle(cornerRadius: Theme.R.lg, style: .continuous)
+                            .fill(LinearGradient(colors: [char.color.soft, Theme.cardWarm],
+                                                 startPoint: .top, endPoint: .bottom))
+                    )
+                    // 自动播 + 可点重播的喇叭提示（右上角脉冲）：挂卡片右上角，永不与底部 CTA 抢位
+                    .overlay(alignment: .topTrailing) {
+                        Image(systemName: "speaker.wave.3.fill")
+                            .font(.system(size: 26))
+                            .foregroundStyle(Theme.honeyGold)
+                            .padding(16)
+                            .background(Circle().fill(Color.white.opacity(0.85)))
+                            .scaleEffect(pulse ? 1.12 : 1)
+                            .shadow(color: Theme.honeyGold.opacity(0.4), radius: pulse ? 14 : 6)
+                            .padding(Theme.S.s5)
                     }
-                    .padding(Theme.S.s5)
                 }
+                .buttonStyle(.plain)
+                .padding(Theme.S.s4)
             }
-            .buttonStyle(.plain)
-            .padding(Theme.S.s4)
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: "认识它啦 →") {
                 model.markRecognized(charId)
                 model.go(model.routeAfterRecognize(charId))

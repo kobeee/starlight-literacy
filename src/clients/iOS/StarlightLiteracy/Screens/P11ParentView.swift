@@ -119,7 +119,21 @@ struct P11ParentView: View {
         card("分享卡") {
             Text("学习成就分享卡入口只在这里，孩子学习页不会弹窗打扰")
                 .font(.system(size: 13)).foregroundStyle(Theme.textTertiary)
-            Button { model.go(.treasury) } label: { Text("去小星宝库看成就 →") }.buttonStyle(GhostCTA())
+            Image("ShareCard")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: Theme.R.md))
+                .overlay(RoundedRectangle(cornerRadius: Theme.R.md).stroke(Theme.lineSoft, lineWidth: 1))
+                .accessibilityLabel("学习成就分享卡预览")
+            Text("已学 \(model.completedCount) 个字 · \(model.unit.title)")
+                .font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textSecondary)
+            VStack(spacing: 8) {
+                Button {
+                    toast = "分享卡已保存到相册（示意）"; clearToast()
+                } label: { Text("保存分享卡到相册") }.buttonStyle(GhostCTA())
+                Button { model.go(.treasury) } label: { Text("去小星宝库看成就 →") }.buttonStyle(GhostCTA())
+            }
         }
     }
 

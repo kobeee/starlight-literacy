@@ -523,30 +523,30 @@ export const lessonDetails = {
     videoPlan: videoNotPlanned("先完成第 4 组 native micro-lesson。")
   },
   tian: {
-    glyphHook: "大字上面多一横，像天空盖在头顶",
-    lifeMapping: "天空在人的头顶上方，帮“大”多加一横。",
-    structureFocus: "上方横线与大字结构",
-    strokeGoal: "先看“大”，再在上面加一横。",
-    soundCue: "大字上面多一横，就是天。",
-    contrastTargets: ["da", "ren"],
+    glyphHook: "四四方方一块地，中间十字是田埂",
+    lifeMapping: "农田被田埂分成四块。",
+    structureFocus: "外框与中间的十字",
+    strokeGoal: "先画外面的方框，再写中间的十字。",
+    soundCue: "四四方方一块地，中间一个十字，就是田。",
+    contrastTargets: ["kou"],
     nativeLesson: {
-      place: "蓝天草坡",
-      title: "抬头看「天」",
-      cue: "头顶上有天空，“大”上面多一横。",
-      action: "找天空",
-      props: ["天空", "云", "张开的人"]
+      place: "金黄稻田",
+      title: "看看「田」",
+      cue: "方方的一块地，田埂画成十字，分成四小块。",
+      action: "数田块",
+      props: ["稻田", "田埂", "四块地"]
     },
     practiceChecks: {
-      visual: "辨认大上方多一横。",
-      audio: "听“天空 / 今天”选「天」。",
-      meaning: "连接头顶上方和天空。",
-      review: "与人、大复认。"
+      visual: "辨认方框中间有十字。",
+      audio: "听“田地 / 稻田”选「田」。",
+      meaning: "连接农田和方方的地。",
+      review: "与口复认。"
     },
-    parentProof: "孩子能说明“天”和“大”的差别是头顶多了一横。",
+    parentProof: "孩子能说明「田」是方框里加十字田埂，和「口」的区别是中间多了十字。",
     assetBrief: {
-      scene: "张开双臂的小朋友头顶有一片暖蓝天空，形成上方覆盖感。",
-      objects: ["sky above head", "cloud", "open arms"],
-      promptTags: ["position", "sky", "top-line"]
+      scene: "一块四方的金黄稻田，被田埂十字分成四小块。",
+      objects: ["rice field", "cross field ridge", "four plots"],
+      promptTags: ["square", "field", "cross-ridge"]
     },
     videoPlan: videoNotPlanned("先完成第 4 组 native micro-lesson。")
   },

@@ -49,8 +49,8 @@ const SUBJECTS = {
   tu: "one small gentle mound of warm brown soil and earth, soft and rounded",
   da: "one happy little child standing facing the viewer with arms and legs stretched wide open in a big star pose",
   xiao: "a tiny cluster of three sesame seeds and one very small green sprout, delicate and child-friendly, with intentionally generous empty space around it to feel small",
-  shang: "one warm yellow balloon floating high in the upper part of the frame with a dangling string, clearly rising upward through placement, no arrows, no motion lines, no colored wisps, no symbols",
-  xia: "one gentle blue raindrop falling downward with two tiny trailing droplets above it, soft and friendly, no arrows, no symbols",
+  shang: "one friendly child's hand with a softly closed fist and only the index finger extended pointing clearly straight up toward the sky, warm natural skin tone, anatomically correct with exactly five fingers, simple cute and rounded, no arrows, no symbols",
+  xia: "one friendly child's hand with a softly closed fist and only the index finger extended pointing clearly straight down toward the ground, warm natural skin tone, anatomically correct with exactly five fingers, simple cute and rounded, no arrows, no symbols",
 };
 
 const styleHeader = (subject) =>

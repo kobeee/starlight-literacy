@@ -4,7 +4,7 @@ export const unit01BakedAudio = {
   "voice": "zh-CN-XiaoxiaoNeural",
   "rate": "-10%",
   "pitch": "+0Hz",
-  "generatedAt": "2026-05-08T05:33:59.249Z",
+  "generatedAt": "2026-06-01T15:55:27.600Z",
   "characters": {
     "yi": {
       "char": {
@@ -247,15 +247,15 @@ export const unit01BakedAudio = {
     "tian": {
       "char": {
         "src": "./assets/audio/unit-01/tian/char.mp3",
-        "text": "天"
+        "text": "田"
       },
       "phrase": {
         "src": "./assets/audio/unit-01/tian/phrase.mp3",
-        "text": "天空的天"
+        "text": "田地的田"
       },
       "soundCue": {
         "src": "./assets/audio/unit-01/tian/soundCue.mp3",
-        "text": "大字上面多一横，就是天。"
+        "text": "四四方方一块地，中间一个十字，就是田。"
       }
     },
     "mu-eye": {

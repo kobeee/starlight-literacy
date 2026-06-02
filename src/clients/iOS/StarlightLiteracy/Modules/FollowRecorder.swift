@@ -3,14 +3,15 @@ import SwiftUI
 
 // 跟读双波形对比引擎 · 护城河 #2 · 与 mh5v2 modules/follow-record.js 同源
 // 红线 §7.6：每字必须录音对比，不接 ASR（科学决策，数据驱动二阶段）。
-// 启发式 3 维：时长比 / 总能量比 / 包络 cosine → great / ok / try-again。
+// 打分前先掐头去尾静音 + 语音区时间归一，再算包络 cosine → great / ok / encourage。
+// 零挫败（§7.6 调和）：永远真对比、永不挡住（门只看 hasRecorded）、永不羞辱（最低档说鼓励语）。
 @MainActor
 final class FollowRecorder: ObservableObject {
     enum Phase { case idle, recording, scored }
     @Published var phase: Phase = .idle
     @Published var teacherEnv: [Float] = []
     @Published var userEnv: [Float] = []
-    @Published var tier: String? = nil          // great / ok / try-again
+    @Published var tier: String? = nil          // great / ok / encourage
     @Published var tips: [String] = []
     @Published var permissionDenied = false
     @Published var teacherLoaded = false
@@ -107,32 +108,43 @@ final class FollowRecorder: ObservableObject {
         player = try? AVAudioPlayer(contentsOf: url); player?.play()
     }
 
-    // ── 启发式打分（与 follow-record.js scoreHeuristic 同源）──
     private func score() {
-        var t: [String] = []
-        let durRatio = teacherDur > 0 ? userDur / teacherDur : 1
-        if durRatio < 0.5 { t.append("再慢一点点～") }
-        else if durRatio > 2.0 { t.append("再快一点试试") }
+        let s = Self.scoreTier(teacher: teacherEnv, user: userEnv, teacherDur: teacherDur, userDur: userDur)
+        tier = s.tier; tips = s.tips
+    }
 
-        let userEnergy = userEnv.reduce(0, +)
-        let teacherEnergy = teacherEnv.reduce(0, +)
-        if teacherEnergy > 0 && userEnergy / teacherEnergy < 0.3 { t.append("再大声一点～") }
+    // ── 启发式打分（纯函数，可单测）────────────────────────
+    // tier 只由包络 cosine 决定（去掉旧版 t.isEmpty 硬门）：cos>0.6 great / >0.3 ok / else encourage。
+    // 包络已在 trimmedEnvelope 里掐头去尾 + 语音区时间归一，cosine 比的是「形状」、不再被两头静音/落点错位拖垮。
+    // 快/慢/小声只作柔性提示、永不降档；great 时不加任何矛盾提示。最低档说鼓励语，绝不羞辱（零挫败红线）。
+    struct Score { let tier: String; let tips: [String] }
 
+    nonisolated static func scoreTier(teacher: [Float], user: [Float], teacherDur: Double, userDur: Double) -> Score {
         var dot: Float = 0, mt: Float = 0, mu: Float = 0
-        let n = min(teacherEnv.count, userEnv.count)
-        for i in 0..<n { dot += teacherEnv[i] * userEnv[i]; mt += teacherEnv[i] * teacherEnv[i]; mu += userEnv[i] * userEnv[i] }
+        let n = min(teacher.count, user.count)
+        for i in 0..<n { dot += teacher[i] * user[i]; mt += teacher[i] * teacher[i]; mu += user[i] * user[i] }
         let cos = (mt > 0 && mu > 0) ? dot / (mt.squareRoot() * mu.squareRoot()) : 0
 
-        let resolved: String
-        if cos > 0.65 && t.isEmpty { resolved = "great"; t.append("很像，真棒！") }
-        else if cos > 0.35 { resolved = "ok"; t.append("差不多啦，再来一次更好～") }
-        else { resolved = "try-again"; if t.isEmpty { t.append("仔细听听老师，再来一次") } }
-        tier = resolved; tips = t
+        let tier: String
+        var tips: [String]
+        if cos > 0.6 { tier = "great"; tips = ["很像，真棒！"] }
+        else if cos > 0.3 { tier = "ok"; tips = ["差不多啦，再来一次更好～"] }
+        else { tier = "encourage"; tips = ["录到啦！再跟老师对对看～"] }
+
+        // 柔性附加提示：只在非 great 时给，永不改变 tier
+        if tier != "great" {
+            let durRatio = teacherDur > 0 ? userDur / teacherDur : 1
+            if durRatio < 0.5 { tips.append("可以读得再慢一点点～") }
+            else if durRatio > 2.0 { tips.append("可以读得再快一点～") }
+            let userEnergy = user.reduce(0, +), teacherEnergy = teacher.reduce(0, +)
+            if teacherEnergy > 0 && userEnergy / teacherEnergy < 0.3 { tips.append("可以再大声一点～") }
+        }
+        return Score(tier: tier, tips: tips)
     }
 
     func reset() { phase = .idle; userEnv = []; tier = nil; tips = []; recURL = nil }
 
-    // ── 包络抽样（peak per bucket，归一化）────────────────
+    // ── 包络抽样：读音频 → 委托 trimmedEnvelope ──────────
     nonisolated static func envelope(url: URL, buckets: Int) -> (env: [Float], dur: Double)? {
         guard let file = try? AVAudioFile(forReading: url) else { return nil }
         let format = file.processingFormat
@@ -142,19 +154,40 @@ final class FollowRecorder: ObservableObject {
         guard let ch = buf.floatChannelData?[0] else { return nil }
         let n = Int(buf.frameLength)
         guard n > 0 else { return nil }
-        let bucketSize = max(1, n / buckets)
-        var env = [Float](repeating: 0, count: buckets)
-        for i in 0..<buckets {
-            var maxV: Float = 0
-            let start = i * bucketSize
-            let end = min(start + bucketSize, n)
-            var j = start
-            while j < end { let v = abs(ch[j]); if v > maxV { maxV = v }; j += 1 }
-            env[i] = maxV
+        let samples = Array(UnsafeBufferPointer(start: ch, count: n))
+        return trimmedEnvelope(samples: samples, sampleRate: format.sampleRate, buckets: buckets)
+    }
+
+    // ── 掐头去尾静音 + 语音区重采样归一（纯函数，可单测）──
+    // 点按式录音两头裹静音是真 bug 之源：含静音的总时长让 durRatio 失真、落点错位让 cosine 掉档。
+    // 噪声门限 peak*0.08 切出纯语音区 [first,last]（全静音则退回整段），dur 改为语音区时长；
+    // 语音区重采样到 buckets 桶（peak per bucket）+ 归一 → 老师/用户都时间归一后比形状。
+    nonisolated static func trimmedEnvelope(samples: [Float], sampleRate: Double, buckets: Int) -> (env: [Float], dur: Double) {
+        let n = samples.count
+        guard n > 0, buckets > 0 else { return ([Float](repeating: 0, count: max(buckets, 0)), 0) }
+        var peak: Float = 0
+        for v in samples { let a = abs(v); if a > peak { peak = a } }
+        let gate = peak * 0.08
+        var first = 0, last = n - 1
+        if peak > 0 {
+            while first < n && abs(samples[first]) <= gate { first += 1 }
+            while last > first && abs(samples[last]) <= gate { last -= 1 }
         }
-        let peak = env.max() ?? 0
-        if peak > 0 { for i in 0..<buckets { env[i] /= peak } }
-        let dur = Double(n) / format.sampleRate
+        if first >= last { first = 0; last = n - 1 }       // 全静音兜底：退回整段
+        let voiceLen = last - first + 1
+        let dur = Double(voiceLen) / sampleRate
+        var env = [Float](repeating: 0, count: buckets)
+        let bucketSize = max(1, voiceLen / buckets)
+        for b in 0..<buckets {
+            var maxV: Float = 0
+            let start = first + b * bucketSize
+            let end = min(start + bucketSize, last + 1)
+            var j = start
+            while j < end { let a = abs(samples[j]); if a > maxV { maxV = a }; j += 1 }
+            env[b] = maxV
+        }
+        let envPeak = env.max() ?? 0
+        if envPeak > 0 { for i in 0..<buckets { env[i] /= envPeak } }
         return (env, dur)
     }
 }

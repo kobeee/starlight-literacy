@@ -148,7 +148,12 @@ final class AppModel: ObservableObject {
         guard args.contains("-uiTest") else { return }
         if args.contains("-seedProgress") { seedDebugProgress() }
         if let i = args.firstIndex(of: "-route"), i + 1 < args.count {
-            let id = Unit01.order.first ?? "yi"
+            // 可选 -char <id> 覆盖目标字（仅 -uiTest 截图/录屏用，校验字在表内）；缺省用首字。
+            let id: String = {
+                if let c = args.firstIndex(of: "-char"), c + 1 < args.count,
+                   Unit01.order.contains(args[c + 1]) { return args[c + 1] }
+                return Unit01.order.first ?? "yi"
+            }()
             switch args[i + 1] {
             case "map": route = .map
             case "unit": route = .unit

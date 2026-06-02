@@ -53,10 +53,9 @@ struct P05ImageCardView: View {
                     }
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: ctaTitle, enabled: solved) { proceed() }
         }
         .overlay { if showReplay { replayCard } }

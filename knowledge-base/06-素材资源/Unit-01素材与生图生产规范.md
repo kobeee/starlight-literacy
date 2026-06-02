@@ -161,6 +161,21 @@ node tools/recognition-video/scripts/build-scene-assets.mjs \
 
 当前环境不要再假设 `codex exec` 有可用 image-generation tool。可靠路径是 `aicodewith proxy + Responses API image_generation + gpt-image-2`，先生成品红 `#ff00ff` chroma-key 图，再由 `tools/recognition-video/scripts/chroma-key-to-alpha.py` 抠为透明 PNG。
 
+### 2026-05-31 补充：`一` scene 图优化
+
+`scene_yi` 已从容易看成厚木盘 / 托盘的旧图，优化为**一根横放木质计数棒**，用于表达「一个 / 一件」。
+
+已更新：
+
+```text
+tools/recognition-video/assets/unit-01/scene-assets/yi.png
+tools/recognition-video/assets/unit-01/scene-assets/raw/yi.png
+tools/recognition-video/assets/unit-01/scene-assets/_overview.png
+src/clients/iOS/StarlightLiteracy/Assets.xcassets/scene_yi.imageset/
+```
+
+本轮生成使用内置 `imagegen` + 绿色 chroma-key `#00ff00`，再用 `remove_chroma_key.py` 本地抠透明。绿色 key 比品红 key 在该木质主体边缘更干净。
+
 ## 已落地资产（2026-05-30 · iOS App 资产目录接入）
 
 iOS 原生 App 已生成并接入 `Assets.xcassets`：
@@ -187,12 +202,34 @@ tools/ios-assets/oracle-svg/
 - `P03EtymologyView` 已使用 `实物图 -> 甲骨模板图 -> 今字`。
 - 字源彩蛋显式清单：`ren kou shou ri yue shan shui huo mu mu-eye er-ear tian da tu`。
 - 指事字 `yi er san xiao shang xia` 不做字源彩蛋，只使用实物承载图做认读 / 看图认字。
-- `shou` 当前用本地手形线稿源兜底，后续找到可验证甲骨 SVG 时替换 `tools/ios-assets/oracle-svg/shou-oracle.svg` 后重跑脚本。
+- `shou` 当前用本地手形线稿源兜底，2026-05-31 已修复 iOS `oracle_shou` 空图问题；后续找到可验证甲骨 SVG 时替换 `tools/ios-assets/oracle-svg/shou-oracle.svg` 后重跑脚本。
 
 仍未完成：
 
-- P11 家长中心尚未把 `ShareCard` 图片接入 UI。
 - `shou` 仍需更权威的甲骨源替换本地兜底。
+
+### 2026-05-31 补充：`手` oracle 空图修复
+
+`oracle_shou@3x.png` 曾是全透明空图（`maxAlpha=0`）。根因是本地 `shou-oracle.svg` 使用 `stroke` 线条，而当前 ImageMagick SVG 栅格化路径不吃 stroke，导致输出透明空图。
+
+本轮已将：
+
+```text
+tools/ios-assets/oracle-svg/shou-oracle.svg
+```
+
+转成当前管线可栅格化的填充型 SVG，并重生成：
+
+```text
+src/clients/iOS/StarlightLiteracy/Assets.xcassets/oracle_shou.imageset/
+  oracle_shou@1x.png
+  oracle_shou@2x.png
+  oracle_shou@3x.png
+```
+
+验证：14 个 `oracle_*@3x.png` 均 `alphaMax=1`，`oracle_shou` 不再是空图。
+
+注意：这只是修复“可见性 / 非空图”问题，不等于已找到权威 `手` 甲骨来源。后续仍应优先替换为可验证 CC0 / Commons 来源。
 
 ## Prompt 基准
 

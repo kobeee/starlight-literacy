@@ -1,0 +1,6 @@
+// 签名配置（共享，可提交）
+// DEVELOPMENT_TEAM 是每个开发者自己的 Apple ID 团队凭证，不进共享仓。
+// 本地团队 ID 写在同目录的 Signing.local.xcconfig（已 gitignore），由下面这行可选引入。
+// 没有该本地文件时（别人 fresh clone）此 include 静默跳过，DEVELOPMENT_TEAM 留空，
+// 各自在本地新建 Signing.local.xcconfig 填自己的 team，或在 Xcode GUI 选 Signing & Capabilities。
+#include? "Signing.local.xcconfig"

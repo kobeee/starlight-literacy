@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,6 +32,7 @@
 		8187BBED1553F98C30CAE97B /* 人.json in Resources */ = {isa = PBXBuildFile; fileRef = E5A2F33E5BD45F7C34D780C7 /* 人.json */; };
 		86D6CAEC81883C7105C9A024 /* P08ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24931860B9A060CFC3EDA41 /* P08ResultView.swift */; };
 		94CDD4DBAD6551A029B754AD /* 手.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E8B6468F9089D0C47DEDB2C /* 手.json */; };
+		973F26DD6557C6FAB62B497B /* FollowScoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA595834CF267CF3050A83E /* FollowScoreTests.swift */; };
 		991AD7BE5DC46C2C4153A1C0 /* 小.json in Resources */ = {isa = PBXBuildFile; fileRef = B898DD54A1E39AAEA088E801 /* 小.json */; };
 		9C03DCE1C10A0938A26D3CD1 /* 耳.json in Resources */ = {isa = PBXBuildFile; fileRef = 55037A00309666DE08102EF8 /* 耳.json */; };
 		9E8758D25320406C3A1CA133 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E4F51B3861C9A79AD30A6A /* AudioService.swift */; };
@@ -113,7 +114,7 @@
 		853C796FE03A051AD62D1EC0 /* 二.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "二.json"; sourceTree = "<group>"; };
 		89118C48A98E945E4EA677D5 /* P05ImageCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P05ImageCardView.swift; sourceTree = "<group>"; };
 		8A20C377DFB5F6EA9E315ED2 /* 三.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "三.json"; sourceTree = "<group>"; };
-		99848A652F2B0AF7FCB4C1B2 /* StarlightLiteracy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StarlightLiteracy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		99848A652F2B0AF7FCB4C1B2 /* StarlightLiteracy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarlightLiteracy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1E7CE05F14D29ACFADE47B /* P10TreasuryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P10TreasuryView.swift; sourceTree = "<group>"; };
 		9E8B6468F9089D0C47DEDB2C /* 手.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "手.json"; sourceTree = "<group>"; };
 		9FFC21EDB70D6261E54637C3 /* SharedComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComponents.swift; sourceTree = "<group>"; };
@@ -121,6 +122,7 @@
 		A315055C60EE49CEC23C69D6 /* 土.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "土.json"; sourceTree = "<group>"; };
 		A356A3D9CEC18E9C09B61253 /* P03EtymologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P03EtymologyView.swift; sourceTree = "<group>"; };
 		AA1CB8ACCD29F20ADDB4176A /* P09PurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P09PurchaseView.swift; sourceTree = "<group>"; };
+		B1BC8CB850CEF3F311881DB2 /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		B898DD54A1E39AAEA088E801 /* 小.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "小.json"; sourceTree = "<group>"; };
 		BC41472C0A855885C521B290 /* 木.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "木.json"; sourceTree = "<group>"; };
 		C2C2F68BF0448F9C74235019 /* StrokeJudgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeJudgeTests.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		D5C53EE8016813E18F59846D /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		D6CB63BFF2615D966E15D836 /* MoatGateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoatGateTests.swift; sourceTree = "<group>"; };
 		D7B20465A1DD8DC5DAF5BDAA /* 田.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "田.json"; sourceTree = "<group>"; };
+		DBA595834CF267CF3050A83E /* FollowScoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowScoreTests.swift; sourceTree = "<group>"; };
 		E5A2F33E5BD45F7C34D780C7 /* 人.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "人.json"; sourceTree = "<group>"; };
 		EDFBDF0C7EE1668DBF78E4E5 /* P06GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P06GroupView.swift; sourceTree = "<group>"; };
 		EECC074B0A5234BEF029290C /* Unit01.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit01.swift; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				838C6A5BB2DCEB4DA26B943E /* Audio */,
+				A364374104472FE8DCD7FFC5 /* Config */,
 				B5B63C484BEF5441159552C8 /* StarlightLiteracy */,
 				F0DCFB95842E7AF74D53E430 /* StarlightLiteracyTests */,
 				0616CF2CCAC35CB0BB32D400 /* StarlightLiteracyUITests */,
@@ -231,6 +235,14 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		A364374104472FE8DCD7FFC5 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				B1BC8CB850CEF3F311881DB2 /* Signing.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		B5B63C484BEF5441159552C8 /* StarlightLiteracy */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				71D6C5E3C69AC9AF4D05FB05 /* CurvedStrokeJudgeTests.swift */,
+				DBA595834CF267CF3050A83E /* FollowScoreTests.swift */,
 				D6CB63BFF2615D966E15D836 /* MoatGateTests.swift */,
 				D5C53EE8016813E18F59846D /* Placeholder.swift */,
 				C2C2F68BF0448F9C74235019 /* StrokeJudgeTests.swift */,
@@ -372,7 +385,6 @@
 			);
 			mainGroup = 1D3F2DBD30FC19E4C25887D1;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -453,6 +465,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				050A605BA142B8B5F3EA86EB /* CurvedStrokeJudgeTests.swift in Sources */,
+				973F26DD6557C6FAB62B497B /* FollowScoreTests.swift in Sources */,
 				E6EC99682002678FA6C8EB8F /* MoatGateTests.swift in Sources */,
 				D62186ABF0CAC252F92004A6 /* Placeholder.swift in Sources */,
 				A839C5C396A253200FB88125 /* StrokeJudgeTests.swift in Sources */,
@@ -568,10 +581,12 @@
 		};
 		412F57E7EEF6397B3D49E6B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1BC8CB850CEF3F311881DB2 /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GGBZTH5ZPW;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = StarlightLiteracy/Info.plist;
@@ -697,10 +712,12 @@
 		};
 		D964F5610666956C6DE8E657 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1BC8CB850CEF3F311881DB2 /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GGBZTH5ZPW;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = StarlightLiteracy/Info.plist;

@@ -51,10 +51,9 @@ struct P02UnitView: View {
                         .foregroundStyle(Theme.successDeep)
                 }
                 .padding(Theme.S.s4)
-                .padding(.bottom, 96)
             }
         }
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             DockedCTA(title: "开始第一字「\(firstChar.char)」 →") { model.startUnit() }
         }
         .background(Theme.paperCream.ignoresSafeArea())

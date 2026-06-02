@@ -1,0 +1,10 @@
+# 本地签名凭证（个人 Apple 团队 ID，不进共享仓）
+Config/Signing.local.xcconfig
+
+# Xcode 用户态 / 派生数据
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcscmblueprint
+*.xccheckout
