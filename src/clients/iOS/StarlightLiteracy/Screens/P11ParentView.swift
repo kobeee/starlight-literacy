@@ -15,6 +15,7 @@ struct P11ParentView: View {
             ScrollView {
                 VStack(spacing: Theme.S.s4) {
                     account
+                    retention
                     advice
                     refund
                     invite
@@ -41,6 +42,26 @@ struct P11ParentView: View {
                 Text("已通过邀请码 \(from) 激活 · 额外解锁 2 个单元")
                     .font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.mintDeep)
             }
+        }
+    }
+
+    // 学习留存证据（第四刀 · 护城河感知层）：把「写字真判定 / 间隔复习」沉淀的数据亮给家长，
+    // 让「孩子真学会了」可被验证——不是营销话术，是孩子自己复习时认出来的真记录。
+    private var retention: some View {
+        card("学习留存（孩子真的记住了吗）") {
+            line("已学完", "\(model.completedCount) / \(model.unit.charIds.count) 字")
+            line("隔天还认得", "\(model.reviewedCharCount) 字")
+            line("已巩固（走完复习周期）", "\(model.masteredCharCount) 字")
+            let due = model.dueReviewIDs().count
+            if due > 0 {
+                Text("今天有 \(due) 个字到了该复习的时间——孩子打开会看到「今日复习」入口")
+                    .font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.goldBrown)
+            } else if model.completedCount > 0 {
+                Text("今天没有到期要复习的字，按遗忘曲线过几天会再提醒孩子认一遍")
+                    .font(.system(size: 13)).foregroundStyle(Theme.textTertiary)
+            }
+            Text("复习按艾宾浩斯遗忘曲线安排（1/2/4/7/15 天），靠孩子自己再认出字形判定，不是放段音糊弄")
+                .font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
         }
     }
 

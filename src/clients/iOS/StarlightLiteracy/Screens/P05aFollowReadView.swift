@@ -7,6 +7,7 @@ struct P05aFollowReadView: View {
     @EnvironmentObject var model: AppModel
     let charId: String
     @StateObject private var rec = FollowRecorder()
+    @State private var ring: CGFloat = 1   // 录音倒计时环进度（1→0 随 maxRecordDuration 走完）
 
     private var char: StarChar { Unit01.char(charId) }
 
@@ -38,40 +39,48 @@ struct P05aFollowReadView: View {
                                 Image(systemName: tierIcon(tier)).foregroundStyle(tierColor(tier))
                                 Text(rec.tips.first ?? "").font(.system(size: 15, weight: .semibold))
                                     .foregroundStyle(Theme.textPrimary)
+                                    .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
                             .padding(.horizontal, 16).padding(.vertical, 10)
-                            .background(Capsule().fill(tierColor(tier).opacity(0.16)))
+                            .background(RoundedRectangle(cornerRadius: Theme.R.md).fill(tierColor(tier).opacity(0.16)))
                             .transition(.scale.combined(with: .opacity))
                         } else {
-                            Text("先听老师读，再按住录下你的声音")
+                            Text("先听老师读，再点圆钮，自己大声说一遍")
                                 .font(.system(size: 14)).foregroundStyle(Theme.textTertiary)
                         }
                     }
                     .padding(Theme.S.s4)
                     .warmCard()
 
-                    // 操作区：听老师 / 录音 / 听自己
-                    HStack(spacing: Theme.S.s3) {
-                        Button { rec.playTeacher(id: charId) } label: {
-                            Label("听老师", systemImage: "speaker.wave.2.fill")
-                        }.buttonStyle(GhostCTA())
+                    // 操作区：大圆钮单点录音（居中）+ 下方 A/B 对听（听老师 / 听自己）
+                    // 2026-06-03 止血重做：录音从「按住说话」改单点 + 倒计时环（调研：幼龄禁持续按压）；
+                    // 「像不像」不再机器假判，交给耳朵——出声后引导孩子/家长用下面两个按钮对比听。
+                    VStack(spacing: Theme.S.s4) {
+                        recordCircle
 
-                        Button { rec.toggleRecord() } label: {
-                            Label(rec.phase == .recording ? "停止" : "录我的",
-                                  systemImage: rec.phase == .recording ? "stop.circle.fill" : "mic.circle.fill")
-                        }
-                        .buttonStyle(RecordCTA(recording: rec.phase == .recording, color: char.color))
+                        HStack(spacing: Theme.S.s3) {
+                            Button { rec.playTeacher(id: charId) } label: {
+                                Label("听老师", systemImage: "speaker.wave.2.fill")
+                            }.buttonStyle(GhostCTA())
 
-                        Button { rec.playUser() } label: {
-                            Label("听自己", systemImage: "play.circle.fill")
+                            Button { rec.playUser() } label: {
+                                Label("听自己", systemImage: "play.circle.fill")
+                            }
+                            .buttonStyle(GhostCTA())
+                            .disabled(!rec.hasRecorded)
+                            .opacity(rec.hasRecorded ? 1 : 0.4)
                         }
-                        .buttonStyle(GhostCTA())
-                        .disabled(!rec.hasRecorded)
-                        .opacity(rec.hasRecorded ? 1 : 0.4)
+
+                        if rec.passed {
+                            Label("点上面两个，听听你和老师哪里不一样", systemImage: "ear.fill")
+                                .font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(Theme.skyDeep)
+                        }
                     }
 
                     if rec.permissionDenied {
-                        Text("没有麦克风权限也没关系，点「录我的」我们用示意波形帮你过关～")
+                        Text("没有麦克风权限也没关系，我们用示意波形帮你过关～")
                             .font(.system(size: 13)).foregroundStyle(Theme.goldBrown)
                             .multilineTextAlignment(.center)
                     }
@@ -84,8 +93,8 @@ struct P05aFollowReadView: View {
         }
         .safeAreaInset(edge: .bottom) {
             DockedCTA(
-                title: rec.hasRecorded ? "去写一写 →" : "先跟读一遍",
-                enabled: rec.hasRecorded
+                title: rec.passed ? "去写一写" : "先跟读一遍",
+                enabled: rec.passed, icon: "arrow.right", pulse: true
             ) {
                 model.markFollowed(charId)
                 model.go(model.routeAfterFollow(charId))
@@ -99,30 +108,46 @@ struct P05aFollowReadView: View {
         }
     }
 
-    // encourage（最低档）用鼓励向图标 + 暖色，去掉 arrow.clockwise 的「重来」感（零挫败：不羞辱）。
+    // 大圆钮单点录音 + 倒计时环（2026-06-03）：点一下开始、到 maxRecordDuration 自动停（也可再点停）。
+    // 未录前外圈光晕呼吸引导（替代旧版丑手指 TapHintHand）；录音时变红 + 白色倒计时环走完。
+    private var recordCircle: some View {
+        let recording = rec.phase == .recording
+        return Button { rec.tapRecord() } label: {
+            ZStack {
+                if !recording && !rec.passed {
+                    PulseHalo(color: Theme.honeyGold, size: 108)
+                }
+                Circle()
+                    .fill(recording ? Theme.petalDeep : Theme.honeyGold)
+                    .frame(width: 92, height: 92)
+                    .shadow(color: (recording ? Theme.petalDeep : Theme.honeyGold).opacity(0.4), radius: 10, y: 4)
+                if recording {
+                    Circle()
+                        .trim(from: 0, to: ring)
+                        .stroke(Color.white, style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                        .frame(width: 92, height: 92)
+                        .rotationEffect(.degrees(-90))
+                }
+                Image(systemName: recording ? "stop.fill" : "mic.fill")
+                    .font(.system(size: 34, weight: .bold))
+                    .foregroundStyle(.white)
+            }
+            .frame(width: 116, height: 116)
+            .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .animation(Theme.easePop, value: recording)
+        .onChange(of: recording) { _, isRec in
+            if isRec { ring = 1; withAnimation(.linear(duration: rec.maxRecordDuration)) { ring = 0 } }
+            else { ring = 1 }
+        }
+    }
+
+    // voiced 出声了 → 金星正反馈；silent 没出声 → 中性耳朵图标引导再说（不羞辱、不报错色）。
     private func tierIcon(_ t: String) -> String {
-        switch t { case "great": "star.fill"; case "ok": "hand.thumbsup.fill"; default: "sparkles" }
+        switch t { case "voiced": "star.fill"; default: "ear.fill" }
     }
     private func tierColor(_ t: String) -> Color {
-        switch t { case "great": Theme.honeyGold; case "ok": Theme.successDeep; default: Theme.skyDeep }
-    }
-}
-
-// 录音主按钮：录音时脉冲红点，平时用本字主色
-struct RecordCTA: ButtonStyle {
-    var recording: Bool
-    var color: ColorToken
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.system(size: 16, weight: .bold, design: .rounded))
-            .foregroundStyle(recording ? .white : Theme.goldBrown)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .background(
-                RoundedRectangle(cornerRadius: Theme.R.pill, style: .continuous)
-                    .fill(recording ? Theme.petalDeep : Theme.honeyGold)
-            )
-            .scaleEffect(configuration.isPressed ? 0.97 : 1)
-            .animation(Theme.easePop, value: configuration.isPressed)
+        switch t { case "voiced": Theme.honeyGold; default: Theme.skyDeep }
     }
 }

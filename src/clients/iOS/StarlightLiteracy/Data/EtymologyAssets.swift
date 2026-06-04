@@ -64,22 +64,36 @@ enum EtymologyAssets {
         return "「\(cur.char)」和「\(oth.char)」长得像，但\(cur.etymology.glyphHook)，\(oth.etymology.glyphHook)。"
     }
 
-    // 4 选 1 · 2026-05-29 教学法重审：干扰项「不再全用形近字」。
-    // 旧实现优先 contrastTargets（全形近）→ 学「一」时四选项 一/二/三/土 全横线，既挫败又什么都没测出来。
-    // 新策略：优先从「非形近」字池取干扰项（确定性、顺序固定便于复习），不够才补形近字。
-    static func buildOptions(_ currentId: String) -> [String] {
+    // 4 选 1 候选构建 · 2026-06-02 母题B 改造：P05 候选是「字」不是「图」，孩子必须盯字形本身挑。
+    // 干扰项「混搭」策略（避开两头老坑）：
+    //   旧①「全形近」(一/二/三/土) → 既挫败又测不出（横线全一样）。
+    //   旧②「全非形近」（配图连连看）→ 不用看字形也能过，「形」这一环空转。
+    //   新：默认放 1 个形近字逼孩子看字形细节 + 其余非形近拉开梯度；
+    //       零挫败时 relax>0 撤掉形近名额、换成非形近，连错也能分辨、保证过关。
+    // relax：降级级数，每升一级少放一个形近干扰（由 P05 在孩子连错时调高）。
+    // 确定性（seed + 顺序固定）：同字每次候选稳定，便于复习与单测断言。
+    static func buildOptions(_ currentId: String, relax: Int = 0) -> [String] {
         let all = Unit01.order
         let cur = Unit01.byID[currentId]
-        let contrast = Set((cur?.etymology.contrastTargets ?? []).filter { $0 != currentId })
+        let contrast = (cur?.etymology.contrastTargets ?? []).filter { $0 != currentId }
         var nonSimilar = all.filter { $0 != currentId && !contrast.contains($0) }
         let seed = Int(currentId.unicodeScalars.first?.value ?? 0)
+
         var distractors: [String] = []
-        while distractors.count < 3 && !nonSimilar.isEmpty {
-            let idx = (seed + distractors.count * 7) % nonSimilar.count
-            distractors.append(nonSimilar.remove(at: idx))
+        // 形近名额：默认 1，relax 后递减到 0（零挫败降级）
+        let similarQuota = max(0, 1 - relax)
+        var similarPool = contrast
+        while distractors.count < similarQuota && !similarPool.isEmpty {
+            distractors.append(similarPool.removeFirst())   // 确定性取首个形近
         }
-        // 兜底：非形近字不够时才补形近字
-        var similarPool = Array(contrast)
+        // 其余补非形近，确定性 seed 取，拉开梯度
+        var k = 0
+        while distractors.count < 3 && !nonSimilar.isEmpty {
+            let idx = (seed + k * 7) % nonSimilar.count
+            distractors.append(nonSimilar.remove(at: idx))
+            k += 1
+        }
+        // 兜底：非形近耗尽仍不够（极端），再补形近
         while distractors.count < 3 && !similarPool.isEmpty {
             distractors.append(similarPool.removeFirst())
         }

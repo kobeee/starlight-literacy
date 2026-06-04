@@ -8,6 +8,8 @@ struct P03RecognizeView: View {
     let charId: String
     private var char: StarChar { Unit01.char(charId) }
     @State private var pulse = false
+    @State private var revealToken = 0       // 每次念音 +1，驱动字形逐笔点亮
+    @State private var lastDuration = 0.8    // 念音时长，逐笔节奏对齐它
 
     var body: some View {
         VStack(spacing: 0) {
@@ -22,11 +24,10 @@ struct P03RecognizeView: View {
                         SceneAssetImage(id: charId, maxSide: 260)
                             .scaleEffect(pulse ? 1.04 : 1)
 
-                        // 大字浮现在图上
-                        Text(char.char)
-                            .font(.hanzi(120))
-                            .foregroundStyle(Theme.textPrimary)
-                            .shadow(color: char.color.deep.opacity(0.25), radius: 8, y: 3)
+                        // 音→形绑定：念音一响，字形随音逐笔点亮（不再是静态大字）
+                        StrokeRevealGlyph(charId: charId, hanzi: char.char,
+                                          color: char.color, size: 168,
+                                          playToken: revealToken, revealDuration: lastDuration)
 
                         Text(char.pinyin)
                             .font(.pinyin(34))
@@ -56,7 +57,7 @@ struct P03RecognizeView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: "认识它啦 →") {
+            DockedCTA(title: "认识它啦", icon: "arrow.right", pulse: true) {
                 model.markRecognized(charId)
                 model.go(model.routeAfterRecognize(charId))
             }
@@ -68,7 +69,11 @@ struct P03RecognizeView: View {
         }
     }
 
-    private func replay() { AudioService.shared.play(id: charId, kind: .char) }
+    // 念音 + 触发逐笔点亮同帧发生 = 音形同步
+    private func replay() {
+        if let d = AudioService.shared.play(id: charId, kind: .char), d > 0 { lastDuration = d }
+        revealToken += 1
+    }
 }
 
 // 认读 / 看图认字共用的「实物场景图」。

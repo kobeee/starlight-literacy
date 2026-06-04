@@ -74,7 +74,7 @@ struct P10TreasuryView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: "去家长中心生成分享卡 →") { model.go(.parentCenter) }
+            DockedCTA(title: "去家长中心生成分享卡 →") { model.requestGated(.parentCenter) }
         }
         .background(Theme.paperCream.ignoresSafeArea())
     }

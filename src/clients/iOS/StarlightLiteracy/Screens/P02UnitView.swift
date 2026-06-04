@@ -54,7 +54,7 @@ struct P02UnitView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: "开始第一字「\(firstChar.char)」 →") { model.startUnit() }
+            DockedCTA(title: "开始第一字「\(firstChar.char)」", icon: "arrow.right", pulse: true) { model.startUnit() }
         }
         .background(Theme.paperCream.ignoresSafeArea())
     }

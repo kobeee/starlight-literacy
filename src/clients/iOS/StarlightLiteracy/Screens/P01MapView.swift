@@ -12,11 +12,13 @@ struct P01MapView: View {
     private var done: Int { model.passedIDs.count }
     private var total: Int { model.unit.charIds.count }
     private var started: Bool { done > 0 }
+    private var dueReview: [String] { model.dueReviewIDs() }
 
     var body: some View {
         ScrollView {
             VStack(spacing: Theme.S.s5) {
                 hero
+                if !dueReview.isEmpty { reviewCard }   // 第四刀：到期复习字才出现，孩子向入口
                 journeyCard
             }
             .padding(.horizontal, Theme.S.s4)
@@ -74,10 +76,47 @@ struct P01MapView: View {
                 Text(started ? "继续学「\(current.char)」" : "点亮第一颗星")
             }
             .buttonStyle(GoldCTA())
+            // 母题A 去文字化：首页主操作呼吸+光晕引导，孩子读不了文字也知道点这里开始
+            .tapBreathe()
         }
         .padding(Theme.S.s5)
         .frame(maxWidth: .infinity)
         .warmCard()
+    }
+
+    // 今日复习卡（第四刀）：到期字才出现。孩子向——大数字 + 几个字徽 + 跳动手指，不堆文字。
+    private var reviewCard: some View {
+        Button { model.go(.review) } label: {
+            HStack(spacing: Theme.S.s4) {
+                ZStack {
+                    Circle().fill(Theme.honeyGold.opacity(0.18)).frame(width: 60, height: 60)
+                    Image(systemName: "arrow.clockwise.heart.fill")
+                        .font(.system(size: 28)).foregroundStyle(Theme.honeyGold)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("今日复习 \(dueReview.count) 字")
+                        .font(.system(size: 18, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                    HStack(spacing: 6) {
+                        ForEach(dueReview.prefix(5), id: \.self) { id in
+                            Text(Unit01.char(id).char)
+                                .font(.hanzi(20)).foregroundStyle(Unit01.char(id).color.deep)
+                        }
+                        if dueReview.count > 5 {
+                            Text("…").font(.system(size: 18, weight: .bold)).foregroundStyle(Theme.textTertiary)
+                        }
+                    }
+                }
+                Spacer()
+                Image(systemName: "chevron.right").font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(Theme.goldBrown)
+            }
+            .padding(Theme.S.s4)
+            .frame(maxWidth: .infinity)
+            .warmCard(fill: Theme.goldPaper.opacity(0.6))
+        }
+        .buttonStyle(.plain)
+        // 母题A 去文字化：复习卡蜜金光晕引导（不缩放卡体，只发光），暗示「点这里复习」
+        .tapBreathe(scale: 1.0)
     }
 
     private var progressDots: some View {
@@ -101,9 +140,10 @@ struct P01MapView: View {
 
     private var bottomNav: some View {
         HStack(spacing: 0) {
-            navItem("付费方案", "yensign.circle.fill") { model.go(.purchase) }
+            // 付费/家长中心过家长门（母题 C）；小星宝库是孩子向成就展示，开放
+            navItem("付费方案", "yensign.circle.fill") { model.requestGated(.purchase) }
             navItem("小星宝库", "star.circle.fill") { model.go(.treasury) }
-            navItem("家长中心", "person.crop.circle.fill") { model.go(.parentCenter) }
+            navItem("家长中心", "person.crop.circle.fill") { model.requestGated(.parentCenter) }
         }
         .padding(.top, 8).padding(.bottom, 6)
         .background(Theme.paperCream.opacity(0.98).overlay(Divider().overlay(Theme.lineSoft), alignment: .top))

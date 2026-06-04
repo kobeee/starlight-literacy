@@ -46,7 +46,7 @@ struct P06GroupView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: ctaTitle, enabled: groupDone) { advanceGroup() }
+            DockedCTA(title: ctaTitle, enabled: groupDone, icon: "arrow.right", pulse: true) { advanceGroup() }
         }
         .background(Theme.paperCream.ignoresSafeArea())
         .animation(Theme.easeWarm, value: correctId)

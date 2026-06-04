@@ -50,7 +50,7 @@ struct P03EtymologyView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: "去认一认 →") {
+            DockedCTA(title: "去认一认", icon: "arrow.right", pulse: true) {
                 model.go(model.routeAfterEtymology(charId))
             }
         }

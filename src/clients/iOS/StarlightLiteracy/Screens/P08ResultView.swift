@@ -36,22 +36,20 @@ struct P08ResultView: View {
                         }
                     }
 
-                    VStack(spacing: 6) {
-                        Text("\(unit.title) 是免费体验。继续学下去：")
-                            .font(.system(size: 14)).foregroundStyle(Theme.textSecondary)
-                        Text("洪恩 ¥\(CompetitorContrast.hongenPrice) 给 \(CompetitorContrast.hongenChars) 字 · 我们 ¥\(CompetitorContrast.oursPrice) 给 \(CompetitorContrast.oursChars) 字")
-                            .font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.goldBrown)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(Theme.S.s4).frame(maxWidth: .infinity).warmCard(fill: Theme.infoSoft)
+                    // 母题 C：孩子学习流终点只给孩子向的鼓励，不摆洪恩对比 / ¥199 营销。
+                    // 付费方案搬到家长门后的「付费方案」入口（P09 含完整反差化），不打扰孩子。
+                    Text("你真棒！\(unit.title) 都学完啦 🌟")
+                        .font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.goldBrown)
+                        .multilineTextAlignment(.center)
+                        .padding(Theme.S.s4).frame(maxWidth: .infinity).warmCard(fill: Theme.goldPaper.opacity(0.5))
                 }
                 .padding(Theme.S.s4)
             }
         }
         .safeAreaInset(edge: .bottom) {
-            DockedCTA(title: "解锁后续单元（¥199 一期买断）",
+            DockedCTA(title: "回学习地图", icon: "house.fill",
                       secondaryTitle: "小星宝库", onSecondary: { model.go(.treasury) }) {
-                model.go(.purchase)
+                model.go(.map)
             }
         }
         .background(Theme.paperCream.ignoresSafeArea())

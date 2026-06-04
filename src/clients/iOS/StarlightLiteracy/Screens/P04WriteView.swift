@@ -18,8 +18,8 @@ struct P04WriteView: View {
 
     // 写字是主路径最后一步：写完 → 下一字（回认读）或本单元学完去复习
     private var writtenCTATitle: String {
-        if let next = Unit01.next(after: charId) { return "下一字「\(next.char)」 →" }
-        return "本单元学完，去复习 →"
+        if let next = Unit01.next(after: charId) { return "下一字「\(next.char)」" }
+        return "本单元学完，去复习"
     }
 
     var body: some View {
@@ -80,7 +80,7 @@ struct P04WriteView: View {
         .safeAreaInset(edge: .bottom) {
             DockedCTA(
                 title: done ? writtenCTATitle : "先把字描完",
-                enabled: done
+                enabled: done, icon: "arrow.right", pulse: true
             ) {
                 model.markWritten(charId)
                 model.go(model.routeAfterWriting(charId))

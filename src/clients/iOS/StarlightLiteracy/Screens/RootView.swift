@@ -12,7 +12,14 @@ struct RootView: View {
                 .transition(.asymmetric(
                     insertion: .move(edge: .trailing).combined(with: .opacity),
                     removal: .opacity))
+            // 家长门（母题 C）：拦付费/家长中心入口，防孩子一指直达
+            if model.pendingGate != nil {
+                ParentGate(onPass: { model.passGate() }, onCancel: { model.cancelGate() })
+                    .transition(.opacity)
+                    .zIndex(10)
+            }
         }
+        .animation(Theme.easeWarm, value: model.pendingGate)
     }
 
     @ViewBuilder
@@ -26,6 +33,7 @@ struct RootView: View {
         case .followRead(let id):  P05aFollowReadView(charId: id)
         case .imageCard(let id):   P05ImageCardView(charId: id)
         case .group:               P06GroupView()
+        case .review:              P12ReviewView()
         case .celebrate:           P07CelebrateView()
         case .result:              P08ResultView()
         case .purchase:            P09PurchaseView()

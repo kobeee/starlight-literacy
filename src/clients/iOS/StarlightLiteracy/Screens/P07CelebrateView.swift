@@ -38,8 +38,14 @@ struct P07CelebrateView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)   // 居中
         .overlay(alignment: .bottom) {
-            Button { model.go(.result) } label: { Text("看看学习成果 →") }
+            Button { model.go(.result) } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrow.right").font(.system(size: 20, weight: .bold))
+                    Text("看看学习成果")
+                }
+            }
                 .buttonStyle(GoldCTA())
+                .tapBreathe()
                 .padding(.horizontal, Theme.S.s4)
                 .padding(.bottom, Theme.S.s6)
         }
